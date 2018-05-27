@@ -1,0 +1,6 @@
+- copy bakal_database/db_config_warih_framework.txt ke server root directory (/var/www/html)
+- ubah file db_config_warih_framework.txt menjadi db_config_{project_name}.txt
+- ubah isi file db_config_{project_name}.txt sesuai konfigurasi database dengan format "host|user|password|db_name|"
+- eksekusi file bakal_database/warih_framework.sql ke database project
+- ubah file classes/database.php baris 54 sesuaikan menjadi db_config_{project_name}.txt
+- lihat contoh style dari http://azmind.com/premium/rois/v1-0/layout-1/index.html

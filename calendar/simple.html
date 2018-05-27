@@ -1,0 +1,16 @@
+	<link rel="stylesheet" type="text/css" media="all" href="calendar-win2k-cold-1.css" title="win2k-cold-1" />
+	<script type="text/javascript" src="calendar.js"></script>
+	<script type="text/javascript" src="lang/calendar-en.js"></script>
+	<script type="text/javascript" src="calendar-setup.js"></script>
+<input type="text" name="date" id="f_date_b" /><button type="reset" id="f_trigger_b"><img src="img.gif"></button>
+
+<script type="text/javascript">
+    Calendar.setup({
+        inputField     :    "f_date_b",      // id of the input field
+        ifFormat       :    "%m/%d/%Y %I:%M %p",       // format of the input field
+        showsTime      :    true,            // will display a time selector
+        button         :    "f_trigger_b",   // trigger for the calendar (button ID)
+        singleClick    :    false,           // double-click mode
+        step           :    1                // show all years in drop-down boxes (instead of every other year as default)
+    });
+</script>
