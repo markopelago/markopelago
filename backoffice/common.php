@@ -142,6 +142,15 @@
 	foreach($_POST as $key => $value){ if(!is_array($value)) $_POST[$key] = sanitasi($value); }
 	foreach($_GET as $key => $value){ if(!is_array($value)) $_GET[$key] = sanitasi($value); }
 	
+	function format_amount($amount,$decimalnum = 0){
+		global $_isexport;
+		if($_isexport) return $amount;
+		if($amount < 0){ $amount  *= -1; $isnegative = true; }
+		$return = number_format($amount,$decimalnum,",",".");
+		if($isnegative) $return = "(".$return.")";
+		return $return;
+	}
+	
 	function salary_min_max($min,$max){
 		global $__locale,$v;
 		$_max = $max;
