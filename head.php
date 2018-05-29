@@ -10,7 +10,7 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
 	
 	<link rel="canonical" href="<?=$__canonical;?>">
-	<link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
+	<link rel="shortcut icon" type="image/x-icon" href="images/icon.png">
 	<link rel="stylesheet" href="styles/style.css">
 	<link rel="stylesheet" href="styles/bootstrap.min.css">
 	<link rel="stylesheet" href="styles/bootstrap-slider.css">
@@ -76,21 +76,6 @@
 	</script>
 </head>
 <body style="margin:0px;">
-	<style>
-		.loading {
-			background: lightgoldenrodyellow url('icons/processing.gif') no-repeat center 65%;
-			height: 120px;
-			width: 120px;
-			position: fixed;
-			border-radius: 4px;
-			left: 50%;
-			top: 50%;
-			margin: -40px 0 0 -50px;
-			z-index: 2000;
-			display: none;
-		}
-	</style>
-	
 	<!-- Modal -->
 	<div class="modal fade" id="myModal" role="dialog">
 		<div class="modal-dialog">
@@ -121,7 +106,6 @@
 				<a class="navbar-brand" href="index.php">
 					<img src="images/logo.png" style="position:relative;top:-10px;height:40px;max-width: 200%;cursor:pointer;border:0px;" alt="<?=$__title_project;?>" title="<?=$__title_project;?>" onclick="window.location='index.php';">
 				</a>
-				<div style="float:left;font-size:30px;position:relative;left:-10px;top:5px;"><a style="color:#888;text-decoration:none;" href="index.php">WarihFramework</a></div>
 			</div>
 			
 

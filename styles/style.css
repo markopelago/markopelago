@@ -6,11 +6,23 @@
 body {
     font-family: "ITCAvantGardeGothicStdBook";
 	font-size:12px;
-	background-color:#E5E5E5;
 }
 
 a { font-family: "ITCAvantGardeGothicStdBook"; }
 div { font-family: "ITCAvantGardeGothicStdBook"; }
+
+.loading {
+	background: lightgoldenrodyellow url('icons/processing.gif') no-repeat center 65%;
+	height: 120px;
+	width: 120px;
+	position: fixed;
+	border-radius: 4px;
+	left: 50%;
+	top: 50%;
+	margin: -40px 0 0 -50px;
+	z-index: 2000;
+	display: none;
+}
 
 .video {
 	position: relative;
@@ -187,25 +199,6 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
 	background-color: rgba(255, 255, 255, 1);
 }
 
-.mainImage{
-	background-image: url('../images/main_images.jpg');
-	z-index:1;
-	background-position:center center;
-	background-repeat:no-repeat;
-	background-size:100% 100%; 
-	width:100%;
-	height:620px;
-	background-attachment:fixed;
-}
-
-.callout{
-	background-image: url('../images/main_image_callout.jpg') !important;
-}
-
-.employer{
-	background-image: url('../images/main_image_employer.jpg') !important;
-}
-
 .frontRegisterArea {
 	height:300px;
 	width:432px;
@@ -322,13 +315,6 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
 	margin-bottom:10px;
 }
 
-.fhe_title {
-	font-size:20px;
-	color:#0CB31D;
-	font-weight:bolder;
-	margin-bottom:10px;
-}
-
 .footer_area {
 	position :absolute;
 	width:100%;
@@ -403,308 +389,11 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
 	margin-right:30px;
 }
 
-.opportunities_list {
-	position:relative;
-	min-height:40px;
-	width:500px;
-}
-
-.opportunities_list #title{
-	padding-bottom:5px;	
-	width:500px;
-	cursor:pointer;
-	font-weight:bolder;
-	font-size:16px;
-	text-decoration:underline;
-	color:#0CB31D;
-}
-
-.opportunities_list #title_applied{
-	padding-bottom:5px;	
-	width:500px;
-	cursor:pointer;
-	font-weight:bolder;
-	font-size:16px;
-	text-decoration:underline;
-	color:grey;
-}
-
-.opportunities_list #logo{
-	position:absolute;
-	left:380px;
-}
-
-.opportunities_list #syariah_stamp{
-	position:absolute;
-	left:280px;
-	padding-top:20px;
-}
-
-.opportunities_list #detail {
-	padding-bottom:7px;	
-}
-
-.opportunities_list #container{
-	min-height:130px;
-	cursor:pointer;
-}
-
-.opportunities_list #container:hover{
-	background-color: rgba(12, 179, 29, 0.3);
-}
-
-.opportunities_list #container table{
-	padding: 0px;
-	border-spacing: 0px;
-}
-
-.opportunities_list #ending {
-	width:500px;
-	border-bottom:2px solid grey;
-}
-
-.opportunity_detail {
-	width:100%;
-	min-height:600px;
-	border:3px solid #0CB31D;
-	overflow: auto;
-}
-
-#opportunity_detail_empty{
-	display:none;
-}
-
 .empty_result {
 	margin:10px;
 	font-size:16px;
 	color:red;
 	font-weight:bolder;
-}
-
-.opportunity_detail_container {
-	margin:10px;
-}
-.opportunity_detail_container #head{
-	padding-bottom:10px;
-	font-size: 12px;
-    width: 695px;
-    min-height: 137px;
-    position: relative;
-    float: left;
-	border-bottom : 2px solid grey;
-}
-
-.opportunity_detail_container #opportunity___logo img{
-	width:130px;
-	height:150px;
-	float:right;
-}
-
-.opportunity_detail_container #description{
-	float:left;
-	font-size:13px;
-	width: 550px;
-}
-
-.opportunity_detail_container  #td1, #td2{
-	font-weight:bolder;
-	color:#0CB31D;
-	width:1px;
-	white-space: nowrap;
-}
-
-.opportunity_detail_container  a{
-	text-decoration:none;
-	color:#0CB31D;
-}
-
-.opportunity_detail_container #main_content{
-	padding-top:10px;
-	width: 700px;
-    position: relative;
-    float: left;
-}
-
-.opportunity_detail_container #opportunity___description{
-	margin-left:20px;
-}
-
-.opportunity_detail_container #opportunity___title{
-	font-weight:bolder;
-	font-size:25px;
-	color:#0CB31D;
-	padding-bottom:20px;
-}
-
-.opportunity_detail_container   #main_content #td1,#td3{
-	font-weight:normal;
-	font-size:13px;
-	width:200px;
-	border-bottom:1px solid #0CB31D;
-	color:black;
-}
-
-.opportunity_detail_container   #description_detail{
-	margin-top:30px;
-	position:relative;
-}
-
-.opportunity_detail_container   #description_detail #title{
-	margin-top:10px;
-	margin-bottom:10px;
-	font-weight:bolder;
-	font-size:14px;
-	color:#0CB31D;
-}
-
-.jobtools_area {
-	position:absolute;
-	top:20px;
-	left:530px;
-	border:1px solid #0CB31D;
-	width:150px;
-	height:250px
-}
-
-.jobtools_area div{
-	margin-top:10px;
-	margin-left:20px;
-	margin-bottom:10px;
-}
-
-.jobtools-bottom{
-	position:relative;
-	height:80px;
-	width:500px;
-	display: table-cell; 
-	vertical-align: middle;
-	text-align:center;
-}
-
-.jobtools-bottom div{
-	margin-left: 50%;
-}
-
-.jobtools_btn {
-	width:200px;
-	height:42px;
-	font-size:16px;
-	font-weight:bolder;
-	color:black;
-	background-color: #FF6808;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	display: table-cell; 
-	vertical-align: middle;
-	text-align:center;
-	cursor:pointer;
-	box-shadow: 0px 1px 1px #FF6808;
-}
-
-.jobtools_btn_disabled{
-	width:200px;
-	height:42px;
-	font-size:16px;
-	font-weight:bolder;
-	color:white;
-	background-color: #4d4d4d;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	display: table-cell; 
-	vertical-align: middle;
-	text-align:center;
-	cursor:pointer;
-}
-
-.jobtools_btn  :hover{
-	color: white;
-}
-
-.login_form_area  #title{
-	font-weight:bolder;
-	font-size:18px;
-	color:#0CB31D;
-	margin-bottom:10px;
-}
-
-.login_form_area  #td1{
-	font-weight:bolder;
-	font-size:13px;
-	color:#0CB31D;
-}
-
-.seeker_profiles_form  #title{
-	font-weight:bolder;
-	font-size:18px;
-	color:#0CB31D;
-	margin-bottom:10px;
-}
-
-
-.seeker_profiles_form  #td1{
-	font-weight:bolder;
-	font-size:13px;
-	color:#0CB31D;
-}
-
-.seeker_profiles_form input{
-	padding-left:5px;
-	height:30px;
-	width:265px;
-	border:0px solid white;
-	background-color:rgba(192, 192, 192, 0.2);
-}
-
-.seeker_profiles_form textarea{
-	border:0px solid white;
-	height:60px;
-	width:265px;
-	background-color:rgba(192, 192, 192, 0.2);
-}
-
-.seeker_profiles_form #signin{
-	width:77px;
-	height:27px;
-	background-color:#FF6808;
-	border: solid 1px #B3B3B3;
-	color:#FEFEFE;
-}
-
-.seeker_profiles_form #signin:hover{
-	background-color:rgba(255, 104, 8, 0.8);
-}
-
-.seeker_profiles_form #td1{
-	font-weight:bolder;
-	font-size:13px;
-	color:#0CB31D;
-}
-
-.homepage_greeting {
-	vertical-align:middle;
-	font-weight:bolder;
-	font-size:14px;
-	white-space: nowrap;
-}
-
-.homepage_greeting  #first_name{
-	color:#0CB31D;
-}
-
-.homepage_greeting  img{
-	height:50px;
-	margin-right:5px;
-	cursor:pointer;
-}
-
-.homepage_greeting  #photo{
-	padding-left:10px;
-	padding-right:10px;
-}
-
-.homepage_greeting  a{
-	color:#FF6808;
-	font-size:13px;
 }
 
 .whitecard {
@@ -802,116 +491,13 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
 .card .content_data tr:nth-child(even) {background: rgba(3, 3, 3, 0.3);}
 .card .content_data tr:nth-child(odd) {background: rgba(12, 179, 29, 0.3);}
 
-.applicant_resume_header{
-	margin-left:230px;
-	margin-top:20px;
-}
-
-.applicant_resume_header_border{
-	margin-top:10px;
-	border-bottom:6px solid rgba(12, 179, 29, 0.3);
-}
-
-.applicant_resume_border{
-	margin-top:20px;
-	margin-bottom:10px;
-	padding-left:10px;
-	font-weight:bolder;
-	border-bottom:1px solid rgba(12, 179, 29, 0.3);
-}
-
-.applicant_resume_header #name{
-	font-weight:bolder;
-	font-size:20px;
-	padding-top:10px;
-	padding-bottom:5px;
-}
-
-.applicant_resume_header #workplace{
-	font-weight:bolder;
-	font-size:14px;
-	padding-bottom:5px;
-}
-
-.applicant_resume_header #phone,#mail{
-	font-weight:bolder;
-	font-size:12px;
-	padding-bottom:5px;
-}
-
-.applicant_resume_profile{
-	margin-left:230px;
-	margin-top:10px;
-	font-size:12px;
-}
-
 .navigation {
 	width:700px;
 	float:right:
 }
 
-.btn_post {
-	width:70px;
-	height:20px;
-	font-size:16px;
-	font-weight:bolder;
-	color:#337ab7;
-	background-color: #333;
-	/* -moz-border-radius: 5px; */
-	/* -webkit-border-radius: 5px; */
-	text-align:center;
-	cursor:pointer;
-	border:0px solid white;
-}
-
-.seeker_profile_sp_detail{
-	position:relative;
-	overflow: hidden;
-	width:700px;
-	padding:10px;
-	background-color:rgba(12, 179, 29, 0.2);
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-}
-
 .greencard_hover :hover{
 	background-color:rgba(255, 179, 29, 0.2);
-}
-
-.seeker_profile_sp_detail #sp_container{
-	position:relative;
-	top:-20px;
-	width:600px;
-	float:left;
-	text-align: left;
-}
-
-.seeker_profile_sp_detail #sp_position,#sp_degree_major,#sp_school{
-	font-weight:bolder;
-	font-size:16px;
-	padding-bottom:6px;
-}
-
-.seeker_profile_sp_detail #sp_range_date, #sp_salary{
-	font-size:13px;
-	padding-bottom:2px;
-}
-
-.seeker_profile_sp_detail #sp_job_type_level, #sp_job_fucntion_category,#sp_gpa{
-	font-weight:bolder;
-	font-size:13px;
-	padding-bottom:2px;
-}
-
-.seeker_profile_sp_detail #sp_description{
-	padding-top:5px;
-	padding-left:10px;
-	padding-bottom:5px;
-	font-size:13px;
-}
-.seeker_profile_sp_detail #sp_container div{
-	position:relative;
-	width:600px;
 }
 
 .card #start_year,#graduated_year{
@@ -964,22 +550,6 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
     text-align:center;
 }
 
-.btnlink{
-    margin-top:7px;
-    margin-left:25px;
-    margin-right:25px;
-    padding:5px;
-	background-color:white;
-	border: 0px;
-	-webkit-appearance: none;
-	font-size: 13px;
-	cursor:pointer;
-}
-
-.btnlink:hover{
-    color:#0CB31D;
-}
-
 #content{
     width:980px;  
 }
@@ -1016,16 +586,6 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
     transform: rotate(-45deg);
 }
 
-#everyone {	
-	padding: 50px 0;
-}
-
-
-#everyone div {	
-	cursor: pointer;
-	text-align: center;
-}
-
 @media (min-width: 544px) {
 	#everyone div span {
 		font-size: 2rem;
@@ -1043,131 +603,6 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
 	html {
 		font-size: 3.5rem;
 	}
-}
-	
-#everyone div span {
-	position: absolute;
-	top: 45%;
-	width: 100%;
-	text-align: center;
-	margin-top: -15px;
-	text-transform: uppercase;
-	color: #fff;
-	text-shadow: 0 0 5px #000;
-	left: 0;
-	letter-spacing: 5px;
-}
-
-#everyone .loader {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
-    z-index: 2;
-    display: none;
-}
-
-#everyone .loader i {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -15px 0 0 -15px;
-    font-size: 30px;
-    color: #fff;
-}
-
-#everyone_preview:before {
-    content: "";
-    width: 0;
-    height: 0;
-    border-right: 30px solid transparent;
-    border-left: 30px solid transparent;
-    border-top: 30px solid #fff;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    margin-left: -15px;
-}
-
-#everyone_preview {
-	margin-bottom:50px;
-    background-color: #333;
-    width: 100%;
-    position: relative;
-    display: none;
-}
-
-#everyone_preview .close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 30px;
-    color: #fff;
-    cursor: pointer;
-    z-index: 3;
-}
-
-#everyone_container {
-	padding: 50px 0 20px 0;
-}
-
-#connect {
-    background: #f1f1f1;
-    padding: 20px 0;
-}
-
-#connect h3 {
-    text-transform: uppercase;
-    color: #000;
-    font-size: 20px;
-    text-shadow: 1px 1px 0 #fff;
-    text-align: center;
-}
-
-#connect ul {
-    display: block;
-    text-align: center;
-    padding-top: 10px;
-    padding-bottom: 30px;
-}
-
-#connect ul li:first-child {
-    margin-left: 0;
-}
-
-#connect ul li {
-    display: inline-block;
-    margin-left: 10px;
-}
-
-#connect ul .facebook 	{ background: #7281af; }
-#connect ul .twitter 	{ background: #67bee5; }
-#connect ul .instagram 	{ background: #688cb3; }
-#connect ul .youtube 	{ background: #d7635e; }
-#connect ul .pinterest 	{ background: #d55759; }
-#connect ul .gplus 		{ background: #d76663; }
-
-#connect ul a {
-    background: #a2a2a2;
-    padding: 8px 0;
-    border-radius: 4px;
-    font-size: 40px;
-    width: 55px;
-    display: inline-block;
-}
-
-#connect ul i {
-    color: #fff;
-    display: block;
-    margin: 0 auto;
-    text-align: center;
-}
-
-#connect ul a:hover{
-	opacity:0.8;
-	text-decoration:none
 }
 
 .toolTip .details {
@@ -1201,22 +636,6 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
 
 #mainProfileImg{
 	width:200px;
-}
-
-#modelSearchArea {
-	margin-bottom:50px;
-    background-color: #333;
-    width: 100%;
-    position: relative;
-    color: #fff;
-    display: block;
-}
-
-#modelSearchArea br {
-	content: "";
-	margin: 2em;
-	display: block;
-	font-size: 24%;
 }
 
 .form-group label{

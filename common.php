@@ -4,8 +4,8 @@
 	set_time_limit(0);
 	
 	session_start();
-	$__title_project			= "warihFramework";
-	$__canonical				= "http://www.warihFramework.com";
+	$__title_project			= "Markopelago";
+	$__canonical				= "http://www.markopelago.com";
 	$__isloggedin				= @$_SESSION["isloggedin"];
 	$__username					= @$_SESSION["username"];
 	$__fullname					= @$_SESSION["fullname"];
