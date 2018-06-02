@@ -73,9 +73,20 @@
 			try{ loadNotifCount("notifMessageCount",count); } catch(e){}
 			try{ loadNotifCount("notifMessageTabCount",count); } catch(e){}
 		}
+		function openNav() {
+			document.getElementById("sidenavContent").innerHTML = "<div class='navbar-collapse'>"+document.getElementById("myMenu").innerHTML+"</div>";
+			document.getElementById("mySidenav").style.width = "300px";
+		}
+		function closeNav() {
+			document.getElementById("mySidenav").style.width = "0";
+		}
 	</script>
 </head>
 <body style="margin:0px;">
+	<div id="mySidenav" class="navbar-default sidenav">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+		<div class="container" id="sidenavContent"></div>
+	</div>
 	<!-- Modal -->
 	<div class="modal fade" id="myModal" role="dialog">
 		<div class="modal-dialog">
@@ -99,26 +110,27 @@
 					<img src="images/logo.png" style="position:relative;top:-10px;height:40px;max-width: 200%;cursor:pointer;border:0px;" alt="<?=$__title_project;?>" title="<?=$__title_project;?>" onclick="window.location='index.php';">
 				</a>
 				<!-- Collapsed Hamburger -->
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+				<button type="button" class="navbar-toggle" onclick="openNav()">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="notification-counter" style="visibility:hidden;" id="notifNavCount"></span>
 				</button>
 				<div class="search-container">
-					<form>
-						<?=$f->input("s",$_GET["s"]," placeholder='".v("search")."..'");?>
-						<?php $categories = [""=>"-- ".v("allcategories")." --","1"=>"Agriculture","2"=>"chemical"]; ?>
-						<?=$f->select("c",$categories,$_GET["c"]);?>
-						<button type="submit"><i class="fa fa-search"></i></button>
+					<form class="navbar-form navbar-left">
+						<div class="input-group">
+							<?=$f->input("s",$_GET["s"]," placeholder='".v("search")."..'");?>
+							<?php $categories = [""=>"-- ".v("allcategories")." --","1"=>"Agriculture","2"=>"chemical"]; ?>
+							<?=$f->select("c",$categories,$_GET["c"]);?>
+							<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+						</div>
 					</form>
 				</div>
 			</div>
 
-			<div class="collapse navbar-collapse" id="app-navbar-collapse">
+			<div id="myMenu" class="collapse navbar-collapse">
 				<!-- Right Side Of Navbar -->
 				<ul class="nav navbar-nav navbar-right">
-					
 					<?php if(!$__isloggedin){ ?>
 						<li class="dropdown">
 							<a href="register.php?as=null"><?=v("signup");?></a>
@@ -152,7 +164,7 @@
 					<?php } else { ?>
 					
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<?=$__fullname;?> 
 								<span class="notification-counter" style="visibility:hidden;" id="notifCount"></span>
 								<span class="caret"></span>
@@ -174,4 +186,4 @@
 			</div>
 		</div>
 	</nav>
-	<div style="height:58px;"></div>
+	<div class="header-start"></div>

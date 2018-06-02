@@ -316,6 +316,10 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
 	margin-bottom:10px;
 }
 
+footer {
+	font-size:12px;
+}
+
 .footer_area {
 	position :absolute;
 	width:100%;
@@ -344,7 +348,6 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
 
 
 .footer-top {
-	padding: 60px 0;
 	background: #333;
 	text-align: left;
 	color: #aaa;
@@ -790,16 +793,26 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
 	color:white;
 }
 /*===================================================================================*/
+.navbar-nav {
+    position: relative;
+    top: 5px;
+}
+
 .navbar-default .navbar-nav>.open>a:hover{
 	background-color:#800000 !important;
 	color:#000 !important;
 }
 
-.navbar-header .search-container {
+.dropdown-menu>li>a:hover{
+	background-color:#800000 !important;
+	color:#000 !important;
+}
+
+.search-container {
   float: right;
 }
 
-.navbar-header input[type=text] {
+.search-container input[type=text] {
   padding: 8px;
   margin-top: 8px;
   font-size: 13px;
@@ -807,7 +820,7 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
   width:300px;
 }
 
-.navbar-header .search-container button {
+.search-container button {
   float: right;
   padding: 5px 10px;
   margin-top: 8px;
@@ -819,11 +832,11 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
   cursor: pointer;
 }
 
-.navbar-header .search-container button:hover {
+.search-container button:hover {
   background: #EFB509;
 }
 
-.navbar-header .search-container select {
+.search-container select {
   padding: 11px 0px 11px 0px;
   margin-top: 8px;
   font-size: 10px;
@@ -832,22 +845,62 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
   width:120px;
 }
 
+.header-start{ height:58px; }
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    right: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 10px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 8px;
+    text-decoration: none;
+    font-size: 14px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+	padding:0;
+	text-decoration: none;
+	color:#800000;
+    position: absolute;
+    top: 0;
+    left: 5px;
+    font-size: 36px;
+}
+
+#sidenavContent {
+	margin-top:20px;
+	padding:10px;
+}
+
+@media screen and (max-width: 995px) {
+	.header-start{ height:168px; }
+}
+
 @media screen and (max-width: 492px) {
-	.navbar-header input[type=text], #c{
-		text-align: left;
-		width: 100%;
-		border: 1px solid #ccc;  
+	.search-container input[type=text] {
+		width: 64%;
 	}
-	#c, .navbar-header .search-container button {
+	.search-container button {
 		width:100%;
 		margin:0;
 	}
-	.navbar-header .search-container {
+	.search-container {
 	  width:100%;
 	}
-}
-
-footer {
-	font-size:12px;
 }
 /*===================================================================================*/
