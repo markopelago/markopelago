@@ -4,6 +4,7 @@
 }
 
 body {
+	margin: 0;
     font-family: "ITCAvantGardeGothicStdBook";
 	font-size:12px;
 }
@@ -52,15 +53,15 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
 }
 
 .btn-link-1:hover{
-	background-color:rgba(255, 104, 8, 0.6);
+	background-color:rgba(80, 0, 0, 0.6);
 }
 
 .btn-link-2:hover{
-	background-color:rgba(255, 104, 8, 0.6);
+	background-color:rgba(80, 0, 0, 0.6);
 }
 
 .benjamin:hover{
-	background-color:rgba(255, 104, 8, 0.6);
+	background-color:rgba(80, 0, 0, 0.6);
 }
 
 .btn-link-1{
@@ -69,7 +70,7 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
 	width:100%;
     margin-bottom: 15px;
     color: #fff;
-    background-color:rgba(255, 104, 8, 0.8);
+    background-color:rgba(80, 0, 0, 0.8);
     border: 0;
     text-shadow: none;
     border-radius: 0;
@@ -80,7 +81,7 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
     font-size: 15px;
     padding: 10px;
     color: #fff;
-    background-color:rgba(255, 104, 8, 0.8);
+    background-color:rgba(80, 0, 0, 0.8);
     border: 0;
     text-shadow: none;
     border-radius: 0;
@@ -92,7 +93,7 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
     padding: 15px;
     margin: 15px;
     color: #fff;
-    background-color:rgba(255, 104, 8, 0.8);
+    background-color:rgba(80, 0, 0, 0.8);
     border: 0;
     text-shadow: none;
     border-radius: 0;
@@ -223,7 +224,7 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
 }
 
 .btn_sign:hover {
-	background-color:rgba(255, 104, 8, 0.8);
+	background-color:rgba(80, 0, 0, 0.8);
 }
 
 .starts_here{
@@ -788,3 +789,65 @@ div { font-family: "ITCAvantGardeGothicStdBook"; }
 	padding:5px;
 	color:white;
 }
+/*===================================================================================*/
+.navbar-default .navbar-nav>.open>a:hover{
+	background-color:#800000 !important;
+	color:#000 !important;
+}
+
+.navbar-header .search-container {
+  float: right;
+}
+
+.navbar-header input[type=text] {
+  padding: 8px;
+  margin-top: 8px;
+  font-size: 13px;
+  border: none;
+  width:300px;
+}
+
+.navbar-header .search-container button {
+  float: right;
+  padding: 5px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #800000;
+  color:#000;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar-header .search-container button:hover {
+  background: #EFB509;
+}
+
+.navbar-header .search-container select {
+  padding: 11px 0px 11px 0px;
+  margin-top: 8px;
+  font-size: 10px;
+  border: none;
+  background-color: #fff;
+  width:120px;
+}
+
+@media screen and (max-width: 492px) {
+	.navbar-header input[type=text], #c{
+		text-align: left;
+		width: 100%;
+		border: 1px solid #ccc;  
+	}
+	#c, .navbar-header .search-container button {
+		width:100%;
+		margin:0;
+	}
+	.navbar-header .search-container {
+	  width:100%;
+	}
+}
+
+footer {
+	font-size:12px;
+}
+/*===================================================================================*/

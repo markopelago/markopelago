@@ -91,56 +91,34 @@
 		</div>
 	</div>
 	
-	<nav class="navbar navbar-default navbar-fixed-top fadeInLeft animated">
+	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
+				<!-- Branding Image -->
+				<a class="navbar-brand" href="index.php">
+					<img src="images/logo.png" style="position:relative;top:-10px;height:40px;max-width: 200%;cursor:pointer;border:0px;" alt="<?=$__title_project;?>" title="<?=$__title_project;?>" onclick="window.location='index.php';">
+				</a>
 				<!-- Collapsed Hamburger -->
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-					<span class="sr-only">Toggle Navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="notification-counter" style="visibility:hidden;" id="notifNavCount"></span>
 				</button>
-				<!-- Branding Image -->
-				<a class="navbar-brand" href="index.php">
-					<img src="images/logo.png" style="position:relative;top:-10px;height:40px;max-width: 200%;cursor:pointer;border:0px;" alt="<?=$__title_project;?>" title="<?=$__title_project;?>" onclick="window.location='index.php';">
-				</a>
+				<div class="search-container">
+					<form>
+						<?=$f->input("s",$_GET["s"]," placeholder='".v("search")."..'");?>
+						<?php $categories = [""=>"-- ".v("allcategories")." --","1"=>"Agriculture","2"=>"chemical"]; ?>
+						<?=$f->select("c",$categories,$_GET["c"]);?>
+						<button type="submit"><i class="fa fa-search"></i></button>
+					</form>
+				</div>
 			</div>
-			
 
 			<div class="collapse navbar-collapse" id="app-navbar-collapse">
 				<!-- Right Side Of Navbar -->
 				<ul class="nav navbar-nav navbar-right">
-					<!--li><a href="news.php"><?=v("news");?></a></li-->
-					<li class="dropdown">
-						<a href="models.php" class="dropdown-toggle"><?=v("models");?> <span class="caret"></span></a>
-						<ul class="dropdown-menu wow fadeInLeft animated" role="menu">
-							<?php 
-								$model_categories = $db->fetch_all_data("model_categories");
-								foreach($model_categories as $model_category){
-									echo "<li><a href='models.php?filter_model_category=".$model_category["id"]."&filter_search=Search'>".$model_category["name_".$__locale]."</a></li>";
-								}
-							?>
-						</ul>
-					</li>
-					<li class="dropdown">
-						<a href="castings.php" class="dropdown-toggle"><?=v("castings");?> <span class="caret"></span></a>
-						<ul class="dropdown-menu wow fadeInLeft animated" role="menu">
-							<li><a href="castings.php"><?=v("see_all_castings");?></a></li>
-							<?php 
-								if($__role == 3 || $__role == 4){
-									$urlPostCasting = "dashboard.php?tabActive=jobs&post_a_job=1";
-								} else {
-									$urlPostCasting = "#";
-									$jsPostCasting = "onclick=\"toastr.warning('".v("you_have_to_registered_as_a_agency_or_corporate")."','',toastroptions);\"";
-								}
-							?>
-							<li><a href="<?=$urlPostCasting;?>" <?=$jsPostCasting;?>><?=v("post_casting");?></a></li>
-						</ul>
-					</li>
-					<li><a href="agencies.php"><?=v("agencies");?></a></li>
-					<li style="width:100px;"><a></a></li>
+					
 					<?php if(!$__isloggedin){ ?>
 						<li class="dropdown">
 							<a href="register.php?as=null"><?=v("signup");?></a>
@@ -152,7 +130,7 @@
 							</a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
-									<div class="col-sm-5 fadeInLeft animated">
+									<div class="col-sm-5">
 										<div style="width:200px;" class="text-center">
 											<?php $f->setAttribute("class='this_form_login'");?>
 											<?=$f->start();?>
@@ -196,3 +174,4 @@
 			</div>
 		</div>
 	</nav>
+	<div style="height:58px;"></div>

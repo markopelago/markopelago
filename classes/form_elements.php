@@ -42,6 +42,7 @@ class FormElements extends Database {
 		if ($value!="") $value='value="'.$value.'"';
 		if ($class!="") $class='class="'.$class.'"';
 		if ($attr=="") $attr="type='text'";
+		if (stripos(" ".$attr,"type") <= 0) $attr.=" type='text'";
         return '<input name="'.$name.'" id="'.$name.'" '.$value.' '.$attr.' '.$class.' onmouseover="try{ hiding_select_box(\'\'); } catch(e){}">';
     }
 

@@ -2,20 +2,20 @@
 		<div class="footer-top">
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-3 footer-about wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+					<div class="col-sm-3 footer-about wow" style="visibility: visible; animation-name:">
 						<h3><?=v("about");?></h3>
 						<p>
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 						</p>
 					</div>
-					<div class="col-sm-4 col-sm-offset-1 footer-contact wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;">
+					<div class="col-sm-4 col-sm-offset-1 footer-contact wow" style="visibility: visible; animation-name:">
 						<h3><?=v("contact");?></h3>
 						<p><i class="fa fa-map-marker"></i> Komplek Rasuna Epicentrum, Jl. H R rasuna Said Jakarta, 12940, Indonesia</p>
 						<p><i class="fa fa-phone"></i> Phone: +62 21 29941058</p>
 						<p><i class="fa fa-envelope"></i> Email: <a href="mailto:info@warihFramework.com">info@warihFramework.com</a></p>
 						<p><i class="fa fa-skype"></i> Skype: warihFramework</p>
 					</div>
-					<div class="col-sm-4 footer-links wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+					<div class="col-sm-4 footer-links wow" style="visibility: visible; animation-name:">
 						<div class="row">
 							<div class="col-sm-12">
 								<h3><?=v("links");?></h3>
