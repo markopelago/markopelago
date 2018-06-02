@@ -85,6 +85,7 @@
 <body style="margin:0px;">
 	<div id="mySidenav" class="navbar-default sidenav">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+		<div class="menuTitle">MENU</div>
 		<div class="container" id="sidenavContent"></div>
 	</div>
 	<!-- Modal -->

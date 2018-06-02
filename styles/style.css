@@ -847,6 +847,14 @@ footer {
 
 .header-start{ height:58px; }
 
+.menuTitle{
+	position:relative;
+	float:right;
+	padding-top:3px;
+	padding-right:20px;
+	color:#800000;
+}
+
 .sidenav {
     height: 100%;
     width: 0;
