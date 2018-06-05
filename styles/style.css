@@ -590,25 +590,6 @@ footer {
     transform: rotate(-45deg);
 }
 
-@media (min-width: 544px) {
-	#everyone div span {
-		font-size: 2rem;
-	}
-	html {
-		font-size: 2rem;
-	}
-}
-
-@media (min-width: 992px) {
-	#everyone div span {
-		font-size: 3.5rem;
-	}
-	
-	html {
-		font-size: 3.5rem;
-	}
-}
-
 .toolTip .details {
     padding: 14px 10px 10px;
     display: block;
@@ -638,7 +619,7 @@ footer {
 	height:30px;
 }
 
-#mainProfileImg{
+#	ProfileImg{
 	width:200px;
 }
 
@@ -793,6 +774,16 @@ footer {
 	color:white;
 }
 /*===================================================================================*/
+.carousel-control{
+	color:#800000 !important;
+}
+.carousel-indicators li{
+	border:1px solid #800000 !important;
+}
+.carousel-indicators .active{
+	background-color:#800000 !important;
+}
+
 .navbar-nav {
     position: relative;
     top: 5px;
@@ -896,7 +887,19 @@ footer {
 }
 
 @media screen and (max-width: 995px) {
-	.header-start{ height:168px; }
+	.header-start{ height:110px; }
+}
+
+@media screen and (max-width: 767px) {
+	.header-start{ height:80px; }
+}
+
+@media screen and (max-width: 733px) {
+	.header-start{ height:110px; }
+}
+
+@media screen and (max-width: 492px) {
+	.header-start{ height:165px; }
 }
 
 @media screen and (max-width: 492px) {
