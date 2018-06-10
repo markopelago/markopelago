@@ -327,5 +327,9 @@
             return "0";
         }
     }
+	
+	function numberpad($number,$pad){
+		return sprintf("%0".$pad."d", $number);
+	}
 ?>
 <?php include_once "log_action.php"; ?>

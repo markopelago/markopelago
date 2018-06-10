@@ -75,6 +75,8 @@ class Vocabulary{
 		$arr[$l]["gender"]										= "Gender";
 		$arr[$l]["applicants"]									= "Applicants";
 		$arr[$l]["you_have_to_login_first"]						= "You have to log in first";
+		$arr[$l]["hot_products"]								= "Hot Products";
+		$arr[$l]["view_all"]									= "View All";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -137,6 +139,8 @@ class Vocabulary{
 		$arr[$l]["gender"]										= "Jenis Kelamin";
 		$arr[$l]["applicants"]									= "Pelamar";
 		$arr[$l]["you_have_to_login_first"]						= "Anda harus login terlebih dahulu";
+		$arr[$l]["hot_products"]								= "Hot Products";
+		$arr[$l]["view_all"]									= "Lihat semua";
 		
 		return $arr[$this->locale][$index];
 	}

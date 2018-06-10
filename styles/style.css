@@ -774,6 +774,10 @@ footer {
 	color:white;
 }
 /*===================================================================================*/
+.navbar-default {
+    background-color: #f4f4f4 !important;
+}
+
 .carousel-control{
 	color:#800000 !important;
 }
@@ -846,6 +850,57 @@ footer {
 	color:#800000;
 }
 
+.sub-title-text{
+	position:relative;
+	float:left;
+	font-size:24px;
+	font-weight:bolder;
+	margin-left:15px;
+}
+
+.view-all-text{
+	position:relative;
+	float:right;
+	margin-right:15px;
+	margin-top:15px;
+}
+
+.view-all-text a {
+	color:#800000;
+	text-decoration:none;
+}
+
+.view-all-text a:hover{
+	color:#EFB509;
+	text-decoration:none;
+}
+
+.img-thumbnail {
+	vertical-align: top;
+	width:200px;
+	height:265px !important;
+	overflow: hidden;
+	white-space: normal;
+	font-size: 0.9em;
+}
+
+.img-thumbnail img {
+	width:200px;
+}
+
+.img-thumbnail .caption {
+	height: 40px;
+}
+
+.img-thumbnail .price {
+	color: #800000 ;
+}
+
+a:focus, a:hover {
+    color: #800000 !important;
+    text-decoration: none !important;
+}
+
 .sidenav {
     height: 100%;
     width: 0;
@@ -886,20 +941,52 @@ footer {
 	padding:10px;
 }
 
+.scrolling-wrapper {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
 @media screen and (max-width: 995px) {
 	.header-start{ height:110px; }
 }
 
 @media screen and (max-width: 767px) {
 	.header-start{ height:80px; }
+	.carousel-indicators li{
+		width:5px !important;
+		height:5px !important;
+	}
+	.carousel-indicators .active{
+		width:7px !important;
+		height:7px !important;
+	}
+	.carousel-indicators{
+		bottom:-10px !important;
+	}
 }
 
 @media screen and (max-width: 733px) {
 	.header-start{ height:110px; }
-}
-
-@media screen and (max-width: 492px) {
-	.header-start{ height:165px; }
+	.img-thumbnail {
+		height:155px !important;
+		vertical-align: top;
+		width:100px;
+		overflow: hidden;
+		white-space: normal;
+		font-size: 0.6em;
+	}
+	.img-thumbnail img {
+		height:100px;
+		width:100px;
+	}
+	.img-thumbnail .caption {
+		padding-top:2px;
+		height: 25px;
+	}
+	
+	
+	
 }
 
 @media screen and (max-width: 492px) {
@@ -912,6 +999,8 @@ footer {
 	}
 	.search-container {
 	  width:100%;
+	  padding-left:7px;
 	}
+	.header-start{ height:165px; }
 }
 /*===================================================================================*/
