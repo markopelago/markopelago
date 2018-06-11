@@ -25,6 +25,48 @@
 <div style="height:20px;"></div>
 <div class="container">
 	<div class="row sub-title-area">
+		<div class="sub-title-text"><?=v("categories");?></div>
+		<div class="view-all-text"><a href="#"><?=v("view_all");?></a></div>
+	</div>
+	<div class="scrolling-wrapper categories">
+		<?php 
+			unset($categories);
+			$categories[0] = ["id"=>"001","img"=>"agr.png","name"=>"Agriculture"];
+			$categories[1] = ["id"=>"002","img"=>"alb.png","name"=>"Alat Berat"];
+			$categories[2] = ["id"=>"003","img"=>"antique.png","name"=>"Antique"];
+			$categories[3] = ["id"=>"004","img"=>"bdy.png","name"=>"Budaya"];
+			$categories[4] = ["id"=>"005","img"=>"bhb.png","name"=>"Bahan Bangunan"];
+			$categories[5] = ["id"=>"006","img"=>"bkl.png","name"=>"Bengkel"];
+			$categories[6] = ["id"=>"007","img"=>"brg.png","name"=>"Burung"];
+			$categories[7] = ["id"=>"008","img"=>"btk.png","name"=>"Batik"];
+			$categories[8] = ["id"=>"009","img"=>"cmcl.png","name"=>"Chemical"];
+			$categories[9] = ["id"=>"010","img"=>"elct.png","name"=>"Electronic"];
+			$categories[10] = ["id"=>"011","img"=>"elct2.png","name"=>"Electrical"];
+			$categories[11] = ["id"=>"012","img"=>"fashion.png","name"=>"Fashion & Kecantikan"];
+			$categories[12] = ["id"=>"013","img"=>"h&m.png","name"=>"Herbs & Medicine"];
+			$categories[13] = ["id"=>"014","img"=>"hoby.png","name"=>"Hobi"];
+			$categories[14] = ["id"=>"015","img"=>"it.png","name"=>"IT"];
+			$categories[15] = ["id"=>"016","img"=>"kopi.png","name"=>"Kopi"];
+			$categories[16] = ["id"=>"017","img"=>"lab.png","name"=>"Laboratory & Equipment"];
+			$categories[17] = ["id"=>"018","img"=>"makan.png","name"=>"Makanan & Minuman"];
+			$categories[18] = ["id"=>"019","img"=>"oleh.png","name"=>"Oleh Oleh"];
+			$categories[19] = ["id"=>"020","img"=>"otomotif.png","name"=>"Otomotif"];
+			$categories[20] = ["id"=>"021","img"=>"packaging.png","name"=>"Packaging"];
+			$categories[21] = ["id"=>"022","img"=>"tools.png","name"=>"Tools"];
+			foreach($categories as $key => $category){
+		?>
+			<div class="img-thumbnail">
+				<a href="category_detail.php?id=<?=$category["id"];?>">
+					<img src="icons/categories/<?=$category["img"];?>" alt="#">
+					<div class="caption"><p><?=$category["name"];?></p></div>
+				</a>
+			</div>
+		<?php } ?>
+	</div>
+</div>
+<div style="height:20px;"></div>
+<div class="container">
+	<div class="row sub-title-area">
 		<div class="sub-title-text"><?=v("hot_products");?></div>
 		<div class="view-all-text"><a href="#"><?=v("view_all");?></a></div>
 	</div>

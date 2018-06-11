@@ -883,17 +883,29 @@ footer {
 	white-space: normal;
 	font-size: 0.9em;
 }
-
 .img-thumbnail img {
-	width:200px;
+	width:190px;
+	height:190px;
 }
-
 .img-thumbnail .caption {
 	height: 40px;
 }
-
 .img-thumbnail .price {
 	color: #800000 ;
+}
+
+.categories .img-thumbnail {
+	vertical-align: top;
+	text-align:center;
+	width:80px;
+	height:115px !important;
+	overflow: hidden;
+	white-space: normal;
+	font-size: 0.7em;
+}
+.categories .img-thumbnail img {
+	width:80px;
+	height:80px;
 }
 
 a:focus, a:hover {
@@ -977,16 +989,25 @@ a:focus, a:hover {
 		font-size: 0.6em;
 	}
 	.img-thumbnail img {
-		height:100px;
-		width:100px;
+		height:90px;
+		width:90px;
 	}
 	.img-thumbnail .caption {
 		padding-top:2px;
 		height: 25px;
 	}
 	
-	
-	
+	.categories .img-thumbnail {
+		width:60px;
+		height:80px !important;
+		overflow: hidden;
+		white-space: normal;
+		font-size: 0.5em;
+	}
+	.categories .img-thumbnail img {
+		width:50px;
+		height:50px;
+	}
 }
 
 @media screen and (max-width: 492px) {
