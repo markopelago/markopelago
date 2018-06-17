@@ -1,16 +1,23 @@
 <?php include_once "homepage_header.php"; ?>
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
-	<!-- Indicators -->
-	<ol class="carousel-indicators">
-		<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-		<li data-target="#myCarousel" data-slide-to="1"></li>
-		<li data-target="#myCarousel" data-slide-to="2"></li>
-	</ol>
 	<!-- Wrapper for slides -->
 	<div class="carousel-inner">
-		<div class="item active"><img src="images/main1.jpg"></div>
-		<div class="item"><img src="images/main2.jpg"></div>
-		<div class="item"><img src="images/main3.jpg"></div>
+		<div class="item active">
+			<img src="images/main1.jpg">
+			<div class="carousel-overlay"></div>
+		</div>
+		<div class="item">
+			<img src="images/main2.jpg">
+			<div class="carousel-overlay"></div>
+		</div>
+		<div class="item">
+			<img src="images/main3.jpg">
+			<div class="carousel-overlay"></div>
+		</div>
+		<div class="item">
+			<img src="images/main4.jpg">
+			<div class="carousel-overlay"></div>
+		</div>
 	</div>
 	<!-- Left and right controls -->
 	<a class="left carousel-control" href="#myCarousel" data-slide="prev">
@@ -21,6 +28,32 @@
 		<span class="glyphicon glyphicon-chevron-right"></span>
 		<span class="sr-only">Next</span>
 	</a>
+	<!-- Indicators -->
+	<ol class="carousel-indicators">
+		<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+		<li data-target="#myCarousel" data-slide-to="1"></li>
+		<li data-target="#myCarousel" data-slide-to="2"></li>
+		<li data-target="#myCarousel" data-slide-to="3"></li>
+	</ol>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6" style="position:absolute;top:0px;">
+				<div class="r-form-1-top"> 
+					<img src="images/logo.png"> adalah Indonesia
+				</div>
+				<div class="r-form-1-bottom">
+					<p class="subtitle">Berdaya di negeri sendiri</p>
+					<p class="description">Human-Based Marketplace platform to boost up your busines</p>
+					<div class="top-buttons">
+						<a class="btn btn-link-2 scroll-link" href="register.php?investor=1"><?=v("register_as_seller");?></a>
+						<a class="btn btn-link-2 scroll-link" href="register.php?investor=1"><?=v("register_as_buyer");?></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </div>
 <div style="height:20px;"></div>
 <div class="container">
@@ -96,5 +129,28 @@
 </div>
 <div style="height:20px;"></div>
 <div class="container">
+	<div class="row sub-title-area">
+		<div class="sub-title-text"><?=v("recommended_suppliers");?></div>
+		<div class="view-all-text"><a href="#"><?=v("view_all");?></a></div>
+	</div>
+	<div class="scrolling-wrapper">
+		<?php 
+			$suppliers[0] = ["id"=>"001","img"=>"Sutrisno.jpg","name"=>"Sutrisno","city"=>"Semarang"];
+			$suppliers[1] = ["id"=>"002","img"=>"Bambang.jpg","name"=>"Bambang","city"=>"Surabaya"];
+			$suppliers[2] = ["id"=>"003","img"=>"Frank.jpg","name"=>"Frank","city"=>"Palembang"];
+			$suppliers[3] = ["id"=>"004","img"=>"Jamilah.jpg","name"=>"Jamilah","city"=>"Jakarta"];
+			$suppliers[4] = ["id"=>"005","img"=>"Nurrochman.jpg","name"=>"Nurrochman","city"=>"Pontianak"];
+			foreach($suppliers as $supplier){
+		?>
+			<div class="img-thumbnail">
+				<a href="supplier_detail.php?id=<?=$supplier["id"];?>">
+					<img src="suppliers/<?=$supplier["img"];?>" alt="#">
+					<div class="caption"><p><?=$supplier["name"];?></p></div>
+					<div class="price"><p><?=$supplier["city"];?></p></div>
+				</a>
+			</div>
+		<?php } ?>
+	</div>
 </div>
+<div style="height:40px;"></div>
 <?php include_once "footer.php"; ?>

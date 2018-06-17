@@ -76,7 +76,10 @@ class Vocabulary{
 		$arr[$l]["applicants"]									= "Applicants";
 		$arr[$l]["you_have_to_login_first"]						= "You have to log in first";
 		$arr[$l]["hot_products"]								= "Hot Products";
+		$arr[$l]["recommended_suppliers"]						= "Recommended Suppliers";
 		$arr[$l]["view_all"]									= "View All";
+		$arr[$l]["register_as_seller"]							= "Register as Seller";
+		$arr[$l]["register_as_buyer"]							= "Register as Buyer";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -140,7 +143,10 @@ class Vocabulary{
 		$arr[$l]["applicants"]									= "Pelamar";
 		$arr[$l]["you_have_to_login_first"]						= "Anda harus login terlebih dahulu";
 		$arr[$l]["hot_products"]								= "Hot Products";
+		$arr[$l]["recommended_suppliers"]						= "Supplier Rekomendasi";
 		$arr[$l]["view_all"]									= "Lihat semua";
+		$arr[$l]["register_as_seller"]							= "Daftar sebagai Penjual";
+		$arr[$l]["register_as_buyer"]							= "Daftar sebagai Pembeli";
 		
 		return $arr[$this->locale][$index];
 	}
