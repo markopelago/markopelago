@@ -1,20 +1,7 @@
 <?php
 function login_action($username,$password){
 	global $_SERVER,$_SESSION,$db,$_POST,$v;
-	$db->addtable("a_users");
-	$db->addfield("id");
-	$db->addfield("group_id");
-	$db->addfield("password");
-	$db->addfield("name");
-	$db->addfield("role");
-	$db->addfield("sign_in_count");
-	$db->addfield("current_sign_in_at");
-	$db->addfield("last_sign_in_at");
-	$db->addfield("current_sign_in_ip");
-	$db->addfield("last_sign_in_ip");
-	$db->where("email",$username);
-	$db->limit(1);
-	$users = $db->fetch_data();
+	$users = $db->fetch_all_data("a_users",[],"email='".$username."'")[0];
 	if($users["id"] > 0){
 		if($users["password"] == base64_encode($password)){
 			$_SESSION["errormessage"] = "";
@@ -23,8 +10,6 @@ function login_action($username,$password){
 			$_SESSION["user_id"] = $users["id"];
 			$_SESSION["group_id"] = $users["group_id"];
 			$_SESSION["fullname"] = $users["name"];
-			$_SESSION["is_seeker"] = true;
-			$_SESSION["role"] = $users["role"];
 			
 			$db->addtable("a_users"); 
 			$db->where("id",$users["id"]);

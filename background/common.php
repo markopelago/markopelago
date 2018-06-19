@@ -2,14 +2,12 @@
 	set_time_limit(0);
 	
 	include_once "../classes/database.php";
-	include_once "../classes/jobseeker.php";
     include_once "../classes/form_elements.php";
     include_once "../classes/tables.php";
     include_once "../classes/helper.php";
 	include_once "../classes/vocabulary.php";
 	
 	$db = new Database();
-	$js = new JobSeeker();
 	$f = new FormElements();
 	$t = new Tables();
 	$h = new Helper();

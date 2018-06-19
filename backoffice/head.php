@@ -1,7 +1,7 @@
 <?php include_once "common.php"; ?>
 <?php $_rowperpage = 200; ?>
 <?php $_max_counting = $db->max_counting; ?>
-<?php if($_role != 0){ ?><script> window.location="../index.php";</script><?php } ?>
+<?php if(!$__isBackofficer){ ?><script> window.location="../index.php";</script><?php } ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <?php if(!$_isexport){ ?>
 <html>

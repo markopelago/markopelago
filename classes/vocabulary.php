@@ -80,6 +80,7 @@ class Vocabulary{
 		$arr[$l]["view_all"]									= "View All";
 		$arr[$l]["register_as_seller"]							= "Register as Seller";
 		$arr[$l]["register_as_buyer"]							= "Register as Buyer";
+		$arr[$l]["change_password"]								= "Change Password";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -147,6 +148,7 @@ class Vocabulary{
 		$arr[$l]["view_all"]									= "Lihat semua";
 		$arr[$l]["register_as_seller"]							= "Daftar sebagai Penjual";
 		$arr[$l]["register_as_buyer"]							= "Daftar sebagai Pembeli";
+		$arr[$l]["change_password"]								= "Ubah Password";
 		
 		return $arr[$this->locale][$index];
 	}

@@ -10,7 +10,6 @@
 	$__fullname					= @$_SESSION["fullname"];
 	$__user_id					= @$_SESSION["user_id"];
 	$__group_id					= @$_SESSION["group_id"];
-	$__role						= @$_SESSION["role"];
 	$__first_name				= @$_SESSION["first_name"];
 	$__errormessage				= @$_SESSION["errormessage"];
 	$__phpself 					= basename($_SERVER["PHP_SELF"]);
@@ -21,7 +20,6 @@
 	$__locale = $_COOKIE["locale"];
 	
 	include_once "../classes/database.php";
-	include_once "../classes/jobseeker.php";
     include_once "../classes/form_elements.php";
     include_once "../classes/tables.php";
     include_once "../classes/helper.php";
@@ -29,11 +27,13 @@
 	
 	$v = new Vocabulary($__locale);
 	$db = new Database();
-	$js = new JobSeeker();
 	$f = new FormElements();
 	$t = new Tables();
 	$h = new Helper();
 	if($_SERVER["REMOTE_ADDR"] == "::1") $_SERVER["REMOTE_ADDR"] = "127.0.0.1";
+	
+	$__isBackofficer = ($db->fetch_single_data("backofficers","id",["user_id"=>$__user_id]) > 0) ? "1":"0";
+	if($__user_id == 1) $__isBackofficer = "1";
 	
 	$__is_allowed				= is_file_allowed($__phpself,$__user_id,$__group_id,$db);
 	if(!$__is_allowed){
@@ -192,42 +192,6 @@
 		$return .= " - ";
 		if($tanggal2 != "0000-00-00") $return .= format_tanggal($tanggal2,"dMY"); else  $return .= $v->words("now");
 		return $return;
-	}
-	
-	function fetch_locations(){
-		global $db,$__locale;
-		$arrlocations[""]="";
-		$db->addtable("locations"); 
-		$db->addfield("province_id,location_id,name_".$__locale);
-		$db->where("id",1,"i",">");$db->where("location_id",0);$db->order("seqno");
-		$provinces = $db->fetch_data(true);
-		foreach ($provinces as $key => $arrprovince){
-			$arrlocations[$arrprovince[0].":".$arrprovince[1]] = "<b>".$arrprovince[2]."</b>";
-			$db->addtable("locations"); 
-			$db->addfield("province_id,location_id,name_".$__locale);
-			$db->where("province_id",$arrprovince[0]);$db->where("location_id",0,"i",">");$db->order("name_".$__locale);
-			$locations = $db->fetch_data(true);
-			foreach ($locations as $key2 => $arrlocation){
-				$arrlocations[$arrlocation[0].":".$arrlocation[1]] = "&nbsp;&nbsp;".$arrlocation[2];
-			}
-		}
-		
-		$db->addtable("locations");
-		$db->addfield("province_id,location_id,name_".$__locale);
-		$db->where("id",1,"i",">");$db->where("province_id",99);$db->order("seqno");
-		$provinces = $db->fetch_data(true);
-		foreach ($provinces as $key => $arrprovince){
-			$arrlocations[$arrprovince[0].":".$arrprovince[1]] = "<b>".$arrprovince[2]."</b>";
-			$db->addtable("locations");
-			$db->addfield("province_id,location_id,name_".$__locale);
-			$db->where("province_id",$arrprovince[0]);$db->where("location_id",0,"i",">");$db->order("name_".$__locale);
-			$locations = $db->fetch_data(true);
-			foreach ($locations as $key2 => $arrlocation){
-				$arrlocations[$arrlocation[0].":".$arrlocation[1]] = "<b>".$arrlocation[2]."</b>";
-			}
-		} 
-				
-		return $arrlocations;
 	}
 	
 	function province_location_format_id($id){

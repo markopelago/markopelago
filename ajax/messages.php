@@ -3,35 +3,16 @@
 	function getSenderInfo($sender_id){
 		global $db;
 		$sender = $db->fetch_single_data("a_users","name",["id"=>$sender_id]);
-		$role = $db->fetch_single_data("a_users","role",["id"=>$sender_id]);
 		$photofield = "photo";
-		if($role == "2"){ 
-			$profiletable = "personal_profiles";
-			$arrreturn["role_name"] = "Personal User";
-		}
-		if($role == "3"){
-			$profiletable = "agency_profiles";
-			$arrreturn["role_name"] = "Agency";
-		}
-		if($role == "5"){
-			$profiletable = "model_profiles";
-			$arrreturn["role_name"] = "Model";
-		}
-		if($role == "4"){
-			$profiletable = "corporate_profiles";
-			$arrreturn["role_name"] = "Corporate";
-			$photofield = "logo";
-		}
+		$profiletable = "corporate_profiles";
+		$arrreturn["role_name"] = "Corporate";
+		$photofield = "logo";
 		$photo = "user_images/".$db->fetch_single_data($profiletable,$photofield,["user_id" => $sender_id]);
 		$arrreturn["name"] = $sender;
-		$arrreturn["role"] = $role;
 		$arrreturn["photopath"] = $photo;
-		if($role < 2 || $role > 5){
-			$arrreturn["name"] = "warihFramework";
-			$arrreturn["role"] = $role;
-			$arrreturn["photopath"] = "images/logo.png";
-			$arrreturn["role_name"] = "Admin";
-		}
+		$arrreturn["name"] = "warihFramework";
+		$arrreturn["photopath"] = "images/logo.png";
+		$arrreturn["role_name"] = "Admin";
 		return $arrreturn;
 	}
 	
@@ -71,7 +52,6 @@
 				else $sender_id = $message["user_id"];
 				$arrsender = getSenderInfo($sender_id);
 				$sender = $arrsender["name"];
-				$role = $arrsender["role"];
 				$photo = $arrsender["photopath"];
 				if($message["status"] == 0) $message["message"] = "<b><i>".$message["message"]."</i></b>";
 		?>

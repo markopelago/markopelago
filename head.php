@@ -74,7 +74,18 @@
 			try{ loadNotifCount("notifMessageTabCount",count); } catch(e){}
 		}
 		function openNav() {
-			document.getElementById("sidenavContent").innerHTML = "<div class='navbar-collapse'>"+document.getElementById("myMenu").innerHTML+"</div>";
+			<?php if(!$__isloggedin){ ?>
+				document.getElementById("sidenavContent").innerHTML = "<div class='navbar-collapse'>"+document.getElementById("myMenu").innerHTML+"</div>";
+			<?php } else { ?>
+				var manuContent = 	"<b><?=v("hello");?>, <?=$__fullname;?></b><br><img width='50' class='profile-img-card' src='images/nophoto.png'>";
+				manuContent += 		"<div style='height:10px;'></div>";
+				manuContent += 		"<div class='navbar-collapse'>";
+				manuContent += 		"<ul class='nav navbar-nav navbar-right'>";
+				manuContent += 		document.getElementById("forSideMenu").innerHTML;
+				manuContent += 		"</ul>";
+				manuContent += 		"</div>";
+				document.getElementById("sidenavContent").innerHTML = manuContent;
+			<?php } ?>
 			document.getElementById("mySidenav").style.width = "300px";
 		}
 		function closeNav() {
@@ -172,7 +183,7 @@
 										<div style="width:200px;" class="text-center">
 											<?php $f->setAttribute("class='this_form_login'");?>
 											<?=$f->start();?>
-												<img width="100" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+												<img width="100" class="profile-img-card" src="images/nophoto.png" />
 												<p id="profile-name" class="profile-name-card"></p>
 												<form class="form-signin">
 													<input name="username" class="form-control" placeholder="Username" required autofocus>
@@ -191,11 +202,11 @@
 					
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<?=$__fullname;?> 
+								<img height="30" class="profile-img-card" src="images/nophoto.png">&nbsp;<?=v("hello");?>, <?=$__fullname;?>
 								<span class="notification-counter" style="visibility:hidden;" id="notifCount"></span>
 								<span class="caret"></span>
 							</a>
-							<ul class="dropdown-menu" role="menu">
+							<ul class="dropdown-menu" role="menu" id="forSideMenu">
 								<li><a href="dashboard.php"><?=v("my_dashboard");?></a></li>
 								<li>
 									<a href="dashboard.php?tabActive=message">
@@ -203,6 +214,10 @@
 										<span class="notification-counter" style="visibility:hidden;" id="notifMessageCount"></span>
 									</a>
 								</li>
+								<?php if($__isBackofficer){ ?>
+								<li><a href="survey.php">Survey</a></li>
+								<?php } ?>
+								<li><a href="change_password.php"><?=v("change_password");?></a></li>
 								<li><a href="?logout_action=1">Logout</a></li>
 							</ul>
 						</li>

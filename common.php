@@ -11,10 +11,8 @@
 	$__fullname					= @$_SESSION["fullname"];
 	$__user_id					= @$_SESSION["user_id"];
 	$__group_id					= @$_SESSION["group_id"];
-	$__role						= @$_SESSION["role"];
 	$__first_name				= @$_SESSION["first_name"];
 	$__errormessage				= @$_SESSION["errormessage"];
-	$__is_seeker 				= false;
 	$__phpself 					= basename($_SERVER["PHP_SELF"]);
 	$__now						= date("Y-m-d H:i:s");
 	
@@ -37,6 +35,9 @@
 	$h = new Helper();
 	if($_SERVER["REMOTE_ADDR"] == "::1") $_SERVER["REMOTE_ADDR"] = "127.0.0.1";
 	$__remote_addr = $_SERVER["REMOTE_ADDR"];
+	
+	$__isBackofficer = ($db->fetch_single_data("backofficers","id",["user_id"=>$__user_id]) > 0) ? "1":"0";
+	if($__user_id == 1) $__isBackofficer = "1";
 	
 	function v($index){
 		global $vocabulary;
