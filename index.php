@@ -130,23 +130,23 @@
 <div style="height:20px;"></div>
 <div class="container">
 	<div class="row sub-title-area">
-		<div class="sub-title-text"><?=v("recommended_suppliers");?></div>
+		<div class="sub-title-text"><?=v("recommended_sellers");?></div>
 		<div class="view-all-text"><a href="#"><?=v("view_all");?></a></div>
 	</div>
 	<div class="scrolling-wrapper">
 		<?php 
-			$suppliers[0] = ["id"=>"001","img"=>"Sutrisno.jpg","name"=>"Sutrisno","city"=>"Semarang"];
-			$suppliers[1] = ["id"=>"002","img"=>"Bambang.jpg","name"=>"Bambang","city"=>"Surabaya"];
-			$suppliers[2] = ["id"=>"003","img"=>"Frank.jpg","name"=>"Frank","city"=>"Palembang"];
-			$suppliers[3] = ["id"=>"004","img"=>"Jamilah.jpg","name"=>"Jamilah","city"=>"Jakarta"];
-			$suppliers[4] = ["id"=>"005","img"=>"Nurrochman.jpg","name"=>"Nurrochman","city"=>"Pontianak"];
-			foreach($suppliers as $supplier){
+			$sellers[0] = ["id"=>"001","img"=>"Sutrisno.jpg","name"=>"Sutrisno","city"=>"Semarang"];
+			$sellers[1] = ["id"=>"002","img"=>"Bambang.jpg","name"=>"Bambang","city"=>"Surabaya"];
+			$sellers[2] = ["id"=>"003","img"=>"Frank.jpg","name"=>"Frank","city"=>"Palembang"];
+			$sellers[3] = ["id"=>"004","img"=>"Jamilah.jpg","name"=>"Jamilah","city"=>"Jakarta"];
+			$sellers[4] = ["id"=>"005","img"=>"Nurrochman.jpg","name"=>"Nurrochman","city"=>"Pontianak"];
+			foreach($sellers as $seller){
 		?>
 			<div class="img-thumbnail">
-				<a href="supplier_detail.php?id=<?=$supplier["id"];?>">
-					<img src="suppliers/<?=$supplier["img"];?>" alt="#">
-					<div class="caption"><p><?=$supplier["name"];?></p></div>
-					<div class="price"><p><?=$supplier["city"];?></p></div>
+				<a href="seller_detail.php?id=<?=$seller["id"];?>">
+					<img src="sellers/<?=$seller["img"];?>" alt="#">
+					<div class="caption"><p><?=$seller["name"];?></p></div>
+					<div class="price"><p><?=$seller["city"];?></p></div>
 				</a>
 			</div>
 		<?php } ?>
