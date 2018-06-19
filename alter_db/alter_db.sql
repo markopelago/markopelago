@@ -1,78 +1,130 @@
-backofficers
-	id
-	user_id
-	name
-	phone
-	created_at
-	created_by
-	created_ip
-	updated_at
-	updated_by
-	updated_ip
-	xtimestamp
+CREATE TABLE backofficers (
+	id int NOT NULL auto_increment,
+	user_id int NOT NULL,
+	name varchar(100) NOT NULL,
+	phone varchar(100) NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	INDEX (user_id)
+);
 	
-survey_templates
-	id
-	parent_id
-	seqno
-	title
-	question
-	answers
-	created_at
-	created_by
-	created_ip
-	updated_at
-	updated_by
-	updated_ip
-	xtimestamp
+CREATE TABLE survey_templates (
+	id int NOT NULL auto_increment,
+	name varchar(100) NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id)
+);
 	
-surveys
-	id
-	user_id
-	surveyed_at
-	name
-	email
-	phone
-	address
-	location_id
-	created_at
-	created_by
-	created_ip
-	updated_at
-	updated_by
-	updated_ip
-	xtimestamp
+CREATE TABLE survey_template_details (
+	id int NOT NULL auto_increment,
+	survey_template_id int NOT NULL,
+	parent_id int NOT NULL,
+	seqno int NOT NULL,
+	title varchar(255) NOT NULL,
+	question text NOT NULL,
+	answers text NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	INDEX (survey_template_id),
+	INDEX (parent_id)
+);
 	
-survey_details
-	id
-	survey_id
-	parent_id
-	seqno
-	title
-	question
-	answers
-	answer
-	created_at
-	created_by
-	created_ip
-	updated_at
-	updated_by
-	updated_ip
-	xtimestamp
+CREATE TABLE surveys (
+	id int NOT NULL auto_increment,
+	user_id int NOT NULL,
+	survey_template_id int NOT NULL,
+	survey_name varchar(100) NOT NULL,
+	surveyed_at datetime NOT NULL,
+	name varchar(255) NOT NULL,
+	email varchar(255) NOT NULL,
+	phone varchar(100) NOT NULL,
+	address varchar(255) NOT NULL,
+	location_id int NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	INDEX (user_id),
+	INDEX (survey_template_id),
+	INDEX (location_id)
+);
 	
-locations
-	id
-	parent_id
-	seqno
-	name_id
-	name_en
-	created_at
-	created_by
-	created_ip
-	updated_at
-	updated_by
-	updated_ip
-	xtimestamp
+CREATE TABLE survey_details (
+	id int NOT NULL auto_increment,
+	survey_id int NOT NULL,
+	parent_id int NOT NULL,
+	seqno int NOT NULL,
+	title varchar(255) NOT NULL,
+	question text NOT NULL,
+	answers text NOT NULL,
+	answer varchar(255) NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	INDEX (survey_id),
+	INDEX (parent_id)
+);
+	
+CREATE TABLE survey_photos (
+	id int NOT NULL auto_increment,
+	survey_id int NOT NULL,
+	seqno int NOT NULL,
+	filename varchar(255) NOT NULL,
+	caption varchar(100) NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	INDEX (survey_id)
+);
+	
+CREATE TABLE locations (
+	id int NOT NULL auto_increment,
+	parent_id int NOT NULL,
+	seqno int NOT NULL,
+	name_id varchar(150) NOT NULL,
+	name_en varchar(150) NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	INDEX (parent_id)
+);
 	
 
 --====================================================================
