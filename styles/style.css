@@ -866,10 +866,11 @@ footer {
 
 .menuTitle{
 	position:relative;
-	float:right;
-	padding-top:3px;
-	padding-right:20px;
+	float:left;
+	padding:0px 0px 0px 20px;
 	color:#800000;
+	font-weight:bolder;
+	width:100%;
 }
 
 .sub-title-text{
@@ -944,7 +945,6 @@ a:focus, a:hover {
     transition: 0.5s;
     padding-top: 10px;
 }
-
 .sidenav a {
     padding: 8px 8px 8px 8px;
     text-decoration: none;
@@ -953,19 +953,20 @@ a:focus, a:hover {
     display: block;
     transition: 0.3s;
 }
-
 .sidenav a:hover {
     color: #f1f1f1;
 }
-
 .sidenav .closebtn {
-	padding:0;
+	float:right;
+	position:relative;
+	color:#800000;
+}
+.sidenav .closebtn a{
 	text-decoration: none;
 	color:#800000;
-    position: absolute;
-    top: 0;
-    left: 5px;
-    font-size: 36px;
+    font-size: 46px;
+	font-weight:bolder;
+	line-height: 0px;
 }
 
 #sidenavContent {
