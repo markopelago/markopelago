@@ -420,7 +420,7 @@ CREATE TABLE `surveys` (
   KEY `user_id` (`user_id`),
   KEY `survey_template_id` (`survey_template_id`),
   KEY `location_id` (`location_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -429,7 +429,7 @@ CREATE TABLE `surveys` (
 
 LOCK TABLES `surveys` WRITE;
 /*!40000 ALTER TABLE `surveys` DISABLE KEYS */;
-INSERT INTO `surveys` VALUES (1,3,1,'Seller Survey','2018-05-21 00:00:00','H ENDANG','','0813 1335 3733','KP PASIR AWI RT.003/002 DESA SUKAJAYA GARUT',15,'',NULL,'',NULL,NULL,'',NULL,'2018-06-20 13:02:15'),(2,3,1,'Seller Survey','2018-05-22 00:00:00','ABDUL AZIZ RAMDANI','abdulazizramdani@gmail.com','0822 1801 4950','KP TEGAL PARUNG RT.004/007 KEL CIBURUNG KAB GARUT',15,'',NULL,'',NULL,NULL,'',NULL,'2018-06-20 13:02:15');
+INSERT INTO `surveys` VALUES (1,3,1,'Seller Survey','2018-05-21 00:00:00','H ENDANG','','0813 1335 3733','KP PASIR AWI RT.003/002 DESA SUKAJAYA GARUT',15,'',NULL,'',NULL,NULL,'',NULL,'2018-06-20 13:02:15'),(2,3,1,'Seller Survey','2018-05-22 00:00:00','ABDUL AZIZ RAMDANI','abdulazizramdani@gmail.com','0822 1801 4950','KP TEGAL PARUNG RT.004/007 KEL CIBURUNG KAB GARUT',15,'',NULL,'',NULL,NULL,'',NULL,'2018-06-20 13:02:15'),(3,3,1,'Penjual','2018-06-21 05:59:35','Warih','warih@corphr.com','0219999999','Ciledug Indah',32,'','2018-06-21 05:59:35','arif@markopelago.com','127.0.0.1','2018-06-21 05:59:35','arif@markopelago.com','127.0.0.1','2018-06-20 22:59:35');
 /*!40000 ALTER TABLE `surveys` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -442,4 +442,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-20 22:10:21
+-- Dump completed on 2018-06-21  6:01:56

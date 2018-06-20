@@ -96,6 +96,7 @@ class Vocabulary{
 		$arr[$l]["get_coordinate"]								= "Get Coordinate";
 		$arr[$l]["next"]										= "Next";
 		$arr[$l]["back"]										= "Back";
+		$arr[$l]["surveyed_at"]									= "Surveyed At";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -179,6 +180,7 @@ class Vocabulary{
 		$arr[$l]["get_coordinate"]								= "Muat Koordinat";
 		$arr[$l]["next"]										= "Lanjut";
 		$arr[$l]["back"]										= "Kembali";
+		$arr[$l]["surveyed_at"]									= "Tanggal Survei";
 		
 		return $arr[$this->locale][$index];
 	}
