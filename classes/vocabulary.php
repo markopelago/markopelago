@@ -81,6 +81,21 @@ class Vocabulary{
 		$arr[$l]["register_as_seller"]							= "Register as Seller";
 		$arr[$l]["register_as_buyer"]							= "Register as Buyer";
 		$arr[$l]["change_password"]								= "Change Password";
+		$arr[$l]["survey"]										= "Survey";
+		$arr[$l]["seller_survey"]								= "Seller Survey";
+		$arr[$l]["forwarder_survey"]							= "Forwarder Survey";
+		$arr[$l]["add_seller_survey"]							= "Add Seller Survey";
+		$arr[$l]["add_forwarder_survey"]						= "Add Forwarder Survey";
+		$arr[$l]["edit_seller_survey"]							= "Edit Seller Survey";
+		$arr[$l]["edit_forwarder_survey"]						= "Edit Forwarder Survey";
+		$arr[$l]["my_survey_histories"]							= "My Survey Histories";
+		$arr[$l]["name"]										= "Name";
+		$arr[$l]["phone"]										= "Phone";
+		$arr[$l]["survey_date"]									= "Survey Date";
+		$arr[$l]["coordinate"]									= "Coordinate";
+		$arr[$l]["get_coordinate"]								= "Get Coordinate";
+		$arr[$l]["next"]										= "Next";
+		$arr[$l]["back"]										= "Back";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -149,6 +164,21 @@ class Vocabulary{
 		$arr[$l]["register_as_seller"]							= "Daftar sebagai Penjual";
 		$arr[$l]["register_as_buyer"]							= "Daftar sebagai Pembeli";
 		$arr[$l]["change_password"]								= "Ubah Password";
+		$arr[$l]["survey"]										= "Survei";
+		$arr[$l]["seller_survey"]								= "Survei Penjual";
+		$arr[$l]["forwarder_survey"]							= "Survei Ekspeditur";
+		$arr[$l]["add_seller_survey"]							= "Tambah Survei Penjual";
+		$arr[$l]["add_forwarder_survey"]						= "Tambah Survei Ekspeditur";
+		$arr[$l]["edit_seller_survey"]							= "Ubah Survei Penjual";
+		$arr[$l]["edit_forwarder_survey"]						= "Ubah Survei Ekspeditur";
+		$arr[$l]["my_survey_histories"]							= "Histori Survei Saya";
+		$arr[$l]["name"]										= "Nama";
+		$arr[$l]["phone"]										= "Telepon";
+		$arr[$l]["survey_date"]									= "Tanggal Survei";
+		$arr[$l]["coordinate"]									= "Koordinat";
+		$arr[$l]["get_coordinate"]								= "Muat Koordinat";
+		$arr[$l]["next"]										= "Lanjut";
+		$arr[$l]["back"]										= "Kembali";
 		
 		return $arr[$this->locale][$index];
 	}

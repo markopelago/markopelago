@@ -98,7 +98,7 @@ CREATE TABLE `a_groups` (
   `updated_ip` varchar(20) DEFAULT NULL,
   `xtimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,7 +107,7 @@ CREATE TABLE `a_groups` (
 
 LOCK TABLES `a_groups` WRITE;
 /*!40000 ALTER TABLE `a_groups` DISABLE KEYS */;
-INSERT INTO `a_groups` VALUES (1,'Administrator','2017-08-13 17:30:16','superuser','127.0.0.1','2017-08-13 17:53:30','admin','127.0.0.1','2017-08-13 10:53:30');
+INSERT INTO `a_groups` VALUES (1,'Administrator','2017-08-13 17:30:16','superuser','127.0.0.1','2017-08-13 17:53:30','admin','127.0.0.1','2017-08-13 10:53:30'),(2,'BOD','0000-00-00 00:00:00','',NULL,'0000-00-00 00:00:00','',NULL,'2018-06-19 16:34:23'),(3,'CSO Leader','0000-00-00 00:00:00','',NULL,'0000-00-00 00:00:00','',NULL,'2018-06-19 16:34:23'),(4,'CSO Team','0000-00-00 00:00:00','',NULL,'0000-00-00 00:00:00','',NULL,'2018-06-19 16:34:23'),(5,'Surveyor Leader','0000-00-00 00:00:00','',NULL,'0000-00-00 00:00:00','',NULL,'2018-06-19 16:34:23'),(6,'Surveyor Team','0000-00-00 00:00:00','',NULL,'0000-00-00 00:00:00','',NULL,'2018-06-19 16:34:23'),(7,'Finance Leader','0000-00-00 00:00:00','',NULL,'0000-00-00 00:00:00','',NULL,'2018-06-19 16:34:23'),(8,'Finance Team','0000-00-00 00:00:00','',NULL,'0000-00-00 00:00:00','',NULL,'2018-06-19 16:34:23');
 /*!40000 ALTER TABLE `a_groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,7 +127,7 @@ CREATE TABLE `a_log_histories` (
   `log_ip` varchar(20) DEFAULT NULL,
   `xtimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,7 +136,7 @@ CREATE TABLE `a_log_histories` (
 
 LOCK TABLES `a_log_histories` WRITE;
 /*!40000 ALTER TABLE `a_log_histories` DISABLE KEYS */;
-INSERT INTO `a_log_histories` VALUES (1,1,'superuser',1,'2018-05-27 11:35:27','127.0.0.1','2018-05-27 04:35:27'),(2,1,'superuser',1,'2018-05-28 21:02:26','127.0.0.1','2018-05-28 14:02:26'),(3,1,'superuser',1,'2018-06-03 00:30:07','127.0.0.1','2018-06-02 17:30:07'),(4,1,'superuser',2,'2018-06-03 01:19:26','127.0.0.1','2018-06-02 18:19:26'),(5,1,'superuser',1,'2018-06-03 01:42:08','127.0.0.1','2018-06-02 18:42:08'),(6,1,'superuser',1,'2018-06-03 01:48:46','192.168.0.14','2018-06-02 18:48:46'),(7,1,'superuser',2,'2018-06-03 01:50:07','192.168.0.14','2018-06-02 18:50:07'),(8,1,'superuser',2,'2018-06-03 01:59:05','127.0.0.1','2018-06-02 18:59:05'),(9,1,'superuser',1,'2018-06-03 02:21:28','127.0.0.1','2018-06-02 19:21:28'),(10,1,'superuser',2,'2018-06-03 02:22:17','127.0.0.1','2018-06-02 19:22:17'),(11,1,'superuser',1,'2018-06-03 02:23:32','127.0.0.1','2018-06-02 19:23:32'),(12,1,'superuser',1,'2018-06-03 02:50:15','192.168.0.14','2018-06-02 19:50:15'),(13,1,'superuser',2,'2018-06-03 02:50:23','192.168.0.14','2018-06-02 19:50:23'),(14,1,'superuser',2,'2018-06-06 21:13:31','127.0.0.1','2018-06-06 14:13:31'),(15,1,'superuser',2,'2018-06-09 14:57:18','127.0.0.1','2018-06-09 07:57:18');
+INSERT INTO `a_log_histories` VALUES (1,1,'superuser',1,'2018-05-27 11:35:27','127.0.0.1','2018-05-27 04:35:27'),(2,1,'superuser',1,'2018-05-28 21:02:26','127.0.0.1','2018-05-28 14:02:26'),(3,1,'superuser',1,'2018-06-03 00:30:07','127.0.0.1','2018-06-02 17:30:07'),(4,1,'superuser',2,'2018-06-03 01:19:26','127.0.0.1','2018-06-02 18:19:26'),(5,1,'superuser',1,'2018-06-03 01:42:08','127.0.0.1','2018-06-02 18:42:08'),(6,1,'superuser',1,'2018-06-03 01:48:46','192.168.0.14','2018-06-02 18:48:46'),(7,1,'superuser',2,'2018-06-03 01:50:07','192.168.0.14','2018-06-02 18:50:07'),(8,1,'superuser',2,'2018-06-03 01:59:05','127.0.0.1','2018-06-02 18:59:05'),(9,1,'superuser',1,'2018-06-03 02:21:28','127.0.0.1','2018-06-02 19:21:28'),(10,1,'superuser',2,'2018-06-03 02:22:17','127.0.0.1','2018-06-02 19:22:17'),(11,1,'superuser',1,'2018-06-03 02:23:32','127.0.0.1','2018-06-02 19:23:32'),(12,1,'superuser',1,'2018-06-03 02:50:15','192.168.0.14','2018-06-02 19:50:15'),(13,1,'superuser',2,'2018-06-03 02:50:23','192.168.0.14','2018-06-02 19:50:23'),(14,1,'superuser',2,'2018-06-06 21:13:31','127.0.0.1','2018-06-06 14:13:31'),(15,1,'superuser',2,'2018-06-09 14:57:18','127.0.0.1','2018-06-09 07:57:18'),(16,3,'arif@markopelago.com',1,'2018-06-19 23:57:14','127.0.0.1','2018-06-19 16:57:14'),(17,3,'arif@markopelago.com',2,'2018-06-19 23:57:27','127.0.0.1','2018-06-19 16:57:27'),(18,3,'arif@markopelago.com',1,'2018-06-19 23:57:45','127.0.0.1','2018-06-19 16:57:45'),(19,3,'arif@markopelago.com',2,'2018-06-20 00:25:14','127.0.0.1','2018-06-19 17:25:14'),(20,3,'arif@markopelago.com',1,'2018-06-20 00:25:21','127.0.0.1','2018-06-19 17:25:22'),(21,3,'arif@markopelago.com',2,'2018-06-20 00:25:38','127.0.0.1','2018-06-19 17:25:38'),(22,1,'superuser',1,'2018-06-20 00:25:46','127.0.0.1','2018-06-19 17:25:47'),(23,1,'superuser',2,'2018-06-20 00:31:00','127.0.0.1','2018-06-19 17:31:00'),(24,3,'arif@markopelago.com',1,'2018-06-20 00:32:00','127.0.0.1','2018-06-19 17:32:00'),(25,3,'arif@markopelago.com',2,'2018-06-20 01:51:46','127.0.0.1','2018-06-19 18:51:46'),(26,3,'arif@markopelago.com',1,'2018-06-20 01:52:16','127.0.0.1','2018-06-19 18:52:16'),(27,3,'arif@markopelago.com',2,'2018-06-20 02:12:07','127.0.0.1','2018-06-19 19:12:07'),(28,3,'arif@markopelago.com',1,'2018-06-20 02:12:34','127.0.0.1','2018-06-19 19:12:34'),(29,3,'arif@markopelago.com',2,'2018-06-20 02:17:32','127.0.0.1','2018-06-19 19:17:32'),(30,3,'arif@markopelago.com',1,'2018-06-20 02:17:42','127.0.0.1','2018-06-19 19:17:42'),(31,3,'arif@markopelago.com',2,'2018-06-20 02:18:34','127.0.0.1','2018-06-19 19:18:34'),(32,3,'arif@markopelago.com',1,'2018-06-20 02:18:44','127.0.0.1','2018-06-19 19:18:44'),(33,3,'arif@markopelago.com',2,'2018-06-20 02:23:06','127.0.0.1','2018-06-19 19:23:06'),(34,3,'arif@markopelago.com',1,'2018-06-20 02:23:14','127.0.0.1','2018-06-19 19:23:14'),(35,3,'arif@markopelago.com',1,'2018-06-20 02:27:05','192.168.0.12','2018-06-19 19:27:05'),(36,3,'arif@markopelago.com',1,'2018-06-20 12:44:01','127.0.0.1','2018-06-20 05:44:01'),(37,3,'arif@markopelago.com',1,'2018-06-20 12:45:10','192.168.0.12','2018-06-20 05:45:10'),(38,3,'arif@markopelago.com',1,'2018-06-20 13:09:58','192.168.0.12','2018-06-20 06:09:58'),(39,3,'arif@markopelago.com',1,'2018-06-20 13:14:43','192.168.0.12','2018-06-20 06:14:43'),(40,3,'arif@markopelago.com',1,'2018-06-20 15:54:07','192.168.0.12','2018-06-20 08:54:07'),(41,3,'arif@markopelago.com',1,'2018-06-20 16:04:37','192.168.0.12','2018-06-20 09:04:37'),(42,3,'arif@markopelago.com',1,'2018-06-20 16:08:13','192.168.0.12','2018-06-20 09:08:13');
 /*!40000 ALTER TABLE `a_log_histories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +153,6 @@ CREATE TABLE `a_users` (
   `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `role` int(11) NOT NULL DEFAULT '999',
   `sign_in_count` int(11) NOT NULL,
   `current_sign_in_at` datetime DEFAULT NULL,
   `last_sign_in_at` datetime DEFAULT NULL,
@@ -168,7 +167,7 @@ CREATE TABLE `a_users` (
   `xtimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -177,7 +176,7 @@ CREATE TABLE `a_users` (
 
 LOCK TABLES `a_users` WRITE;
 /*!40000 ALTER TABLE `a_users` DISABLE KEYS */;
-INSERT INTO `a_users` VALUES (1,0,'superuser','MTIzNDU2','superuser',0,16,'2018-06-03 02:50:15','2018-06-03 02:23:32','192.168.0.14','127.0.0.1','2017-04-27 08:39:07','127.0.0.1','superuser','2018-06-03 02:50:15','superuser','192.168.0.14','2018-06-02 19:50:15'),(2,1,'admin','MTIzMTIz','Administrator',999,37,'2017-08-13 18:51:11','2017-08-13 18:43:14','127.0.0.1','127.0.0.1','2017-08-13 17:31:44','superuser','127.0.0.1','2017-08-13 17:53:47','admin','127.0.0.1','2017-08-13 11:51:11');
+INSERT INTO `a_users` VALUES (1,0,'superuser','MTIzNDU2','superuser',17,'2018-06-20 00:25:46','2018-06-03 02:50:15','127.0.0.1','192.168.0.14','2017-04-27 08:39:07','127.0.0.1','superuser','2018-06-20 00:25:46','superuser','127.0.0.1','2018-06-19 17:25:46'),(2,1,'admin','MTIzMTIz','Administrator',37,'2017-08-13 18:51:11','2017-08-13 18:43:14','127.0.0.1','127.0.0.1','2017-08-13 17:31:44','superuser','127.0.0.1','2017-08-13 17:53:47','admin','127.0.0.1','2017-08-13 11:51:11'),(3,6,'arif@markopelago.com','MTIzNDU2','M Arif',17,'2018-06-20 16:08:13','2018-06-20 16:04:37','192.168.0.12','192.168.0.12','0000-00-00 00:00:00','',NULL,'2018-06-20 16:08:13','arif@markopelago.com','192.168.0.12','2018-06-20 09:08:13'),(4,6,'herni@markopelago.com','MTIzNDU2','HERNI',0,NULL,NULL,NULL,NULL,'0000-00-00 00:00:00','',NULL,'0000-00-00 00:00:00','',NULL,'2018-06-19 16:52:30'),(5,6,'agung@markopelago.com','MTIzNDU2','AGUNG MAULANA',0,NULL,NULL,NULL,NULL,'0000-00-00 00:00:00','',NULL,'0000-00-00 00:00:00','',NULL,'2018-06-19 16:52:30');
 /*!40000 ALTER TABLE `a_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -202,7 +201,7 @@ CREATE TABLE `backofficers` (
   `xtimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -211,6 +210,7 @@ CREATE TABLE `backofficers` (
 
 LOCK TABLES `backofficers` WRITE;
 /*!40000 ALTER TABLE `backofficers` DISABLE KEYS */;
+INSERT INTO `backofficers` VALUES (1,3,'M Arif','0858 1161 4152',NULL,'',NULL,NULL,'',NULL,'2018-06-19 16:54:02'),(2,4,'HERNI','0838 0428 1759',NULL,'',NULL,NULL,'',NULL,'2018-06-19 16:54:02'),(3,5,'AGUNG MAULANA','0896 2794 9003',NULL,'',NULL,NULL,'',NULL,'2018-06-19 16:54:02');
 /*!40000 ALTER TABLE `backofficers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,7 +236,7 @@ CREATE TABLE `locations` (
   `xtimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -245,6 +245,7 @@ CREATE TABLE `locations` (
 
 LOCK TABLES `locations` WRITE;
 /*!40000 ALTER TABLE `locations` DISABLE KEYS */;
+INSERT INTO `locations` VALUES (1,0,1,'Seluruh Indonesia','All Around Indonesia',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:47:02'),(2,1,1,'Seluruh Pulau Sumatera','All Around Sumatera Island',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:47:02'),(3,1,2,'Seluruh Pulau Jawa','All Around Java Island',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:47:02'),(4,1,3,'Seluruh Pulau Kalimantan','All Around Borneo Island',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:47:02'),(5,1,4,'Seluruh Pulau Sulawesi','All Around Sulawesi Island',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:47:02'),(6,2,1,'DI-Aceh','DI-Aceh',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:49:40'),(7,2,2,'Sumatera Utara','Sumatra, North',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:49:42'),(8,2,3,'Sumatera Barat','Sumatra, West',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:49:44'),(9,2,5,'Riau','Riau',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:50:27'),(10,2,6,'Jambi','Jambi',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:50:30'),(11,2,7,'Sumatera Selatan','Sumatra, South',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:50:33'),(12,2,8,'Bengkulu','Bengkulu',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:50:37'),(13,2,10,'Lampung','Lampung',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:52:17'),(14,3,1,'Jakarta','Jakarta',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:53:14'),(15,3,3,'Jawa Barat','Java, West',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:53:26'),(16,3,4,'Jawa Tengah','Java, Central',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:47:02'),(17,3,5,'DI-Yogyakarta','DI-Yogyakarta',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:53:31'),(18,3,6,'Jawa Timur','Java, East',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:53:34'),(19,0,2,'Bali','Bali',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:47:31'),(20,0,3,'Nusa Tenggara Barat','Nusa Tenggara, West',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:47:34'),(21,0,4,'Nusa Tenggara Timur','Nusa Tenggara, East',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:47:02'),(22,4,1,'Kalimantan Barat','Kalimantan, West',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:53:56'),(23,4,2,'Kalimantan Timur','Kalimantan, East',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:54:00'),(24,4,4,'Kalimantan Selatan','Kalimantan, South',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:47:02'),(25,4,3,'Kalimantan Tengah','Kalimantan, Central',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:54:36'),(26,5,1,'Sulawesi Utara','Sulawesi, North',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:55:11'),(27,5,5,'Sulawesi Selatan','Sulawesi, South',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:56:37'),(28,5,6,'Sulawesi Tenggara','Sulawesi, South East',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:57:04'),(29,5,3,'Sulawesi Tengah','Sulawesi, Central',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:56:32'),(30,0,5,'Maluku','Maluku',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:57:40'),(31,0,7,'Papua','Papua',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:57:46'),(32,3,2,'Banten','Banten',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:53:22'),(33,2,9,'Bangka - Belitung','Bangka - Belitung',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:52:21'),(34,0,6,'Maluku Utara','North Maluku',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:57:42'),(35,5,2,'Gorontalo','Gorontalo',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:56:28'),(36,2,4,'Riau Kepulauan','Riau Island',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:50:24'),(37,5,4,'Sulawesi Barat','Sulawesi, West',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:56:35'),(38,0,8,'Papua Barat','Papua, West',NULL,'',NULL,NULL,'',NULL,'2018-06-20 12:57:49');
 /*!40000 ALTER TABLE `locations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -385,7 +386,7 @@ CREATE TABLE `survey_templates` (
 
 LOCK TABLES `survey_templates` WRITE;
 /*!40000 ALTER TABLE `survey_templates` DISABLE KEYS */;
-INSERT INTO `survey_templates` VALUES (1,'Seller Survey',NULL,'',NULL,NULL,'',NULL,'2018-06-19 15:02:15'),(2,'Truck Vendor',NULL,'',NULL,NULL,'',NULL,'2018-06-19 15:22:09');
+INSERT INTO `survey_templates` VALUES (1,'Penjual',NULL,'',NULL,NULL,'',NULL,'2018-06-20 14:13:04'),(2,'Ekspeditur',NULL,'',NULL,NULL,'',NULL,'2018-06-20 14:13:24');
 /*!40000 ALTER TABLE `survey_templates` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -407,6 +408,7 @@ CREATE TABLE `surveys` (
   `phone` varchar(100) NOT NULL,
   `address` varchar(255) NOT NULL,
   `location_id` int(11) NOT NULL,
+  `coordinate` varchar(100) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `created_by` varchar(100) NOT NULL,
   `created_ip` varchar(20) DEFAULT NULL,
@@ -418,7 +420,7 @@ CREATE TABLE `surveys` (
   KEY `user_id` (`user_id`),
   KEY `survey_template_id` (`survey_template_id`),
   KEY `location_id` (`location_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -427,6 +429,7 @@ CREATE TABLE `surveys` (
 
 LOCK TABLES `surveys` WRITE;
 /*!40000 ALTER TABLE `surveys` DISABLE KEYS */;
+INSERT INTO `surveys` VALUES (1,3,1,'Seller Survey','2018-05-21 00:00:00','H ENDANG','','0813 1335 3733','KP PASIR AWI RT.003/002 DESA SUKAJAYA GARUT',15,'',NULL,'',NULL,NULL,'',NULL,'2018-06-20 13:02:15'),(2,3,1,'Seller Survey','2018-05-22 00:00:00','ABDUL AZIZ RAMDANI','abdulazizramdani@gmail.com','0822 1801 4950','KP TEGAL PARUNG RT.004/007 KEL CIBURUNG KAB GARUT',15,'',NULL,'',NULL,NULL,'',NULL,'2018-06-20 13:02:15');
 /*!40000 ALTER TABLE `surveys` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -439,4 +442,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-19 22:27:57
+-- Dump completed on 2018-06-20 22:10:21

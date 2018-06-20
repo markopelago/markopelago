@@ -81,7 +81,7 @@
 				manuContent += 		"<div style='height:10px;'></div>";
 				manuContent += 		"<div class='navbar-collapse'>";
 				manuContent += 		"<ul class='nav navbar-nav navbar-right'>";
-				manuContent += 		document.getElementById("forSideMenu").innerHTML;
+				manuContent += 		document.getElementById("forSideMenu").innerHTML.replace("sr-only","");
 				manuContent += 		"</ul>";
 				manuContent += 		"</div>";
 				document.getElementById("sidenavContent").innerHTML = manuContent;
@@ -130,7 +130,7 @@
 					<span class="icon-bar"></span>
 					<span class="notification-counter" style="visibility:hidden;" id="notifNavCount"></span>
 				</button>
-				<div class="search-container">
+				<div class="search-container" id="headerSearch">
 					<form class="navbar-form navbar-left">
 						<div class="input-group">
 							<?=$f->input("s",$_GET["s"]," placeholder='".v("search")."..'");?>
@@ -215,9 +215,10 @@
 									</a>
 								</li>
 								<?php if($__isBackofficer){ ?>
-								<li><a href="survey.php">Survey</a></li>
+								<li><a href="mysurvey.php"><?=v("survey");?></a></li>
 								<?php } ?>
 								<li><a href="change_password.php"><?=v("change_password");?></a></li>
+								<li class="sr-only"><a href="index.php?locale=<?=$__anti_locale;?>"><img class="localeFlag" height="20" src="icons/<?=$__anti_locale;?>.png"></a></li>
 								<li><a href="?logout_action=1">Logout</a></li>
 							</ul>
 						</li>
@@ -227,4 +228,3 @@
 			</div>
 		</div>
 	</nav>
-	<div class="header-start"></div>

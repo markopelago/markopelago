@@ -779,6 +779,10 @@ footer {
 	color:white;
 }
 /*===================================================================================*/
+.nowrap {
+	white-space:nowrap;
+}
+
 .navbar-default {
     background-color: #f4f4f4 !important;
 }
@@ -863,6 +867,7 @@ footer {
 }
 
 .header-start{ height:58px; }
+.header-start2{ height:58px; }
 
 .menuTitle{
 	position:relative;
@@ -1017,6 +1022,11 @@ a:focus, a:hover {
 	margin-bottom:40px;
 }
 
+.form-group #next {
+	position:relative;
+	float:right;
+}
+
 @media screen and (max-width: 995px) {
 	.header-start{ height:110px; }
 	.carousel-inner{
@@ -1024,6 +1034,9 @@ a:focus, a:hover {
 	}
 	.r-form-1-top {
 		margin-top:5%;
+	}
+	.header-search{
+		display:none;
 	}
 }
 
