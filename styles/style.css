@@ -1032,6 +1032,61 @@ a:focus, a:hover {
 	font-size:12px;
 }
 
+.take-photo{
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.take-photo + label {
+    max-width: 80%;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+    color: #800000;
+}
+.take-photo + label img {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: 0px;
+    margin-right: 0.25em;
+    width: 100%;
+    height: 100%;
+    fill: #f1e5e6;
+}
+.take-photo:focus + label, .take-photo.has-focus + label, .take-photo + label:hover {
+    color: #EFB509;
+}
+.take-photo + label figure {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #800000;
+    display: block;
+    padding: 5px;
+    margin: 0 auto 10px;
+}
+.take-photo:focus + label figure, .take-photo.has-focus + label figure, .take-photo + label:hover figure {
+    background-color: #EFB509;
+}
+
+#waterfall .close{
+	font-size:30px !important;
+	line-height:0 !important;
+	color:#800000 !important;
+	opacity:1 !important;
+	margin:5px 0px 10px 0px;
+}
+
 @media screen and (max-width: 995px) {
 	.header-start{ height:110px; }
 	.carousel-inner{

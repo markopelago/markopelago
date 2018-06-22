@@ -26,13 +26,17 @@
 			$db->addfield("answer");			$db->addvalue($answer);
 			$updating = $db->update();
 		}
-		javascript("window.location=\"?id=".$id."&step=2&parent_for=".($parent_for+1)."\";");
+		
+		$nexturl = "?id=".$id."&step=2&parent_for=".($parent_for+1);
+		if($db->fetch_all_data("survey_details",["id"],"survey_id='".$id."' AND parent_id='0'","seqno")[$parent_for+1]["id"] <= 0) $nexturl = "?id=".$id."&step=photo";
+		
+		javascript("window.location=\"".$nexturl."\";");
 	}
 	$locations = $db->fetch_select_data("locations","id","name_".$__locale,[],"parent_id,seqno");
 	if(!$data["surveyed_at"]) $data["surveyed_at"] = substr($__now,0,10);
 	$parent = $db->fetch_all_data("survey_details",[],"survey_id='".$id."' AND parent_id='0'","seqno")[$parent_for];
 ?>
-<form role="form" method="POST" autocomplete="off" onsubmit="return validation()" enctype="multipart/form-data">
+<form role="form" method="POST" autocomplete="off">
 	<h3><b><?=$parent["title"];?></b></h3>
 	<div class="col-md-12">
 		<?php

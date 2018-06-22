@@ -40,6 +40,8 @@ class Vocabulary{
 		$arr[$l]["birth_at"]									= "Birth Date";
 		$arr[$l]["email_address"]								= "E-mail Address";
 		$arr[$l]["password"]									= "Password";
+		$arr[$l]["oldpassword"]									= "Old Password";
+		$arr[$l]["newpassword"]									= "New Password";
 		$arr[$l]["repassword"]									= "Retype Password";
 		$arr[$l]["minimum_6_characters"]						= "Minimum 6 characters";
 		$arr[$l]["password_error"]								= "Password Invalid";
@@ -81,6 +83,8 @@ class Vocabulary{
 		$arr[$l]["register_as_seller"]							= "Register as Seller";
 		$arr[$l]["register_as_buyer"]							= "Register as Buyer";
 		$arr[$l]["change_password"]								= "Change Password";
+		$arr[$l]["change_password_success"]						= "Change Password Success";
+		$arr[$l]["change_password_failed"]						= "Change Password Failed";
 		$arr[$l]["survey"]										= "Survey";
 		$arr[$l]["seller_survey"]								= "Seller Survey";
 		$arr[$l]["forwarder_survey"]							= "Forwarder Survey";
@@ -97,6 +101,12 @@ class Vocabulary{
 		$arr[$l]["next"]										= "Next";
 		$arr[$l]["back"]										= "Back";
 		$arr[$l]["surveyed_at"]									= "Surveyed At";
+		$arr[$l]["upload_photo"]								= "Upload Photo";
+		$arr[$l]["take_photo"]									= "Take Photo";
+		$arr[$l]["finish"]										= "Finish";
+		$arr[$l]["are_you_sure_delete_photo"]					= "Are you sure want to delete this photo?";
+		$arr[$l]["update_photo_caption_success"]				= "Photo's caption updated successfully";
+		$arr[$l]["update_photo_caption_failed"]					= "Failed updating photo's caption";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -124,6 +134,8 @@ class Vocabulary{
 		$arr[$l]["birth_at"]									= "Tanggal Lahir";
 		$arr[$l]["email_address"]								= "Alamat Email";
 		$arr[$l]["password"]									= "Kata Sandi";
+		$arr[$l]["oldpassword"]									= "Password Lama";
+		$arr[$l]["newpassword"]									= "Password Baru";
 		$arr[$l]["repassword"]									= "Ketik Ulang Kata Sandi";
 		$arr[$l]["minimum_6_characters"]						= "Minimal 6 karakter";
 		$arr[$l]["password_error"]								= "Kesalahan pada Kata Sandi";
@@ -165,6 +177,8 @@ class Vocabulary{
 		$arr[$l]["register_as_seller"]							= "Daftar sebagai Penjual";
 		$arr[$l]["register_as_buyer"]							= "Daftar sebagai Pembeli";
 		$arr[$l]["change_password"]								= "Ubah Password";
+		$arr[$l]["change_password_success"]						= "Ubah Password Berhasil";
+		$arr[$l]["change_password_failed"]						= "Ubah Password Gagal";
 		$arr[$l]["survey"]										= "Survei";
 		$arr[$l]["seller_survey"]								= "Survei Penjual";
 		$arr[$l]["forwarder_survey"]							= "Survei Ekspeditur";
@@ -181,6 +195,12 @@ class Vocabulary{
 		$arr[$l]["next"]										= "Lanjut";
 		$arr[$l]["back"]										= "Kembali";
 		$arr[$l]["surveyed_at"]									= "Tanggal Survei";
+		$arr[$l]["upload_photo"]								= "Unggah Foto";
+		$arr[$l]["take_photo"]									= "Ambil Foto";
+		$arr[$l]["finish"]										= "Selesai";
+		$arr[$l]["are_you_sure_delete_photo"]					= "Anda yakin akan menghapus foto ini?";
+		$arr[$l]["update_photo_caption_success"]				= "Berhasil mengubah judul photo";
+		$arr[$l]["update_photo_caption_failed"]					= "Gagal mengubah judul photo";
 		
 		return $arr[$this->locale][$index];
 	}

@@ -38,7 +38,7 @@
 		navigator.geolocation.getCurrentPosition(geoSuccess,geoSuccess);
 	}
 </script>
-<form role="form" method="POST" autocomplete="off" onsubmit="return validation()" enctype="multipart/form-data">				
+<form role="form" method="POST" autocomplete="off">				
 	<div class="col-md-12">
 		<div class="form-group">
 			<label><?=v("surveyed_at");?></label><?=$f->input("surveyed_at",$data["surveyed_at"],"required placeholder='".v("surveyed_at")."...' type='date'","form-control");?>
