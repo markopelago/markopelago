@@ -1027,6 +1027,11 @@ a:focus, a:hover {
 	float:right;
 }
 
+.survey-label{
+	white-space:normal;
+	font-size:12px;
+}
+
 @media screen and (max-width: 995px) {
 	.header-start{ height:110px; }
 	.carousel-inner{

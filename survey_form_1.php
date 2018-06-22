@@ -1,10 +1,10 @@
 <?php
-	if($__phpself == "survey_edit.php") $data = $db->fetch_all_data("surveys",[],"id='".$_GET["id"]."' AND user_id='".$__user_id."'")[0];
+	if($__phpself == "survey_edit.php") $data = $db->fetch_all_data("surveys",[],"id='".$id."' AND user_id='".$__user_id."'")[0];
 	if(isset($_POST["next"])){
 		$survey_name = $db->fetch_single_data("survey_templates","name",["id" => $template_id]);
 		
 		$db->addtable("surveys");
-		if($__phpself == "survey_edit.php")	$db->where("id",$_GET["id"]);
+		if($__phpself == "survey_edit.php")	$db->where("id",$id);
 		$db->addfield("user_id");			$db->addvalue($__user_id);
 		$db->addfield("survey_template_id");$db->addvalue($template_id);
 		$db->addfield("survey_name");		$db->addvalue($survey_name);
@@ -20,7 +20,7 @@
 		
 		if($inserting["affected_rows"] >= 0){
 			if($__phpself == "survey_add.php")	$insert_id = $inserting["insert_id"];
-			else 								$insert_id = $_GET["id"];
+			else 								$insert_id = $id;
 			javascript("window.location=\"survey_edit.php?step=2&id=".$insert_id."\";");
 		} else {
 			$data = $_POST;
