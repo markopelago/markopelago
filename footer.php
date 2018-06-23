@@ -10,10 +10,10 @@
 					</div>
 					<div class="col-sm-4 footer-contact">
 						<h4><?=v("contact");?></h4>
-						<p><i class="fa fa-map-marker"></i> Komplek Rasuna Epicentrum, Jl. H R rasuna Said Jakarta, 12940, Indonesia</p>
-						<p><i class="fa fa-phone"></i> Phone: +62 21 29941058</p>
-						<p><i class="fa fa-envelope"></i> Email: <a href="mailto:info@warihFramework.com">info@warihFramework.com</a></p>
-						<p><i class="fa fa-skype"></i> Skype: warihFramework</p>
+						<p><i class="fa fa-map-marker"></i> Jl. Diklat Pemda, No. 24, Dukuh Pinang, Kel. Bojong Nangka Kec. Kelapa Dua, Tangearang Banten 15810</p>
+						<p><i class="fa fa-phone"></i> Phone: +62 21 54210226</p>
+						<p><i class="fa fa-envelope"></i> Email: <a href="mailto:cs@markopelago.com">cs@markopelago.com</a></p>
+						<p><i class="fa fa-instagram"></i> IG: markopleago</p>
 					</div>
 					<div class="col-sm-4 footer-links">
 						<div class="row">
