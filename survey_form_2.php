@@ -6,16 +6,18 @@
 	$backurl = "?id=".$id."&step=".$step_1."&parent_for=".$parent_for_1;
 	$data = $db->fetch_all_data("survey_details",[],"survey_id='".$id."'");
 	if(count($data) <= 0){
-		$templates = $db->fetch_all_data("survey_template_details",[],"survey_template_id='".$template_id."'");
+		$templates = $db->fetch_all_data("survey_template_details",[],"survey_template_id='".$template_id."'","id");
 		foreach($templates as $template){
+			if($template["parent_id"] == 0) $current_parent_id = 0;
 			$db->addtable("survey_details");
 			$db->addfield("survey_id");		$db->addvalue($id);
-			$db->addfield("parent_id");		$db->addvalue($template["parent_id"]);
+			$db->addfield("parent_id");		$db->addvalue($current_parent_id);
 			$db->addfield("seqno");			$db->addvalue($template["seqno"]);
 			$db->addfield("title");			$db->addvalue($template["title"]);
 			$db->addfield("question");		$db->addvalue($template["question"]);
 			$db->addfield("answers");		$db->addvalue($template["answers"]);
 			$inserting = $db->insert();
+			if($template["parent_id"] == 0) $current_parent_id = $inserting["insert_id"];
 		}
 	}
 	if(isset($_POST["next"])){
