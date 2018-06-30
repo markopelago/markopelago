@@ -13,7 +13,7 @@
 						<p><i class="fa fa-map-marker"></i> Jl. Diklat Pemda, No. 24, Dukuh Pinang, Kel. Bojong Nangka Kec. Kelapa Dua, Tangearang Banten 15810</p>
 						<p><i class="fa fa-phone"></i> Phone: +62 21 54210226</p>
 						<p><i class="fa fa-envelope"></i> Email: <a href="mailto:cs@markopelago.com">cs@markopelago.com</a></p>
-						<p><i class="fa fa-instagram"></i> IG: markopleago</p>
+						<p><i class="fa fa-instagram"></i> IG: markopelago</p>
 					</div>
 					<div class="col-sm-4 footer-links">
 						<div class="row">
