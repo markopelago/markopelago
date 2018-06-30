@@ -904,7 +904,7 @@ footer {
 .img-thumbnail {
 	vertical-align: top;
 	width:200px;
-	height:265px !important;
+	height:280px !important;
 	overflow: hidden;
 	white-space: normal;
 	font-size: 0.9em;
@@ -918,6 +918,21 @@ footer {
 }
 .img-thumbnail .price {
 	color: #800000 ;
+}
+.img-thumbnail .seller-info{
+	margin-top:10px;
+	border-top:1px dotted #ddd;
+	color:rgba(0,0,0,.54);
+	margin-bottom:-10px;
+}
+.img-thumbnail .location-info{
+	color:rgba(0,0,0,.38);
+	font-size:10px;
+}
+
+.thumbnail_goods{
+	height:340px !important;
+	margin-top: 20px;
 }
 
 .categories .img-thumbnail {
@@ -1145,6 +1160,10 @@ a:focus, a:hover {
 		width:50px;
 		height:50px;
 	}
+	.thumbnail_goods{
+		height:220px !important;
+	}
+	
 }
 
 @media screen and (max-width: 690px) {

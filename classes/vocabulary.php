@@ -107,6 +107,7 @@ class Vocabulary{
 		$arr[$l]["are_you_sure_delete_photo"]					= "Are you sure want to delete this photo?";
 		$arr[$l]["update_photo_caption_success"]				= "Photo's caption updated successfully";
 		$arr[$l]["update_photo_caption_failed"]					= "Failed updating photo's caption";
+		$arr[$l]["buy"]											= "Buy";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -201,6 +202,7 @@ class Vocabulary{
 		$arr[$l]["are_you_sure_delete_photo"]					= "Anda yakin akan menghapus foto ini?";
 		$arr[$l]["update_photo_caption_success"]				= "Berhasil mengubah judul photo";
 		$arr[$l]["update_photo_caption_failed"]					= "Gagal mengubah judul photo";
+		$arr[$l]["buy"]											= "Beli";
 		
 		return $arr[$this->locale][$index];
 	}
