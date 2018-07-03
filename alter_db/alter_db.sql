@@ -241,9 +241,10 @@ CREATE TABLE sellers (
 
 --====================================================================
 	
-CREATE TABLE goods_history(
+CREATE TABLE goods_history (
 	id int NOT NULL auto_increment,
-	seller_id int NOT NULL,
+	seller_user_id int NOT NULL,
+	transaction_id int NOT NULL,
 	goods_id int NOT NULL,
 	sku varchar(150) NOT NULL,
 	in_out varchar(3) NOT NULL,
@@ -257,45 +258,311 @@ CREATE TABLE goods_history(
 	updated_by varchar(100) NOT NULL,
 	updated_ip varchar(20) DEFAULT NULL,
 	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	INDEX (seller_user_id),
+	INDEX (transaction_id),
+	INDEX (goods_id),
+	INDEX (sku)
+);
+	
+ALTER TABLE a_users ADD COLUMN status SMALLINT NOT NULL AFTER name;
+ALTER TABLE a_users ADD COLUMN email_confirmed_at datetime NOT NULL AFTER status;
+ALTER TABLE a_users ADD COLUMN phone varchar(100) NOT NULL AFTER email_confirmed_at;
+ALTER TABLE a_users ADD COLUMN phone_confirmed_at datetime NOT NULL AFTER phone;
+ALTER TABLE a_users ADD COLUMN is_taxable SMALLINT NOT NULL AFTER phone_confirmed_at;
+ALTER TABLE a_users ADD COLUMN npwp varchar(100) NOT NULL AFTER is_taxable;
+ALTER TABLE a_users ADD COLUMN nppkp varchar(10)) NOT NULL AFTER npwp;
+ALTER TABLE a_users ADD COLUMN npwp_address TEXT NOT NULL AFTER nppkp;
+ALTER TABLE locations ADD COLUMN zipcode varchar(7) NOT NULL AFTER name_en;
+ALTER TABLE goods ADD COLUMN availability_days int NOT NULL AFTER disc;
+
+ALTER TABLE sellers DROP COLUMN address;
+ALTER TABLE sellers DROP COLUMN location_id;
+ALTER TABLE sellers DROP COLUMN phone;
+ALTER TABLE sellers DROP COLUMN status;
+ALTER TABLE backofficers DROP COLUMN phone;
+
+CREATE TABLE buyers (
+	id int NOT NULL auto_increment,
+	user_id int NOT NULL,
+	rate int NOT NULL,
+	birthdate date NOT NULL,
+	birthplace_id int NOT NULL,
+	gender_id smallint NOT NULL,
+	avatar varchar(255) NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	INDEX (user_id),
+	INDEX (gender_id)
+);
+	
+CREATE TABLE user_addresses (
+	id int NOT NULL auto_increment,
+	user_id int NOT NULL,
+	default_buyer smallint NOT NULL,
+	default_seller smallint NOT NULL,
+	default_forwarder smallint NOT NULL,
+	name varchar(100) NOT NULL,
+	pic varchar(100) NOT NULL,
+	phone varchar(30) NOT NULL,
+	address text NOT NULL,
+	location_id int NOT NULL,
+	coordinate varchar(100) NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	INDEX (user_id)
+);
+	
+CREATE TABLE user_banks (
+	id int NOT NULL auto_increment,
+	user_id int NOT NULL,
+	default_buyer smallint NOT NULL,
+	default_seller smallint NOT NULL,
+	default_forwarder smallint NOT NULL,
+	bank_id int NOT NULL,
+	name varchar(100) NOT NULL,
+	account_no varchar(30) NOT NULL,
+	branch varchar(100) NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	INDEX (user_id),
+	INDEX (bank_id)
+);
+	
+CREATE TABLE forwarders (
+	id int NOT NULL auto_increment,
+	user_id int Not NULL,
+	name varchar(100) Not Null,
+	is_3rd_party smallint Not Null,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	INDEX (user_id),
+	INDEX (is_3rd_party)
+);
+
+CREATE TABLE forwarder_vehicles (
+	id int NOT NULL auto_increment,
+	user_id int NOT NULL,
+	seqno int NOT NULL,
+	is_default smallint NOT NULL,
+	vehicle_type_id int NOT NULL,
+	vehicle_brand_id int NOT NULL,
+	dimension_load_l double NOT NULL,
+	dimension_load_w double NOT NULL,
+	dimension_load_h double NOT NULL,
+	max_load double NOT NULL,
+	nopol varchar(12) NOT NULL,
+	description TEXT NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	INDEX (user_id),
+	INDEX (seqno),
+	INDEX (vehicle_type_id),
+	INDEX (vehicle_brand_id),
+	INDEX (nopol)
+);
+	
+CREATE TABLE genders (
+	id smallint NOT NULL auto_increment,
+	name_id varchar(100) NOT NULL,
+	name_en varchar(100) NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (id)
 );
 	
-
-buyers
-	id
-	user_id
-	rate
+CREATE TABLE vehicle_brands (
+	id smallint NOT NULL auto_increment,
+	name varchar(100) NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id)
+);
 	
+CREATE TABLE vehicle_types (
+	id smallint NOT NULL auto_increment,
+	name varchar(100) NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id)
+);
 	
-
+CREATE TABLE banks (
+	id int NOT NULL auto_increment,
+	code varchar(10) NOT NULL,
+	name varchar(100) NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id)
+);
 	
-forwarders
-	id
-	user_id
-	is_3rd_party
+CREATE TABLE payment_types (
+	id int NOT NULL auto_increment,
+	name_id varchar(100) NOT NULL,
+	name_en varchar(100) NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id)
+);
 	
-banks
-	id
-	code
-	name
+CREATE TABLE return_reasons (
+	id int NOT NULL auto_increment,
+	name_id varchar(100) NOT NULL,
+	name_en varchar(100) NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id)
+);
 	
-regions
-payment_types
-return_reasons
+CREATE TABLE transactions (
+	id int NOT NULL auto_increment,
+	invoice_no varchar(50) NOT NULL,
+	po_no varchar(50) NOT NULL,
+	seller_user_id int NOT NULL,
+	buyer_user_id INT NOT NULL,
+	transaction_at datetime NOT NULL,
+	promo_id
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	INDEX (invoice_no),
+	INDEX (po_no),
+	INDEX (seller_user_id),
+	INDEX (buyer_user_id)
+);
 	
-transactions
-	id
-	invoice_no
-	po_no
-	seller_id
-	buyer_id
-transaction_details
-	id
-	transaction_id
-	goods_id
-	qty
-transaction_payments
+CREATE TABLE transaction_details (
+	id int NOT NULL auto_increment,
+	transaction_id int NOT NULL,
+	goods_id int NOT NULL,
+	qty double NOT NULL,
+	unit_id int NOT NULL,
+	price double NOT NULL,
+	promo_id int NOT NULL,
+	disc double NOT NULL,
+	total double NOT NULL,
+	weight double NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	INDEX (transaction_id),
+	INDEX (goods_id),
+	INDEX (promo_id)
+);
 	
+CREATE TABLE transaction_forwarder (
+	id int NOT NULL auto_increment,
+	transaction_id int NOT NULL,
+	forwarder_id int NOT NULL,
+	forwarder_user_id int NOT NULL,
+	name varchar(100) NOT NULL,
+	weight double NOT NULL,
+	dimension_load_l double NOT NULL,
+	dimension_load_w double NOT NULL,
+	dimension_load_h double NOT NULL,
+	price double NOT NULL,
+	promo_id int not null,
+	disc double NOT NULL,
+	total double NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	INDEX (transaction_id),
+	INDEX (forwarder_id),
+	INDEX (forwarder_user_id)
+);
+	
+CREATE TABLE transaction_payments (
+	id int NOT NULL auto_increment,
+	transaction_id int NOT NULL,
+	payment_type_id int NOT NULL,
+	name varchar(100) NOT NULL,
+	total double NOT NULL,
+	created_at datetime DEFAULT NULL,
+	created_by varchar(100) NOT NULL,
+	created_ip varchar(20) DEFAULT NULL,
+	updated_at datetime DEFAULT NULL,
+	updated_by varchar(100) NOT NULL,
+	updated_ip varchar(20) DEFAULT NULL,
+	xtimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	INDEX (transaction_id)
+);
 --====================================================================
 	
 rfo
