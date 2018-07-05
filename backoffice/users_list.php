@@ -52,7 +52,7 @@
 						"<div onclick=\"sorting('email');\">Email</div>",
 						"<div onclick=\"sorting('group_id');\">Group Names</div>",
 						"<div onclick=\"sorting('name');\">Name</div>",
-						"<div onclick=\"sorting('created_at');\">Created At</div>",
+						"<div  onclick=\"sorting('created_at');\">Created At</div>",
 						
 						""));?>
 	<?php foreach($users as $no => $user){ ?>
@@ -73,7 +73,7 @@
 					$user["name"],
 					$user["created_at"],
 					$actions),
-					array("align='right' valign='top'","")
+					array("align='left' valign='top'" ,"")
 				);?>
 	<?php } ?>
 	<?=$t->end();?>

@@ -11,13 +11,16 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=8;" />
 		<link rel="Shortcut Icon" href="../favicon.ico">
 		<title id="titleid"><?=$__title_project;?> - BackOffice</title>
-		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="js-bo.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="../scripts/jquery-1.10.1.min.js"></script>
 		<script type="text/javascript" src="../scripts/jquery.fancybox.js"></script>
 		<script type="text/javascript" src="../calendar/calendar.js"></script>
 		<script type="text/javascript" src="../calendar/lang/calendar-en.js"></script>
 		<script type="text/javascript" src="../calendar/calendar-setup.js"></script>
-
+<link rel="stylesheet" type="text/css" href="bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="../styles/style.css">
 		<link rel="stylesheet" type="text/css" href="backoffice.css">
 		<link rel="stylesheet" type="text/css" href="../calendar/calendar-win2k-cold-1.css">
@@ -77,9 +80,19 @@
 			
 			function openwindow(url){ window.open(url,"","width=1100,height=800,scrollbars=yes"); }
 		</script>
+	<script type="text/javascript">function(e) {
+  /input|textarea/i.test(e.target.tagName) || e.preventDefault();
+  var n = t(this),
+    i = r.getSelectorFromElement(this);
+  t(i).each(function() {
+    var e = t(this),
+      i = e.data(s) ? "toggle" : n.data();
+    p._jQueryInterface.call(e, i)
+  })
+}</script>
 	</head>
 	<body id="bodyid" style="margin:0px;">
-		<?php include_once "menu.php";?>
+		<?php include_once "test.php";?>
 		<?php
 			if($__isloggedin){
 		?>
