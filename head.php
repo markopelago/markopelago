@@ -136,27 +136,10 @@
 							<?=$f->input("s",$_GET["s"]," placeholder='".v("search")."..'");?>
 							<?php
 								$categories[""] = "-- ".v("allcategories")." --";
-								$categories[1] = "Alat Berat";
-								$categories[2] = "Antique";
-								$categories[3] = "Budaya";
-								$categories[4] = "Bahan Bangunan";
-								$categories[5] = "Bengkel";
-								$categories[6] = "Burung";
-								$categories[7] = "Batik";
-								$categories[8] = "Chemical";
-								$categories[9] = "Electronic";
-								$categories[10] = "Electrical";
-								$categories[11] = "Fashion & Kecantikan";
-								$categories[12] = "Herbs & Medicine";
-								$categories[13] = "Hobi";
-								$categories[14] = "IT";
-								$categories[15] = "Kopi";
-								$categories[16] = "Laboratory & Equipment";
-								$categories[17] = "Makanan & Minuman";
-								$categories[18] = "Oleh Oleh";
-								$categories[19] = "Otomotif";
-								$categories[20] = "Packaging";
-								$categories[21] = "Tools";
+								$_categories = $db->fetch_all_data("categories",[],"parent_id > 0","id");
+								foreach($_categories as $_category){
+									$categories[$_category["id"]] = $_category["name_".$__locale];
+								}
 							?>
 							<?=$f->select("c",$categories,$_GET["c"]);?>
 							<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
