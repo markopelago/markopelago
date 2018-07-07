@@ -1,14 +1,13 @@
-<?php 
-	if($_GET["as"] == "seller"){
+<?php
 		include_once "func.crop_image.php";
 		$photoW = 200;
 		$photoH = 200;
 		if(isset($_POST["next"])){
 			$error = "";
-			$_type = $_FILES["logo"]["type"];
-			$_size = $_FILES["logo"]["size"];
-			$_error = $_FILES["logo"]["error"];
-			$_filename = basename($_FILES["logo"]["name"]);
+			$_type = $_FILES["avatar"]["type"];
+			$_size = $_FILES["avatar"]["size"];
+			$_error = $_FILES["avatar"]["error"];
+			$_filename = basename($_FILES["avatar"]["name"]);
 			$_file_ext = strtolower(pathinfo($_filename,PATHINFO_EXTENSION));
 			
 			$error = "";
@@ -23,10 +22,10 @@
 			if($_error != 0) { $error = v("error_upload_image"); }
 			if($_size > ($max_file*1048576)) { $error = str_replace("{max_file}",$max_file,v("image_to_big")); }
 			if($error == ""){
-				$filetemp = "logo".rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).$__user_id.".".$_file_ext;
-				if (move_uploaded_file($_FILES["logo"]["tmp_name"], "users_temp/".$filetemp)){
-					$db->addtable("sellers");	$db->where("user_id",$__user_id);
-					$db->addfield("logo");		$db->addvalue($filetemp);
+				$filetemp = "avatar".rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).$__user_id.".".$_file_ext;
+				if (move_uploaded_file($_FILES["avatar"]["tmp_name"], "users_temp/".$filetemp)){
+					$db->addtable("buyers");	$db->where("user_id",$__user_id);
+					$db->addfield("avatar");	$db->addvalue($filetemp);
 					$updating = $db->update();
 					if($updating["affected_rows"] > 0){
 						$srcimg = "users_temp/".$filetemp;
@@ -39,7 +38,7 @@
 						resizeThumbnailImage_mobile($destimg, $srcimg, $srcwidth, $srcheight, $srcx, $srcy, $photoW, $photoH, $scale);
 						chmod($srcimg, 0777);
 						unlink($srcimg);
-						javascript("window.location='?step=3';"); 
+						javascript("window.location='index.php';"); 
 						exit();
 					}
 				} else {
@@ -50,8 +49,8 @@
 ?>
 <link href="styles/jquery.guillotine.css" media="all" rel="stylesheet">
 <script id="guillotinejs" src="scripts/jquery.guillotine.js?width=<?=$photoW;?>&height=<?=$photoH;?>"></script>
-<form action="register.php?step=2" method="POST" enctype="multipart/form-data">
-	<input type="hidden" name="mode_photo" value="logo">
+<form action="register.php?step=3" method="POST" enctype="multipart/form-data">
+	<input type="hidden" name="mode_photo" value="avatar">
 	<input type="hidden" name="form_x" value="" id="form_x" />
 	<input type="hidden" name="form_y" value="" id="form_y" />
 	<input type="hidden" name="form_w" value="" id="form_w" />
@@ -64,7 +63,7 @@
 			<div class="input-group">
 				<span class="input-group-btn">
 					<span class="btn btn-default btn-file">
-						<?=v("browse");?>... <input type="file" name="logo" id="imgInp" accept="image/*">
+						<?=v("browse");?>... <input type="file" name="avatar" id="imgInp" accept="image/*">
 					</span>
 				</span>
 				<input type="text" class="form-control" readonly>
@@ -92,43 +91,3 @@
 		</div>
 	</div>
 </form>
-<?php } ?>
-<?php if($_GET["as"] == "buyer"){ ?>
-	<?php
-		if(isset($_POST["next"])){
-			$db->addtable("buyers");
-			$db->addfield("user_id");			$db->addvalue($__user_id);
-			$db->addfield("birthdate");			$db->addvalue($_POST["birthdate"]);
-			$db->addfield("birthplace_id");		$db->addvalue($_POST["location_id"]);
-			$db->addfield("gender_id");			$db->addvalue($_POST["gender_id"]);
-			
-			$inserting = $db->insert();
-			if($inserting["affected_rows"] > 0){ 
-				javascript("window.location='?step=3';"); 
-			} else {
-				$_SESSION["errormessage"] = v("saving_data_failed");
-			}
-		}
-		$data = $_POST;
-		$locations = $db->fetch_select_data("locations","id","name_".$__locale,[],"parent_id,seqno");
-	?>
-	<form role="form" method="POST" autocomplete="off">				
-		<div class="col-md-12">
-			<div class="form-group">
-				<label><?=v("birth_at");?></label><?=$f->input("birthdate",$data["birthdate"],"type='date' required placeholder='".v("store_name")."...'","form-control");?>
-			</div>
-			<div class="form-group">
-				<label><?=v("birth_place");?></label><?=$f->select("location_id",$locations,$data["location_id"],"required placeholder='".v("birth_place")."...'","form-control");?>
-			</div>
-			<div class="form-group">
-				<label><?=v("gender");?></label><?=$f->select("gender_id",$db->fetch_select_data("genders","id","name_".$__locale),$data["gender_id"],"required placeholder='".v("gender")."...'","form-control");?>
-			</div>
-			
-			
-			<div class="form-group">
-				<?=$f->input("back",v("back"),"type='button' onclick=\"window.location='mysurvey.php';\"","btn btn-warning");?>
-				<?=$f->input("next",v("next"),"type='submit'","btn btn-primary");?>
-			</div>
-		</div>
-	</form>
-<?php } ?>

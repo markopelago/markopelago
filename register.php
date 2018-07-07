@@ -22,7 +22,12 @@
 		?>
 	</b></h3>
 	<div class="row">
-		<div class="col-md-12 well"><?php include_once "register_form_".$step.".php";?></div>
+		<div class="col-md-12 well">
+			<?php 
+				if($step == 1) include_once "register_form_".$step.".php";
+				else if($step > 1) include_once "register_form_".$_GET["as"]."_".$step.".php";
+			?>
+		</div>
 	</div>
 </div>
 <div style="height:40px;"></div>
