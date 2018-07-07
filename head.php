@@ -184,9 +184,15 @@
 						</li>
 					<?php } else { ?>
 					
+						<?php 
+							$userImage = $db->fetch_single_data("buyers","avatar",["user_id"=>$__user_id]);
+							if($userImage == "") $userImage = $db->fetch_single_data("sellers","logo",["user_id"=>$__user_id]);
+							if($userImage == "") $userImage = "nophoto.png";
+						?>
+					
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<img height="30" class="profile-img-card" src="images/nophoto.png">&nbsp;<?=v("hello");?>, <?=$__fullname;?>
+								<img height="30" class="profile-img-card" src="users_images/<?=$userImage;?>">&nbsp;<?=v("hello");?>, <?=$__fullname;?>
 								<span class="notification-counter" style="visibility:hidden;" id="notifCount"></span>
 								<span class="caret"></span>
 							</a>

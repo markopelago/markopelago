@@ -1063,7 +1063,7 @@ a:focus, a:hover {
 	margin-bottom:40px;
 }
 
-.form-group #next {
+.form-group #next,#finish {
 	position:relative;
 	float:right;
 }

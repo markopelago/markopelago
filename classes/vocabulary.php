@@ -38,6 +38,7 @@ class Vocabulary{
 		$arr[$l]["email"]	 									= "E-mail";
 		$arr[$l]["address"]										= "Address";
 		$arr[$l]["birth_at"]									= "Birth Date";
+		$arr[$l]["birth_place"]									= "Birth Place";
 		$arr[$l]["email_address"]								= "E-mail Address";
 		$arr[$l]["password"]									= "Password";
 		$arr[$l]["oldpassword"]									= "Old Password";
@@ -118,6 +119,10 @@ class Vocabulary{
 		$arr[$l]["nppkp"]										= "NPPKP";
 		$arr[$l]["npwp_address"]								= "NPWP Address";
 		$arr[$l]["failed_sign_up"]								= "Sign up failed, please try again";
+		$arr[$l]["browse"]										= "Browse";
+		$arr[$l]["description"]									= "Description";
+		$arr[$l]["store_name"]									= "Store Name";
+		$arr[$l]["pic"]											= "PIC";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -143,6 +148,7 @@ class Vocabulary{
 		$arr[$l]["email"]	 									= "E-mail";
 		$arr[$l]["address"]										= "Alamat";
 		$arr[$l]["birth_at"]									= "Tanggal Lahir";
+		$arr[$l]["birth_place"]									= "Tempat Lahir";
 		$arr[$l]["email_address"]								= "Alamat Email";
 		$arr[$l]["password"]									= "Kata Sandi";
 		$arr[$l]["oldpassword"]									= "Password Lama";
@@ -223,6 +229,10 @@ class Vocabulary{
 		$arr[$l]["nppkp"]										= "NPPKP";
 		$arr[$l]["npwp_address"]								= "Alamat NPWP";
 		$arr[$l]["failed_sign_up"]								= "Registrasi gagal, silakan coba lagi";
+		$arr[$l]["browse"]										= "Telusuri";
+		$arr[$l]["description"]									= "Deskripsi";
+		$arr[$l]["store_name"]									= "Nama Toko";
+		$arr[$l]["pic"]											= "PIC";
 		
 		return $arr[$this->locale][$index];
 	}

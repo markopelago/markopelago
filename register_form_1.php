@@ -25,6 +25,11 @@
 			if($inserting["affected_rows"] > 0){
 				if(login_action($_POST["email"],$_POST["password"])){
 					$_SESSION["register_as"] = $_GET["as"];
+					if($_GET["as"] == "seller"){
+						$db->addtable("sellers");
+						$db->addfield("user_id");	$db->addvalue($inserting["insert_id"]);
+						$inserting = $db->insert();
+					}
 					javascript("window.location='?step=2';");
 					exit();
 				}
