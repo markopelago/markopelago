@@ -240,6 +240,7 @@ CREATE TABLE sellers (
 );
 
 --====================================================================
+--====================================================================
 	
 CREATE TABLE goods_history (
 	id int NOT NULL auto_increment,
@@ -265,13 +266,14 @@ CREATE TABLE goods_history (
 	INDEX (sku)
 );
 	
-ALTER TABLE a_users ADD COLUMN status SMALLINT NOT NULL AFTER name;
+ALTER TABLE a_users ADD COLUMN is_backofficer SMALLINT NOT NULL AFTER name;
+ALTER TABLE a_users ADD COLUMN status SMALLINT NOT NULL AFTER is_backofficer;
 ALTER TABLE a_users ADD COLUMN email_confirmed_at datetime NOT NULL AFTER status;
 ALTER TABLE a_users ADD COLUMN phone varchar(100) NOT NULL AFTER email_confirmed_at;
 ALTER TABLE a_users ADD COLUMN phone_confirmed_at datetime NOT NULL AFTER phone;
 ALTER TABLE a_users ADD COLUMN is_taxable SMALLINT NOT NULL AFTER phone_confirmed_at;
 ALTER TABLE a_users ADD COLUMN npwp varchar(100) NOT NULL AFTER is_taxable;
-ALTER TABLE a_users ADD COLUMN nppkp varchar(10)) NOT NULL AFTER npwp;
+ALTER TABLE a_users ADD COLUMN nppkp varchar(10) NOT NULL AFTER npwp;
 ALTER TABLE a_users ADD COLUMN npwp_address TEXT NOT NULL AFTER nppkp;
 ALTER TABLE locations ADD COLUMN zipcode varchar(7) NOT NULL AFTER name_en;
 ALTER TABLE goods ADD COLUMN availability_days int NOT NULL AFTER disc;
@@ -280,7 +282,8 @@ ALTER TABLE sellers DROP COLUMN address;
 ALTER TABLE sellers DROP COLUMN location_id;
 ALTER TABLE sellers DROP COLUMN phone;
 ALTER TABLE sellers DROP COLUMN status;
-ALTER TABLE backofficers DROP COLUMN phone;
+
+DROP TABLE backofficers;
 
 CREATE TABLE buyers (
 	id int NOT NULL auto_increment,
@@ -481,7 +484,7 @@ CREATE TABLE transactions (
 	seller_user_id int NOT NULL,
 	buyer_user_id INT NOT NULL,
 	transaction_at datetime NOT NULL,
-	promo_id
+	promo_id INT NOT NULL,
 	created_at datetime DEFAULT NULL,
 	created_by varchar(100) NOT NULL,
 	created_ip varchar(20) DEFAULT NULL,
@@ -563,6 +566,10 @@ CREATE TABLE transaction_payments (
 	PRIMARY KEY (id),
 	INDEX (transaction_id)
 );
+
+UPDATE  a_users SET  is_backofficer='1' WHERE  group_id >= 0;
+--====================================================================
+--====================================================================
 --====================================================================
 	
 rfo

@@ -11,6 +11,9 @@
  *
  */
 
+ 
+var defaultW = getParams("jquery.guillotine.js")["width"];
+var defaultH = getParams("jquery.guillotine.js")["height"];
 (function() {
   "use strict";
   var $, Guillotine, canTransform, defaults, events, getPointerPosition, hardwareAccelerate, isTouch, pluginName, scope, touchRegExp, validEvent, whitelist,
@@ -30,8 +33,8 @@
   };
 
   defaults = {
-    width: 120,
-    height: 150,
+    width: defaultW,
+    height: defaultH,
     zoomStep: 0.1,
     init: null,
     eventOnChange: null,

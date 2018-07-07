@@ -36,7 +36,7 @@
 	if($_SERVER["REMOTE_ADDR"] == "::1") $_SERVER["REMOTE_ADDR"] = "127.0.0.1";
 	$__remote_addr = $_SERVER["REMOTE_ADDR"];
 	
-	$__isBackofficer = ($db->fetch_single_data("backofficers","id",["user_id"=>$__user_id]) > 0) ? "1":"0";
+	$__isBackofficer = $db->fetch_single_data("a_users","is_backofficer",["id"=>$__user_id]);
 	if($__user_id == 1) $__isBackofficer = "1";
 	
 	function v($index){

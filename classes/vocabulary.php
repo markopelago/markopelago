@@ -46,6 +46,7 @@ class Vocabulary{
 		$arr[$l]["minimum_6_characters"]						= "Minimum 6 characters";
 		$arr[$l]["password_error"]								= "Password Invalid";
 		$arr[$l]["email_invalid"]								= "Email Invalid";
+		$arr[$l]["email_already_in_use"]						= "Email is already in use. please choose another one";
 		$arr[$l]["range_characters"]							= "6-8 characters";
 		$arr[$l]["by_signing_up_i_agree_to"]					= "By Signing Up, I agree to markopelago's";
 		$arr[$l]["terms_and_conditions"]						= "Terms and Conditions";
@@ -68,6 +69,9 @@ class Vocabulary{
 		$arr[$l]["contact"]										= "Contact";
 		$arr[$l]["message"]										= "Message";
 		$arr[$l]["register_as"]									= "Register as";
+		$arr[$l]["seller"]										= "Seller";
+		$arr[$l]["buyer"]										= "Buyer";
+		$arr[$l]["forwarder"]									= "Forwarder";
 		$arr[$l]["profile"]										= "Profile";
 		$arr[$l]["nationality"]									= "Nationality";
 		$arr[$l]["location"]									= "Location";
@@ -82,6 +86,7 @@ class Vocabulary{
 		$arr[$l]["view_all"]									= "View All";
 		$arr[$l]["register_as_seller"]							= "Register as Seller";
 		$arr[$l]["register_as_buyer"]							= "Register as Buyer";
+		$arr[$l]["register_as_forwarder"]						= "Register as Forwarder";
 		$arr[$l]["change_password"]								= "Change Password";
 		$arr[$l]["change_password_success"]						= "Change Password Success";
 		$arr[$l]["change_password_failed"]						= "Change Password Failed";
@@ -108,6 +113,11 @@ class Vocabulary{
 		$arr[$l]["update_photo_caption_success"]				= "Photo's caption updated successfully";
 		$arr[$l]["update_photo_caption_failed"]					= "Failed updating photo's caption";
 		$arr[$l]["buy"]											= "Buy";
+		$arr[$l]["is_taxable"]									= "Taxable";
+		$arr[$l]["npwp"]										= "NPWP";
+		$arr[$l]["nppkp"]										= "NPPKP";
+		$arr[$l]["npwp_address"]								= "NPWP Address";
+		$arr[$l]["failed_sign_up"]								= "Sign up failed, please try again";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -141,6 +151,7 @@ class Vocabulary{
 		$arr[$l]["minimum_6_characters"]						= "Minimal 6 karakter";
 		$arr[$l]["password_error"]								= "Kesalahan pada Kata Sandi";
 		$arr[$l]["email_invalid"]								= "Kesalahan pada email";
+		$arr[$l]["email_already_in_use"]						= "Email sudah digunakan, silakan gunakan email yang lain";
 		$arr[$l]["range_characters"]							= "6-8 Karakter";
 		$arr[$l]["by_signing_up_i_agree_to"]					= "Dengan mendaftar berarti Saya telah menyetujui";
 		$arr[$l]["terms_and_conditions"]						= "Syarat dan Ketentuan";
@@ -163,6 +174,9 @@ class Vocabulary{
 		$arr[$l]["contact"]										= "Hubungi";
 		$arr[$l]["message"]										= "Pesan";
 		$arr[$l]["register_as"]									= "Daftar sebagai";
+		$arr[$l]["seller"]										= "Penjual";
+		$arr[$l]["buyer"]										= "Pembeli";
+		$arr[$l]["forwarder"]									= "Ekspeditur";
 		$arr[$l]["profile"]										= "Profil";
 		$arr[$l]["nationality"]									= "Kebangsaan";
 		$arr[$l]["location"]									= "Lokasi";
@@ -177,6 +191,7 @@ class Vocabulary{
 		$arr[$l]["view_all"]									= "Lihat semua";
 		$arr[$l]["register_as_seller"]							= "Daftar sebagai Penjual";
 		$arr[$l]["register_as_buyer"]							= "Daftar sebagai Pembeli";
+		$arr[$l]["register_as_forwarder"]						= "Daftar sebagai Ekspeditur";
 		$arr[$l]["change_password"]								= "Ubah Password";
 		$arr[$l]["change_password_success"]						= "Ubah Password Berhasil";
 		$arr[$l]["change_password_failed"]						= "Ubah Password Gagal";
@@ -203,6 +218,11 @@ class Vocabulary{
 		$arr[$l]["update_photo_caption_success"]				= "Berhasil mengubah judul photo";
 		$arr[$l]["update_photo_caption_failed"]					= "Gagal mengubah judul photo";
 		$arr[$l]["buy"]											= "Beli";
+		$arr[$l]["is_taxable"]									= "PKP";
+		$arr[$l]["npwp"]										= "NPWP";
+		$arr[$l]["nppkp"]										= "NPPKP";
+		$arr[$l]["npwp_address"]								= "Alamat NPWP";
+		$arr[$l]["failed_sign_up"]								= "Registrasi gagal, silakan coba lagi";
 		
 		return $arr[$this->locale][$index];
 	}
