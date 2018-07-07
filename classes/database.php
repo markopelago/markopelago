@@ -58,6 +58,7 @@
 			$this->pass   = $this->arrconfig[2];
 			$this->dbname = $this->arrconfig[3];
 			$this->db = $this->conn();
+		
 		}
 
         protected function conn(){
