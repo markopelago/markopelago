@@ -44,21 +44,22 @@
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" style="height: auto !important ">
                       <?php
-                      $files = $db->fetch_all_data("goods_photos",[],"goods_id = '".$_GET["id"]."'");
+                      $seqnos = $db->fetch_all_data("goods_photos",[],"goods_id = '".$_GET["id"]."'");
 
-                      foreach($files as $file){
-                      $name = $file["filename"];
-
-                      if(substr($name, 0, -4) == $_GET["id"]){
+                      foreach($seqnos as $seqno){
+                      $seq_no = $seqno["seqno"];
+                      $file = $seqno["filename"];
+                          
+                      if($seq_no == '1'){
                         echo '
                         <div class="item active">
-                          <img src="products/'.$name.'">
+                          <img src="products/'.$file.'">
                         </div>
                       ';
                       }else{
                         echo '
                         <div class="item">
-                          <img src="products/'.$name.'">
+                          <img src="products/'.$file.'">
                         </div>
                       ';
                       }
@@ -96,7 +97,7 @@
                         }
                       ?>
                           <tr>
-                            <td>Weight</td>
+                            <td><?=v("weight")?></td>
                             <?php
                             echo'
                               <td>'.$data["weight"].'</td>
@@ -104,7 +105,7 @@
                             ?>
                           </tr>
                           <tr>
-                            <td>Dimension</td>
+                            <td><?=v("dimension")?></td>
                             <?php
                             echo'
                               <td>'.$data["dimension"].'</td>
@@ -112,7 +113,7 @@
                             ?>
                           </tr>
                           <tr>
-                            <td>Is New</td>
+                            <td><?=v("condition")?></td>
                             <?php
                               if($data["is_new"] == 1){
                                 echo'
@@ -145,11 +146,15 @@
                   <h3 class="panel-title"><center><b><?=v("price");?></b></center></h3>
               </div>
               <div class="panel-body">
-                <h3><b><center><?=$db->fetch_single_data("goods","price",["id"=>$_GET["id"]]);?></center></b></h3>
+                <h3><b><center>Rp<?=number_format($db->fetch_single_data("goods","price",["id"=>$_GET["id"]]));?></center></b></h3>
               </div>
             </div>
             <div style="height:2px;"></div>
-            <button class="btn btn-primary btn-lg" style="width:100%"><?=v("buy");?></button>
+            <a href="product_transaction.php?id=<?=$_GET["id"];?>">
+                <button class="btn btn-primary btn-lg" style="width:100%">
+                        <?=v("buy");?>
+                </button>
+            </a>
         </div>
     </div>
 </div>
