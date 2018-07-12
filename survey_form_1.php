@@ -26,7 +26,7 @@
 			$data = $_POST;
 		}
 	}
-	$locations = $db->fetch_select_data("locations","id","name_".$__locale,[],"parent_id,seqno");
+	$locations = $db->fetch_select_data("locations","id","name_".$__locale,["parent_id"=>0],"id","",true);
 	if(!$data["surveyed_at"]) $data["surveyed_at"] = substr($__now,0,10);
 ?>
 <script>
