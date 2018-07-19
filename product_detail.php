@@ -13,26 +13,21 @@
 						<ol class="carousel-indicators">
 							<?php 
 								$goods_photos = $db->fetch_all_data("goods_photos",[],"goods_id = '".$_GET["id"]."'");
-								for($a = 0;$a < count($goods_photos);$a++){
+								foreach($goods_photos as $key => $goods_photo){
 									$addClass = "";
-									if($a == 0) $addClass = "class='active'";
-									?> <li data-target="#myCarousel" data-slide-to="<?=$a;?>" <?=$addClass;?>></li> <?php 
+									if($key == 0) $addClass = "class='active'";
+									?> <li data-target="#myCarousel" data-slide-to="<?=$key;?>" <?=$addClass;?>></li> <?php 
 								}
 							?>
 						</ol>
 						<!-- Wrapper for slides -->
 						<div class="carousel-inner" style="height: auto !important ">
 							<?php
-							$seqnos = $db->fetch_all_data("goods_photos",[],"goods_id = '".$_GET["id"]."'");
-							foreach($seqnos as $seqno){
-								$seq_no = $seqno["seqno"];
-								$file = $seqno["filename"];
-								if($seq_no == "1"){
-									?><div class="item active"> <img src="products/<?=$file;?>"> </div><?php
-								} else {
-									?><div class="item"> <img src="products/<?=$file;?>"> </div><?php
+								foreach($goods_photos as $goods_photo){
+									$addClass = "";
+									if($goods_photo["seqno"] == "1") $addClass = "active";
+									?><div class="item <?=$addClass;?>"> <img src="products/<?=$goods_photo["filename"];?>"> </div><?php
 								}
-							}
 							?>
 						</div>
 						<!-- Left and right controls -->
