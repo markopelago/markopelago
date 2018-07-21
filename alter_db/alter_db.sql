@@ -665,6 +665,11 @@ ALTER TABLE `transaction_payments` ADD `invoice_no` VARCHAR(50) NOT NULL AFTER `
 ALTER TABLE `transaction_payments` ADD `uniqcode` DOUBLE NOT NULL AFTER `total`;
 ALTER TABLE `transaction_payments` ADD `account_name` VARCHAR(100) NOT NULL AFTER `uniqcode`, ADD `account_no` VARCHAR(20) NOT NULL AFTER `account_name`, ADD `bank` VARCHAR(30) NOT NULL AFTER `account_no`, ADD `transfer_at` DATE NOT NULL AFTER `bank`;
 
+INSERT INTO  a_backoffice_menu (id,seqno,parent_id,name,url) VALUES (18,5,0,'Finance','#');
+UPDATE a_backoffice_menu SET seqno = 6 WHERE id='3';
+INSERT INTO  a_backoffice_menu (id,seqno,parent_id,name,url) VALUES (19,1,18,'Invoices','invoices.php');
+
+
 rfo
 	id
 	user_id
