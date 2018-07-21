@@ -1,9 +1,12 @@
 <?php include_once "head.php";?>
-<div class="bo_title">Add Vehicle Brand</div>
+<div class="bo_title">Add Banks</div>
 <?php
 	if(isset($_POST["save"])){
-		$db->addtable("vehicle_brands");
-		$db->addfield("name");$db->addvalue($_POST["name"]);
+		$db->addtable("promo");
+		$db->addfield("name_id");$db->addvalue($_POST["name_id"]);
+		$db->addfield("name_en");$db->addvalue($_POST["name_en"]);
+		$db->addfield("price");$db->addvalue($_POST["price"]);
+		$db->addfield("disc");$db->addvalue($_POST["disc"]);
 		$db->addfield("created_at");		$db->addvalue(date("Y-m-d H:i:s"));
 		$db->addfield("created_by");		$db->addvalue($__username);
 		$db->addfield("created_ip");		$db->addvalue($_SERVER["REMOTE_ADDR"]);
@@ -20,12 +23,17 @@
 		}
 	}
 	
-	$name = $f->input("name",$_POST["name"]);
-	
+	$name_id = $f->input("name_id",$_POST["name_id"]);
+	$name_en = $f->input("name_en",$_POST["name_en"]);
+	$price = $f->input("price",$_POST["price"]);
+	$disc = $f->input("disc",$_POST["disc"]);
 ?>
 <?=$f->start("","POST","","enctype='multipart/form-data'");?>
 	<?=$t->start("","editor_content");?>
-        <?=$t->row(array("Name",$name));?>
+        <?=$t->row(array("Nama ID",$name_id));?>
+        <?=$t->row(array("Nama EN",$name_en));?>
+        <?=$t->row(array("Price",$price));?>
+        <?=$t->row(array("Disc",$disc));?>
 	<?=$t->end();?>
 	<?=$f->input("save","Save","type='submit'");?> <?=$f->input("back","Back","type='button' onclick=\"window.location='".str_replace("_add","_list",$_SERVER["PHP_SELF"])."';\"");?>
 <?=$f->end();?>

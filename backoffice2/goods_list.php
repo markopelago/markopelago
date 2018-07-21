@@ -14,10 +14,10 @@
 		<?=$f->start("filter","GET");?>
 			<?=$t->start();?>
 			<?php
-				$store = $f->select("store",$db->fetch_select_data("stores","id","name",[],[],"",true),@$_GET["store"],"style='height:25px'");
+				$seller = $f->select("seller_id",$db->fetch_select_data("sellers","id","name",null,array("name")),@$_GET["seller"],"style='height:25px'");
 				$name = $f->input("name",@$_GET["name"]);
 			?>
-			<?=$t->row(array("Store",$store));?>
+			<?=$t->row(array("Seller",$seller));?>
 			<?=$t->row(array("Name",$name));?>
 			<?=$t->end();?>
 			<?=$f->input("page","1","type='hidden'");?>
@@ -59,18 +59,27 @@
 						<a href='#' onclick=\"if(confirm('Are You sure to delete this data?')){window.location='?deleting=".$good["id"]."';}\">Delete</a>";
 			
 			
-			$store = $db->fetch_single_data("stores","name",["id"=>$good["store_id"]]);
-			
+			$seller = $db->fetch_single_data("sellers","name",array("id"=>$good["seller_id"]));
+			$category_ids = explode('|', $good["category_ids"]);
+			$categories ="";
+			foreach($category_ids as $num => $category_id){ 
+					$category = $db->fetch_single_data("categories","name_id",array("id"=>$category_id));
+					 if ($category!=null) {
+					 	
+					 $categories.=$category. ", ";
+}
+					}
 		?>
 		<?=$t->row(
-					array($no+$start+1,"<a href=\"goods_edit.php?id=".$good["id"]."\">".$good['name']."</a>",
+					array($no+$start+1,$good['name'],
 					$good["barcode"],
-					$good["seller_id"],
-					$good["category_ids"],
-					
+					$seller,
+
+					 $categories ,
+			
 					format_amount($good["price"],2),
 					$actions),
-					["align='right' valign='top'","","","","align='right'"]
+					["align='right' valign='top'","","","","align='left'"]
 				);?>
 	<?php } ?>
 	<?=$t->end();?>

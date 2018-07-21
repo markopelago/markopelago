@@ -1,5 +1,5 @@
 <?php include_once "head.php";?>
-<div class="bo_title">Add Banks</div>
+<div class="bo_title">Add Category</div>
 <?php
 	if(isset($_POST["save"])){
 		$db->addtable("categories");
