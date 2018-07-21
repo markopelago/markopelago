@@ -1142,6 +1142,34 @@ a:focus, a:hover {
     color: #888;
 }
 
+.trx-value-text{
+	color:#337ab7;
+	font-weight:bolder;
+}
+
+.bg-grey{
+	background-color:#eaeaea;
+}
+
+.bg-white{
+	background-color:#fff;
+}
+
+.header-cart{
+	position:relative;
+	float:left;
+	margin-right:20px;
+	margin-top:10px;
+	color:#800000;
+}
+.header-cart img{
+	height:20px;
+}
+.header-cart + a{
+	position:relative;
+	top:10px;
+}
+
 @media screen and (max-width: 995px) {
 	.header-start{ height:110px; }
 	.carousel-inner{

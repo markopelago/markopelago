@@ -81,6 +81,8 @@
 				var manuContent = 	"<b><?=v("hello");?>, <?=$__fullname;?></b><br><img width='50' class='profile-img-card' src='images/nophoto.png'>";
 				manuContent += 		"<div style='height:10px;'></div>";
 				manuContent += 		"<div class='navbar-collapse'>";
+				manuContent += 		"<div class='header-cart' id='cartcount2'><img src='icons/cart.png'> 0</div><br>";
+				manuContent += 		"<div style='height:10px;'></div>";
 				manuContent += 		"<ul class='nav navbar-nav navbar-right'>";
 				manuContent += 		document.getElementById("forSideMenu").innerHTML.replace("sr-only","");
 				manuContent += 		"</ul>";
@@ -191,11 +193,14 @@
 						?>
 					
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<img height="30" class="profile-img-card" src="users_images/<?=$userImage;?>">&nbsp;<?=v("hello");?>, <?=$__fullname;?>
-								<span class="notification-counter" style="visibility:hidden;" id="notifCount"></span>
-								<span class="caret"></span>
-							</a>
+							<div>
+								<div class="header-cart" id="cartcount1"><img src="icons/cart.png"> 0</div>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									<img height="30" class="profile-img-card" src="users_images/<?=$userImage;?>">&nbsp;<?=v("hello");?>, <?=$__fullname;?>
+									<span class="notification-counter" style="visibility:hidden;" id="notifCount"></span>
+									<span class="caret"></span>
+								</a>
+							</div>
 							<ul class="dropdown-menu" role="menu" id="forSideMenu">
 								<li><a href="dashboard.php"><?=v("my_dashboard");?></a></li>
 								<li>

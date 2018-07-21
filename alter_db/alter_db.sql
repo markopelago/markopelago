@@ -616,9 +616,47 @@ INSERT INTO locations_translation VALUES
 (32,37,71587),
 (33,38,88188);
 
+ALTER TABLE `transaction_details` ADD `notes` TEXT NOT NULL AFTER `weight`;
+INSERT INTO `user_addresses` (`id`, `user_id`, `default_buyer`, `default_seller`, `default_forwarder`, `name`, `pic`, `phone`, `address`, `location_id`, `coordinate`, `created_at`, `created_by`, `created_ip`, `updated_at`, `updated_by`, `updated_ip`, `xtimestamp`) VALUES (NULL, '31', '1', '1', '1', 'Rumah', 'Marisa', '081212 86 4040', 'Komplek Ciledug Indah 1 Jl. Surya V Blok B XVII No.245 RT 06/006 Pedurenan, Karang Tengah \r\nKarangtengah, Kota Tangerang, 15159 \r\nBanten ', '447', '-6.219687,106.693397', NULL, '', NULL, NULL, '', NULL, CURRENT_TIMESTAMP);
+INSERT INTO `user_addresses` (`id`, `user_id`, `default_buyer`, `default_seller`, `default_forwarder`, `name`, `pic`, `phone`, `address`, `location_id`, `coordinate`, `created_at`, `created_by`, `created_ip`, `updated_at`, `updated_by`, `updated_ip`, `xtimestamp`) VALUES (NULL, '31', '0', '0', '0', 'Kantor', 'Sidik', '08 1212 86 4040', 'PT. Indo Human Resource Epiwalk LT 7 Komplek Rasuna Epicentrum, Jl. H R rasuna Said, RT.2/RW.5, Karet Kuningan \r\nJakarta Selatan,   Jakarta Selatan,   12960 \r\nDKI Jakarta', '189', '-6.218208, 106.835185', NULL, '', NULL, NULL, '', NULL, CURRENT_TIMESTAMP);
 
+ALTER TABLE goods ADD COLUMN forwarder_ids varchar(255) NOT NULL AFTER availability_days;
+ALTER TABLE `goods` ADD INDEX(`forwarder_ids`);
 
+ALTER TABLE `forwarders` ADD `rajaongkir_code` VARCHAR(100) NOT NULL AFTER `is_3rd_party`;
 
+INSERT INTO forwarders (user_id,name,rajaongkir_code,is_3rd_party) VALUES 
+(0,'Jalur Nugraha Ekakurir',lower('JNE'),1),
+(0,'POS Indonesia',lower('POS'),1),
+(0,'Citra Van Titipan Kilat',lower('TIKI'),1),
+(0,'Priority Cargo and Package',lower('PCP'),1),
+(0,'Eka Sari Lorena',lower('ESL'),1),
+(0,'RPX Holding',lower('RPX'),1),
+(0,'Pandu Logistics',lower('PANDU'),1),
+(0,'Wahana Prestasi Logistik',lower('WAHANA'),1),
+(0,'SiCepat Express',lower('SICEPAT'),1),
+(0,'J&T Express',lower('J&T'),1),
+(0,'Pahala Kencana Express',lower('PAHALA'),1),
+(0,'Cahaya Logistik',lower('CAHAYA'),1),
+(0,'SAP Express',lower('SAP'),1),
+(0,'JET Express',lower('JET'),1),
+(0,'Indah Logistic',lower('INDAH'),1),
+(0,'Solusi Ekspres',lower('SLIS'),1),
+(0,'21 Express',lower('DSE'),1),
+(0,'First Logistics',lower('FIRST'),1),
+(0,'Nusantara Card Semesta',lower('NCS'),1),
+(0,'Star Cargo',lower('STAR'),1),
+(0,'Nusantara Surya Sakti Express',lower('NSS'),1),
+(0,'Expedito',lower('expedito'),1);
+
+ALTER TABLE `transactions` ADD `status` SMALLINT NOT NULL AFTER `promo_id`;
+ALTER TABLE `transactions` ADD INDEX(`status`);
+ALTER TABLE `transactions` ADD `cart_group` VARCHAR(50) NOT NULL AFTER `id`, ADD INDEX (`cart_group`);
+ALTER TABLE `transaction_forwarder` ADD `qty` DOUBLE NOT NULL AFTER `dimension_load_h`;
+
+ALTER TABLE `transaction_forwarder` ADD `user_address_name` VARCHAR(100) NOT NULL AFTER `name`, ADD `user_address_pic` VARCHAR(100) NOT NULL AFTER `user_address_name`, ADD `user_address_phone` VARCHAR(30) NOT NULL AFTER `user_address_pic`, ADD `user_address` TEXT NOT NULL AFTER `user_address_phone`, ADD `user_address_location_id` INT NOT NULL AFTER `user_address`, ADD INDEX (`user_address_location_id`);
+ALTER TABLE `transaction_forwarder` ADD `user_address_id` INT NOT NULL AFTER `name`, ADD INDEX (`user_address_id`);
+ALTER TABLE `transaction_forwarder` ADD `user_address_coordinate` VARCHAR(100) NOT NULL AFTER `user_address_location_id`;
 
 rfo
 	id

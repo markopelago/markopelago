@@ -80,7 +80,7 @@
 				</div>
             </div>
             <div style="height:2px;"></div>
-            <a href="product_transaction.php?id=<?=$_GET["id"];?>">
+            <a href="transaction.php?id=<?=$_GET["id"];?>">
                 <button class="btn btn-primary btn-lg" style="width:100%"><?=v("buy");?></button>
             </a>
         </div>

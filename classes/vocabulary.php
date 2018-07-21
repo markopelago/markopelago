@@ -123,6 +123,27 @@ class Vocabulary{
 		$arr[$l]["description"]									= "Description";
 		$arr[$l]["store_name"]									= "Store Name";
 		$arr[$l]["pic"]											= "PIC";
+		$arr[$l]["product_information"]							= "Product Information";
+		$arr[$l]["weight"]										= "Weight";
+		$arr[$l]["dimension"]									= "Dimension";
+		$arr[$l]["condition"]									= "Condition";
+		$arr[$l]["product_description"]							= "Product Description";
+		$arr[$l]["price"]										= "Price";
+		$arr[$l]["failed_transaction"]							= "Transaction was failed, please contact our customer service.";
+		$arr[$l]["product_name"]								= "Product Name";
+		$arr[$l]["qty"]											= "Qty";
+		$arr[$l]["promo_code"]									= "Promo Code";
+		$arr[$l]["city"]										= "City";
+		$arr[$l]["district"]									= "District";
+		$arr[$l]["success_add_to_cart"]							= "Product successfully added to the cart";
+		$arr[$l]["more_shopping"]								= "More Shopping";
+		$arr[$l]["pay"]											= "Pay";
+		$arr[$l]["notes_for_seller"]							= "Notes for Seller";
+		$arr[$l]["delivery_destination"]						= "Delivery Destination";
+		$arr[$l]["choose_another_address"]						= "Choose another address";
+		$arr[$l]["delivery_courier"]							= "Delivery Courier";
+		$arr[$l]["courier_service"]								= "Courier Service";
+		$arr[$l]["shipping_charges"]							= "Shipping Charges";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -233,6 +254,27 @@ class Vocabulary{
 		$arr[$l]["description"]									= "Deskripsi";
 		$arr[$l]["store_name"]									= "Nama Toko";
 		$arr[$l]["pic"]											= "PIC";
+		$arr[$l]["product_information"]							= "Info Produk";
+		$arr[$l]["weight"]										= "Berat";
+		$arr[$l]["dimension"]									= "Dimensi";
+		$arr[$l]["condition"]									= "Kondisi";
+		$arr[$l]["product_description"]							= "Deskripsi Produk";
+		$arr[$l]["price"]										= "Harga";
+		$arr[$l]["failed_transaction"]							= "Transaksi gagal, silakan hubungi pelayanan pelanggan Kami";
+		$arr[$l]["product_name"]								= "Nama Produk";
+		$arr[$l]["qty"]											= "Qty";
+		$arr[$l]["promo_code"]									= "Kode Promo";
+		$arr[$l]["city"]										= "Kota";
+		$arr[$l]["district"]									= "Kecamatan";
+		$arr[$l]["success_add_to_cart"]							= "Produk berhasil ditambahkan ke keranjang";
+		$arr[$l]["more_shopping"]								= "Lanjut Belanja";
+		$arr[$l]["pay"]											= "Bayar";
+		$arr[$l]["notes_for_seller"]							= "Catatan untuk Penjual";
+		$arr[$l]["delivery_destination"]						= "Tujuan Pengiriman";
+		$arr[$l]["choose_another_address"]						= "Pilih alamat lain";
+		$arr[$l]["delivery_courier"]							= "Kurir Pengiriman";
+		$arr[$l]["courier_service"]								= "Servis Kurir";
+		$arr[$l]["shipping_charges"]							= "Ongkos Kirim";
 		
 		return $arr[$this->locale][$index];
 	}
