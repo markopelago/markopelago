@@ -74,7 +74,6 @@ foreach ($categories as $key => $categorii) {
 		<?=$t->row(array("unit_id",$unit_id));?>
 		<?=$t->row(array("promo_id",$promo_id));?>
 		<tr class=""><td data-content="" valign="top" nowrap="">category</td ><td data-content="" valign="top" style="display: contents;" nowrap=""><?php echo $categorie; ?></td></tr>
-
 		<?=$t->row(array("weight",$weight));?>
 		<?=$t->row(array("dimension",$dimension));?>
 		<?=$t->row(array("disc",$disc));?>;

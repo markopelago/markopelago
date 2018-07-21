@@ -1,3 +1,4 @@
+
 <?php include_once "head.php";?>
 <div class="bo_title">Add Unit</div>
 <?php
@@ -31,4 +32,5 @@
 	<?=$t->end();?>
 	<?=$f->input("save","Save","type='submit'");?> <?=$f->input("back","Back","type='button' onclick=\"window.location='".str_replace("_add","_list",$_SERVER["PHP_SELF"])."';\"");?>
 <?=$f->end();?>
+
 <?php include_once "footer.php";?>

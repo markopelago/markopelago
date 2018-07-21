@@ -1,3 +1,4 @@
+
 <?php include_once "head.php";?>
 <?php
 	if($_GET["deleting"]){
@@ -71,4 +72,5 @@
 	<?php } ?>
 	<?=$t->end();?>
 	<?=$paging;?>
+
 <?php include_once "footer.php";?>
