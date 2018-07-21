@@ -667,7 +667,7 @@ ALTER TABLE `transaction_payments` ADD `account_name` VARCHAR(100) NOT NULL AFTE
 
 INSERT INTO  a_backoffice_menu (id,seqno,parent_id,name,url) VALUES (18,5,0,'Finance','#');
 UPDATE a_backoffice_menu SET seqno = 6 WHERE id='3';
-INSERT INTO  a_backoffice_menu (id,seqno,parent_id,name,url) VALUES (19,1,18,'Invoices','invoices.php');
+INSERT INTO  a_backoffice_menu (id,seqno,parent_id,name,url) VALUES (19,1,18,'Invoices','invoices_list.php');
 
 
 rfo
