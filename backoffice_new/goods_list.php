@@ -14,10 +14,10 @@
 		<?=$f->start("filter","GET");?>
 			<?=$t->start();?>
 			<?php
-				$seller = $f->select("seller_id",$db->fetch_select_data("sellers","id","name",null,array("name")),@$_GET["seller"],"style='height:25px'");
+				$store = $f->select("store",$db->fetch_select_data("stores","id","name",[],[],"",true),@$_GET["store"],"style='height:25px'");
 				$name = $f->input("name",@$_GET["name"]);
 			?>
-			<?=$t->row(array("Seller",$seller));?>
+			<?=$t->row(array("Store",$store));?>
 			<?=$t->row(array("Name",$name));?>
 			<?=$t->end();?>
 			<?=$f->input("page","1","type='hidden'");?>
@@ -46,10 +46,9 @@
 	<?=$paging;?>
 	<?=$t->start("","data_content");?>
 	<?=$t->header(array("No",
-		"<div onclick=\"sorting('name');\">Nama</div>",
-						"<div onclick=\"sorting('barcode');\">Barcode</div>",
-						"<div onclick=\"sorting('seller');\">Seller</div>",
-						"<div onclick=\"sorting('category_ids');\">Category</div>",
+						"<div onclick=\"sorting('store_id');\">Store</div>",
+						"<div onclick=\"sorting('link_marko');\">URL</div>",
+						"<div onclick=\"sorting('name');\">Name</div>",
 						"<div onclick=\"sorting('price');\">Harga</div>",
 						""));?>
 	<?php foreach($goods as $no => $good){ ?>
@@ -59,27 +58,16 @@
 						<a href='#' onclick=\"if(confirm('Are You sure to delete this data?')){window.location='?deleting=".$good["id"]."';}\">Delete</a>";
 			
 			
-			$seller = $db->fetch_single_data("sellers","name",array("id"=>$good["seller_id"]));
-			$category_ids = explode('|', $good["category_ids"]);
-			$categories ="";
-			foreach($category_ids as $num => $category_id){ 
-					$category = $db->fetch_single_data("categories","name_id",array("id"=>$category_id));
-					 if ($category!=null) {
-					 	
-					 $categories.=$category. ", ";
-}
-					}
+			$store = $db->fetch_single_data("stores","name",["id"=>$good["store_id"]]);
+			
 		?>
 		<?=$t->row(
-					array($no+$start+1,$good['name'],
-					$good["barcode"],
-					$seller,
-
-					 $categories ,
-			
+					array($no+$start+1,"<a href=\"goods_edit.php?id=".$good["id"]."\">".$store."</a>",
+					$good["link_marko"],
+					$good["name"],
 					format_amount($good["price"],2),
 					$actions),
-					["align='right' valign='top'","","","","align='left'"]
+					["align='right' valign='top'","","","","align='right'"]
 				);?>
 	<?php } ?>
 	<?=$t->end();?>

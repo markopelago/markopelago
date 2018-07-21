@@ -19,7 +19,7 @@
 	}
 	?>
 	<fieldset>
-	<legend class="bo_title">Privilege for <?=$db->fetch_single_data("groups","name",array("id"=>$_GET["id"]));?></legend>
+	<legend class="bo_title">Privilege for <?=$db->fetch_single_data("a_groups","name",array("id"=>$_GET["id"]));?></legend>
 	<form method="POST" action="?id=<?=$_GET["id"];?>">
 	<?php
 			$db->addtable("a_backoffice_menu"); $db->addfield("id,name"); $db->where("parent_id",0); $db->order("seqno");

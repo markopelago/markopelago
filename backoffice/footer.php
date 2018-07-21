@@ -1,23 +1,16 @@
 <?php if(!$_isexport){ ?>
 </div>
-<style>
-.footer {
-  
-   left: 0;
-   bottom: 0;
-   width: 100%;
-   background-color: rgba(12, 179, 29, 0.7);
-   color: white;
-   text-align: center;
-}
-</style>
 		<br>
 		<br>
 		<br>
-		<div class="footer">
-			<div class="footer">
-  <p>COPYRIGHT © 2018 PROJECT TITLE ALL RIGHTS RESERVED.</p>
-</div>
+		<div class="footer_area" id="footer_area">
+			<div>
+				<br>
+				<?=$t->start("width='900'");?>
+					<?=$t->row(array("COPYRIGHT &copy; ".date("Y")." ".strtoupper($__title_project)." ALL RIGHTS RESERVED."),array("align='middle' style='color:#333;'"));?>
+				<?=$t->end();?>
+				<br>
+			</div>
 		</div>
 	</body>
 </html>

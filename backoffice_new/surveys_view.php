@@ -21,8 +21,8 @@
 
 <?php
 	$survey = $db->fetch_all_data("surveys",[],"id='".$_GET["id"]."'")[0];
-	$surveyor_name = $db->fetch_single_data("backofficers","name",["user_id" => $survey["user_id"]]);
-	$surveyor_phone = $db->fetch_single_data("backofficers","phone",["user_id" => $survey["user_id"]]);
+	$surveyor_name = $db->fetch_single_data("a_users","name",["id" => $survey["user_id"]]);
+	$surveyor_phone = $db->fetch_single_data("a_users","phone",["id" => $survey["user_id"]]);
 	$location = $db->fetch_single_data("locations","name_id",["id" => $survey["location_id"]]);
 	$survey_id = $survey["id"];
 ?>
