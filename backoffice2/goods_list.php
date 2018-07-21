@@ -46,9 +46,10 @@
 	<?=$paging;?>
 	<?=$t->start("","data_content");?>
 	<?=$t->header(array("No",
-						"<div onclick=\"sorting('store_id');\">Store</div>",
-						"<div onclick=\"sorting('link_marko');\">URL</div>",
-						"<div onclick=\"sorting('name');\">Name</div>",
+		"<div onclick=\"sorting('name');\">Nama</div>",
+						"<div onclick=\"sorting('barcode');\">Barcode</div>",
+						"<div onclick=\"sorting('seller');\">Seller</div>",
+						"<div onclick=\"sorting('category_ids');\">Category</div>",
 						"<div onclick=\"sorting('price');\">Harga</div>",
 						""));?>
 	<?php foreach($goods as $no => $good){ ?>
@@ -62,9 +63,11 @@
 			
 		?>
 		<?=$t->row(
-					array($no+$start+1,"<a href=\"goods_edit.php?id=".$good["id"]."\">".$store."</a>",
-					$good["link_marko"],
-					$good["name"],
+					array($no+$start+1,"<a href=\"goods_edit.php?id=".$good["id"]."\">".$good['name']."</a>",
+					$good["barcode"],
+					$good["seller_id"],
+					$good["category_ids"],
+					
 					format_amount($good["price"],2),
 					$actions),
 					["align='right' valign='top'","","","","align='right'"]
