@@ -1,22 +1,16 @@
-
-<script type="text/javascript" src="jquery.js"></script>
-<?php include_once "header.php"; 
-
+<?php include_once "header.php"; ?>
+<div style="height:20px;"></div>
+<?php
 if(isset($_POST["next"])){
-    
-    $date = date("Y-m-d h:i:sa");
-    
-    $cek_barang = $db->fetch_single_data("transactions","id",["goods_id"=>$_GET["id"],"seller_user_id"=>$_POST["seller_id"],"buyer_user_id"=>$_SESSION["user_id"]]);
+    $transaction_id = $db->fetch_single_data("transactions","id",["goods_id"=>$_GET["id"],"seller_user_id"=>$_POST["seller_id"],"buyer_user_id"=>$__user_id]);
         
-    if($cek_barang == ''){
-
+    if($transaction_id <= 0){
         $db->addtable("transactions");
         $db->addfield("goods_id");		    $db->addvalue($_GET["id"]);
         $db->addfield("seller_user_id");	$db->addvalue($_POST["seller_id"]);
-        $db->addfield("buyer_user_id");		$db->addvalue($_SESSION["user_id"]);
-        $db->addfield("transaction_at");    $db->addvalue($date);
+        $db->addfield("buyer_user_id");		$db->addvalue($__user_id);
+        $db->addfield("transaction_at");    $db->addvalue($__now);
         $inserting = $db->insert();
-
 
         $db->addtable("transaction_details");
         $db->addfield("transaction_id");	$db->addvalue($_POST["id_transaction"]);
@@ -27,12 +21,9 @@ if(isset($_POST["next"])){
         $db->addfield("total");             $db->addvalue(($_POST["qty"])*($_POST["price"]));
         $inserting = $db->insert();
       
-    }else{
-        
-        $id_transaction = $db->fetch_single_data("transactions","id",["goods_id"=>$_GET["id"],"seller_user_id"=>$_POST["seller_id"],"buyer_user_id"=>$_SESSION["user_id"]]);
-        
+    } else {
+        $id_transaction = $db->fetch_single_data("transactions","id",["goods_id"=>$_GET["id"],"seller_user_id"=>$_POST["seller_id"],"buyer_user_id"=>$__user_id]);
         $cek_qty = $db->fetch_single_data("transaction_details","qty",["transaction_id"=>$id_transaction]);
-        
         $tot_qty = $cek_qty + $_POST["qty"];
         $total   = $tot_qty * $_POST["price"];
         
@@ -43,16 +34,14 @@ if(isset($_POST["next"])){
         $db->addfield("unit_id");           $db->addvalue($_POST["unit_id"]);
         $db->addfield("price");             $db->addvalue($_POST["price"]);
         $db->addfield("total");             $db->addvalue($total);
-
         $inserting = $db->update();
-        
     }
     
     if($inserting["affected_rows"] > 0){
     
-        $cek = $db->fetch_single_data("user_addresses","user_id",["user_id"=>$_SESSION["user_id"]]);
+        $user_address_id = $db->fetch_single_data("user_addresses","user_id",["user_id"=>$__user_id]);
 
-        if($cek == ''){
+        if($user_address_id < 0){
             $db->addtable("user_addresses");
             $db->addfield("user_id");			$db->addvalue($_POST["buyer_name"]);
             $db->addfield("default_buyer");		$db->addvalue(1);
@@ -74,7 +63,7 @@ if(isset($_POST["next"])){
             $data = $_POST;
         }else{
             $db->addtable("user_addresses");
-            $db->where("user_id",$_SESSION["user_id"]);
+            $db->where("user_id",$__user_id);
             $db->addfield("user_id");			$db->addvalue($_POST["buyer_name"]);
             $db->addfield("default_buyer");		$db->addvalue(1);
             $db->addfield("name");			    $db->addvalue($_POST["buyer_name_det"]);
@@ -99,17 +88,15 @@ if(isset($_POST["next"])){
     }
 }
 ?>
-
-
 <script>
     function calculate() { 
-             var qty = document.getElementById("qty").value;
-             var price = document.getElementById("price").value;
-             var total = qty * price;
-             
-             var num = total.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-        
-              $('#total').val(num);
+		 var qty = document.getElementById("qty").value;
+		 var price = document.getElementById("price").value;
+		 var total = qty * price;
+		 
+		 var num = total.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+	
+		  $('#total').val(num);
     } 
 </script>
 
@@ -121,7 +108,7 @@ if(isset($_POST["next"])){
         var propinsi = $("#propinsi").val();
 
             $.ajax({
-            url: "get_city.php",
+            url: "ajax/get_city.php",
             data: "propinsi="+propinsi,
             cache: false,
             success: function(msg){
@@ -135,7 +122,7 @@ if(isset($_POST["next"])){
         $("#kota").change(function(){
             var kota = $("#kota").val();
                 $.ajax({
-                url: "get_district.php",
+                url: "ajax/get_district.php",
                 data: "kota="+kota,
                 cache: false,
                 success: function(msg){
@@ -147,11 +134,10 @@ if(isset($_POST["next"])){
  
 </script>
 <form role="form" method="POST" autocomplete="off">	
-<div style="height:20px;"></div>
 <div class="container">
 	<div class="row sub-title-area" style="border-bottom: 1px solid #ccc;">
 		<div class="sub-title-text">
-		  Beli
+		  <?=v("buy");?>
 		</div>
 	</div>
     
@@ -163,27 +149,23 @@ if(isset($_POST["next"])){
                     <div class="col-md-6">
                         <table>
                             <tr>
-                                <td colspan="2"><b><?=v("product_name");?></b></td>
+                                <td colspan="2" nowrap><b><?=v("product_name");?></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                 <td><b><?=v("seller");?></b></td>
                             </tr>
                             <tr>
-                                <td style="width:100%;" colspan="2">
+                                <td colspan="2" nowrap>
                                     <?=$db->fetch_single_data("goods","name",["id"=>$_GET["id"]]);?>
                                 </td>
                                 <td style="width:100%;">
                                     <?php
                                         $seller_id = $db->fetch_single_data("goods","seller_id",["id"=>$_GET["id"]]);
-                                        
-                                        $sellers_id = $db->fetch_single_data("sellers","user_id",["id"=>$seller_id]);
-                                    
-                                        $seller_name = $db->fetch_single_data("a_users","name",["id"=>$sellers_id]);
-                                    
-                                        $id = ($db->get_maxrow("transactions")+1);                                       
+                                        $seller_user_id = $db->fetch_single_data("sellers","user_id",["id"=>$seller_id]);
+                                        $seller_name = $db->fetch_single_data("a_users","name",["id"=>$seller_user_id]);
+                                        $id = ($db->get_maxrow("transactions")+1);
                                     ?>
                                     <input type="hidden" name="id_transaction" id="id_transaction" value="<?=$id?>">
                                     <input type="hidden" name="seller_id" id="seller_id" value="<?=$seller_id?>">
                                     <input type="hidden" name="unit_id" id="unit_id" value="<?=$db->fetch_single_data("goods","unit_id",["id"=>$_GET["id"]]);?>">
-                                    
                                     <?=$seller_name?>
                                 </td>
                             </tr>
@@ -201,7 +183,7 @@ if(isset($_POST["next"])){
                                 <td style="width:45%;">
                                     <b>
                                         <input type="hidden" id="price" value="<?=$db->fetch_single_data("goods","price",["id"=>$_GET["id"]])?>" onkeyup="calculate()">
-                                        Rp<?=number_format($db->fetch_single_data("goods","price",["id"=>$_GET["id"]]))?>
+                                        Rp. <?=format_amount($db->fetch_single_data("goods","price",["id"=>$_GET["id"]]))?>
                                         
                                         <input type="hidden" name="price" id="price" value="<?=$db->fetch_single_data("goods","price",["id"=>$_GET["id"]])?>">
                                     </b>
@@ -227,9 +209,9 @@ if(isset($_POST["next"])){
                         <div class="panel panel-default">
                             <div class="panel-body" style="background-color:#eaeaea;">
                                 <?php
-                                //echo $_SESSION["user_id"];
+                                //echo $__user_id;
                                 
-                                $addresses = $db->fetch_all_data("user_addresses",[], "user_id = '".$_SESSION["user_id"]."'");
+                                $addresses = $db->fetch_all_data("user_addresses",[], "user_id = '".$__user_id."'");
                                 foreach($addresses as $address){
                                     //$_default_buyer = $address["default_buyer"];
                                     $_pic  = $address["pic"];
@@ -245,9 +227,9 @@ if(isset($_POST["next"])){
                                 
                                 <div class="col-md-4">
                                     <b><?=v("buyer");?></b>
-                                    <input class="form-control" name ="buyer_name_det" type="text" value="<?=$db->fetch_single_data("a_users","name",["id"=>$_SESSION["user_id"]])?>">
+                                    <input class="form-control" name ="buyer_name_det" type="text" value="<?=$db->fetch_single_data("a_users","name",["id"=>$__user_id])?>">
                                     
-                                    <input class="form-control" name ="buyer_name" type="hidden" value="<?=$db->fetch_single_data("a_users","id",["id"=>$_SESSION["user_id"]])?>">
+                                    <input class="form-control" name ="buyer_name" type="hidden" value="<?=$db->fetch_single_data("a_users","id",["id"=>$__user_id])?>">
                                     <br>
                                 </div>
                                 <div class="col-md-4">
@@ -262,25 +244,8 @@ if(isset($_POST["next"])){
                                 </div>
                                 <div class="col-md-4">
                                     <b><?=v("location");?></b>
-                                    <select class="form-control" name="propinsi" id="propinsi">
-                                        <option>--Pilih Provinsi--</option>
-                                        <?php
-                                        $datas = $db->fetch_all_data("province",[],"");
-                                            
-                                        foreach($datas as $data){
-                                            $id = $data["id_prov"];
-                                            $loc_name = $data["nama_prov"];
-                                            
-                                            $selected = ($id == $_location)
-                                                ? 'selected' : '';
-                                            
-                                            echo '
-                                                <option value="'.$id.'" '.$selected.'>'.$loc_name.'</option>
-                                            ';
-                                        }
-                                            
-                                        ?>
-                                    </select>
+									<?php $locations = $db->fetch_select_data("locations","id","name_".$__locale,["parent_id"=>0],"id","",true); ?>
+									<?=$f->select("location_id",$locations,$data["location_id"],"required placeholder='".v("location")."...'","form-control");?>
                                     <br>
                                 </div>
                                 <div class="col-md-4">
@@ -362,7 +327,7 @@ if(isset($_POST["next"])){
       <div class="modal-body">
           <p>&nbsp;&nbsp;
             <span class="glyphicon glyphicon-ok">
-              <?=v("produk_berhasil_dimasukkan_ke_keranjang_belanja");?>
+              <?=v("success_add_to_cart");?>
             </span>
           </p>
       </div>
@@ -371,13 +336,13 @@ if(isset($_POST["next"])){
             <a href="product_detail.php?id=<?=$_GET["id"];?>">
                 <button type="button" class="btn btn-success">
                     <span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;
-                    <?=v("lanjutkan_berbelanja");?>
+                    <?=v("more_shopping");?>
                 </button>
             </a>
-            <a href="product_cart.php?user_id=<?=$_SESSION["user_id"];?>">
+            <a href="product_cart.php?user_id=<?=$__user_id;?>">
                 <button type="button" class="btn btn-primary">
                     <span class="glyphicon glyphicon-credit-card"></span>&nbsp;
-                    <?=v("bayar");?>
+                    <?=v("pay");?>
                 </button>
               </a>
           </center>

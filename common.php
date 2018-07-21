@@ -27,12 +27,15 @@
     include_once "classes/tables.php";
     include_once "classes/helper.php";
 	include_once "classes/vocabulary.php";
+	include_once "classes/rajaongkir.php";
 	
 	$vocabulary = new Vocabulary($__locale);
 	$db = new Database();
 	$f = new FormElements();
 	$t = new Tables();
 	$h = new Helper();
+	$ro = new Rajaongkir();
+	
 	if($_SERVER["REMOTE_ADDR"] == "::1") $_SERVER["REMOTE_ADDR"] = "127.0.0.1";
 	$__remote_addr = $_SERVER["REMOTE_ADDR"];
 	
@@ -189,49 +192,6 @@
 		return $return;
 	}
 	
-	function fetch_locations(){
-		global $db,$__locale;
-		$arrlocations[""]="";
-		$db->addtable("locations"); 
-		$db->addfield("province_id,location_id,name_".$__locale);
-		$db->where("id",1,"i",">");$db->where("location_id",0);$db->order("seqno");
-		$provinces = $db->fetch_data(true);
-		foreach ($provinces as $key => $arrprovince){
-			$arrlocations[$arrprovince[0].":".$arrprovince[1]] = "<b>".$arrprovince[2]."</b>";
-			$db->addtable("locations"); 
-			$db->addfield("province_id,location_id,name_".$__locale);
-			$db->where("province_id",$arrprovince[0]);$db->where("location_id",0,"i",">");$db->order("name_".$__locale);
-			$locations = $db->fetch_data(true);
-			foreach ($locations as $key2 => $arrlocation){
-				$arrlocations[$arrlocation[0].":".$arrlocation[1]] = "&nbsp;&nbsp;".$arrlocation[2];
-			}
-		}
-		
-		$db->addtable("locations");
-		$db->addfield("province_id,location_id,name_".$__locale);
-		$db->where("id",1,"i",">");$db->where("province_id",99);$db->order("seqno");
-		$provinces = $db->fetch_data(true);
-		foreach ($provinces as $key => $arrprovince){
-			$arrlocations[$arrprovince[0].":".$arrprovince[1]] = "<b>".$arrprovince[2]."</b>";
-			$db->addtable("locations");
-			$db->addfield("province_id,location_id,name_".$__locale);
-			$db->where("province_id",$arrprovince[0]);$db->where("location_id",0,"i",">");$db->order("name_".$__locale);
-			$locations = $db->fetch_data(true);
-			foreach ($locations as $key2 => $arrlocation){
-				$arrlocations[$arrlocation[0].":".$arrlocation[1]] = "<b>".$arrlocation[2]."</b>";
-			}
-		} 
-				
-		return $arrlocations;
-	}
-	
-	function province_location_format_id($id){
-		global $db;
-		$db->addtable("locations"); $db->addfield("province_id,location_id");$db->where("id",$id);
-		$temp = $db->fetch_data();
-		if(isset($temp[0]) && isset($temp[1])) return $temp[0].":".$temp[1];				
-	}
-	
 	function pipetoarray($data){
 		if(!isset($data) || $data == "") return array();
 		$arr = explode("|",$data);
@@ -331,6 +291,55 @@
 	
 	function numberpad($number,$pad){
 		return sprintf("%0".$pad."d", $number);
+	}
+	
+	function get_location($location_id){
+		global $db,$__locale;
+		//level => province,city,district,subdistrict
+		$caption = "";
+		$level = 0;
+		$location = $db->fetch_all_data("locations",[],"id = '".$location_id."'")[0];
+		$arr[$level]["id"] = $location["id"];
+		$arr[$level]["name"] = $location["name_".$__locale];
+		$arr[$level]["zipcode"] = $location["zipcode"];
+		$caption = $location["name_".$__locale];
+		if(!$zipcode) $zipcode = $location["zipcode"];
+		if($location["parent_id"] > 0){
+			$level++;
+			$location = $db->fetch_all_data("locations",[],"id = '".$location["parent_id"]."'")[0];
+			$arr[$level]["id"] = $location["id"];
+			$arr[$level]["name"] = $location["name_".$__locale];
+			$arr[$level]["zipcode"] = $location["zipcode"];
+			$caption .= ", ".$location["name_".$__locale];
+			if(!$zipcode) $zipcode = $location["zipcode"];
+			if($location["parent_id"] > 0){
+				$level++;
+				$location = $db->fetch_all_data("locations",[],"id = '".$location["parent_id"]."'")[0];
+				$arr[$level]["id"] = $location["id"];
+				$arr[$level]["name"] = $location["name_".$__locale];
+				$arr[$level]["zipcode"] = $location["zipcode"];
+				$caption .= ", ".$location["name_".$__locale];
+				if(!$zipcode) $zipcode = $location["zipcode"];
+				if($location["parent_id"] > 0){
+					$level++;
+					$location = $db->fetch_all_data("locations",[],"id = '".$location["parent_id"]."'")[0];
+					$arr[$level]["id"] = $location["id"];
+					$arr[$level]["name"] = $location["name_".$__locale];
+					$arr[$level]["zipcode"] = $location["zipcode"];
+					$caption .= ", ".$location["name_".$__locale];
+					if(!$zipcode) $zipcode = $location["zipcode"];
+				}
+			}
+		}
+		krsort($arr);
+		$no = -1;
+		foreach($arr as $key => $_arr){
+			$no++;
+			$returnval[$no] = $_arr;
+		}
+		$returnval["caption"] = $caption;
+		if($zipcode) $returnval["caption"] .= ", ".$zipcode;
+		return $returnval;
 	}
 ?>
 <?php include_once "log_action.php"; ?>
