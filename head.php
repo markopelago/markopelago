@@ -1,4 +1,5 @@
 <?php include_once "common.php"; ?>
+<?php $cartcount = count($db->fetch_all_data("transactions",[],"buyer_user_id='".$__user_id."' AND status=0")); ?>
 <!DOCTYPE html>
 <html lang="<?=$_COOKIE["locale"];?>">
 <head>
@@ -81,7 +82,7 @@
 				var manuContent = 	"<b><?=v("hello");?>, <?=$__fullname;?></b><br><img width='50' class='profile-img-card' src='images/nophoto.png'>";
 				manuContent += 		"<div style='height:10px;'></div>";
 				manuContent += 		"<div class='navbar-collapse'>";
-				manuContent += 		"<div class='header-cart' id='cartcount2'><img src='icons/cart.png'> 0</div><br>";
+				manuContent += 		"<div class='header-cart' id='cartcount2'><span class='glyphicon glyphicon-shopping-cart' style='color:#800000;'></span> <?=$cartcount;?></div><br>";
 				manuContent += 		"<div style='height:10px;'></div>";
 				manuContent += 		"<ul class='nav navbar-nav navbar-right'>";
 				manuContent += 		document.getElementById("forSideMenu").innerHTML.replace("sr-only","");
@@ -194,7 +195,11 @@
 					
 						<li class="dropdown">
 							<div>
-								<div class="header-cart" id="cartcount1"><img src="icons/cart.png"> 0</div>
+								<div class="header-cart" id="cartcount1">
+                                    <a href="mycart.php">
+                                    <span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <?=$cartcount;?>
+                                    </a>
+                                </div>
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 									<img height="30" class="profile-img-card" src="users_images/<?=$userImage;?>">&nbsp;<?=v("hello");?>, <?=$__fullname;?>
 									<span class="notification-counter" style="visibility:hidden;" id="notifCount"></span>

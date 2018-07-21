@@ -25,7 +25,7 @@
 			$filetemp = "logo".rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).$__user_id.".".$_file_ext;
 			if (move_uploaded_file($_FILES["logo"]["tmp_name"], "users_temp/".$filetemp)){
 				$db->addtable("sellers");	$db->where("user_id",$__user_id);
-				$db->addfield("logo");		$db->addvalue($filetemp);
+		 		$db->addfield("logo");		$db->addvalue($filetemp);
 				$updating = $db->update();
 				if($updating["affected_rows"] > 0){
 					$srcimg = "users_temp/".$filetemp;
