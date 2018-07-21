@@ -56,8 +56,7 @@
 			<div class="col-sm-9 fadeInRight animated">
 				<div class="col-md-12">
 					<div class="form-group">
-						<?php //$provinces = $db->fetch_select_data("locations","id","name_".$__locale,["parent_id" => 0],["seqno"],"",true);
-							  $provinces = $db->selected_to_string("locations","id","name_".$__locale,$values,$separator);
+						<?php $provinces = $db->fetch_select_data("locations","id","name_".$__locale,["parent_id" => 0],["seqno"],"",true);
 						?>
 						<label><?=v("province");?></label> <?=$f->select("province_id",$provinces,$province_id,"required","form-control");?>
 					</div>
