@@ -658,6 +658,13 @@ ALTER TABLE `transaction_forwarder` ADD `user_address_name` VARCHAR(100) NOT NUL
 ALTER TABLE `transaction_forwarder` ADD `user_address_id` INT NOT NULL AFTER `name`, ADD INDEX (`user_address_id`);
 ALTER TABLE `transaction_forwarder` ADD `user_address_coordinate` VARCHAR(100) NOT NULL AFTER `user_address_location_id`;
 
+====================20180722===========================
+ALTER TABLE `transaction_payments` CHANGE `transaction_id` `cart_group` VARCHAR(50) NOT NULL;
+ALTER TABLE `transaction_payments` ADD INDEX(`cart_group`);
+ALTER TABLE `transaction_payments` ADD `invoice_no` VARCHAR(50) NOT NULL AFTER `cart_group`, ADD INDEX (`invoice_no`) ;
+ALTER TABLE `transaction_payments` ADD `uniqcode` DOUBLE NOT NULL AFTER `total`;
+ALTER TABLE `transaction_payments` ADD `account_name` VARCHAR(100) NOT NULL AFTER `uniqcode`, ADD `account_no` VARCHAR(20) NOT NULL AFTER `account_name`, ADD `bank` VARCHAR(30) NOT NULL AFTER `account_no`, ADD `transfer_at` DATE NOT NULL AFTER `bank`;
+
 rfo
 	id
 	user_id
