@@ -7,18 +7,23 @@
 		$cart_group = $db->fetch_single_data("transactions","cart_group",["buyer_user_id" => $__user_id,"status" => 0]);
 		if($cart_group == "") $cart_group = date("Ymdhis").numberpad($__user_id,6);
 		
-		$invoice_no = "INV/".date("Ymd")."/";
-		$seqno = $db->fetch_single_data("transactions","invoice_no",["invoice_no" => $invoice_no."%:LIKE"]);
-		$seqno = (str_replace($invoice_no,"",$seqno) * 1) + 1;
-		$invoice_no = "INV/".date("Ymd")."/".numberpad($seqno,5);
-		
-		$po_no = "PO/".date("Ymd")."/";
-		$seqno = $db->fetch_single_data("transactions","po_no",["po_no" => $po_no."%:LIKE"]);
-		$seqno = (str_replace($po_no,"",$seqno) * 1) + 1;
-		$po_no = "PO/".date("Ymd")."/".numberpad($seqno,5);
+		$invoice_no = $db->fetch_single_data("transactions","invoice_no",["buyer_user_id" => $__user_id,"status" => 0]);
+		if($invoice_no == ""){			
+			$invoice_no = "INV/".date("Ymd")."/";
+			$seqno = $db->fetch_single_data("transactions","invoice_no",["invoice_no" => $invoice_no."%:LIKE"]);
+			$seqno = (str_replace($invoice_no,"",$seqno) * 1) + 1;
+			$invoice_no = "INV/".date("Ymd")."/".numberpad($seqno,5);
+		}
 		
 		$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
 		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
+		$po_no = $db->fetch_single_data("transactions","po_no",["seller_user_id"=>$seller_user_id,"buyer_user_id" => $__user_id,"status" => 0]);
+		if($po_no == ""){
+			$po_no = "PO/".date("Ymd")."/";
+			$seqno = $db->fetch_single_data("transactions","po_no",["po_no" => $po_no."%:LIKE"]);
+			$seqno = (str_replace($po_no,"",$seqno) * 1) + 1;
+			$po_no = "PO/".date("Ymd")."/".numberpad($seqno,5);
+		}
 		
 		$db->addtable("transactions");
 		$db->addfield("cart_group");		$db->addvalue($cart_group);

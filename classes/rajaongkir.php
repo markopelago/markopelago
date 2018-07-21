@@ -10,6 +10,7 @@
 		
 		public function provinces(){
 			$curl = curl_init();
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt_array($curl, 
 				[
 					CURLOPT_URL => $this->url."province",
@@ -25,6 +26,7 @@
 			$response = curl_exec($curl);
 			$err = curl_error($curl);
 			curl_close($curl);
+            echo $err;
 			if ($err) {
 				return json_decode($err, true)["rajaongkir"];
 			} else {
@@ -34,6 +36,7 @@
 		
 		public function cities($province_id){
 			$curl = curl_init();
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt_array($curl, 
 				[
 					CURLOPT_URL => $this->url."city?province=".$province_id,
@@ -59,6 +62,7 @@
 		public function cost($origin,$destination,$weight,$courier){
 			//origin=501&destination=114&weight=1700&courier=jne
 			$curl = curl_init();
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt_array($curl,
 				[
 					CURLOPT_URL => $this->url."cost",
