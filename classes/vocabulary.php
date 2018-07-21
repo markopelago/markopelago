@@ -144,6 +144,10 @@ class Vocabulary{
 		$arr[$l]["delivery_courier"]							= "Delivery Courier";
 		$arr[$l]["courier_service"]								= "Courier Service";
 		$arr[$l]["shipping_charges"]							= "Shipping Charges";
+		$arr[$l]["addresses"]									= "Addresses";
+		$arr[$l]["banks"]										= "Bank";
+		$arr[$l]["change_photo"]								= "Change Photo";
+		$arr[$l]["change_logo"]									= "Change Logo";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -275,7 +279,10 @@ class Vocabulary{
 		$arr[$l]["delivery_courier"]							= "Kurir Pengiriman";
 		$arr[$l]["courier_service"]								= "Servis Kurir";
 		$arr[$l]["shipping_charges"]							= "Ongkos Kirim";
-		
+		$arr[$l]["addresses"]									= "Alamat";
+		$arr[$l]["banks"]										= "Bank";
+		$arr[$l]["change_photo"]								= "Ubah Foto";
+		$arr[$l]["change_logo"]									= "Ubah Logo";
 		return $arr[$this->locale][$index];
 	}
 }
