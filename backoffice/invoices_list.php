@@ -1,4 +1,11 @@
 <?php include_once "head.php";?>
+<?php
+	if($_GET["changeStatus"]>0){
+		$db->addtable("transactions");	$db->where("invoice_no",$_GET["invoice_no"]);
+		$db->addfield("status");	$db->addvalue("2");
+		$db->update();
+	}
+?>
 <div class="bo_title">Invoices</div>
 
 <?php
@@ -15,7 +22,7 @@
 		foreach($transactions as $no => $transaction){
 			$buyer = $db->fetch_single_data("a_users","name",["id" => $transaction["buyer_user_id"]]);
 			$nominal = $db->fetch_single_data("transaction_payments","concat(total+uniqcode)",["invoice_no" => $transaction["invoice_no"]]);
-			$status = ($transaction["status"]<=1)?"<font color='red'>UnPaid</font>":"Paid";
+			$status = $f->select("status",["1" => "UnPaid", "2" => "Paid"],$transaction["status"],"onchange=\"window.location='?changeStatus='+this.value+'&invoice_no=".$transaction["invoice_no"]."'\"");
 			echo $t->row(
 				array($no+$start+1,
 				$transaction["invoice_no"],

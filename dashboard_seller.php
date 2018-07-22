@@ -27,7 +27,7 @@
 				<li class="active"><a data-toggle="tab" href="#profile">Profile</a></li>
 				<li><a data-toggle="tab" href="#addresses"><?=v("addresses");?></a></li>
 				<li><a data-toggle="tab" href="#banks"><?=v("banks");?></a></li>
-				<li><a data-toggle="tab" href="#invoice"><?=v("PO");?></a></li>
+				<li><a data-toggle="tab" href="#po"><?=v("PO");?></a></li>
 				<li onclick="loadMessages();">
 					<a data-toggle="tab" href="#message"><?=v("message");?><span class="notification-counter" style="visibility:hidden;" id="notifMessageTabCount"></span></a>
 				</li>
@@ -39,7 +39,7 @@
 				</div><br>
 				<div id="addresses" class="tab-pane fade"><?php include_once "dashboard_seller_addresses.php"; ?></div>
 				<div id="banks" class="tab-pane fade"><?php include_once "dashboard_seller_banks.php"; ?></div>
-				<div id="PO" class="tab-pane fade"><?php include_once "dashboard_seller_po.php"; ?></div>
+				<div id="po" class="tab-pane fade"><?php include_once "dashboard_seller_po.php"; ?></div>
 				<div id="message" class="tab-pane fade"><?php include_once "dashboard_messages.php"; ?></div>
 			</div>
 		</div>
