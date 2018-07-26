@@ -51,6 +51,10 @@ $(document).ready( function() {
 	$("#imgInp").change(function(){
 		readURL(this);
 	}); 	
+	
+	$("#province_id").change(function(){
+		loadCities($("#province_id").val());
+	});
 });
 
 function getParams(script_name) {
@@ -80,4 +84,28 @@ function getParams(script_name) {
   // No scripts match
 
   return {};
+}
+
+function loadCities(parent_id){
+	$("#div_select_cities").css({ "display": "block" });
+	$("#div_cities").html("<img src='images/fancybox_loading.gif'>");
+	$.get("ajax/locations.php?mode=loadCities&parent_id="+parent_id, function(returnval){
+		$("#div_cities").html(returnval);
+	});
+}
+
+function loadDistricts(parent_id){
+	$("#div_select_district").css({ "display": "block" });
+	$("#div_districts").html("<img src='images/fancybox_loading.gif'>");
+	$.get("ajax/locations.php?mode=loadDistricts&parent_id="+parent_id, function(returnval){
+		$("#div_districts").html(returnval);
+	});
+}
+
+function loadSubDistricts(parent_id){
+	$("#div_select_subdistrict").css({ "display": "block" });
+	$("#div_subdistricts").html("<img src='images/fancybox_loading.gif'>");
+	$.get("ajax/locations.php?mode=loadSubDistricts&parent_id="+parent_id, function(returnval){
+		$("#div_subdistricts").html(returnval);
+	});
 }

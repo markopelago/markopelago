@@ -134,8 +134,10 @@ class Vocabulary{
 		$arr[$l]["product_name"]								= "Product Name";
 		$arr[$l]["qty"]											= "Qty";
 		$arr[$l]["promo_code"]									= "Promo Code";
+		$arr[$l]["province"]									= "Province";
 		$arr[$l]["city"]										= "City";
 		$arr[$l]["district"]									= "District";
+		$arr[$l]["subdistrict"]									= "Sub District";
 		$arr[$l]["success_add_to_cart"]							= "Product successfully added to the cart";
 		$arr[$l]["more_shopping"]								= "More Shopping";
 		$arr[$l]["pay"]											= "Pay";
@@ -146,9 +148,17 @@ class Vocabulary{
 		$arr[$l]["courier_service"]								= "Courier Service";
 		$arr[$l]["shipping_charges"]							= "Shipping Charges";
 		$arr[$l]["addresses"]									= "Addresses";
-		$arr[$l]["banks"]										= "Bank";
+		$arr[$l]["banks"]										= "Banks";
+		$arr[$l]["bank"]										= "Bank";
 		$arr[$l]["change_photo"]								= "Change Photo";
 		$arr[$l]["change_logo"]									= "Change Logo";
+		$arr[$l]["error_upload_image"]							= "Error upload image";
+		$arr[$l]["bank_name"]									= "Bank Name";
+		$arr[$l]["account_no"]									= "Account No";
+		$arr[$l]["account_name"]								= "Account Name";
+		$arr[$l]["branch"]										= "Branch";
+		$arr[$l]["failed_saving_data"]							= "Failed saving data.";
+		$arr[$l]["example_home_office"]							= "example: Home, Office,...";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -270,8 +280,10 @@ class Vocabulary{
 		$arr[$l]["product_name"]								= "Nama Produk";
 		$arr[$l]["qty"]											= "Qty";
 		$arr[$l]["promo_code"]									= "Kode Promo";
+		$arr[$l]["province"]									= "Propinsi";
 		$arr[$l]["city"]										= "Kota";
 		$arr[$l]["district"]									= "Kecamatan";
+		$arr[$l]["subdistrict"]									= "Kelurahan";
 		$arr[$l]["success_add_to_cart"]							= "Produk berhasil ditambahkan ke keranjang";
 		$arr[$l]["more_shopping"]								= "Lanjut Belanja";
 		$arr[$l]["pay"]											= "Bayar";
@@ -283,8 +295,16 @@ class Vocabulary{
 		$arr[$l]["shipping_charges"]							= "Ongkos Kirim";
 		$arr[$l]["addresses"]									= "Alamat";
 		$arr[$l]["banks"]										= "Bank";
+		$arr[$l]["bank"]										= "Bank";
 		$arr[$l]["change_photo"]								= "Ubah Foto";
 		$arr[$l]["change_logo"]									= "Ubah Logo";
+		$arr[$l]["error_upload_image"]							= "Ada kesalahan saat mengunggah gambar";
+		$arr[$l]["bank_name"]									= "Nama Bank";
+		$arr[$l]["account_no"]									= "Nomor Akun";
+		$arr[$l]["account_name"]								= "Nama Pemilik Rekening";
+		$arr[$l]["branch"]										= "Cabang";
+		$arr[$l]["failed_saving_data"]							= "Gagal menyimpan data.";
+		$arr[$l]["example_home_office"]							= "contoh: Rumah, Kantor,...";
 		return $arr[$this->locale][$index];
 	}
 }

@@ -24,12 +24,12 @@
 			$inserting = $db->insert();
 			if($inserting["affected_rows"] > 0){
 				if(login_action($_POST["email"],$_POST["password"])){
-					$_SESSION["register_as"] = $_GET["as"];
-					if($_GET["as"] == "seller"){
-						$db->addtable("sellers");
-						$db->addfield("user_id");	$db->addvalue($inserting["insert_id"]);
-						$inserting = $db->insert();
-					}
+					$db->addtable("buyers");
+					$db->addfield("user_id");		$db->addvalue($inserting["insert_id"]);
+					$db->addfield("birthdate");		$db->addvalue($_POST["birthdate"]);
+					$db->addfield("birthplace_id");	$db->addvalue($_POST["birthplace_id"]);
+					$db->addfield("gender_id");		$db->addvalue($_POST["gender_id"]);
+					$inserting = $db->insert();
 					javascript("window.location='?step=2';");
 					exit();
 				}
@@ -39,6 +39,19 @@
 		}
 	}
 	$data = $_POST;
+	$provinces = $db->fetch_select_data("locations","id","name_".$__locale,["parent_id" => 0],"seqno","",true);
+	$locations = array();
+	$locations[""] = "";
+	foreach($provinces as $province_id => $province){
+		if($province_id > 0){
+			$cities = $db->fetch_select_data("locations","id","name_".$__locale,["parent_id" => $province_id],"seqno","",true);
+			foreach($cities as $city_id => $city){
+				$locations[$city_id] = $city;
+			}
+		}
+	}
+	asort($locations);
+	
 ?>
 <script>
 	function is_taxable_change(elmChecked){
@@ -69,6 +82,15 @@
 		</div>
 		<div class="form-group">
 			<label><?=v("phone");?></label><?=$f->input("phone",$data["phone"],"required placeholder='".v("phone")."...'","form-control");?>
+		</div>
+		<div class="form-group">
+			<label><?=v("birth_place");?></label><?=$f->select("birthplace_id",$locations,$data["birthplace_id"],"required placeholder='".v("birth_place")."...'","form-control");?>
+		</div>
+		<div class="form-group">
+			<label><?=v("birth_at");?></label><?=$f->input("birthdate",$data["birthdate"],"type='date' required placeholder='".v("birth_at")."...'","form-control");?>
+		</div>
+		<div class="form-group">
+			<label><?=v("gender");?></label><?=$f->select("gender_id",$db->fetch_select_data("genders","id","name_".$__locale,"","","",true),$data["gender_id"],"required ","form-control");?>
 		</div>
 		
 		<div class="form-group">
