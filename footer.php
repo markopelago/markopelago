@@ -5,7 +5,7 @@
 					<div class="col-sm-4 footer-about">
 						<h4><?=v("about");?></h4>
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+							Markopelago.com adalah platform yang dibangun bersama dengan visi pemerataan kesempatan berkembang untuk semua lapisan dunia usaha; khususnya di Indonesia. Bisa dipahami bahwa definisi dunia usaha tidak tak terbatas hanya mengenai perusahaan; namun menyangkut hal lebih luas yaitu mengenai ekosistem bisnis. Markopelago.com dibangun untuk memudahkan semua pelaku dunia usaha berinteraksi secara hangat di platform kami dalam ekosistem bisnis yang hangat, bersahabat, berintegritas dan tentu saling menguntungkan. Kami membuka kesempatan untuk seluruh pelaku usaha untuk menjadi pengguna Markopelago.com baik sebagai penjual maupun pembeli dalam atmosfir yang lain daripada marketplace lainnya. Tidak ada yang mengenal Indonesia lebih baik dari kita.
 						</p>
 					</div>
 					<div class="col-sm-4 footer-contact">

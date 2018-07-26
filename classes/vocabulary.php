@@ -70,6 +70,7 @@ class Vocabulary{
 		$arr[$l]["contact"]										= "Contact";
 		$arr[$l]["message"]										= "Message";
 		$arr[$l]["register_as"]									= "Register as";
+		$arr[$l]["register"]									= "Register";
 		$arr[$l]["seller"]										= "Seller";
 		$arr[$l]["buyer"]										= "Buyer";
 		$arr[$l]["forwarder"]									= "Forwarder";
@@ -205,6 +206,7 @@ class Vocabulary{
 		$arr[$l]["contact"]										= "Hubungi";
 		$arr[$l]["message"]										= "Pesan";
 		$arr[$l]["register_as"]									= "Daftar sebagai";
+		$arr[$l]["register"]									= "Daftar";
 		$arr[$l]["seller"]										= "Penjual";
 		$arr[$l]["buyer"]										= "Pembeli";
 		$arr[$l]["forwarder"]									= "Ekspeditur";

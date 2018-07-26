@@ -39,7 +39,14 @@
 	if($_SERVER["REMOTE_ADDR"] == "::1") $_SERVER["REMOTE_ADDR"] = "127.0.0.1";
 	$__remote_addr = $_SERVER["REMOTE_ADDR"];
 	
-	$__isBackofficer = $db->fetch_single_data("a_users","is_backofficer",["id"=>$__user_id]);
+	$__user 		= $db->fetch_all_data("a_users",[],"id = '".$__user_id."'")[0];
+	$__seller 		= $db->fetch_all_data("sellers",[],"user_id = '".$__user_id."'")[0];
+	$__buyer 		= $db->fetch_all_data("buyers",[],"user_id = '".$__user_id."'")[0];
+	$__forwarder 	= $db->fetch_all_data("forwarders",[],"user_id = '".$__user_id."'")[0];
+	$__seller_id 	= $__seller["id"];
+	$__buyer_id		= $__buyer["id"];
+	$__forwarder_id = $__forwarder["id"];
+	$__isBackofficer = $__user["is_backofficer"];
 	if($__user_id == 1) $__isBackofficer = "1";
 	
 	function v($index){
