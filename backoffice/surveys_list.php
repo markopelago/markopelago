@@ -6,15 +6,13 @@
 		<?=$f->start("filter","GET");?>
 			<?=$t->start();?>
 			<?php
-				$sel_users = $f->select("sel_users",$db->fetch_select_data("a_users","id","name",["id"=>"(SELECT user_id FROM backofficers):IN"],[],"",true),@$_GET["sel_users"],"style='height:20px'");
+				$sel_users = $f->select("sel_users",$db->fetch_select_data("a_users","id","name",["is_backofficer"=>"1"],[],"",true),@$_GET["sel_users"],"style='height:20px'");
 				$sel_survey_templates = $f->select("sel_survey_templates",$db->fetch_select_data("survey_templates","id","name",[],[],"",true),@$_GET["sel_survey_templates"],"style='height:20px'");
 				$txt_name = $f->input("txt_name",@$_GET["txt_name"]);
-				$sel_locations = $f->select("sel_locations",$db->fetch_select_data("locations","id","name_id",[],"parent_id,seqno","",true),@$_GET["sel_locations"],"style='height:20px'");
 			?>
 			<?=$t->row(array("User",$sel_users));?>
 			<?=$t->row(array("Survey Name",$sel_survey_templates));?>
 			<?=$t->row(array("Name",$txt_name));?>
-			<?=$t->row(array("Location",$sel_locations));?>
 			<?=$t->end();?>
 			<?=$f->input("page","1","type='hidden'");?>
 			<?=$f->input("sort",@$_GET["sort"],"type='hidden'");?>
