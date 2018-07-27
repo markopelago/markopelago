@@ -348,5 +348,20 @@
 		if($zipcode) $returnval["caption"] .= ", ".$zipcode;
 		return $returnval;
 	}
+	
+	function resizeImage($filename){
+		list($width, $height) = getimagesize($filename);
+		// $percent = 1024/$width;
+		$percent = 800/$width;
+		$newwidth = $width * $percent;
+		$newheight = $height * $percent;
+		
+		$thumb = imagecreatetruecolor($newwidth, $newheight);
+		$source = imagecreatefromjpeg($filename);
+		
+		imagecopyresized($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+		imagejpeg($thumb, $filename,100);
+		return 1;
+	}
 ?>
 <?php include_once "log_action.php"; ?>

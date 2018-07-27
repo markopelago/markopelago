@@ -1,88 +1,63 @@
 <?php
-	include_once "func.crop_image.php";
-	$photoW = 200;
-	$photoH = 200;
-	if(isset($_POST["finish"])){
-		$error = "";
-		$_type = $_FILES["photos"]["type"];
-		$_size = $_FILES["photos"]["size"];
-		$_error = $_FILES["photos"]["error"];
-		$_filename = basename($_FILES["photos"]["name"]);
-		$_file_ext = strtolower(pathinfo($_filename,PATHINFO_EXTENSION));
-		
-		$error = "";
-		foreach ($allowed_image_types as $mime_type => $ext) {
-			if($_type == $mime_type){
-				$error = "";
-				break;
-			}else{
-				$error = "Only <strong>".$image_ext."</strong> images accepted for upload<br />";
-			}
+	if(isset($_GET["addcaption"])){
+		$db->addtable("survey_photos");	$db->where("id",$_GET["survey_photo_id"]); $db->where("survey_id","(SELECT id FROM surveys WHERE user_id='".$__user_id."')","s","IN");
+		$db->addfield("caption");	$db->addvalue($_GET["addcaption"]);
+		$updating = $db->update();
+		if($updating["affected_rows"] > 0){
+			$_SESSION["message"] = v("update_photo_caption_success");
+		} else {
+			$_SESSION["errormessage"] = v("update_photo_caption_failed");
 		}
-		if($_error != 0) { $error = v("error_upload_image"); }
-		if($_size > ($max_file*1048576)) { $error = str_replace("{max_file}",$max_file,v("image_to_big")); }
-		if($error == ""){
-			$filetemp = "photos".rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).$__user_id.".".$_file_ext;
-			if (move_uploaded_file($_FILES["photos"]["tmp_name"], "users_temp/".$filetemp)){
-				$db->addtable("survey_photo");	$db->where("id",$_GET["survey_photo_id"]); $db->where("survey_id","(SELECT id FROM surveys WHERE user_id='".$__user_id."')","s","IN");
-		 		$db->addfield("photos");		$db->addvalue($filetemp);
-				$updating = $db->update();
-				if($updating["affected_rows"] > 0){
-					$srcimg = "users_temp/".$filetemp;
-					$destimg = "users_images/".$filetemp;
-					$scale = $_POST["form_scale"];
-					$srcwidth = $_POST["form_w"];
-					$srcheight = $_POST["form_h"];
-					$srcx = $_POST["form_x"];
-					$srcy = $_POST["form_y"];
-					resizeThumbnailImage_mobile($destimg, $srcimg, $srcwidth, $srcheight, $srcx, $srcy, $photoW, $photoH, $scale);
-					chmod($srcimg, 0777);
-					unlink($srcimg);
-					javascript("window.location='?step=3';"); 
-					exit();
-				}
-			} else {
-				$error = v("error_upload_image");
-			}
+		javascript("window.location=\"?id=".$id."&step=photo\";");
+	}
+	if(isset($_GET["delete_id"])){
+		$delete_seqno = $db->fetch_single_data("survey_photos","seqno",["id" => $_GET["delete_id"]]);
+		$delete_filename = $db->fetch_single_data("survey_photos","filename",["id" => $_GET["delete_id"]]);
+		$db->addtable("survey_photos"); $db->where("id",$_GET["delete_id"]); $db->where("survey_id","(SELECT id FROM surveys WHERE user_id='".$__user_id."')","s","IN");
+		$db->delete_();
+		$survey_photos = $db->fetch_all_data("survey_photos",[],"survey_id IN (SELECT id FROM surveys WHERE user_id='".$__user_id."') AND seqno > ".$delete_seqno);
+		foreach($survey_photos as $survey_photo){
+			$seqno = $survey_photo["seqno"] - 1;
+			$db->addtable("survey_photos");	$db->where("id",$survey_photo["id"]);
+			$db->addfield("seqno");	$db->addvalue($seqno);
+			$db->update();
+		}
+		unlink("surveys/".$delete_filename);
+		javascript("window.location=\"?id=".$id."&step=photo\";");
+		exit();
+	}
+	
+	if($_FILES["take_photo"]["size"] > 100 && $_FILES["take_photo"]["tmp_name"] != ""){
+		$ext = strtolower(pathinfo($_FILES["take_photo"]["name"], PATHINFO_EXTENSION));
+		$filename = randtoken(25)."_".$__user_id.".".$ext;
+		$target_file = "surveys/".$filename;
+		if(move_uploaded_file($_FILES["take_photo"]["tmp_name"], $target_file)){
+			resizeImage($target_file);
+			$seqno = $db->fetch_single_data("survey_photos","seqno",["survey_id" => $id],["seqno DESC"]);
+			$seqno++;
+			$db->addtable("survey_photos");
+			$db->addfield("survey_id");	$db->addvalue($id);
+			$db->addfield("seqno");		$db->addvalue($seqno);
+			$db->addfield("filename");	$db->addvalue($filename);
+			$db->insert();
 		}
 	}
 ?>
-<link href="styles/jquery.guillotine.css" media="all" rel="stylesheet">
-<script id="guillotinejs" src="scripts/jquery.guillotine.js?width=<?=$photoW;?>&height=<?=$photoH;?>"></script>
-<form action="register.php?step=2" method="POST" enctype="multipart/form-data">
-	<input type="hidden" name="mode_photo" value="logo">
-	<input type="hidden" name="form_x" value="" id="form_x" />
-	<input type="hidden" name="form_y" value="" id="form_y" />
-	<input type="hidden" name="form_w" value="" id="form_w" />
-	<input type="hidden" name="form_h" value="" id="form_h" />
-	<input type="hidden" name="form_scale" value="" id="form_scale" />
-	<input type="hidden" name="form_angle" value="" id="form_angle" />
+<script>
+	$(document).ready(function () { $('#waterfall').NewWaterfall({width: 200}); });
+	function update_caption(survey_photo_id,caption){
+		window.location="?id=<?=$id;?>&step=photo&survey_photo_id="+survey_photo_id+"&addcaption="+caption;
+	}
+	function deleting_photo(delete_id){
+		if(confirm("<?=v("are_you_sure_delete_photo");?>")) window.location="?id=<?=$id;?>&step=photo&delete_id="+delete_id;
+	}
+</script>
+<form role="form" method="POST" autocomplete="off" enctype="multipart/form-data">
+	<h4><b><?=v("upload_photo");?></b></h4>
 	<div class="col-md-12">
-		 <div class="form-group">
-			<label><?=v("upload_photo");?></label>
-			<div class="input-group">
-				<span class="input-group-btn">
-					<span class="btn btn-default btn-file">
-						<?=v("browse");?>... <input type="file" name="logo" id="imgInp" accept="image/*">
-					</span>
-				</span>
-				<input type="text" class="form-control" readonly>
-			</div>
-			<br>
-			<center>
-			<div class="frame" style="border:1px solid grey;width:<?=$photoW;?>px;height:<?=$photoH;?>px;">
-				<img id="photo_uploaded">
-			</div>
-			</center>
-			<br>
-			
-			<div id="controls" class="">
-			  <a href="#" id="rotate_left" title="Rotate left"><i class="fa fa-rotate-left"></i></a>
-			  <a href="#" id="zoom_out" title="Zoom out"><i class="fa fa-search-minus"></i></a>
-			  <a href="#" id="fit" title="Fit image"><i class="fa fa-arrows-alt"></i></a>
-			  <a href="#" id="zoom_in" title="Zoom in"><i class="fa fa-search-plus"></i></a>
-			  <a href="#" id="rotate_right" title="Rotate right"><i class="fa fa-rotate-right"></i></a>
-			</div>
+		<div class="form-group">
+			<input type="file" name="take_photo" id="take_photo" class="take-photo" onchange="submit();">
+			<label for="take_photo"><figure><img src="icons/camera.png"></figure> <span><?=v("take_photo");?>&hellip;</span></label>
 		</div>
 		<div class="form-group">
 			<?=$f->input("back",v("back"),"type='button' onclick=\"window.location='?step=2&id=".$id."';\"","btn btn-warning");?>

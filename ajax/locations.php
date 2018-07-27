@@ -13,7 +13,7 @@
 	}	
 	if($mode == "loadSubDistricts"){
 		$parent_id = $_GET["parent_id"];
-		$subdistricts = $db->fetch_select_data("locations","id","name_".$__locale,["parent_id" => $parent_id],["name_".$__locale],"",true);
+		$subdistricts = $db->fetch_select_data("locations","id","concat(name_".$__locale.",' [',zipcode,']')",["parent_id" => $parent_id],["name_".$__locale],"",true);
 		echo $f->select("subdistrict_id",$subdistricts,$subdistrict_id,"required","form-control");
 	}	
 ?>
