@@ -1,5 +1,5 @@
 <?php
-function resizeImage($image,$width,$height,$scale) {
+function resizeImage2($image,$width,$height,$scale) {
 	list($imagewidth, $imageheight, $imageType) = getimagesize($image);
 	$imageType = image_type_to_mime_type($imageType);
 	$newImageWidth = ceil($width * $scale);

@@ -33,7 +33,7 @@
 			<label><?=v("account_no");?></label><?=$f->input("account_no",$user_bank["account_no"],"required placeholder='".v("account_no")."...'","form-control");?>
 		</div>
 		<div class="form-group">
-			<label><?=v("branch");?></label><?=$f->input("branch",$user_bank["branch"],"required placeholder='".v("branch")."...'","form-control");?>
+			<label><?=v("branch");?></label><?=$f->input("branch",$user_bank["branch"],"placeholder='".v("branch")."...'","form-control");?>
 		</div>
 	
 		<div class="form-group">

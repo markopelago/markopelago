@@ -16,6 +16,18 @@
 			$_SESSION["errormessage"] = v("update_profile_failed");
 		}
 	}
+	$provinces = $db->fetch_select_data("locations","id","name_".$__locale,["parent_id" => 0],"seqno","",true);
+	$locations = array();
+	$locations[""] = "";
+	foreach($provinces as $province_id => $province){
+		if($province_id > 0){
+			$cities = $db->fetch_select_data("locations","id","name_".$__locale,["parent_id" => $province_id],"seqno","",true);
+			foreach($cities as $city_id => $city){
+				$locations[$city_id] = $city;
+			}
+		}
+	}
+	asort($locations);
 ?>
 <script>
 	function is_taxable_change(elmChecked){
@@ -30,11 +42,23 @@
 		}
 	}
 </script>
-<form method="POST" >
-	<div class="col-sm-9 fadeInRight animated">
+<form method="POST">	
+	<div class="col-sm-9 ">
 		<div class="col-md-12">
 			<div class="form-group">
 				<label><?=v("name");?></label><?=$f->input("name",$__user["name"],"required placeholder='".v("name")."...'","form-control");?>
+			</div>
+			<div class="form-group">
+				<label><?=v("phone");?></label><?=$f->input("phone",$data["phone"],"required placeholder='".v("phone")."...'","form-control");?>
+			</div>
+			<div class="form-group">
+				<label><?=v("birth_place");?></label><?=$f->select("birthplace_id",$locations,$data["birthplace_id"],"required placeholder='".v("birth_place")."...'","form-control");?>
+			</div>
+			<div class="form-group">
+				<label><?=v("birth_at");?></label><?=$f->input("birthdate",$data["birthdate"],"type='date' required placeholder='".v("birth_at")."...'","form-control");?>
+			</div>
+			<div class="form-group">
+				<label><?=v("gender");?></label><?=$f->select("gender_id",$db->fetch_select_data("genders","id","name_".$__locale,"","","",true),$data["gender_id"],"required ","form-control");?>
 			</div>
 			<div class="form-group">
 				<label><?=v("is_taxable");?></label><?=$f->input("is_taxable","1","type='checkbox' onclick='is_taxable_change(this.checked);'","form-control");?> <?=v("yes");?>

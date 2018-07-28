@@ -152,6 +152,7 @@ class Vocabulary{
 		$arr[$l]["bank"]										= "Bank";
 		$arr[$l]["change_photo"]								= "Change Photo";
 		$arr[$l]["change_logo"]									= "Change Logo";
+		$arr[$l]["change_avatar"]								= "Change Avatar";
 		$arr[$l]["error_upload_image"]							= "Error upload image";
 		$arr[$l]["bank_name"]									= "Bank Name";
 		$arr[$l]["account_no"]									= "Account No";
@@ -298,6 +299,7 @@ class Vocabulary{
 		$arr[$l]["bank"]										= "Bank";
 		$arr[$l]["change_photo"]								= "Ubah Foto";
 		$arr[$l]["change_logo"]									= "Ubah Logo";
+		$arr[$l]["change_avatar"]								= "Ubah Avatar";
 		$arr[$l]["error_upload_image"]							= "Ada kesalahan saat mengunggah gambar";
 		$arr[$l]["bank_name"]									= "Nama Bank";
 		$arr[$l]["account_no"]									= "Nomor Akun";

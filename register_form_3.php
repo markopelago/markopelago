@@ -24,7 +24,7 @@
 	$pic = $db->fetch_single_data("a_users","name",["id" => $__user_id]);
 	$phone = $db->fetch_single_data("a_users","phone",["id" => $__user_id]);
 ?>
-<h3><b>ADDRESS</b></h3>
+<h3><b><?=strtoupper(v("address"));?></b></h3>
 <form action="register.php?step=3" method="POST" enctype="multipart/form-data">
 	<div class="col-md-12">
 		<div class="form-group">
