@@ -9,7 +9,7 @@
 		$db->addfield("name");				$db->addvalue($_POST["name"]);
 		$db->addfield("pic");				$db->addvalue($_POST["pic"]);
 		$db->addfield("phone");				$db->addvalue($_POST["phone"]);
-		$db->addfield("address");			$db->addvalue($_POST["branch"]);
+		$db->addfield("address");			$db->addvalue($_POST["address"]);
 		$db->addfield("location_id");		$db->addvalue($_POST["subdistrict_id"]);
 		$db->addfield("coordinate");		$db->addvalue($_POST["coordinate"]);
 		$inserting = $db->insert();
@@ -19,7 +19,6 @@
 		} else {
 			$_SESSION["error_message"] = v("failed_saving_data");
 		}
-		
 	}
 	$pic = $db->fetch_single_data("a_users","name",["id" => $__user_id]);
 	$phone = $db->fetch_single_data("a_users","phone",["id" => $__user_id]);

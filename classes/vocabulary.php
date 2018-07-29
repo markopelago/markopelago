@@ -78,6 +78,9 @@ class Vocabulary{
 		$arr[$l]["nationality"]									= "Nationality";
 		$arr[$l]["location"]									= "Location";
 		$arr[$l]["save"]										= "Save";
+		$arr[$l]["add"]											= "Add";
+		$arr[$l]["edit"]										= "Edit";
+		$arr[$l]["delete"]										= "Delete";
 		$arr[$l]["data_not_found"]								= "Data not found";
 		$arr[$l]["message_not_found"]							= "Message not found";
 		$arr[$l]["gender"]										= "Gender";
@@ -161,6 +164,11 @@ class Vocabulary{
 		$arr[$l]["data_saved_successfully"]						= "Data saved successfully";
 		$arr[$l]["failed_saving_data"]							= "Failed saving data.";
 		$arr[$l]["example_home_office"]							= "example: Home, Office,...";
+		$arr[$l]["address_name"]								= "Address Name";
+		$arr[$l]["primary_address"]								= "Primary Address";
+		$arr[$l]["add_address"]									= "Add Address";
+		$arr[$l]["edit_address"]								= "Edit Address";
+		$arr[$l]["confirm_delete"]								= "Are You sure want to delete this data";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -226,6 +234,9 @@ class Vocabulary{
 		$arr[$l]["nationality"]									= "Kebangsaan";
 		$arr[$l]["location"]									= "Lokasi";
 		$arr[$l]["save"]										= "Simpan";
+		$arr[$l]["add"]											= "Tambah";
+		$arr[$l]["edit"]										= "Ubah";
+		$arr[$l]["delete"]										= "Hapus";
 		$arr[$l]["data_not_found"]								= "Data tidak ditemukan";
 		$arr[$l]["message_not_found"]							= "Pesan tidak ditemukan";
 		$arr[$l]["gender"]										= "Jenis Kelamin";
@@ -309,6 +320,11 @@ class Vocabulary{
 		$arr[$l]["data_saved_successfully"]						= "Penyimpanan data berhasil";
 		$arr[$l]["failed_saving_data"]							= "Gagal menyimpan data.";
 		$arr[$l]["example_home_office"]							= "contoh: Rumah, Kantor,...";
+		$arr[$l]["address_name"]								= "Nama Alamat";
+		$arr[$l]["primary_address"]								= "Alamat Utama";
+		$arr[$l]["add_address"]									= "Tambah Alamat";
+		$arr[$l]["edit_address"]								= "Ubah Alamat";
+		$arr[$l]["confirm_delete"]								= "Anda yakin akan menghapus data tersebut";
 		return $arr[$this->locale][$index];
 	}
 }

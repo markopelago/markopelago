@@ -5,8 +5,8 @@
 		exit();
 	}
 ?>
-	<div class="row">
-		<div class="container">
+	<div class="container">
+		<div class="row">
 			<h2 class="well"><?=strtoupper(v("dashboard"));?></h2>
 			<h3><?=$db->fetch_single_data("a_users","name",["id" => $__user_id]);?></h3>
 			<?php if($__seller_id > 0){ ?>
@@ -17,15 +17,16 @@
 				</div>	
 			<?php } ?>
 		</div>
-		<div class="container">
+	</div>
+	<div class="container">
+		<div class="row">
 			<div class="col-md-2">
 				<div><img id="mainProfileImg" src="users_images/<?=($__buyer["avatar"] == "")?"nophoto.png":$__buyer["avatar"];?>"></div>
 				<div><input name="change_avatar" id="change_avatar" value="<?=v("change_avatar");?>" style="width:200px;" type="button" onclick="window.location='dashboard_avatar.php';" class="btn btn-primary"></div>
 				<br><br>
 			</div>
-			
 			<div class="col-md-10">
-				<div class="col-md-12 container">
+				<div class="col-md-12">
 					<ul class="col-md-12 nav nav-tabs">
 						<li class="active"><a data-toggle="tab" href="#profile">Profile</a></li>
 						<li><a data-toggle="tab" href="#addresses"><?=v("addresses");?></a></li>

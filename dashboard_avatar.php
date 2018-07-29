@@ -23,6 +23,7 @@
 		if($_error != 0) { $error = v("error_upload_image"); }
 		if($_size > ($max_file*1048576)) { $error = str_replace("{max_file}",$max_file,v("image_to_big")); }
 		if($error == ""){
+			$oldfile = $__buyer["avatar"];
 			$filetemp = "avatar".rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).$__user_id.".".$_file_ext;
 			if (move_uploaded_file($_FILES["avatar"]["tmp_name"], "users_temp/".$filetemp)){
 				$db->addtable("buyers");	$db->where("user_id",$__user_id);
@@ -39,6 +40,7 @@
 					resizeThumbnailImage_mobile($destimg, $srcimg, $srcwidth, $srcheight, $srcx, $srcy, $photoW, $photoH, $scale);
 					chmod($srcimg, 0777);
 					unlink($srcimg);
+					unlink("users_images/".$oldfile);
 					javascript("window.location='dashboard.php';");
 					exit();
 				}
@@ -54,14 +56,7 @@
 <div class="row">	
 	<div class="container">
 		<h2 class="well"><?=strtoupper(v("dashboard"));?></h2>
-		<h3><?=$db->fetch_single_data("a_users","name",["id" => $__user_id]);?></h3>
-		<?php if($__seller_id > 0){ ?>
-			<div class="col-md-12">
-				<img id="headerProfileImg" src="users_images/<?=$__seller["header_image"];?>" class="img-responsive">
-				<input name="change_header" id="change_header" value="<?=v("change_header");?>" style="position:relative;top:-34px;" type="button" onclick="window.location='dashboard_headerprofile.php';" class="btn btn-primary">
-				<br><br>
-			</div>	
-		<?php } ?>
+		<h3><?=v("change_avatar")?></h3>
 	</div>
 	<div class="container">
 		<script id="guillotinejs" src="scripts/jquery.guillotine.js?width=<?=$photoW;?>&height=<?=$photoH;?>"></script>
@@ -75,7 +70,6 @@
 			<input type="hidden" name="form_angle" value="" id="form_angle" />
 			<div class="col-md-12">
 				 <div class="form-group">
-					<label><?=v("upload_photo");?></label>
 					<div class="input-group">
 						<span class="input-group-btn">
 							<span class="btn btn-default btn-file">
