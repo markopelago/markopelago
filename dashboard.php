@@ -12,10 +12,13 @@
 		<div class="row">
 			<h2 class="well"><?=strtoupper(v("dashboard"));?></h2>
 			<h3><?=$db->fetch_single_data("a_users","name",["id" => $__user_id]);?></h3>
-			<?php if($__seller_id > 0){ ?>
+			<?php 
+				if($__seller_id > 0){
+					$__seller["header_image"] = ($__seller["header_image"] == "")?"no_header.jpg":$__seller["header_image"];
+			?>
 				<div class="col-md-12">
 					<img id="headerProfileImg" src="users_images/<?=$__seller["header_image"];?>" class="img-responsive">
-					<input name="change_header" id="change_header" value="<?=v("change_header");?>" style="position:relative;top:-34px;" type="button" onclick="window.location='dashboard_headerprofile.php';" class="btn btn-primary">
+					<input name="change_header" id="change_header" value="<?=v("change_header");?>" style="position:relative;top:-33px;" type="button" onclick="window.location='dashboard_seller_header.php';" class="btn btn-primary">
 					<br><br>
 				</div>	
 			<?php } ?>
@@ -25,7 +28,7 @@
 		<div class="row">
 			<div class="col-md-2">
 				<div><img id="mainProfileImg" src="users_images/<?=($__buyer["avatar"] == "")?"nophoto.png":$__buyer["avatar"];?>"></div>
-				<div><input name="change_avatar" id="change_avatar" value="<?=v("change_avatar");?>" style="width:200px;" type="button" onclick="window.location='dashboard_avatar.php';" class="btn btn-primary"></div>
+				<div><input name="change_avatar" id="change_avatar" value="<?=v("change_avatar");?>" style="width:200px;position:relative;top:-32px;" type="button" onclick="window.location='dashboard_avatar.php';" class="btn btn-primary"></div>
 				<br><br>
 			</div>
 			<div class="col-md-10">
@@ -47,7 +50,7 @@
 					<br><br>
 					<div class="col-md-12 tab-content">
 						<div id="profile" class="tab-pane active"><?php include_once "dashboard_profiles.php";?></div><br>
-						<div id="seller" class="tab-pane active"><?php include_once "dashboard_seller.php";?></div><br>
+						<div id="seller" class="tab-pane"><?php include_once "dashboard_seller.php";?></div><br>
 						<div id="addresses" class="tab-pane"><?php include_once "dashboard_addresses.php"; ?></div>
 						<div id="banks" class="tab-pane"><?php include_once "dashboard_banks.php"; ?></div>
 						<div id="invoices" class="tab-pane"><?php include_once "dashboard_invoices.php"; ?></div>

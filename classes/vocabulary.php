@@ -156,6 +156,7 @@ class Vocabulary{
 		$arr[$l]["change_photo"]								= "Change Photo";
 		$arr[$l]["change_logo"]									= "Change Logo";
 		$arr[$l]["change_avatar"]								= "Change Avatar";
+		$arr[$l]["change_header"]								= "Change Store Header";
 		$arr[$l]["error_upload_image"]							= "Error upload image";
 		$arr[$l]["bank_name"]									= "Bank Name";
 		$arr[$l]["account_no"]									= "Account No";
@@ -174,6 +175,8 @@ class Vocabulary{
 		$arr[$l]["confirm_delete"]								= "Are You sure want to delete this data";
 		$arr[$l]["profile_my_store"]							= "Profile My Store";
 		$arr[$l]["my_goods"]									= "My Products";
+		$arr[$l]["you_not_yet_seller"]							= "You are not yet registered as a seller";
+		$arr[$l]["register_as_seller_now"]						= "Want to register as a seller now";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -317,6 +320,7 @@ class Vocabulary{
 		$arr[$l]["change_photo"]								= "Ubah Foto";
 		$arr[$l]["change_logo"]									= "Ubah Logo";
 		$arr[$l]["change_avatar"]								= "Ubah Avatar";
+		$arr[$l]["change_header"]								= "Ubah Header Toko";
 		$arr[$l]["error_upload_image"]							= "Ada kesalahan saat mengunggah gambar";
 		$arr[$l]["bank_name"]									= "Nama Bank";
 		$arr[$l]["account_no"]									= "Nomor Akun";
@@ -335,6 +339,8 @@ class Vocabulary{
 		$arr[$l]["confirm_delete"]								= "Anda yakin akan menghapus data tersebut";
 		$arr[$l]["profile_my_store"]							= "Profil Toko Saya";
 		$arr[$l]["my_goods"]									= "Daftar Produk Saya";
+		$arr[$l]["you_not_yet_seller"]							= "Anda belum terdaftar sebagai penjual";
+		$arr[$l]["register_as_seller_now"]						= "Ingin mendaftar sebagai penjual sekarang";
 		return $arr[$this->locale][$index];
 	}
 }
