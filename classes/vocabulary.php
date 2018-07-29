@@ -168,6 +168,9 @@ class Vocabulary{
 		$arr[$l]["primary_address"]								= "Primary Address";
 		$arr[$l]["add_address"]									= "Add Address";
 		$arr[$l]["edit_address"]								= "Edit Address";
+		$arr[$l]["primary_bank"]								= "Primary Bank";
+		$arr[$l]["add_bank"]									= "Add Bank";
+		$arr[$l]["edit_bank"]									= "Edit Bank";
 		$arr[$l]["confirm_delete"]								= "Are You sure want to delete this data";
 		
 		/*==================================================================================================================================*/
@@ -324,6 +327,9 @@ class Vocabulary{
 		$arr[$l]["primary_address"]								= "Alamat Utama";
 		$arr[$l]["add_address"]									= "Tambah Alamat";
 		$arr[$l]["edit_address"]								= "Ubah Alamat";
+		$arr[$l]["primary_bank"]								= "Bank Utama";
+		$arr[$l]["add_bank"]									= "Tambah Bank";
+		$arr[$l]["edit_bank"]									= "Ubah Bank";
 		$arr[$l]["confirm_delete"]								= "Anda yakin akan menghapus data tersebut";
 		return $arr[$this->locale][$index];
 	}

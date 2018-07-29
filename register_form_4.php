@@ -12,6 +12,7 @@
 		$db->addfield("branch");			$db->addvalue($_POST["branch"]);
 		$inserting = $db->insert();
 		if($inserting["affected_rows"] > 0){
+			$_SESSION["message"] = v("data_saved_successfully");
 			javascript("window.location='dashboard.php';");
 			exit();
 		} else {
@@ -21,7 +22,7 @@
 	$account_name = $db->fetch_single_data("a_users","name",["id" => $__user_id]);
 ?>
 <h3><b>BANK</b></h3>
-<form action="register.php?step=3" method="POST" enctype="multipart/form-data">
+<form action="register.php?step=4" method="POST" enctype="multipart/form-data">
 	<div class="col-md-12">
 		<div class="form-group">
 			<label><?=v("bank");?></label><?=$f->select("bank_id",$db->fetch_select_data("banks","id","name",[],["name"],"",true),$user_bank["bank_id"],"required placeholder='".v("bank_name")."...'","form-control");?>
