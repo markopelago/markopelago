@@ -172,6 +172,8 @@ class Vocabulary{
 		$arr[$l]["add_bank"]									= "Add Bank";
 		$arr[$l]["edit_bank"]									= "Edit Bank";
 		$arr[$l]["confirm_delete"]								= "Are You sure want to delete this data";
+		$arr[$l]["profile_my_store"]							= "Profile My Store";
+		$arr[$l]["my_goods"]									= "My Products";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -331,6 +333,8 @@ class Vocabulary{
 		$arr[$l]["add_bank"]									= "Tambah Bank";
 		$arr[$l]["edit_bank"]									= "Ubah Bank";
 		$arr[$l]["confirm_delete"]								= "Anda yakin akan menghapus data tersebut";
+		$arr[$l]["profile_my_store"]							= "Profil Toko Saya";
+		$arr[$l]["my_goods"]									= "Daftar Produk Saya";
 		return $arr[$this->locale][$index];
 	}
 }

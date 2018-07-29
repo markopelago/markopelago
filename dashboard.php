@@ -5,6 +5,9 @@
 		exit();
 	}
 ?>
+	<script>
+		function changeState(tab_id){ window.history.pushState("","","?tabActive="+tab_id); }
+	</script>
 	<div class="container">
 		<div class="row">
 			<h2 class="well"><?=strtoupper(v("dashboard"));?></h2>
@@ -28,19 +31,23 @@
 			<div class="col-md-10">
 				<div class="col-md-12">
 					<ul class="col-md-12 nav nav-tabs">
-						<li class="active"><a data-toggle="tab" href="#profile">Profile</a></li>
-						<li><a data-toggle="tab" href="#addresses"><?=v("addresses");?></a></li>
-						<li><a data-toggle="tab" href="#banks"><?=v("banks");?></a></li>
-						<li><a data-toggle="tab" href="#invoices"><?=v("invoices");?></a></li>
+						<li class="active"><a data-toggle="tab" href="#profile" onclick="changeState('profile');">Profile</a></li>
+						<li><a data-toggle="tab" href="#seller" onclick="changeState('seller');"><?=v("profile_my_store");?></a></li>
+						<li><a data-toggle="tab" href="#addresses" onclick="changeState('addresses');"><?=v("addresses");?></a></li>
+						<li><a data-toggle="tab" href="#banks" onclick="changeState('banks');"><?=v("banks");?></a></li>
 						<?php if($__seller_id > 0){ ?>
-							<li><a data-toggle="tab" href="#po"><?=v("po");?></a></li>
-							<li><a data-toggle="tab" href="#goods"><?=v("goods");?></a></li>
+							<li><a data-toggle="tab" href="#goods" onclick="changeState('goods');"><?=v("my_goods");?></a></li>
 						<?php } ?>
-						<li><a data-toggle="tab" href="#message"><?=v("message");?><span class="notification-counter" style="visibility:hidden;" id="notifMessageTabCount"></span></a></li>
+						<?php if($__seller_id > 0|| $__forwarder_id > 0){ ?>
+							<li><a data-toggle="tab" href="#po" onclick="changeState('po');"><?=v("po");?></a></li>
+						<?php } ?>
+						<li><a data-toggle="tab" href="#invoices" onclick="changeState('invoices');"><?=v("invoices");?></a></li>
+						<li><a data-toggle="tab" href="#message" onclick="changeState('message');"><?=v("message");?><span class="notification-counter" style="visibility:hidden;" id="notifMessageTabCount"></span></a></li>
 					</ul>
 					<br><br>
 					<div class="col-md-12 tab-content">
 						<div id="profile" class="tab-pane active"><?php include_once "dashboard_profiles.php";?></div><br>
+						<div id="seller" class="tab-pane active"><?php include_once "dashboard_seller.php";?></div><br>
 						<div id="addresses" class="tab-pane"><?php include_once "dashboard_addresses.php"; ?></div>
 						<div id="banks" class="tab-pane"><?php include_once "dashboard_banks.php"; ?></div>
 						<div id="invoices" class="tab-pane"><?php include_once "dashboard_invoices.php"; ?></div>
