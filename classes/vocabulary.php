@@ -158,6 +158,7 @@ class Vocabulary{
 		$arr[$l]["account_no"]									= "Account No";
 		$arr[$l]["account_name"]								= "Account Name";
 		$arr[$l]["branch"]										= "Branch";
+		$arr[$l]["data_saved_successfully"]						= "Data saved successfully";
 		$arr[$l]["failed_saving_data"]							= "Failed saving data.";
 		$arr[$l]["example_home_office"]							= "example: Home, Office,...";
 		
@@ -305,6 +306,7 @@ class Vocabulary{
 		$arr[$l]["account_no"]									= "Nomor Akun";
 		$arr[$l]["account_name"]								= "Nama Pemilik Rekening";
 		$arr[$l]["branch"]										= "Cabang";
+		$arr[$l]["data_saved_successfully"]						= "Penyimpanan data berhasil";
 		$arr[$l]["failed_saving_data"]							= "Gagal menyimpan data.";
 		$arr[$l]["example_home_office"]							= "contoh: Rumah, Kantor,...";
 		return $arr[$this->locale][$index];

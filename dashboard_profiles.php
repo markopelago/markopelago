@@ -1,19 +1,25 @@
 <div style="height:20px;"></div>
 <?php 
-	if(isset($_POST["save"])){
+	if(isset($_POST["save_profile"])){
 		$db->addtable("a_users");		$db->where("id",$__user_id);
 		$db->addfield("name");			$db->addvalue($_POST["name"]);
-		$db->addfield("is_taxable");	$db->addvalue($_POST["name"]);
+		$db->addfield("is_taxable");	$db->addvalue($_POST["is_taxable"]);
 		if($_POST["is_taxable"] == "1"){
 			$db->addfield("npwp");			$db->addvalue($_POST["npwp"]);
 			$db->addfield("nppkp");			$db->addvalue($_POST["nppkp"]);
 			$db->addfield("npwp_address");	$db->addvalue($_POST["npwp_address"]);
 		}
-		
+		$inserting = $db->update();
 		if($inserting["affected_rows"] > 0){
-			$_SESSION["message"] = v("update_profile_success");
+			$db->addtable("buyers");		$db->where("user_id",$__user_id);
+			$db->addfield("birthdate");		$db->addvalue($_POST["birthdate"]);
+			$db->addfield("birthplace_id");	$db->addvalue($_POST["birthplace_id"]);
+			$db->addfield("gender_id");		$db->addvalue($_POST["gender_id"]);
+			$inserting = $db->update();
+			
+			$_SESSION["message"] = v("data_saved_successfully");
 		} else {
-			$_SESSION["errormessage"] = v("update_profile_failed");
+			$_SESSION["errormessage"] = v("failed_saving_data");
 		}
 	}
 	$provinces = $db->fetch_select_data("locations","id","name_".$__locale,["parent_id" => 0],"seqno","",true);
@@ -49,21 +55,22 @@
 				<label><?=v("name");?></label><?=$f->input("name",$__user["name"],"required placeholder='".v("name")."...'","form-control");?>
 			</div>
 			<div class="form-group">
-				<label><?=v("phone");?></label><?=$f->input("phone",$data["phone"],"required placeholder='".v("phone")."...'","form-control");?>
+				<label><?=v("phone");?></label><?=$f->input("phone",$__user["phone"],"required placeholder='".v("phone")."...'","form-control");?>
 			</div>
 			<div class="form-group">
-				<label><?=v("birth_place");?></label><?=$f->select("birthplace_id",$locations,$data["birthplace_id"],"required placeholder='".v("birth_place")."...'","form-control");?>
+				<label><?=v("birth_place");?></label><?=$f->select("birthplace_id",$locations,$__buyer["birthplace_id"],"required placeholder='".v("birth_place")."...'","form-control");?>
 			</div>
 			<div class="form-group">
-				<label><?=v("birth_at");?></label><?=$f->input("birthdate",$data["birthdate"],"type='date' required placeholder='".v("birth_at")."...'","form-control");?>
+				<label><?=v("birth_at");?></label><?=$f->input("birthdate",$__buyer["birthdate"],"type='date' required placeholder='".v("birth_at")."...'","form-control");?>
 			</div>
 			<div class="form-group">
-				<label><?=v("gender");?></label><?=$f->select("gender_id",$db->fetch_select_data("genders","id","name_".$__locale,"","","",true),$data["gender_id"],"required ","form-control");?>
+				<label><?=v("gender");?></label><?=$f->select("gender_id",$db->fetch_select_data("genders","id","name_".$__locale,"","","",true),$__buyer["gender_id"],"required ","form-control");?>
 			</div>
 			<div class="form-group">
-				<label><?=v("is_taxable");?></label><?=$f->input("is_taxable","1","type='checkbox' onclick='is_taxable_change(this.checked);'","form-control");?> <?=v("yes");?>
+				<?php $checked = ($__user["is_taxable"] == "1") ? "checked":"";?>
+				<label><?=v("is_taxable");?></label><?=$f->input("is_taxable","1",$checked ." type='checkbox' onclick='is_taxable_change(this.checked);'","form-control");?> <?=v("yes");?>
 			</div>
-			<div id="is_taxable_area" style="display:none">
+			<div id="is_taxable_area" style="display:<?=($__user["is_taxable"] == "1") ? "block":"none";?>">
 				<div class="form-group">
 					<label><?=v("npwp");?></label><?=$f->input("npwp",$__user["npwp"],"placeholder='".v("npwp")."...'","form-control");?>
 				</div>
@@ -77,7 +84,7 @@
 		</div>
 	</div>
 	<div class="col-md-12">
-		<?=$f->input("save",v("save"),"type='submit' width='75%'","btn btn-primary");?>
+		<?=$f->input("save_profile",v("save"),"type='submit' width='75%'","btn btn-primary");?>
 	</div>	
 </form>
 <div style="height:20px;"></div>
