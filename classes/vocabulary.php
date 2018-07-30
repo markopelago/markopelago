@@ -80,6 +80,7 @@ class Vocabulary{
 		$arr[$l]["save"]										= "Save";
 		$arr[$l]["add"]											= "Add";
 		$arr[$l]["edit"]										= "Edit";
+		$arr[$l]["view"]										= "View";
 		$arr[$l]["delete"]										= "Delete";
 		$arr[$l]["data_not_found"]								= "Data not found";
 		$arr[$l]["message_not_found"]							= "Message not found";
@@ -177,6 +178,11 @@ class Vocabulary{
 		$arr[$l]["my_goods"]									= "My Products";
 		$arr[$l]["you_not_yet_seller"]							= "You are not yet registered as a seller";
 		$arr[$l]["register_as_seller_now"]						= "Want to register as a seller now";
+		$arr[$l]["add_goods"]									= "Add Goods";
+		$arr[$l]["stock"]										= "Stock";
+		$arr[$l]["unit"]										= "Unit";
+		$arr[$l]["new"]											= "New";
+		$arr[$l]["second_hand"]									= "Second Hand";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -244,6 +250,7 @@ class Vocabulary{
 		$arr[$l]["save"]										= "Simpan";
 		$arr[$l]["add"]											= "Tambah";
 		$arr[$l]["edit"]										= "Ubah";
+		$arr[$l]["view"]										= "Lihat";
 		$arr[$l]["delete"]										= "Hapus";
 		$arr[$l]["data_not_found"]								= "Data tidak ditemukan";
 		$arr[$l]["message_not_found"]							= "Pesan tidak ditemukan";
@@ -341,6 +348,12 @@ class Vocabulary{
 		$arr[$l]["my_goods"]									= "Daftar Produk Saya";
 		$arr[$l]["you_not_yet_seller"]							= "Anda belum terdaftar sebagai penjual";
 		$arr[$l]["register_as_seller_now"]						= "Ingin mendaftar sebagai penjual sekarang";
+		$arr[$l]["add_goods"]									= "Tambah Produk";
+		$arr[$l]["stock"]										= "Stok";
+		$arr[$l]["unit"]										= "Satuan";
+		$arr[$l]["new"]											= "Baru";
+		$arr[$l]["second_hand"]									= "Bekas";
+		
 		return $arr[$this->locale][$index];
 	}
 }
