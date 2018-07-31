@@ -18,6 +18,7 @@
 	<link rel="stylesheet" href="styles/animate.css">
 	<link rel="stylesheet" href="styles/toastr.min.css">
 	<link rel="stylesheet" href="styles/font-awesome.min.css">
+	<link rel="stylesheet" href="styles/multiselect.css">
 	
 	<script src="scripts/jquery.min.js"></script>
 	<script src="scripts/bootstrap.min.js"></script>
@@ -25,6 +26,7 @@
 	<script src="scripts/bootstrap-slider.js"></script>
 	<script src="scripts/newWaterfall.js"></script>
 	<script src="scripts/customs.js"></script>
+	<script src="scripts/multiselect.js"></script>
 	
 	<script>
 		var toastroptions = {

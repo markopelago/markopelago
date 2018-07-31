@@ -179,10 +179,26 @@ class Vocabulary{
 		$arr[$l]["you_not_yet_seller"]							= "You are not yet registered as a seller";
 		$arr[$l]["register_as_seller_now"]						= "Want to register as a seller now";
 		$arr[$l]["add_goods"]									= "Add Goods";
+		$arr[$l]["add_goods_photo"]								= "Add Goods Photo";
+		$arr[$l]["edit_goods"]									= "Edit Goods";
+		$arr[$l]["goods_photos"]								= "Goods Photos";
 		$arr[$l]["stock"]										= "Stock";
+		$arr[$l]["goods_name"]									= "Goods Name";
 		$arr[$l]["unit"]										= "Unit";
 		$arr[$l]["new"]											= "New";
 		$arr[$l]["second_hand"]									= "Second Hand";
+		$arr[$l]["choose_categories"]							= "Choose Categories";
+		$arr[$l]["choose_couriers"]								= "Choose Couriers";
+		$arr[$l]["weight_per_unit"]								= "Weight per Unit";
+		$arr[$l]["availability_days"]							= "Tempo availability of goods";
+		$arr[$l]["days"]										= "Day(s)";
+		$arr[$l]["rupiahs"]										= "Rupiahs";
+		$arr[$l]["please_select_categories"]					= "Please select categories";
+		$arr[$l]["please_select_couriers"]						= "Please select couriers";
+		$arr[$l]["l_w_h"]										= "Length (cm) x Width (cm) x Height (cm)";
+		$arr[$l]["length"]										= "Length";
+		$arr[$l]["width"]										= "Width";
+		$arr[$l]["height"]										= "Height";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -349,10 +365,26 @@ class Vocabulary{
 		$arr[$l]["you_not_yet_seller"]							= "Anda belum terdaftar sebagai penjual";
 		$arr[$l]["register_as_seller_now"]						= "Ingin mendaftar sebagai penjual sekarang";
 		$arr[$l]["add_goods"]									= "Tambah Produk";
+		$arr[$l]["add_goods_photo"]								= "Tambah Foto Produk";
+		$arr[$l]["edit_goods"]									= "Ubah Produk";
+		$arr[$l]["goods_photos"]								= "Foto Produk";
 		$arr[$l]["stock"]										= "Stok";
+		$arr[$l]["goods_name"]									= "Nama Produk";
 		$arr[$l]["unit"]										= "Satuan";
 		$arr[$l]["new"]											= "Baru";
 		$arr[$l]["second_hand"]									= "Bekas";
+		$arr[$l]["choose_categories"]							= "Pilih Kategori";
+		$arr[$l]["choose_couriers"]								= "Pilih Kurir";
+		$arr[$l]["weight_per_unit"]								= "Berat per satuan";
+		$arr[$l]["availability_days"]							= "Tempo ketersedian produk";
+		$arr[$l]["days"]										= "Hari";
+		$arr[$l]["rupiahs"]										= "Rupiah";
+		$arr[$l]["please_select_categories"]					= "Silakan pilih kategori";
+		$arr[$l]["please_select_couriers"]						= "Silakan pilih kurir";
+		$arr[$l]["l_w_h"]										= "Panjang (cm) x Lebar (cm) x Tinggi (cm)";
+		$arr[$l]["length"]										= "Panjang";
+		$arr[$l]["width"]										= "Lebar";
+		$arr[$l]["height"]										= "Tinggi";
 		
 		return $arr[$this->locale][$index];
 	}

@@ -1170,6 +1170,10 @@ a:focus, a:hover {
 	top:10px;
 }
 
+.multiselect-container {
+	width: 400px !important;
+}
+
 @media screen and (max-width: 995px) {
 	.header-start{ height:110px; }
 	.carousel-inner{
