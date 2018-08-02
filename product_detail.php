@@ -26,7 +26,7 @@
 								foreach($goods_photos as $goods_photo){
 									$addClass = "";
 									if($goods_photo["seqno"] == "1") $addClass = "active";
-									?><div class="item <?=$addClass;?>"> <img src="products/<?=$goods_photo["filename"];?>"> </div><?php
+									?><div class="item <?=$addClass;?>"> <img src="goods/<?=$goods_photo["filename"];?>"> </div><?php
 								}
 							?>
 						</div>

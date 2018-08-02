@@ -74,7 +74,7 @@
                         <tr>
                             <td colspan="4">
                                 <div class="col-md-2">
-                                    <img src="products/<?=$goods_photos["filename"]?>" style="width:120px;"> 
+                                    <img src="goods/<?=$goods_photos["filename"]?>" style="width:120px;"> 
                                 </div>
                                 <div class="col-md-10">
                                     <?=$goods["name"]?><br>

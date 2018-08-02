@@ -1,12 +1,17 @@
 <?php
 	include_once "homepage_header.php";
+	if($__seller_id != $db->fetch_single_data("goods","seller_id",["id" => $_GET["id"]])){
+		$_SESSION["errormessage"] = v("you_dont_have_access");
+		javascript("window.location='dashboard.php?tabActive=goods'");
+		exit();
+	}
 	if(isset($_POST["save_goods"])){
 		if(count($_POST["forwarder_ids"]) <= 0)	$_SESSION["errormessage"] = v("please_select_couriers");
 		if(count($_POST["category_ids"]) <= 0)	$_SESSION["errormessage"] = v("please_select_categories");
 		
 		if($_SESSION["errormessage"] == ""){
 			$dimension = $_POST["length"]." x ".$_POST["width"]." x ".$_POST["height"];
-			$db->addtable("goods");
+			$db->addtable("goods");				$db->where("id",$_GET["id"]); $db->where("seller_id",$__seller_id);
 			$db->addfield("barcode");			$db->addvalue($_POST["barcode"]);
 			$db->addfield("seller_id");			$db->addvalue($__seller_id);
 			$db->addfield("category_ids");		$db->addvalue(sel_to_pipe($_POST["category_ids"]));
@@ -20,18 +25,24 @@
 			$db->addfield("price");				$db->addvalue($_POST["price"]);
 			$db->addfield("availability_days");	$db->addvalue($_POST["availability_days"]);
 			$db->addfield("forwarder_ids");		$db->addvalue(sel_to_pipe($_POST["forwarder_ids"]));
-			$inserting = $db->insert();
+			$inserting = $db->update();
 			if($inserting["affected_rows"] > 0){
 				$_SESSION["message"] = v("data_saved_successfully");
-				javascript("window.location='goods_photo.php?id=".$inserting["insert_id"]."';");
+				javascript("window.location='goods_photo.php?id=".$_GET["id"]."';");
 				exit();
 			} else {
 				$_SESSION["errormessage"] = v("failed_saving_data");
 			}
 		}
 	}
-	$category_ids = str_replace("||",",",sel_to_pipe($_POST["category_ids"])); $category_ids = str_replace("|","",$category_ids);
-	$forwarder_ids = str_replace("||",",",sel_to_pipe($_POST["forwarder_ids"])); $forwarder_ids = str_replace("|","",$forwarder_ids);
+	$_POST = $db->fetch_all_data("goods",[],"id='".$_GET["id"]."' AND seller_id = '".$__seller_id."'")[0];
+	$dimension = explode("x",$_POST["dimension"]);
+	$_POST["length"] = trim($dimension[0]);
+	$_POST["width"] = trim($dimension[1]);
+	$_POST["height"] = trim($dimension[2]);
+	
+	$category_ids = str_replace("||",",",$_POST["category_ids"]); $category_ids = str_replace("|","",$category_ids);
+	$forwarder_ids = str_replace("||",",",$_POST["forwarder_ids"]); $forwarder_ids = str_replace("|","",$forwarder_ids);
 ?>
 <script>
 	$(document).ready(function() {
@@ -53,7 +64,7 @@
 </script>
 <div class="container">
 	<div class="row">	
-		<h2 class="well"><?=strtoupper(v("add_goods"));?></h2>
+		<h2 class="well"><?=strtoupper(v("edit_goods"));?></h2>
 	</div>
 </div>
 <div class="container">

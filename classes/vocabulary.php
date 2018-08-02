@@ -176,6 +176,7 @@ class Vocabulary{
 		$arr[$l]["confirm_delete"]								= "Are You sure want to delete this data";
 		$arr[$l]["profile_my_store"]							= "Profile My Store";
 		$arr[$l]["my_goods"]									= "My Products";
+		$arr[$l]["goods"]										= "Goods";
 		$arr[$l]["you_not_yet_seller"]							= "You are not yet registered as a seller";
 		$arr[$l]["register_as_seller_now"]						= "Want to register as a seller now";
 		$arr[$l]["add_goods"]									= "Add Goods";
@@ -199,6 +200,7 @@ class Vocabulary{
 		$arr[$l]["length"]										= "Length";
 		$arr[$l]["width"]										= "Width";
 		$arr[$l]["height"]										= "Height";
+		$arr[$l]["you_dont_have_access"]						= "You don't have access";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -362,6 +364,7 @@ class Vocabulary{
 		$arr[$l]["confirm_delete"]								= "Anda yakin akan menghapus data tersebut";
 		$arr[$l]["profile_my_store"]							= "Profil Toko Saya";
 		$arr[$l]["my_goods"]									= "Daftar Produk Saya";
+		$arr[$l]["goods"]										= "Produk";
 		$arr[$l]["you_not_yet_seller"]							= "Anda belum terdaftar sebagai penjual";
 		$arr[$l]["register_as_seller_now"]						= "Ingin mendaftar sebagai penjual sekarang";
 		$arr[$l]["add_goods"]									= "Tambah Produk";
@@ -385,6 +388,7 @@ class Vocabulary{
 		$arr[$l]["length"]										= "Panjang";
 		$arr[$l]["width"]										= "Lebar";
 		$arr[$l]["height"]										= "Tinggi";
+		$arr[$l]["you_dont_have_access"]						= "Anda tidak punya akses";
 		
 		return $arr[$this->locale][$index];
 	}
