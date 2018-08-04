@@ -11,27 +11,22 @@
 	$goods["width"] = trim($dimension[1]);
 	$goods["height"] = trim($dimension[2]);
 	
-	$category_ids = str_replace("||",",",$goods["category_ids"]); $category_ids = str_replace("|","",$category_ids);
-	$forwarder_ids = str_replace("||",",",$goods["forwarder_ids"]); $forwarder_ids = str_replace("|","",$forwarder_ids);
+	$category_ids = pipetoarray($goods["category_ids"]);
+	$forwarder_ids = pipetoarray($goods["forwarder_ids"]);
+	
+	$goods_categories = "";
+	foreach($category_ids as $category_id){ $goods_categories .= $db->fetch_single_data("categories","name_".$__locale,["id" => $category_id]).", "; }
+	$goods_categories = substr($goods_categories,0,-2);
+	
+	$goods_forwarders = "";
+	foreach($forwarder_ids as $forwarder_id){ $goods_forwarders .= $db->fetch_single_data("forwarders","name",["id" => $forwarder_id]).", "; }
+	$goods_forwarders = substr($goods_forwarders,0,-2);
+	
+	$good_is_new = "";
+	if($goods["is_new"] == "1") $good_is_new = v("new");
+	if($goods["is_new"] == "2") $good_is_new = v("second_hand");
+	
 ?>
-<script>
-	$(document).ready(function() {
-		$('#categories').multiselect({
-			checkboxName: function(option){ return 'category_ids[]'; },
-			nonSelectedText: '<?=v("choose_categories");?>'
-		});
-		$("#categories").val("<?=$category_ids;?>".split(","));
-		$("#categories").multiselect("refresh");
-		
-		$('#couriers').multiselect({
-			checkboxName: function(option){ return 'forwarder_ids[]'; },
-			nonSelectedText: '<?=v("choose_couriers");?>'
-		});
-		$("#couriers").val("<?=$forwarder_ids;?>".split(","));
-		$("#couriers").multiselect("refresh");
-		
-	});
-</script>
 <div class="container">
 	<div class="row">	
 		<h2 class="well"><?=strtoupper(v("goods"));?></h2>
@@ -48,62 +43,38 @@
 					?> <div class="img-thumbnail" style="height:200px !important;"> <img src="goods/<?=$goods_photo["filename"];?>" alt="#"> </div> <?php 
 				}
 			} 
+			$stock_in = $db->fetch_single_data("goods_histories","concat(sum(qty))",["seller_user_id" => $__user_id,"goods_id" => $_GET["id"],"in_out" => "in"]);
+			$stock_out = $db->fetch_single_data("goods_histories","concat(sum(qty))",["seller_user_id" => $__user_id,"goods_id" => $_GET["id"],"in_out" => "out"]);
+			$stock = $stock_in - $stock_out;
+			$btnStockHistory = "<div style=\"position:relative;float:right;\">".$f->input("stock_history",v("stock_history"),"type='button' onclick=\"window.location='goods_stock_history.php?goods_id=".$_GET["id"]."';\"","btn btn-primary")."</div>";
 		?>
 	</div>
-	<div class="row">	
-		<form method="POST">
-			<div class="col-md-12">
-				<div class="form-group">
-					<label><?=v("categories");?></label> 
-					<?=$f->select("categories",$db->fetch_select_data("categories","id","name_".$__locale,["parent_id" => "0:>"],[]),"","multiple=\"multiple\"","form-control");?>
-				</div>
-				<div class="form-group">
-					<label><?=v("goods_name");?></label><?=$f->input("name",$goods["name"],"disabled placeholder='".v("goods_name")."...'","form-control");?>
-				</div>
-				<div class="form-group">
-					<label><?=v("description");?></label><?=$f->textarea("description",$goods["description"],"disabled placeholder='".v("description")."...'","form-control");?>
-				</div>
-				<div class="form-group">
-					<label>Barcode</label><?=$f->input("barcode",$goods["barcode"],"disabled placeholder='Barcode...'","form-control");?>
-				</div>
-				<div class="form-group">
-					<label><?=v("condition");?></label><?=$f->select("is_new",["" => "","1" => v("new"),"2" => v("second_hand")],$goods["is_new"],"disabled placeholder='".v("unit")."...'","form-control");?>
-				</div>
-				<div class="form-group">
-					<label><?=v("unit");?></label><?=$f->select("unit_id",$db->fetch_select_data("units","id","name_".$__locale,[],["name_".$__locale],"",true),$goods["unit_id"],"disabled placeholder='".v("unit")."...'","form-control");?>
-				</div>
-				<div class="form-group">
-					<label><?=v("weight_per_unit");?> (gram)</label><?=$f->input("weight",$goods["weight"],"type='number' step='any' disabled placeholder='".v("weight")."...'","form-control");?>
-				</div>
-				<div class="form-group">
-					<label><?=v("dimension");?> (<?=v("l_w_h");?>)</label>
-					<div class="row">
-						<div class="col-md-2"><?=$f->input("length",$goods["length"],"type='number' step='any' disabled placeholder='".v("length")."...'","form-control");?></div>
-						<div class="col-md-1"> X </div>
-						<div class="col-md-2"><?=$f->input("width",$goods["width"],"type='number' step='any' disabled placeholder='".v("width")."...'","form-control");?></div>
-						<div class="col-md-1"> X </div>
-						<div class="col-md-2"><?=$f->input("height",$goods["height"],"type='number' step='any' disabled placeholder='".v("height")."...'","form-control");?></div>
-						<div class="col-md-4"></div>
-					</div>
-				</div>
-				<div class="form-group">
-					<label><?=v("availability_days");?> (<?=v("days");?>)</label><?=$f->input("availability_days",$goods["availability_days"],"type='number' step='any' disabled placeholder='".v("availability_days")."...'","form-control");?>
-				</div>
-				<div class="form-group">
-					<label><?=v("price");?> (<?=v("rupiahs");?>)</label><?=$f->input("price",$goods["price"],"type='number' step='any' disabled placeholder='".v("price")."...'","form-control");?>
-				</div>
-				<div class="form-group">
-					<label><?=v("delivery_courier");?></label> 
-					<?=$f->select("couriers",$db->fetch_select_data("forwarders","id","name",[],["id"]),"","multiple=\"multiple\"","form-control");?>
-				</div>
-				
-				
-				<div class="form-group">
-					<?=$f->input("back",v("back"),"type='button' onclick=\"window.location='dashboard.php?tabActive=goods';\"","btn btn-warning");?>
-					<?=$f->input("edit",v("edit_goods"),"type='button' onclick=\"window.location='goods_edit.php?id=".$_GET["id"]."';\"","btn btn-primary");?>
-				</div>
+	<br>
+	<div class="form-group">
+		<?=$f->input("edit_goods_photo",v("edit_goods_photo"),"type='button' onclick=\"window.location='goods_photo.php?id=".$_GET["id"]."';\"","btn btn-primary");?>
+	</div>
+	<div class="row">
+		<?=$t->start("","","table table-striped table-hover");?>
+			<?=$t->row(["<b>".v("categories")."</b>",$goods_categories]);?>
+			<?=$t->row(["<b>".v("goods_name")."</b>",$goods["name"]]);?>
+			<?=$t->row(["<b>".v("description")."</b>",$goods["description"]]);?>
+			<!--<?=$t->row(["<b>Barcode</b>",$goods["barcode"]]);?>-->
+			<?=$t->row(["<b>".v("condition")."</b>",$good_is_new]);?>
+			<?=$t->row(["<b>".v("stock")."</b>",$stock." ".$btnStockHistory]);?>
+			<?=$t->row(["<b>".v("unit")."</b>",$db->fetch_single_data("units","name_".$__locale,["id" => $goods["unit_id"]])]);?>
+			<?=$t->row(["<b>".v("weight_per_unit")."</b>",$goods["weight"]]);?>
+			<?=$t->row(["<b>".v("dimension"). " (".v("l_w_h").")</b>",$goods["dimension"]]);?>
+			<?=$t->row(["<b>".v("availability_days")."</b>",$goods["availability_days"]." ".v("days")]);?>
+			<?=$t->row(["<b>".v("price")."</b>","Rp. ".format_amount($goods["price"])]);?>
+			<?=$t->row(["<b>".v("delivery_courier")."</b>",$goods_forwarders]);?>
+		<?=$t->end();?>
+		
+		<div class="col-md-12">
+			<div class="form-group">
+				<?=$f->input("back",v("back"),"type='button' onclick=\"window.location='dashboard.php?tabActive=goods';\"","btn btn-warning");?>
+				<?=$f->input("edit",v("edit_goods"),"type='button' onclick=\"window.location='goods_edit.php?id=".$_GET["id"]."';\"","btn btn-primary");?>
 			</div>
-		</form>
+		</div>
 	</div>
 </div>
 <?php include_once "footer.php"; ?>

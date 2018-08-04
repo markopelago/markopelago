@@ -28,7 +28,7 @@
 			$inserting = $db->update();
 			if($inserting["affected_rows"] > 0){
 				$_SESSION["message"] = v("data_saved_successfully");
-				javascript("window.location='goods_photo.php?id=".$_GET["id"]."';");
+				javascript("window.location='goods_view.php?id=".$_GET["id"]."';");
 				exit();
 			} else {
 				$_SESSION["errormessage"] = v("failed_saving_data");
@@ -81,9 +81,9 @@
 				<div class="form-group">
 					<label><?=v("description");?></label><?=$f->textarea("description",$_POST["description"],"required placeholder='".v("description")."...'","form-control");?>
 				</div>
-				<div class="form-group">
+				<!--div class="form-group">
 					<label>Barcode</label><?=$f->input("barcode",$_POST["barcode"],"required placeholder='Barcode...'","form-control");?>
-				</div>
+				</div-->
 				<div class="form-group">
 					<label><?=v("condition");?></label><?=$f->select("is_new",["" => "","1" => v("new"),"2" => v("second_hand")],$_POST["is_new"],"required placeholder='".v("unit")."...'","form-control");?>
 				</div>
@@ -118,7 +118,7 @@
 				
 				<div class="form-group">
 					<?=$f->input("back",v("back"),"type='button' onclick=\"window.location='dashboard.php?tabActive=goods';\"","btn btn-warning");?>
-					<?=$f->input("save_goods",v("next"),"type='submit'","btn btn-primary");?>
+					<?=$f->input("save_goods",v("save"),"type='submit'","btn btn-primary");?>
 				</div>
 			</div>
 		</form>

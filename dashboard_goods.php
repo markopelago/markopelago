@@ -51,16 +51,17 @@
 							$filename = $goods_photo["filename"];
 							$img_goods_photo = "<img src='goods/".$filename."' width='80'>";
 						}
+						$onclick = "onclick=\"window.location='goods_view.php?id=".$goods["id"]."';\"";
 						?>
 						<tr style="cursor:pointer;">
 							<td><?=$img_goods_photo;?></td>
-							<td class="nowrap"><?=$goods["name"];?></td>
-							<td class="nowrap"><?=$categories;?></td>
-							<td class="nowrap"><?=$goods["description"];?></td>
-							<td class="nowrap" align="right"><?=format_amount($goods["price"]);?></td>
-							<td class="nowrap"><?=($goods["is_new"] == 1)?v("new"):v("second_hand");?></td>
-							<td class="nowrap" align="right"><?=$stock;?></td>
-							<td class="nowrap" align="right"><?=$db->fetch_single_data("units","name_".$__locale,["id" => $goods["unit_id"]]);?></td>
+							<td <?=$onclick;?> class="nowrap"><?=$goods["name"];?></td>
+							<td <?=$onclick;?> class="nowrap"><?=$categories;?></td>
+							<td <?=$onclick;?> class="nowrap"><?=$goods["description"];?></td>
+							<td <?=$onclick;?> class="nowrap" align="right"><?=format_amount($goods["price"]);?></td>
+							<td <?=$onclick;?> class="nowrap"><?=($goods["is_new"] == 1)?v("new"):v("second_hand");?></td>
+							<td <?=$onclick;?> class="nowrap" align="right"><?=$stock;?></td>
+							<td <?=$onclick;?> class="nowrap" align="right"><?=$db->fetch_single_data("units","name_".$__locale,["id" => $goods["unit_id"]]);?></td>
 							<td class="nowrap">
 								<?php 
 									echo $f->input("view",v("view"),"onclick=\"window.location='goods_view.php?id=".$goods["id"]."'\" type='button'","btn btn-primary");

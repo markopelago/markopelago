@@ -181,9 +181,14 @@ class Vocabulary{
 		$arr[$l]["register_as_seller_now"]						= "Want to register as a seller now";
 		$arr[$l]["add_goods"]									= "Add Goods";
 		$arr[$l]["add_goods_photo"]								= "Add Goods Photo";
+		$arr[$l]["edit_goods_photo"]							= "Edit Goods Photo";
 		$arr[$l]["edit_goods"]									= "Edit Goods";
 		$arr[$l]["goods_photos"]								= "Goods Photos";
 		$arr[$l]["stock"]										= "Stock";
+		$arr[$l]["stock_history"]								= "Stock History";
+		$arr[$l]["current_stock"]								= "Current Stcok";
+		$arr[$l]["example_first_stock"]							= "example: First Stock";
+		$arr[$l]["add_goods_stock_history"]						= "Add Stock History";
 		$arr[$l]["goods_name"]									= "Goods Name";
 		$arr[$l]["unit"]										= "Unit";
 		$arr[$l]["new"]											= "New";
@@ -201,6 +206,12 @@ class Vocabulary{
 		$arr[$l]["width"]										= "Width";
 		$arr[$l]["height"]										= "Height";
 		$arr[$l]["you_dont_have_access"]						= "You don't have access";
+		$arr[$l]["date"]										= "Date";
+		$arr[$l]["po_number"]									= "PO Number";
+		$arr[$l]["in_out"]										= "In/Out";
+		$arr[$l]["in"]											= "In";
+		$arr[$l]["out"]											= "Out";
+		$arr[$l]["notes"]										= "Notes";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -369,9 +380,14 @@ class Vocabulary{
 		$arr[$l]["register_as_seller_now"]						= "Ingin mendaftar sebagai penjual sekarang";
 		$arr[$l]["add_goods"]									= "Tambah Produk";
 		$arr[$l]["add_goods_photo"]								= "Tambah Foto Produk";
+		$arr[$l]["edit_goods_photo"]							= "Ubah Foto Produk";
 		$arr[$l]["edit_goods"]									= "Ubah Produk";
 		$arr[$l]["goods_photos"]								= "Foto Produk";
 		$arr[$l]["stock"]										= "Stok";
+		$arr[$l]["stock_history"]								= "Catatan Stok";
+		$arr[$l]["current_stock"]								= "Stok Sekarang";
+		$arr[$l]["example_first_stock"]							= "contoh: Stok Awal";
+		$arr[$l]["add_goods_stock_history"]						= "Tambah Catatan Stok";
 		$arr[$l]["goods_name"]									= "Nama Produk";
 		$arr[$l]["unit"]										= "Satuan";
 		$arr[$l]["new"]											= "Baru";
@@ -389,6 +405,12 @@ class Vocabulary{
 		$arr[$l]["width"]										= "Lebar";
 		$arr[$l]["height"]										= "Tinggi";
 		$arr[$l]["you_dont_have_access"]						= "Anda tidak punya akses";
+		$arr[$l]["date"]										= "Tanggal";
+		$arr[$l]["po_number"]									= "Nomor PO";
+		$arr[$l]["in_out"]										= "Masuk/Keluar";
+		$arr[$l]["in"]											= "Masuk";
+		$arr[$l]["out"]											= "Keluar";
+		$arr[$l]["notes"]										= "Keterangan";
 		
 		return $arr[$this->locale][$index];
 	}
