@@ -1,6 +1,3 @@
-ALTER TABLE `goods_history` ADD INDEX(`in_out`);
-RENAME TABLE goods_history TO goods_histories;
-
 rfo
 	id
 	user_id
