@@ -57,7 +57,7 @@
 		<?=$t->start("","","table table-striped table-hover");?>
 			<?=$t->row(["<b>".v("categories")."</b>",$goods_categories]);?>
 			<?=$t->row(["<b>".v("goods_name")."</b>",$goods["name"]]);?>
-			<?=$t->row(["<b>".v("description")."</b>",$goods["description"]]);?>
+			<?=$t->row(["<b>".v("description")."</b>","<pre>".$goods["description"]."</pre>"]);?>
 			<!--<?=$t->row(["<b>Barcode</b>",$goods["barcode"]]);?>-->
 			<?=$t->row(["<b>".v("condition")."</b>",$good_is_new]);?>
 			<?=$t->row(["<b>".v("stock")."</b>",$stock." ".$btnStockHistory]);?>

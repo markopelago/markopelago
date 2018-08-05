@@ -212,6 +212,10 @@ class Vocabulary{
 		$arr[$l]["in"]											= "In";
 		$arr[$l]["out"]											= "Out";
 		$arr[$l]["notes"]										= "Notes";
+		$arr[$l]["invoice_at"]									= "Invoice At";
+		$arr[$l]["invoice_no"]									= "Invoice No";
+		$arr[$l]["purchase_list"]								= "Purchase List";
+		$arr[$l]["store_sales_list"]							= "Store Sales List";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -411,6 +415,10 @@ class Vocabulary{
 		$arr[$l]["in"]											= "Masuk";
 		$arr[$l]["out"]											= "Keluar";
 		$arr[$l]["notes"]										= "Keterangan";
+		$arr[$l]["invoice_at"]									= "Tanggal Invoice";
+		$arr[$l]["invoice_no"]									= "Nomor Invoice";
+		$arr[$l]["purchase_list"]								= "Daftar Pembelian";
+		$arr[$l]["store_sales_list"]							= "Daftar Penjualan Toko";
 		
 		return $arr[$this->locale][$index];
 	}

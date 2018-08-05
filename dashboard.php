@@ -41,22 +41,22 @@
 						<?php if($__seller_id > 0){ ?>
 							<li><a data-toggle="tab" href="#goods" onclick="changeState('goods');"><?=v("my_goods");?></a></li>
 						<?php } ?>
+						<li><a data-toggle="tab" href="#purchase_list" onclick="changeState('purchase_list');"><?=v("purchase_list");?></a></li>
 						<?php if($__seller_id > 0|| $__forwarder_id > 0){ ?>
-							<li><a data-toggle="tab" href="#po" onclick="changeState('po');"><?=v("po");?></a></li>
+							<li><a data-toggle="tab" href="#store_sales_list" onclick="changeState('store_sales_list');"><?=v("store_sales_list");?></a></li>
 						<?php } ?>
-						<li><a data-toggle="tab" href="#invoices" onclick="changeState('invoices');"><?=v("invoices");?></a></li>
 						<li><a data-toggle="tab" href="#message" onclick="changeState('message');"><?=v("message");?><span class="notification-counter" style="visibility:hidden;" id="notifMessageTabCount"></span></a></li>
 					</ul>
 					<br><br>
 					<div class="col-md-12 tab-content">
-						<div id="profile" class="tab-pane active"><?php include_once "dashboard_profiles.php";?></div><br>
-						<div id="seller" class="tab-pane"><?php include_once "dashboard_seller.php";?></div><br>
-						<div id="addresses" class="tab-pane"><?php include_once "dashboard_addresses.php"; ?></div>
-						<div id="banks" class="tab-pane"><?php include_once "dashboard_banks.php"; ?></div>
-						<div id="invoices" class="tab-pane"><?php include_once "dashboard_invoices.php"; ?></div>
-						<div id="po" class="tab-pane"><?php include_once "dashboard_po.php"; ?></div>
-						<div id="goods" class="tab-pane"><?php include_once "dashboard_goods.php"; ?></div>
-						<div id="message" class="tab-pane"><?php include_once "dashboard_messages.php"; ?></div>
+						<div id="profile" class="tab-pane active">	<?php include_once "dashboard_profiles.php";?></div><br>
+						<div id="seller" class="tab-pane">			<?php include_once "dashboard_seller.php";?></div><br>
+						<div id="addresses" class="tab-pane">		<?php include_once "dashboard_addresses.php"; ?></div>
+						<div id="banks" class="tab-pane">			<?php include_once "dashboard_banks.php"; ?></div>
+						<div id="purchase_list" class="tab-pane">	<?php include_once "dashboard_purchase_list.php"; ?></div>
+						<div id="store_sales_list" class="tab-pane"><?php include_once "dashboard_store_sales_list.php"; ?></div>
+						<div id="goods" class="tab-pane">			<?php include_once "dashboard_goods.php"; ?></div>
+						<div id="message" class="tab-pane">			<?php include_once "dashboard_messages.php"; ?></div>
 					</div>
 				</div>		
 			</div>

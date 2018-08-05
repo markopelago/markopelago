@@ -1,9 +1,9 @@
 <?php
-	if(isset($_GET["change_primary"])){
+	if(isset($_GET["banks_change_primary"])){
 		$db->addtable("user_banks");$db->where("user_id",$__user_id);
 		$db->addfield("default_buyer");	$db->addvalue("0");
 		$db->update();
-		$db->addtable("user_banks"); $db->where("id",$_GET["change_primary"]); $db->where("user_id",$__user_id);
+		$db->addtable("user_banks"); $db->where("id",$_GET["banks_change_primary"]); $db->where("user_id",$__user_id);
 		$db->addfield("default_buyer");	$db->addvalue("1");
 		$db->update();
 		$_SESSION["message"]= v("data_saved_successfully");
@@ -14,8 +14,8 @@
 	echo $f->input("add_bank",v("add_bank"),"onclick=\"window.location='user_bank_add.php'\" type='button'","btn btn-primary");
 ?>
 <script>
-	function change_primary(user_bank_id){
-		window.location="?tabActive=banks&change_primary="+user_bank_id;
+	function banks_change_primary(user_bank_id){
+		window.location="?tabActive=banks&banks_change_primary="+user_bank_id;
 	}
 	function delete_bank(user_bank_id){
 		if(confirm("<?=v("confirm_delete");?> ?")){
@@ -43,7 +43,7 @@
 				} else {
 					foreach($user_banks as $user_bank){
 						$checked = ($user_bank["default_buyer"]) ? "checked":"";
-						$primary_bank = $f->input("primary_bank",$user_bank["id"],"onchange=\"change_primary('".$user_bank["id"]."');\" type='radio' ".$checked);
+						$primary_bank = $f->input("primary_bank",$user_bank["id"],"onchange=\"banks_change_primary('".$user_bank["id"]."');\" type='radio' ".$checked);
 						?>
 						<tr style="cursor:pointer;">
 							<td class="nowrap"><?=$db->fetch_single_data("banks","name",["id" => $user_bank["bank_id"]]);?></td>

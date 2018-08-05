@@ -33,11 +33,13 @@
 	</div>
 </div>
 <div id="seller_form_area" style="display:<?=($__seller_id > 0)?"block":"none";?>;">
+	<?php if($__seller_id > 0){ ?>
 	<center>
 		<div><img id="mainProfileImg" src="users_images/<?=($__seller["logo"] == "")?"nologo.jpg":$__seller["logo"];?>"></div>
 		<div><input name="change_logo" id="change_logo" value="<?=v("change_logo");?>" style="width:200px;position:relative;top:-32px;" type="button" onclick="window.location='dashboard_seller_logo.php';" class="btn btn-primary"></div>
 		<br><br>
 	</center>
+	<?php } ?>
 	<form role="form" method="POST" autocomplete="off">	
 		<div class="col-md-12">
 			<div class="form-group">

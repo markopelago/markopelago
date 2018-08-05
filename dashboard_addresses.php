@@ -1,9 +1,9 @@
 <?php
-	if(isset($_GET["change_primary"])){
+	if(isset($_GET["addresses_change_primary"])){
 		$db->addtable("user_addresses");$db->where("user_id",$__user_id);
 		$db->addfield("default_buyer");	$db->addvalue("0");
 		$db->update();
-		$db->addtable("user_addresses"); $db->where("id",$_GET["change_primary"]); $db->where("user_id",$__user_id);
+		$db->addtable("user_addresses"); $db->where("id",$_GET["addresses_change_primary"]); $db->where("user_id",$__user_id);
 		$db->addfield("default_buyer");	$db->addvalue("1");
 		$db->update();
 		$_SESSION["message"]= v("data_saved_successfully");
@@ -14,8 +14,8 @@
 	echo $f->input("add_address",v("add_address"),"onclick=\"window.location='user_address_add.php'\" type='button'","btn btn-primary");
 ?>
 <script>
-	function change_primary(user_address_id){
-		window.location="?tabActive=addresses&change_primary="+user_address_id;
+	function addresses_change_primary(user_address_id){
+		window.location="?tabActive=addresses&addresses_change_primary="+user_address_id;
 	}
 	function delete_address(user_address_id){
 		if(confirm("<?=v("confirm_delete");?> ?")){
@@ -43,7 +43,7 @@
 				} else {
 					foreach($user_addresses as $user_address){
 						$checked = ($user_address["default_buyer"]) ? "checked":"";
-						$primary_address = $f->input("primary_address",$user_address["id"],"onchange=\"change_primary('".$user_address["id"]."');\" type='radio' ".$checked);
+						$primary_address = $f->input("primary_address",$user_address["id"],"onchange=\"addresses_change_primary('".$user_address["id"]."');\" type='radio' ".$checked);
 						$locations = get_location($user_address["location_id"]);
 						$location = $user_address["address"];
 						$location .= "<br>".$locations[3]["name"];

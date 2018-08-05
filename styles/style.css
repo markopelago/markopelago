@@ -1174,6 +1174,11 @@ a:focus, a:hover {
 	width: 400px !important;
 }
 
+textarea{
+	width:430px !important;
+	height:300px !important;
+}
+
 @media screen and (max-width: 995px) {
 	.header-start{ height:110px; }
 	.carousel-inner{

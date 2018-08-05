@@ -363,5 +363,31 @@
 		imagejpeg($thumb, $filename,100);
 		return 1;
 	}
+	
+	function transactionList($id){
+		global $__locale;
+		$arr = array();
+		if($__locale == "id"){
+			$arr[0] = "Keranjang";
+			$arr[1] = "Checkout Pembelian";
+			$arr[2] = "Tunggu verifikasi pembayaran";
+			$arr[3] = "Pembayaran terverifikasi";
+			$arr[4] = "Pemesanan dalam proses";
+			$arr[5] = "Pemesanan dalam pengiriman";
+			$arr[6] = "Barang Diterima";
+			$arr[7] = "Transaksi Selesai";
+		}
+		if($__locale == "en"){
+			$arr[0] = "Cart";
+			$arr[1] = "Purchase Checkout";
+			$arr[2] = "Waiting payment verification";
+			$arr[3] = "Payment verified";
+			$arr[4] = "Order in process";
+			$arr[5] = "Order in delivery";
+			$arr[6] = "Received";
+			$arr[7] = "Transaction Done";
+		}
+		return $arr[$id];
+	}
 ?>
 <?php include_once "log_action.php"; ?>
