@@ -47,6 +47,7 @@
 					<p class="description">Human-Based Marketplace platform to boost up your busines</p>
 				<?php if(!$__isloggedin){ ?>
 					<div class="top-buttons">
+						<a class="btn btn-link-2 scroll-link" href="#" onclick="$('#ul_signin').addClass('show');"><?=v("signin");?></a>
 						<a class="btn btn-link-2 scroll-link" href="register.php"><?=v("register");?></a>
 					</div>
 				<?php } ?>

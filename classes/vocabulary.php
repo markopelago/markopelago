@@ -69,9 +69,11 @@ class Vocabulary{
 		$arr[$l]["about"]										= "About";
 		$arr[$l]["contact"]										= "Contact";
 		$arr[$l]["message"]										= "Message";
+		$arr[$l]["send_message_to_seller"]						= "Send message to seller";
 		$arr[$l]["register_as"]									= "Register as";
 		$arr[$l]["register"]									= "Register";
 		$arr[$l]["seller"]										= "Seller";
+		$arr[$l]["about_seller"]								= "About Seller";
 		$arr[$l]["buyer"]										= "Buyer";
 		$arr[$l]["forwarder"]									= "Forwarder";
 		$arr[$l]["profile"]										= "Profile";
@@ -202,6 +204,7 @@ class Vocabulary{
 		$arr[$l]["please_select_categories"]					= "Please select categories";
 		$arr[$l]["please_select_couriers"]						= "Please select couriers";
 		$arr[$l]["l_w_h"]										= "Length (cm) x Width (cm) x Height (cm)";
+		$arr[$l]["l_w_h2"]										= "L (cm) x W (cm) x H (cm)";
 		$arr[$l]["length"]										= "Length";
 		$arr[$l]["width"]										= "Width";
 		$arr[$l]["height"]										= "Height";
@@ -272,9 +275,11 @@ class Vocabulary{
 		$arr[$l]["about"]										= "Tentang Kami";
 		$arr[$l]["contact"]										= "Hubungi";
 		$arr[$l]["message"]										= "Pesan";
+		$arr[$l]["send_message_to_seller"]						= "Kirim pesan ke penjual";
 		$arr[$l]["register_as"]									= "Daftar sebagai";
 		$arr[$l]["register"]									= "Daftar";
 		$arr[$l]["seller"]										= "Penjual";
+		$arr[$l]["about_seller"]								= "Tentang Penjual";
 		$arr[$l]["buyer"]										= "Pembeli";
 		$arr[$l]["forwarder"]									= "Ekspeditur";
 		$arr[$l]["profile"]										= "Profil";
@@ -405,6 +410,7 @@ class Vocabulary{
 		$arr[$l]["please_select_categories"]					= "Silakan pilih kategori";
 		$arr[$l]["please_select_couriers"]						= "Silakan pilih kurir";
 		$arr[$l]["l_w_h"]										= "Panjang (cm) x Lebar (cm) x Tinggi (cm)";
+		$arr[$l]["l_w_h2"]										= "P (cm) x L (cm) x T (cm)";
 		$arr[$l]["length"]										= "Panjang";
 		$arr[$l]["width"]										= "Lebar";
 		$arr[$l]["height"]										= "Tinggi";

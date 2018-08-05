@@ -166,7 +166,7 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?=v("signin");?> 
 								<span class="caret"></span>
 							</a>
-							<ul class="dropdown-menu" role="menu">
+							<ul id="ul_signin" class="dropdown-menu" role="menu">
 								<li>
 									<div class="col-sm-5">
 										<div style="width:200px;" class="text-center">
