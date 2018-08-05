@@ -19,7 +19,7 @@
 </script>
 <div class="row scrolling-wrapper">
 	<table class="table table-striped table-hover">
-		<thead> <?=$t->header(["",v("name"),v("categories"),v("description"),v("price"),v("condition"),v("stock"),v("unit"),""]);?> </thead>
+		<thead> <?=$t->header(["","",v("name"),v("categories"),v("price"),v("condition"),v("stock"),v("unit"),v("description")]);?> </thead>
 		<tbody>
 			<?php
 				$_goods = $db->fetch_all_data("goods",[],"seller_id='".$__seller_id."'","id");
@@ -43,25 +43,27 @@
 						}
 						$onclick = "onclick=\"window.location='goods_view.php?id=".$goods["id"]."';\"";
 						echo $t->row(
-							[$img_goods_photo,
+							[
+							 "<span title='".v("view")."' class='glyphicon glyphicon-search btn btn-primary' onclick=\"window.location='goods_view.php?id=".$goods["id"]."'\"></span>".
+							 "&nbsp;<span title='".v("edit")."' class='glyphicon glyphicon-edit btn btn-primary' onclick=\"window.location='goods_edit.php?id=".$goods["id"]."'\"></span>".
+							 "&nbsp;<span title='".v("delete")."' class='glyphicon glyphicon-remove btn btn-warning' onclick=\"delete_goods('".$goods["id"]."');\"></span>",
+							 $img_goods_photo,
 							 $goods["name"],
 							 $categories,
-							 "<pre style='width:400px;'>".$goods["description"]."</pre>",
-							 format_amount($goods["price"],
-							 ($goods["is_new"] == 1)?v("new"):v("second_hand")),
+							 format_amount($goods["price"]),
+							 ($goods["is_new"] == 1)?v("new"):v("second_hand"),
 							 $stock,
 							 $db->fetch_single_data("units","name_".$__locale,["id" => $goods["unit_id"]]),
-							 $f->input("view",v("view"),"onclick=\"window.location='goods_view.php?id=".$goods["id"]."'\" type='button'","btn btn-primary")
-							 ."&nbsp;".$f->input("edit",v("edit"),"onclick=\"window.location='goods_edit.php?id=".$goods["id"]."'\" type='button'","btn btn-primary")
-							 ."&nbsp;".$f->input("delete",v("delete"),"onclick=\"delete_goods('".$goods["id"]."');\" type='button'","btn btn-warning")],
-							["",
+							 "<pre style='width:400px;height:150px;'>".$goods["description"]."</pre>"],
+							["class='nowrap'",
 							 $onclick." class='nowrap'",
 							 $onclick." class='nowrap'",
 							 $onclick." class='nowrap'",
 							 $onclick." class='nowrap'",
 							 $onclick." class='nowrap'",
 							 $onclick." class='nowrap'",
-							 "class='nowrap'"],
+							 $onclick." class='nowrap'",
+							 ],
 							"style='cursor:pointer;'"
 						);
 					}

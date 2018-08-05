@@ -53,7 +53,7 @@
 			</div>	
 			
 			<div class="form-group">
-				<?=$f->input("save_seller",v("Save"),"type='submit'","btn btn-primary");?>
+				<?=$f->input("save_seller",v("save"),"type='submit'","btn btn-primary");?>
 			</div>
 		</div>
 	</form>
