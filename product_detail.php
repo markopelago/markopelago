@@ -5,7 +5,7 @@
 	$onclickSendMessage = "onclick=\"$('#ul_signin').addClass('show');\"";
 	$onclickBuy = "onclick=\"$('#ul_signin').addClass('show');\"";
 	if($__isloggedin){
-		$onclickSendMessage = "onclick=\"newMessage('".$seller["user_id"]."','".$goods["id"]."');\"";
+		$onclickSendMessage = "onclick=\"newMessage('".$seller["user_id"]."','".$goods["id"]."','buyer','seller');\"";
 		$onclickBuy = "onclick=\"window.location='transaction.php?id=".$_GET["id"]."';\"";
 	}
 ?>
@@ -74,7 +74,7 @@
 						<h3 class="panel-title"><b><?=v("product_description");?></b></h3>
 					</div>
 					<div class="panel-body">
-                        <p><?=$db->fetch_single_data("goods","description",["id"=>$_GET["id"]]);?></p>
+                        <p><?=str_replace(chr(13).chr(10),"<br>",$db->fetch_single_data("goods","description",["id"=>$_GET["id"]]));?></p>
 					</div>
                 </div>
             </div>
@@ -89,7 +89,9 @@
 					<center>
 						<img class="img-responsive" src="users_images/<?=$seller["logo"];?>"><br>
 						<b><?=$seller["name"];?></b><br><br>
+						<?php if($__seller_id != $goods["seller_id"]){ ?>
 						<button class="btn btn-primary" <?=$onclickSendMessage;?>><span class="glyphicon glyphicon-envelope"></span>&nbsp;<?=v("send_message_to_seller");?></button>
+						<?php } ?>
 					</center>
 				</div>
             </div>

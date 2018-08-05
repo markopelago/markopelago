@@ -1,18 +1,17 @@
 <?php 
 	include_once "../common.php";
-	function getSenderInfo($sender_id){
+	function getSenderInfo($sender_id,$sender_as){
 		global $db;
-		$sender = $db->fetch_single_data("a_users","name",["id"=>$sender_id]);
-		$photofield = "photo";
-		$profiletable = "corporate_profiles";
-		$arrreturn["role_name"] = "Corporate";
-		$photofield = "logo";
-		$photo = "user_images/".$db->fetch_single_data($profiletable,$photofield,["user_id" => $sender_id]);
+		if($sender_as == "buyer" || $sender_as == ""){
+			$sender = $db->fetch_single_data("a_users","name",["id"=>$sender_id]);
+			$photo = "users_images/".$db->fetch_single_data("buyers","avatar",["user_id"=>$sender_id]);
+		}
+		if($sender_as == "seller"){
+			$sender = $db->fetch_single_data("sellers","name",["user_id"=>$sender_id]);
+			$photo = "users_images/".$db->fetch_single_data("sellers","logo",["user_id"=>$sender_id]);
+		}
 		$arrreturn["name"] = $sender;
 		$arrreturn["photopath"] = $photo;
-		$arrreturn["name"] = "warihFramework";
-		$arrreturn["photopath"] = "images/logo.png";
-		$arrreturn["role_name"] = "Admin";
 		return $arrreturn;
 	}
 	
@@ -26,6 +25,9 @@
 		$_GET["id"] = $db->fetch_single_data("messages","id",["thread_id" => $thread_id],["id DESC"]);
 		$sender_id = $_GET["sender_id"];
 		$message = sanitasi($_GET["message"]);
+		$user_id_as = ($_GET["user_id_as"] == "")?"buyer":$_GET["user_id_as"];
+		$user_id2_as = ($_GET["user_id2_as"] == "")?"seller":$_GET["user_id2_as"];
+		
 		if($message != ""){
 			if($thread_id <=0){
 				$thread_id = $db->fetch_single_data("messages","thread_id",[],["thread_id DESC"]);
@@ -35,6 +37,8 @@
 			$db->addfield("thread_id");	$db->addvalue($thread_id);
 			$db->addfield("user_id");	$db->addvalue($__user_id);
 			$db->addfield("user_id2");	$db->addvalue($sender_id);
+			$db->addfield("user_id_as");$db->addvalue($user_id_as);
+			$db->addfield("user_id2_as");$db->addvalue($user_id2_as);
 			$db->addfield("message");	$db->addvalue($message);
 			$db->addfield("status");	$db->addvalue(0);
 			$inserting = $db->insert();
@@ -48,9 +52,14 @@
 		if(count($messages) > 0){
 			echo "<table width='100%'>";
 			foreach($messages as $message){
-				if($message["user_id"] == $__user_id) $sender_id = $message["user_id2"];
-				else $sender_id = $message["user_id"];
-				$arrsender = getSenderInfo($sender_id);
+				if($message["user_id"] == $__user_id){
+					$sender_id = $message["user_id2"];
+					$sender_as = $message["user_id2_as"];
+				} else {
+					$sender_id = $message["user_id"];
+					$sender_as = $message["user_id_as"];
+				}
+				$arrsender = getSenderInfo($sender_id,$sender_as);
 				$sender = $arrsender["name"];
 				$photo = $arrsender["photopath"];
 				if($message["status"] == 0) $message["message"] = "<b><i>".$message["message"]."</i></b>";
@@ -110,18 +119,25 @@
 		$id = $_GET["id"];
 		$message = $db->fetch_all_data("messages",[],"id = '".$id."' AND (user_id='$__user_id' OR user_id2='$__user_id')")[0];
 		if($message["id"] != ""){
-			if($message["user_id"] == $__user_id) $sender_id = $message["user_id2"];
-			else $sender_id = $message["user_id"];
-			$arrsender = getSenderInfo($sender_id);
+			if($message["user_id"] == $__user_id){
+				$sender_id = $message["user_id2"];
+				$sender_as = $message["user_id2_as"];
+			} else {
+				$sender_id = $message["user_id"];
+				$sender_as = $message["user_id_as"];
+			}
+			$arrsender = getSenderInfo($sender_id,$sender_as);
 			$thread_id = $db->fetch_single_data("messages","thread_id",["id" => $id]);
 			?>
 			<div class="row">
 				<div class="col-sm-1">
 					<img src="<?=$arrsender["photopath"];?>" width="50">
 				</div>
-				<div class="col-sm-11">
-					<b><?=$arrsender["name"];?></b><br>
-					<i>(<?=$arrsender["role_name"];?>)</i>
+				<div class="col-sm-10">
+					<b><?=$arrsender["name"];?></b>
+				</div>
+				<div class="col-sm-1">
+					<button class="btn btn-warning" onclick="loadMessages();"><?=v("back");?></button>
 				</div>
 			</div>
 			<br>
@@ -140,13 +156,28 @@
 			<script>
 				function refreshMessage(){
 					loadConversations('<?=$thread_id;?>');
-					setTimeout(function(){ refreshMessage(); }, 1000);
+					setTimeout(function(){ refreshMessage(); }, 5000);
 				}
-				setTimeout(function(){ refreshMessage(); }, 1000);
+				refreshMessage();
 			</script>
 			<?php
 		} else {
 			?><script> loadMessages(); </script><?php
 		}
+	}
+	if($mode == "loadMessageForm"){
+		$sender_id = $_GET["sender_id"];
+		$goods_id = $_GET["goods_id"];
+		$user_id_as = $_GET["user_id_as"];
+		if($user_id_as == "undefined") $user_id_as= "";
+		$user_id2_as = $_GET["user_id2_as"];
+		if($user_id2_as == "undefined") $user_id2_as= "";
+		$message = v("goods")." ".$db->fetch_single_data("goods","name",["id" => $goods_id])." : ";
+		echo v("send_message_to_seller")."|||";
+		echo "<div class=\"form-group\">";
+		echo $f->textarea("message",$message,"style=\"height:100px !important;width:100% !important;\" required placeholder='".v("message")."...'","form-control");
+		echo "</div>|||";
+		echo "<button type=\"button\" class=\"btn btn-primary\" onclick=\"sendMessage('".$sender_id."',document.getElementById('message').value,'".$user_id_as."','".$user_id2_as."')\">".v("send")."</button>";
+		echo "<button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\">".v("cancel")."</button>";
 	}
 ?>

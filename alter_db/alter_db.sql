@@ -14,6 +14,7 @@ CREATE TABLE `messages` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 ALTER TABLE `messages` ADD PRIMARY KEY (`id`), ADD KEY `created_at` (`created_at`), ADD KEY `status` (`status`);
 ALTER TABLE `messages` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `messages` ADD `user_id_as` VARCHAR(10) NOT NULL AFTER `user_id2`, ADD `user_id2_as` VARCHAR(10) NOT NULL AFTER `user_id_as`, ADD INDEX (`user_id_as`), ADD INDEX (`user_id2_as`);
 
 rfo
 	id

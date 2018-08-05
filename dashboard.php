@@ -45,7 +45,7 @@
 						<?php if($__seller_id > 0|| $__forwarder_id > 0){ ?>
 							<li><a data-toggle="tab" href="#store_sales_list" onclick="changeState('store_sales_list');"><?=v("store_sales_list");?></a></li>
 						<?php } ?>
-						<li><a data-toggle="tab" href="#message" onclick="changeState('message');"><?=v("message");?><span class="notification-counter" style="visibility:hidden;" id="notifMessageTabCount"></span></a></li>
+						<li><a data-toggle="tab" href="#message" onclick="changeState('message');loadMessages();"><?=v("message");?><span class="notification-counter" style="visibility:hidden;" id="notifMessageTabCount"></span></a></li>
 					</ul>
 					<br><br>
 					<div class="col-md-12 tab-content">

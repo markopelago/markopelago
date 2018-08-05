@@ -124,3 +124,26 @@ function loadSubDistricts(parent_id){
 		$("#div_select_subdistrict").css({ "display": "none" });
 	}
 }
+
+function newMessage(sender_id,goods_id,user_id_as,user_id2_as){
+	$.get( "ajax/messages.php?mode=loadMessageForm&sender_id="+sender_id+"&goods_id="+goods_id+"&user_id_as="+user_id_as+"&user_id2_as="+user_id2_as, function(modalBody) {
+		modalBody = modalBody.split("|||");
+		modalTitle = modalBody[0];
+		modalFooter = modalBody[2];
+		modalBody = modalBody[1];
+		$('#modalTitle').html(modalTitle);
+		$('#modalBody').html(modalBody);
+		$('#modalFooter').html(modalFooter);
+		$('#myModal').modal('show');
+	});
+}
+
+function sendMessage(sender_id,textmessage,user_id_as,user_id2_as){
+	user_id_as = user_id_as || "";
+	user_id2_as = user_id2_as || "";
+	if(sender_id > 0 && textmessage != ""){
+		$.ajax({url: "ajax/messages.php?mode=sendMessage&sender_id="+sender_id+"&message="+textmessage+"&user_id_as="+user_id_as+"&user_id2_as="+user_id2_as, success: function(result){
+			window.location="dashboard.php?tabActive=message";
+		}});
+	}
+}
