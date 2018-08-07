@@ -46,7 +46,7 @@
 <div class="container">
 	<div class="row sub-title-area" style="border-bottom: 1px solid #ccc;">
 		<div class="sub-title-text">
-            <span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> &nbsp;Keranjang Belanja
+            <span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> &nbsp;<?=v("shopping_cart");?>
 		</div>
 	</div>
     <div class="row">
@@ -69,7 +69,7 @@
                 ?>
                     <table class="table table-bordered" width="100%">
                         <tr>
-                            <td colspan="6"><?=v("pembelian_dari_toko");?> : <?=$seller["name"];?></td>
+                            <td colspan="6"><?=v("seller");?> : <b><?=$seller["name"];?></b></td>
                         </tr> 
                         <tr>
                             <td colspan="4">
@@ -78,50 +78,52 @@
                                 </div>
                                 <div class="col-md-10">
                                     <?=$goods["name"]?><br>
-                                    <?=$transaction_details["qty"]?> <?=$units["name_".$__locale]?> x Rp 
-                                    <?=format_amount($transaction_details["price"])?>
+                                    <?=$transaction_details["qty"]?> <?=$units["name_".$__locale]?> x Rp <?=format_amount($transaction_details["price"])?><br>
+									<?=v("weight_per_unit");?> : <?=($goods["weight"]/1000);?> Kg
                                 </div>
                             </td>
-                            <td colspan="2">
-                                 <?=v("harga_barang");?><br>
-                                 Rp <?=format_amount($transaction_details["price"])?>
+                            <td colspan="2" align="right">
+								Sub Total<br>
+                                Rp. <?=format_amount($transaction_details["total"])?>
                             </td>   
                         </tr>
                         <tr>
-                            <td colspan="2" width="60%">
-                                    <?=v("alamat");?><br>
-                                    <?=$transaction_forwarder["user_address_pic"];?> <br>
-                                    <?=$transaction_forwarder["user_address"];?> <br>
-                                    <?=$transaction_forwarder["user_address_phone"];?>
-                                    
+                            <td colspan="5">
+								<u><?=v("delivery_destination");?> :</u><br><br>
+								<b><?=$transaction_forwarder["user_address_pic"];?></b> <br>
+								<?=$transaction_forwarder["user_address"];?> <br>
+								<?php
+									$locations = get_location($transaction_forwarder["user_address_location_id"]);
+									echo $locations[3]["name"].", ".$locations[2]["name"]."<br>";
+									echo $locations[1]["name"].", ".$locations[0]["name"],", ".$locations[3]["zipcode"]."<br>";
+								?>
+								<?=$transaction_forwarder["user_address_phone"];?>                                    
                             </td>
-                            <td>
-                                    <?=v("total");?> <br>
-                                    <?=$transaction_details["qty"]?> <?=$units["name_".$__locale]?>
-                            </td>  
-                            <td>
-                                    <?=v("subtotal");?> <br>
-                                    Rp <?=format_amount($transaction_details["total"])?>
-                            </td>  
-                            <td>
-                                    <?=v("ongkos_kirim");?> <br>
-                                    Rp <?=format_amount($transaction_forwarder["total"])?>
-                            </td>
+						</tr>
+						<tr>
+							<td colspan="3" width="70%"> 
+								<u><?=v("courier_service");?> :</u><br> <?=$transaction_forwarder["name"];?>
+							</td>
+                            <td nowrap width="15%" align="right">
+								<?=v("weight");?><br> <?=($transaction_forwarder["weight"]*$transaction_forwarder["qty"]/1000);?> Kg
+							</td> 
+                            <td nowrap width="15%" align="right">
+								<?=v("shipping_charges");?><br> Rp <?=format_amount($transaction_forwarder["total"])?>
+							</td>
                         </tr>
                         <tr>
-                            <td colspan="6" align="right"><b> <?=v("total");?> : Rp <?=format_amount($total)?></b></td>
+                            <td colspan="6" align="right"><b> Total : Rp <?=format_amount($total)?></b></td>
                         </tr>
                     </table>
-                    <?php
-                        }
-                    ?>
-                    <table width="100%">
-                        <tr>
-                            <td align="right"><b>Total Tagihan : &nbsp;&nbsp;Rp. <?=format_amount($total_tagihan)?></b></td>
-                        </tr>
-                    </table>
+				<?php } ?>
+				<table width="100%">
+					<tr>
+						<td align="right"><b><?=v("total_bill");?> : &nbsp;&nbsp;Rp. <?=format_amount($total_tagihan)?></b></td>
+					</tr>
+				</table>
             </div>
         </div>
+		
         <?php if($db->fetch_single_data("transactions","status",["cart_group" => $cart_group]) == 0){ ?>
             <div id="pay">
                 <?=$f->input("more_shopping",v("more_shopping"),"onclick='window.location=\"index.php\"'","btn btn-warning");?>

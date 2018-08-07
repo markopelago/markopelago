@@ -57,13 +57,12 @@ if(isset($_GET["logout_action"])){
 	?><script> window.location='index.php'; </script><?php
 }
 if(isset($_POST["login_action"])){
-	$_SESSION["referer_url"] = basename($_SERVER["REQUEST_URI"]);
+	if(substr($_SERVER["REQUEST_URI"],-1) != "/") $_SESSION["referer_url"] = basename($_SERVER["REQUEST_URI"]);
 	$_login_action = login_action($_POST["username"],$_POST["password"]);
 	if($_login_action > 0) {
 		$_SESSION["message"] = v("signin_success");
 		if($_SESSION["referer_url"] != ""){
 			?><script> window.location="<?=$_SESSION["referer_url"];?>"; </script><?php
-			javascript("");
 			$_SESSION["referer_url"] = "";
 		} else {
 			?><script> window.location='index.php'; </script><?php

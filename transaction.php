@@ -17,18 +17,18 @@
 		
 		$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
 		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
-		$po_no = $db->fetch_single_data("transactions","po_no",["seller_user_id"=>$seller_user_id,"buyer_user_id" => $__user_id,"status" => 0]);
+		/*$po_no = $db->fetch_single_data("transactions","po_no",["seller_user_id"=>$seller_user_id,"buyer_user_id" => $__user_id,"status" => 0]);
 		if($po_no == ""){
 			$po_no = "PO/".date("Ymd")."/";
 			$seqno = $db->fetch_single_data("transactions","po_no",["po_no" => $po_no."%:LIKE"]);
 			$seqno = (str_replace($po_no,"",$seqno) * 1) + 1;
 			$po_no = "PO/".date("Ymd")."/".numberpad($seqno,5);
-		}
+		} */
 		
 		$db->addtable("transactions");
 		$db->addfield("cart_group");		$db->addvalue($cart_group);
 		$db->addfield("invoice_no");		$db->addvalue($invoice_no);
-		$db->addfield("po_no");				$db->addvalue($po_no);
+		$db->addfield("invoice_at");		$db->addvalue($__now);
 		$db->addfield("seller_user_id");	$db->addvalue($seller_user_id);
 		$db->addfield("buyer_user_id");		$db->addvalue($__user_id);
 		$db->addfield("transaction_at");	$db->addvalue($__now);

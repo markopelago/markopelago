@@ -144,6 +144,8 @@ class Vocabulary{
 		$arr[$l]["city"]										= "City";
 		$arr[$l]["district"]									= "District";
 		$arr[$l]["subdistrict"]									= "Sub District";
+		$arr[$l]["cart"]										= "Cart";
+		$arr[$l]["shopping_cart"]								= "Shopping Cart";
 		$arr[$l]["success_add_to_cart"]							= "Product successfully added to the cart";
 		$arr[$l]["more_shopping"]								= "More Shopping";
 		$arr[$l]["pay"]											= "Pay";
@@ -219,6 +221,7 @@ class Vocabulary{
 		$arr[$l]["invoice_no"]									= "Invoice No";
 		$arr[$l]["purchase_list"]								= "Purchase List";
 		$arr[$l]["store_sales_list"]							= "Store Sales List";
+		$arr[$l]["total_bill"]									= "Total Bill";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -350,6 +353,8 @@ class Vocabulary{
 		$arr[$l]["city"]										= "Kota";
 		$arr[$l]["district"]									= "Kecamatan";
 		$arr[$l]["subdistrict"]									= "Kelurahan";
+		$arr[$l]["cart"]										= "Keranjang";
+		$arr[$l]["shopping_cart"]								= "Keranjang Belanja";
 		$arr[$l]["success_add_to_cart"]							= "Produk berhasil ditambahkan ke keranjang";
 		$arr[$l]["more_shopping"]								= "Lanjut Belanja";
 		$arr[$l]["pay"]											= "Bayar";
@@ -425,6 +430,7 @@ class Vocabulary{
 		$arr[$l]["invoice_no"]									= "Nomor Invoice";
 		$arr[$l]["purchase_list"]								= "Daftar Pembelian";
 		$arr[$l]["store_sales_list"]							= "Daftar Penjualan Toko";
+		$arr[$l]["total_bill"]									= "Total Tagihan";
 		
 		return $arr[$this->locale][$index];
 	}
