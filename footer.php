@@ -14,6 +14,9 @@
 						<p><i class="fa fa-phone"></i> Phone: +62 21 54210226</p>
 						<p><i class="fa fa-envelope"></i> Email: <a href="mailto:cs@markopelago.com">cs@markopelago.com</a></p>
 						<p><i class="fa fa-instagram"></i> IG: markopelago</p>
+						<p><i class="fa fa-facebook"></i> Facebook: markopelago indonesia</p>
+						<p><i class="fa fa-youtube"></i> Youtube: markopelago indonesia</p>
+						<p><i class="fa fa-twitter"></i> Twitter: @markopelago</p>
 					</div>
 					<div class="col-sm-4 footer-links">
 						<div class="row">

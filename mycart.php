@@ -1,15 +1,21 @@
 <?php include_once "header.php"; ?>
 <?php
     $cart_group = ($_GET["cart_group"] == "")?$db->fetch_single_data("transactions","cart_group",["buyer_user_id"=>$__user_id,"status" => "0"]):$_GET["cart_group"];
+	if(isset($_GET["delete_transaction"])){
+		$db->addtable("transactions");			$db->where("id",$_GET["delete_transaction"]); $db->delete_();
+		$db->addtable("transaction_details");	$db->where("transaction_id",$_GET["delete_transaction"]); $db->delete_();
+		$db->addtable("transaction_forwarder");	$db->where("transaction_id",$_GET["delete_transaction"]); $db->delete_();
+	}
+	
     if($_GET["checkout"] == "1"){
         $db->addtable("transactions");  $db->where("cart_group",$cart_group);
         $db->addfield("status");        $db->addvalue("1");
         $updating = $db->update();
         if($updating["affected_rows"] > 0){
 			$invoice_no = $db->fetch_single_data("transactions","invoice_no",["cart_group"=>$cart_group]);
-			$uniq_code = 123;
+			$uniq_code = rand(0,9).rand(0,9).rand(0,9);
 			$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$cart_group."'");
-            foreach($transactions as $key => $transaction){
+            foreach($transactions as $transaction){
                 $transaction_details = $db->fetch_all_data("transaction_details",[],"id = '".$transaction["id"]."'")[0];
                 $transaction_forwarder = $db->fetch_all_data("transaction_forwarder",[],"transaction_id = '".$transaction["id"]."'")[0];
 
@@ -31,12 +37,23 @@
             $_SESSION["errormessage"] = v("checkout_failed");
         }
     }
+	$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$cart_group."'");
+	if(count($transactions) <= 0){
+		javascript("window.location='index.php';");
+		exit();
+	}
 ?>
 <script>
     function toggle_button(){
         document.getElementById("pay").style.display="none";
         document.getElementById("checkout").style.display="block";
     }
+	
+	function delete_transaction(transaction_id){
+		if(confirm("<?=v("confirm_delete_transaction");?>")){
+			window.location = "?delete_transaction="+transaction_id;
+		}
+	}
 
 </script>
 
@@ -54,8 +71,7 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <?php 
-				    $transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$cart_group."'");
-				    foreach($transactions as $key => $transaction){
+				    foreach($transactions as $transaction){
                         $transaction_details = $db->fetch_all_data("transaction_details",[],"id = '".$transaction["id"]."'")[0];
 				        $seller = $db->fetch_all_data("sellers",[],"user_id = '".$transaction["seller_user_id"]."'")[0];
                         $goods  = $db->fetch_all_data("goods",[],"id = '".$transaction_details["goods_id"]."'")[0];
@@ -69,7 +85,13 @@
                 ?>
                     <table class="table table-bordered" width="100%">
                         <tr>
-                            <td colspan="6"><?=v("seller");?> : <b><?=$seller["name"];?></b></td>
+                            <td colspan="5">
+								<?=v("seller");?> : <b><?=$seller["name"];?></b>
+								<div style="position:relative;float:right;">
+									<span title="<?=v("edit");?>" class="glyphicon glyphicon-edit btn btn-primary" onclick="window.location='transaction_edit.php?id=<?=$transaction["id"];?>';"></span>
+									<span title="<?=v("delete");?>" class="glyphicon glyphicon-remove btn btn-warning" onclick="delete_transaction('<?=$transaction["id"];?>');"></span>
+								</div>
+							</td>
                         </tr> 
                         <tr>
                             <td colspan="4">
@@ -137,7 +159,7 @@
             <?php } ?>
         <?php } ?>
         <div id="checkout" style="display:none;">
-            <?=$f->input("checkout",v("checkout"),"style=\"position:relative;float:right;\" onclick='window.location=\"?checkout=1\"'","btn btn-primary");?>
+            <?=$f->input("checkout",v("finalization_of_purchases"),"style=\"position:relative;float:right;\" onclick='window.location=\"?checkout=1\"'","btn btn-primary");?>
         </div>
     </div>
 </div>

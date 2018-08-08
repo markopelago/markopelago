@@ -149,6 +149,7 @@ class Vocabulary{
 		$arr[$l]["success_add_to_cart"]							= "Product successfully added to the cart";
 		$arr[$l]["more_shopping"]								= "More Shopping";
 		$arr[$l]["pay"]											= "Pay";
+		$arr[$l]["finalization_of_purchases"]					= "Finalization of Purchases";
 		$arr[$l]["notes_for_seller"]							= "Notes for Seller";
 		$arr[$l]["delivery_destination"]						= "Delivery Destination";
 		$arr[$l]["choose_another_address"]						= "Choose another address";
@@ -178,6 +179,7 @@ class Vocabulary{
 		$arr[$l]["add_bank"]									= "Add Bank";
 		$arr[$l]["edit_bank"]									= "Edit Bank";
 		$arr[$l]["confirm_delete"]								= "Are You sure want to delete this data";
+		$arr[$l]["confirm_delete_transaction"]					= "Are You sure want to delete this goods from cart";
 		$arr[$l]["profile_my_store"]							= "Profile My Store";
 		$arr[$l]["my_goods"]									= "My Products";
 		$arr[$l]["goods"]										= "Goods";
@@ -358,6 +360,7 @@ class Vocabulary{
 		$arr[$l]["success_add_to_cart"]							= "Produk berhasil ditambahkan ke keranjang";
 		$arr[$l]["more_shopping"]								= "Lanjut Belanja";
 		$arr[$l]["pay"]											= "Bayar";
+		$arr[$l]["finalization_of_purchases"]					= "Finalisasi Pembelian";
 		$arr[$l]["notes_for_seller"]							= "Catatan untuk Penjual";
 		$arr[$l]["delivery_destination"]						= "Tujuan Pengiriman";
 		$arr[$l]["choose_another_address"]						= "Pilih alamat lain";
@@ -387,6 +390,7 @@ class Vocabulary{
 		$arr[$l]["add_bank"]									= "Tambah Bank";
 		$arr[$l]["edit_bank"]									= "Ubah Bank";
 		$arr[$l]["confirm_delete"]								= "Anda yakin akan menghapus data tersebut";
+		$arr[$l]["confirm_delete_transaction"]					= "Anda yakin akan menghapus barang ini dari keranjang belanja";
 		$arr[$l]["profile_my_store"]							= "Profil Toko Saya";
 		$arr[$l]["my_goods"]									= "Daftar Produk Saya";
 		$arr[$l]["goods"]										= "Produk";

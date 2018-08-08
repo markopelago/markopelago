@@ -23,6 +23,7 @@
 		$goods_id = $_GET["goods_id"];
 		$buyer_address_id = $_GET["buyer_address_id"];
 		$courier = $_GET["courier"];
+		$qty = $_GET["qty"];
 		$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
 		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
 		$seller_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id]);
@@ -32,7 +33,7 @@
 		$destination = $ro->location_id(get_location($buyer_location_id)[0]["name"],0,get_location($buyer_location_id)[1]["name"]);
 		$weight = $db->fetch_single_data("goods","weight",["id" => $goods_id]);
 		$courier_services = array();
-		$ro_cost = $ro->cost($origin,$destination,$weight,$courier);
+		$ro_cost = $ro->cost($origin,$destination,($weight*$qty),$courier);
 		if($ro_cost["status"]["code"] == "400"){
 			echo $ro_cost["status"]["description"];
 		} else {
@@ -58,10 +59,10 @@
 		$destination = $ro->location_id(get_location($buyer_location_id)[0]["name"],0,get_location($buyer_location_id)[1]["name"]);
 		$weight = $db->fetch_single_data("goods","weight",["id" => $goods_id]);
 		$courier_services = array();
-		foreach($ro->cost($origin,$destination,$weight,$courier)["results"][0]["costs"] as $cost){
+		foreach($ro->cost($origin,$destination,($weight*$qty),$courier)["results"][0]["costs"] as $cost){
 			//$courier_services[$cost["service"]] = $cost["description"]." (".$cost["service"].")";
 			if($cost["service"] == $courier_service){
-				$shippingcharges = $cost["cost"][0]["value"] * $qty;
+				$shippingcharges = $cost["cost"][0]["value"];
 				break;
 			}
 		}

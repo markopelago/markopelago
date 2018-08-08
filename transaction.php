@@ -12,23 +12,14 @@
 			$invoice_no = "INV/".date("Ymd")."/";
 			$seqno = $db->fetch_single_data("transactions","invoice_no",["invoice_no" => $invoice_no."%:LIKE"]);
 			$seqno = (str_replace($invoice_no,"",$seqno) * 1) + 1;
-			$invoice_no = "INV/".date("Ymd")."/".numberpad($seqno,5);
+			$invoice_no = "INV/".date("Ymd")."/".numberpad($seqno,7);
 		}
 		
 		$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
 		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
-		/*$po_no = $db->fetch_single_data("transactions","po_no",["seller_user_id"=>$seller_user_id,"buyer_user_id" => $__user_id,"status" => 0]);
-		if($po_no == ""){
-			$po_no = "PO/".date("Ymd")."/";
-			$seqno = $db->fetch_single_data("transactions","po_no",["po_no" => $po_no."%:LIKE"]);
-			$seqno = (str_replace($po_no,"",$seqno) * 1) + 1;
-			$po_no = "PO/".date("Ymd")."/".numberpad($seqno,5);
-		} */
 		
 		$db->addtable("transactions");
 		$db->addfield("cart_group");		$db->addvalue($cart_group);
-		$db->addfield("invoice_no");		$db->addvalue($invoice_no);
-		$db->addfield("invoice_at");		$db->addvalue($__now);
 		$db->addfield("seller_user_id");	$db->addvalue($seller_user_id);
 		$db->addfield("buyer_user_id");		$db->addvalue($__user_id);
 		$db->addfield("transaction_at");	$db->addvalue($__now);
@@ -58,7 +49,7 @@
 			$forwarder_user_id = $db->fetch_single_data("forwarders","user_id",["rajaongkir_code" => $_POST["delivery_courier"]]);
 			$name = $db->fetch_single_data("forwarders","name",["rajaongkir_code" => $_POST["delivery_courier"]]);
 			$price = $_POST["shipping_charges"];
-			$total = $price * $qty;
+			$total = $price;
 			
 			$user_address_id = $_POST["user_address"];
 			$_user_address = $db->fetch_all_data("user_addresses",[],"id='".$user_address_id."' AND user_id='".$__user_id."'")[0];
@@ -108,7 +99,7 @@
 <script>
 	$(document).ready(function(){
 		change_address("<?=$user_address_default;?>");
-		load_courier_services("<?=$_GET["id"];?>",$("#user_address").val(),$("#delivery_courier").val());
+		load_courier_services("<?=$_GET["id"];?>",$("#user_address").val(),$("#delivery_courier").val(),$("#qty").val());
 		
 		$("#qty").change(function(){
 			load_calculation();
@@ -119,7 +110,7 @@
 		});
 		
 		$("#delivery_courier").change(function(){
-			load_courier_services("<?=$_GET["id"];?>",$("#user_address").val(),$("#delivery_courier").val());
+			load_courier_services("<?=$_GET["id"];?>",$("#user_address").val(),$("#delivery_courier").val(),$("#qty").val());
 		});
 	});
 	
@@ -134,9 +125,9 @@
 		});
 	}
 	
-	function load_courier_services(goods_id,buyer_address_id,courier){
+	function load_courier_services(goods_id,buyer_address_id,courier,qty){
 		$("#div_courier_services").html("<img src='images/fancybox_loading.gif'>");
-		$.get("ajax/transaction.php?mode=loadCourierServices&goods_id="+goods_id+"&buyer_address_id="+buyer_address_id+"&courier="+courier, function(returnval){
+		$.get("ajax/transaction.php?mode=loadCourierServices&goods_id="+goods_id+"&buyer_address_id="+buyer_address_id+"&courier="+courier+"&qty="+qty, function(returnval){
 			$("#div_courier_services").html(returnval);
 			load_shipping_charges(goods_id,buyer_address_id,courier,$("#courier_service").val(),$("#qty").val());
 		});
