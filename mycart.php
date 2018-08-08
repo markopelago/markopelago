@@ -8,12 +8,23 @@
 	}
 	
     if($_GET["checkout"] == "1"){
-        $db->addtable("transactions");  $db->where("cart_group",$cart_group);
-        $db->addfield("status");        $db->addvalue("1");
-        $updating = $db->update();
-        if($updating["affected_rows"] > 0){
+		$failedUpdatingTransactions = false;
+		$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$cart_group."'");
+		foreach($transactions as $transaction){
+			$invoice_no = generate_invoice_no();
+			$db->addtable("transactions");  
+			$db->where("cart_group",$cart_group);
+			$db->where("seller_user_id",$transaction["seller_user_id"]);
+			$db->where("status","0");
+			$db->addfield("invoice_no");	$db->addvalue($invoice_no);
+			$db->addfield("invoice_at");	$db->addvalue($__now);
+			$db->addfield("status");        $db->addvalue("1");
+			$updating = $db->update();
+			// if($updating["affected_rows"] <= 0) $failedUpdatingTransactions = true;
+		}
+        if(!$failedUpdatingTransactions){
 			$invoice_no = $db->fetch_single_data("transactions","invoice_no",["cart_group"=>$cart_group]);
-			$uniq_code = rand(0,9).rand(0,9).rand(0,9);
+			$uniqcode = generate_uniqcode();
 			$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$cart_group."'");
             foreach($transactions as $transaction){
                 $transaction_details = $db->fetch_all_data("transaction_details",[],"id = '".$transaction["id"]."'")[0];
@@ -25,22 +36,30 @@
 			
 			$db->addtable("transaction_payments");
 			$db->addfield("cart_group");		$db->addvalue($cart_group);
-			$db->addfield("invoice_no");		$db->addvalue($invoice_no);
 			$db->addfield("payment_type_id");	$db->addvalue("2");
 			$db->addfield("name");          	$db->addvalue("Transfer Bank");
 			$db->addfield("total");		        $db->addvalue($total_tagihan);
-			$db->addfield("uniqcode");		    $db->addvalue($uniq_code);
+			$db->addfield("uniqcode");		    $db->addvalue($uniqcode);
 			$inserting = $db->insert();
             javascript("window.location='payment.php?cart_group=".$cart_group."';");
             exit();
         } else {
-            $_SESSION["errormessage"] = v("checkout_failed");
+			$db->addtable("transactions");  
+			$db->where("cart_group",$cart_group);
+			$db->addfield("invoice_no");	$db->addvalue("");
+			$db->addfield("invoice_at");	$db->addvalue("0000-00-00");
+			$db->addfield("status");        $db->addvalue("0");
+			$db->update();
+            $_SESSION["errormessage"] = v("finalization_of_purchases_failed");
         }
     }
 	$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$cart_group."'");
 	if(count($transactions) <= 0){
 		javascript("window.location='index.php';");
 		exit();
+	}
+	foreach($transactions as $transaction){
+		$_trxBySeller[$transaction["seller_user_id"]][] = $transaction;
 	}
 ?>
 <script>
@@ -71,35 +90,36 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <?php 
-				    foreach($transactions as $transaction){
-                        $transaction_details = $db->fetch_all_data("transaction_details",[],"id = '".$transaction["id"]."'")[0];
-				        $seller = $db->fetch_all_data("sellers",[],"user_id = '".$transaction["seller_user_id"]."'")[0];
-                        $goods  = $db->fetch_all_data("goods",[],"id = '".$transaction_details["goods_id"]."'")[0];
-                        $goods_photos  = $db->fetch_all_data("goods_photos",[],"goods_id = '".$goods["id"]."'","seqno")[0];
-                        $units  = $db->fetch_all_data("units",[],"id = '".$transaction_details["unit_id"]."'")[0];
-                        $transaction_forwarder = $db->fetch_all_data("transaction_forwarder",[],"transaction_id = '".$transaction["id"]."'")[0];
-                        
-                        $total = $transaction_details["total"] + $transaction_forwarder["total"];
-                        $total_tagihan += $total;
-                        
+				    // foreach($transactions as $transaction){
+				    foreach($_trxBySeller as $seller_user_id => $transactions){
+				        $seller = $db->fetch_all_data("sellers",[],"user_id = '".$seller_user_id."'")[0];
                 ?>
                     <table class="table table-bordered" width="100%">
                         <tr>
-                            <td colspan="5">
-								<?=v("seller");?> : <b><?=$seller["name"];?></b>
-								<div style="position:relative;float:right;">
-									<span title="<?=v("edit");?>" class="glyphicon glyphicon-edit btn btn-primary" onclick="window.location='transaction_edit.php?id=<?=$transaction["id"];?>';"></span>
-									<span title="<?=v("delete");?>" class="glyphicon glyphicon-remove btn btn-warning" onclick="delete_transaction('<?=$transaction["id"];?>');"></span>
-								</div>
-							</td>
+                            <td colspan="6"><?=v("seller");?> : <b><?=$seller["name"];?></b></td>
                         </tr> 
+						<?php 
+							foreach($transactions as $transaction){ 
+								$transaction_details = $db->fetch_all_data("transaction_details",[],"id = '".$transaction["id"]."'")[0];
+								$goods  = $db->fetch_all_data("goods",[],"id = '".$transaction_details["goods_id"]."'")[0];
+								$goods_photos  = $db->fetch_all_data("goods_photos",[],"goods_id = '".$goods["id"]."'","seqno")[0];
+								$units  = $db->fetch_all_data("units",[],"id = '".$transaction_details["unit_id"]."'")[0];
+								$transaction_forwarder = $db->fetch_all_data("transaction_forwarder",[],"transaction_id = '".$transaction["id"]."'")[0];
+								
+								$total = $transaction_details["total"] + $transaction_forwarder["total"];
+								$total_tagihan += $total;
+						?>
                         <tr>
                             <td colspan="4">
                                 <div class="col-md-2">
                                     <img src="goods/<?=$goods_photos["filename"]?>" style="width:120px;"> 
                                 </div>
                                 <div class="col-md-10">
-                                    <?=$goods["name"]?><br>
+									<div style="position:relative;float:right;">
+										<span title="<?=v("edit");?>" class="glyphicon glyphicon-edit btn btn-primary" onclick="window.location='transaction_edit.php?id=<?=$transaction["id"];?>';"></span>
+										<span title="<?=v("delete");?>" class="glyphicon glyphicon-remove btn btn-warning" onclick="delete_transaction('<?=$transaction["id"];?>');"></span>
+									</div>
+                                    <b><?=$goods["name"]?></b><br>
                                     <?=$transaction_details["qty"]?> <?=$units["name_".$__locale]?> x Rp <?=format_amount($transaction_details["price"])?><br>
 									<?=v("weight_per_unit");?> : <?=($goods["weight"]/1000);?> Kg
                                 </div>
@@ -124,7 +144,7 @@
 						</tr>
 						<tr>
 							<td colspan="3" width="70%"> 
-								<u><?=v("courier_service");?> :</u><br> <?=$transaction_forwarder["name"];?>
+								<u><?=v("courier_service");?> :</u><br> <?=$transaction_forwarder["name"];?> -- <?=explode(" (",$transaction_forwarder["courier_service"])[0];?>
 							</td>
                             <td nowrap width="15%" align="right">
 								<?=v("weight");?><br> <?=($transaction_forwarder["weight"]*$transaction_forwarder["qty"]/1000);?> Kg
@@ -136,6 +156,8 @@
                         <tr>
                             <td colspan="6" align="right"><b> Total : Rp <?=format_amount($total)?></b></td>
                         </tr>
+                        <tr><td colspan="6"></td></tr>
+						<?php } ?>
                     </table>
 				<?php } ?>
 				<table width="100%">

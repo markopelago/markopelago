@@ -38,7 +38,7 @@
 			echo $ro_cost["status"]["description"];
 		} else {
 			foreach($ro_cost["results"][0]["costs"] as $cost){
-				$courier_services[$cost["service"]] = $cost["description"]." (".$cost["service"].")";
+				$courier_services[$cost["description"]." (".$cost["service"].")"] = $cost["description"]." (".$cost["service"].")";
 			}
 			echo $f->select("courier_service",$courier_services,"","onchange = 'load_calculation();'","form-control");			
 		}
@@ -60,7 +60,6 @@
 		$weight = $db->fetch_single_data("goods","weight",["id" => $goods_id]);
 		$courier_services = array();
 		foreach($ro->cost($origin,$destination,($weight*$qty),$courier)["results"][0]["costs"] as $cost){
-			//$courier_services[$cost["service"]] = $cost["description"]." (".$cost["service"].")";
 			if($cost["service"] == $courier_service){
 				$shippingcharges = $cost["cost"][0]["value"];
 				break;

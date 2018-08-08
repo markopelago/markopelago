@@ -389,5 +389,23 @@
 		}
 		return $arr[$id];
 	}
+	
+	function generate_uniqcode(){
+		global $db,$__now;
+		$uniqcode = $db->fetch_single_data("transaction_payments","uniqcode",["created_at" => substr($__now,0,10)."%:LIKE"],["uniqcode DESC"]);
+		return numberpad(($uniqcode+1),3);
+	}
+	
+	function generate_invoice_no(){
+		global $db,$__user_id;
+		$invoice_no = $db->fetch_single_data("transactions","invoice_no",["buyer_user_id" => $__user_id,"status" => 0]);
+		if($invoice_no == ""){			
+			$invoice_no = "INV/".date("Ymd")."/";
+			$seqno = $db->fetch_single_data("transactions","invoice_no",["invoice_no" => $invoice_no."%:LIKE"]);
+			$seqno = (str_replace($invoice_no,"",$seqno) * 1) + 1;
+			$invoice_no = "INV/".date("Ymd")."/".numberpad($seqno,7);
+		}
+		return $invoice_no;
+	}
 ?>
 <?php include_once "log_action.php"; ?>

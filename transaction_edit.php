@@ -11,14 +11,6 @@
 		$cart_group = $db->fetch_single_data("transactions","cart_group",["buyer_user_id" => $__user_id,"status" => 0]);
 		if($cart_group == "") $cart_group = date("Ymdhis").numberpad($__user_id,6);
 		
-		$invoice_no = $db->fetch_single_data("transactions","invoice_no",["buyer_user_id" => $__user_id,"status" => 0]);
-		if($invoice_no == ""){			
-			$invoice_no = "INV/".date("Ymd")."/";
-			$seqno = $db->fetch_single_data("transactions","invoice_no",["invoice_no" => $invoice_no."%:LIKE"]);
-			$seqno = (str_replace($invoice_no,"",$seqno) * 1) + 1;
-			$invoice_no = "INV/".date("Ymd")."/".numberpad($seqno,7);
-		}
-		
 		$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
 		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
 		
@@ -69,6 +61,7 @@
 			$db->addfield("forwarder_id");			$db->addvalue($forwarder_id);
 			$db->addfield("forwarder_user_id");		$db->addvalue($forwarder_user_id);
 			$db->addfield("name");					$db->addvalue($name);
+			$db->addfield("courier_service");		$db->addvalue($_POST["courier_service"]);
 			$db->addfield("user_address_id");		$db->addvalue($user_address_id);
 			$db->addfield("user_address_name");		$db->addvalue($user_address_name);
 			$db->addfield("user_address_pic");		$db->addvalue($user_address_pic);

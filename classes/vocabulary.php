@@ -150,6 +150,7 @@ class Vocabulary{
 		$arr[$l]["more_shopping"]								= "More Shopping";
 		$arr[$l]["pay"]											= "Pay";
 		$arr[$l]["finalization_of_purchases"]					= "Finalization of Purchases";
+		$arr[$l]["finalization_of_purchases_failed"]			= "Finalization of Purchases Failed";
 		$arr[$l]["notes_for_seller"]							= "Notes for Seller";
 		$arr[$l]["delivery_destination"]						= "Delivery Destination";
 		$arr[$l]["choose_another_address"]						= "Choose another address";
@@ -361,6 +362,7 @@ class Vocabulary{
 		$arr[$l]["more_shopping"]								= "Lanjut Belanja";
 		$arr[$l]["pay"]											= "Bayar";
 		$arr[$l]["finalization_of_purchases"]					= "Finalisasi Pembelian";
+		$arr[$l]["finalization_of_purchases_failed"]			= "Finalisasi Pembelian Gagal";
 		$arr[$l]["notes_for_seller"]							= "Catatan untuk Penjual";
 		$arr[$l]["delivery_destination"]						= "Tujuan Pengiriman";
 		$arr[$l]["choose_another_address"]						= "Pilih alamat lain";
