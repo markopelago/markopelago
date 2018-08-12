@@ -122,7 +122,7 @@
 					<span class="notification-counter" style="visibility:hidden;" id="notifNavCount"></span>
 				</button>
 				<div class="search-container" id="headerSearch">
-					<form class="navbar-form navbar-left">
+					<form action="products.php" class="navbar-form navbar-left">
 						<div class="input-group">
 							<?=$f->input("s",$_GET["s"]," placeholder='".v("search")."..'");?>
 							<?php

@@ -18,6 +18,7 @@ class Vocabulary{
 	public function words($index){
 		$l = "en";
 		$arr[$l]["search"] 										= "Search";
+		$arr[$l]["please_type_your_serach"] 					= "Please type your serach";
 		$arr[$l]["categories"] 									= "Categories";
 		$arr[$l]["allcategories"] 								= "All Categories";
 		$arr[$l]["yes"] 										= "Yes";
@@ -241,6 +242,7 @@ class Vocabulary{
 		/*==================================================================================================================================*/
 		$l = "id";
 		$arr[$l]["search"] 										= "Cari";
+		$arr[$l]["please_type_your_serach"] 					= "Silakan ketik pencarian Anda";
 		$arr[$l]["categories"] 									= "Kategori";
 		$arr[$l]["allcategories"] 								= "Semua Kategori";
 		$arr[$l]["yes"] 										= "Ya";
