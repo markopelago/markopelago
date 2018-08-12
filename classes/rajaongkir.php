@@ -4,7 +4,7 @@
 		protected $url	= "";
 		
 		public function __construct(){
-			$this->api = "4d71f509a7e106bda2eeb24eaf9436c7";
+			$this->api = "2d6f75f04f060ebf03bdd3bfb77537bc";
 			$this->url = "https://api.rajaongkir.com/starter/";
 		}
 		
