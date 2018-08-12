@@ -125,5 +125,43 @@
 		<?php } ?>
 	</div>
 </div>
+<div style="height:20px;"></div>
+
+<div class="container">
+	<div class="row">
+		<center><img class="img-responsive" src="http://testing.markopelago.com/img/mr.png"></center>
+	</div>
+	<br><br>
+	<table width="100%">
+		<?=$t->row([
+			"<img style='max-width: 180px;max-height: 130px;' class='img-responsive thumbnail' src='banners/evercoss.png'>",
+			"<img style='max-width: 180px;max-height: 130px;' class='img-responsive thumbnail' src='banners/chandra_asri.png'>",
+			"<img style='max-width: 180px;max-height: 130px;' class='img-responsive thumbnail' src='banners/hino.png'>",
+		],["align='center'"]);?>                                
+		<?=$t->row(["<br><br>"]);?>                             
+		<?=$t->row([                                            
+			"<img style='max-width: 180px;max-height: 130px;' class='thumbnail' src='banners/kecap_benteng.png'>",
+			"<img style='max-width: 180px;max-height: 130px;' class='thumbnail' src='banners/nadiso.png'>",
+			"<img style='max-width: 180px;max-height: 130px;' class='thumbnail' src='banners/polygon.png'>",
+		],["align='center'"]);?>                                
+		<?=$t->row(["<br><br>"]);?>                             
+		<?=$t->row([                                            
+			"<img style='max-width: 180px;max-height: 130px;' class='thumbnail' src='banners/siemens.png'>",
+			"<img style='max-width: 180px;max-height: 130px;' class='thumbnail' src='banners/Ultrajaya.png'>",
+			"<img style='max-width: 180px;max-height: 130px;' class='thumbnail' src='banners/zyrex.png'>",
+		],["align='center'"]);?>
+	</table>
+</div>
+<div style="height:20px;"></div>
+<div class="container" style="background-color: #800000; min-height: 332px; width: 100%;">
+	<div class="row">
+		<div style="float:left !important;"><img style="height:335px" src="banners/tangan.png"></div>
+		<div style="float:right !important;margin-right:30px;margin-top:10px">
+			<center><p style="color: white;font-size: 45px"><b>What is Markopelago?</b></p></center>
+			<center><p style="color: white;font-size: 25px">Human-Based Marketplace platform<br>to boost up your busines </p></center>
+			<center style="margin-top:85px;color:white;font-size:20px;cursor:pointer;">Read All About This &gt;</center>
+		</div>
+	</div>
+</div>
 <div style="height:40px;"></div>
 <?php include_once "footer.php"; ?>

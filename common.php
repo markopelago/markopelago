@@ -390,6 +390,32 @@
 		return $arr[$id];
 	}
 	
+	function transactionstatuses(){
+		global $__locale;
+		$arr = array();
+		if($__locale == "id"){
+			$arr[""] = "-Status-";
+			$arr[1] = "Checkout Pembelian";
+			$arr[2] = "Tunggu verifikasi pembayaran";
+			$arr[3] = "Pembayaran terverifikasi";
+			$arr[4] = "Pemesanan dalam proses";
+			$arr[5] = "Pemesanan dalam pengiriman";
+			$arr[6] = "Barang Diterima";
+			$arr[7] = "Transaksi Selesai";
+		}
+		if($__locale == "en"){
+			$arr[""] = "-Status-";
+			$arr[1] = "Purchase Checkout";
+			$arr[2] = "Waiting payment verification";
+			$arr[3] = "Payment verified";
+			$arr[4] = "Order in process";
+			$arr[5] = "Order in delivery";
+			$arr[6] = "Received";
+			$arr[7] = "Transaction Done";
+		}
+		return $arr;
+	}
+	
 	function generate_uniqcode(){
 		global $db,$__now;
 		$uniqcode = $db->fetch_single_data("transaction_payments","uniqcode",["created_at" => substr($__now,0,10)."%:LIKE"],["uniqcode DESC"]);
@@ -397,14 +423,11 @@
 	}
 	
 	function generate_invoice_no(){
-		global $db,$__user_id;
-		$invoice_no = $db->fetch_single_data("transactions","invoice_no",["buyer_user_id" => $__user_id,"status" => 0]);
-		if($invoice_no == ""){			
-			$invoice_no = "INV/".date("Ymd")."/";
-			$seqno = $db->fetch_single_data("transactions","invoice_no",["invoice_no" => $invoice_no."%:LIKE"]);
-			$seqno = (str_replace($invoice_no,"",$seqno) * 1) + 1;
-			$invoice_no = "INV/".date("Ymd")."/".numberpad($seqno,7);
-		}
+		global $db;
+		$invoice_no = "INV/".date("Ymd")."/";
+		$seqno = $db->fetch_single_data("transactions","invoice_no",["invoice_no" => $invoice_no."%:LIKE"],["invoice_no DESC"]);
+		$seqno = (str_replace($invoice_no,"",$seqno) * 1) + 1;
+		$invoice_no = "INV/".date("Ymd")."/".numberpad($seqno,7);
 		return $invoice_no;
 	}
 ?>

@@ -14,6 +14,7 @@
 	$__errormessage				= @$_SESSION["errormessage"];
 	$__phpself 					= basename($_SERVER["PHP_SELF"]);
 	$__http_referer 			= basename($_SERVER["HTTP_REFERER"]);
+	$__now						= date("Y-m-d H:i:s");
 	
 	if(isset($_GET["locale"])) { setcookie("locale",$_GET["locale"]);$_COOKIE["locale"]=$_GET["locale"]; }
 	if(!isset($_COOKIE["locale"])) { setcookie("locale","id");$_COOKIE["locale"]="id"; }
@@ -323,5 +324,67 @@
             return "0";
         }
     }
+	
+	function numberpad($number,$pad){
+		return sprintf("%0".$pad."d", $number);
+	}
+	
+	function generate_po_no(){
+		global $db;
+		$po_no = "PO/".date("Ymd")."/";
+		$seqno = $db->fetch_single_data("transactions","po_no",["po_no" => $po_no."%:LIKE"],["po_no DESC"]);
+		$seqno = (str_replace($po_no,"",$seqno) * 1) + 1;
+		$po_no = "PO/".date("Ymd")."/".numberpad($seqno,7);
+		return $po_no;
+	}
+	
+	function get_location($location_id){
+		global $db,$__locale;
+		//level => province,city,district,subdistrict
+		$caption = "";
+		$level = 0;
+		$location = $db->fetch_all_data("locations",[],"id = '".$location_id."'")[0];
+		$arr[$level]["id"] = $location["id"];
+		$arr[$level]["name"] = $location["name_".$__locale];
+		$arr[$level]["zipcode"] = $location["zipcode"];
+		$caption = $location["name_".$__locale];
+		if(!$zipcode) $zipcode = $location["zipcode"];
+		if($location["parent_id"] > 0){
+			$level++;
+			$location = $db->fetch_all_data("locations",[],"id = '".$location["parent_id"]."'")[0];
+			$arr[$level]["id"] = $location["id"];
+			$arr[$level]["name"] = $location["name_".$__locale];
+			$arr[$level]["zipcode"] = $location["zipcode"];
+			$caption .= ", ".$location["name_".$__locale];
+			if(!$zipcode) $zipcode = $location["zipcode"];
+			if($location["parent_id"] > 0){
+				$level++;
+				$location = $db->fetch_all_data("locations",[],"id = '".$location["parent_id"]."'")[0];
+				$arr[$level]["id"] = $location["id"];
+				$arr[$level]["name"] = $location["name_".$__locale];
+				$arr[$level]["zipcode"] = $location["zipcode"];
+				$caption .= ", ".$location["name_".$__locale];
+				if(!$zipcode) $zipcode = $location["zipcode"];
+				if($location["parent_id"] > 0){
+					$level++;
+					$location = $db->fetch_all_data("locations",[],"id = '".$location["parent_id"]."'")[0];
+					$arr[$level]["id"] = $location["id"];
+					$arr[$level]["name"] = $location["name_".$__locale];
+					$arr[$level]["zipcode"] = $location["zipcode"];
+					$caption .= ", ".$location["name_".$__locale];
+					if(!$zipcode) $zipcode = $location["zipcode"];
+				}
+			}
+		}
+		krsort($arr);
+		$no = -1;
+		foreach($arr as $key => $_arr){
+			$no++;
+			$returnval[$no] = $_arr;
+		}
+		$returnval["caption"] = $caption;
+		if($zipcode) $returnval["caption"] .= ", ".$zipcode;
+		return $returnval;
+	}
 ?>
 <?php include_once "../log_action.php"; ?>

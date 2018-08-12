@@ -90,7 +90,6 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <?php 
-				    // foreach($transactions as $transaction){
 				    foreach($_trxBySeller as $seller_user_id => $transactions){
 				        $seller = $db->fetch_all_data("sellers",[],"user_id = '".$seller_user_id."'")[0];
                 ?>
@@ -115,10 +114,12 @@
                                     <img src="goods/<?=$goods_photos["filename"]?>" style="width:120px;"> 
                                 </div>
                                 <div class="col-md-10">
-									<div style="position:relative;float:right;">
-										<span title="<?=v("edit");?>" class="glyphicon glyphicon-edit btn btn-primary" onclick="window.location='transaction_edit.php?id=<?=$transaction["id"];?>';"></span>
-										<span title="<?=v("delete");?>" class="glyphicon glyphicon-remove btn btn-warning" onclick="delete_transaction('<?=$transaction["id"];?>');"></span>
-									</div>
+									<?php if($transaction["status"] == 0){ ?>
+										<div style="position:relative;float:right;">
+											<span title="<?=v("edit");?>" class="glyphicon glyphicon-edit btn btn-primary" onclick="window.location='transaction_edit.php?id=<?=$transaction["id"];?>';"></span>
+											<span title="<?=v("delete");?>" class="glyphicon glyphicon-remove btn btn-warning" onclick="delete_transaction('<?=$transaction["id"];?>');"></span>
+										</div>
+									<?php } ?>
                                     <b><?=$goods["name"]?></b><br>
                                     <?=$transaction_details["qty"]?> <?=$units["name_".$__locale]?> x Rp <?=format_amount($transaction_details["price"])?><br>
 									<?=v("weight_per_unit");?> : <?=($goods["weight"]/1000);?> Kg

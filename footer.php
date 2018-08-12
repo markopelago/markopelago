@@ -38,12 +38,34 @@
 	</footer>
 	<script>
 		<?php if($__isloggedin){ ?>
-		function checkMessageCount(){
-			$.ajax({url: "ajax/messages.php?mode=checkMessageCount", success: function(result){
-				loadNotifMessageCount(result);
-			}});
-			setTimeout(function(){ checkMessageCount(); }, 1000); 
-		}
+			var totalcount = 0;
+			var totalDashboardcount = 0;
+			function checkCounter(){
+				totalcount = 0;
+				totalDashboardcount = 0;
+				$.ajax({url: "ajax/messages.php?mode=checkMessageCount", success: function(result){
+					totalcount = totalcount + (result*1);
+					try{ loadNotifCount("notifMessageCount",result); } catch(e){}
+					try{ loadNotifCount("notifMessageTabCount",result); } catch(e){}
+	
+					$.ajax({url: "ajax/purchase_list.php?mode=checkPurchaseList", success: function(result){
+						totalcount = totalcount + (result*1);
+						totalDashboardcount = totalDashboardcount + (result*1);
+						try{ loadNotifCount("notifPurchaseListTabCount",result); } catch(e){}
+						
+						$.ajax({url: "ajax/purchase_list.php?mode=checkStoreSalesList", success: function(result){
+							totalcount = totalcount + (result*1);
+							totalDashboardcount = totalDashboardcount + (result*1);
+							try{ loadNotifCount("notifStoreSalesListTabCount",result); } catch(e){}
+							try{ loadNotifCount("notifNavCount",totalcount); } catch(e){}
+							try{ loadNotifCount("notifCount",totalcount); } catch(e){}
+							try{ loadNotifCount("notifMyDashboardCount",totalDashboardcount); } catch(e){}
+							if(totalcount > 0){ document.getElementsByTagName('title')[0].innerHTML = "<?=$__title_project." (";?>"+totalcount+"<?=")";?>"; }
+						}});
+					}});
+				}});
+				setTimeout(function(){ checkCounter(); }, 2000); 
+			}
 		<?php } ?>
 		
 		function session_checker(){
@@ -56,7 +78,7 @@
 		}
 		$( document ).ready(function() { 
 			setTimeout(function(){ session_checker(); }, 60000); 
-			setTimeout(function(){ checkMessageCount(); }, 1000); 
+			checkCounter();
 		});
 		
 		<?php if(isset($_GET["tabActive"])){ ?>

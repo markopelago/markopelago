@@ -41,9 +41,9 @@
 						<?php if($__seller_id > 0){ ?>
 							<li><a data-toggle="tab" href="#goods" onclick="changeState('goods');"><?=v("my_goods");?></a></li>
 						<?php } ?>
-						<li><a data-toggle="tab" href="#purchase_list" onclick="changeState('purchase_list');"><?=v("purchase_list");?></a></li>
+						<li><a data-toggle="tab" href="#purchase_list" onclick="changeState('purchase_list');"><?=v("purchase_list");?><span class="notification-counter" style="visibility:hidden;" id="notifPurchaseListTabCount"></span></a></li>
 						<?php if($__seller_id > 0|| $__forwarder_id > 0){ ?>
-							<li><a data-toggle="tab" href="#store_sales_list" onclick="changeState('store_sales_list');"><?=v("store_sales_list");?></a></li>
+							<li><a data-toggle="tab" href="#store_sales_list" onclick="changeState('store_sales_list');"><?=v("store_sales_list");?><span class="notification-counter" style="visibility:hidden;" id="notifStoreSalesListTabCount"></span></a></li>
 						<?php } ?>
 						<li><a data-toggle="tab" href="#message" onclick="changeState('message');loadMessages();"><?=v("message");?><span class="notification-counter" style="visibility:hidden;" id="notifMessageTabCount"></span></a></li>
 					</ul>

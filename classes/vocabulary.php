@@ -149,6 +149,7 @@ class Vocabulary{
 		$arr[$l]["success_add_to_cart"]							= "Product successfully added to the cart";
 		$arr[$l]["more_shopping"]								= "More Shopping";
 		$arr[$l]["pay"]											= "Pay";
+		$arr[$l]["paid"]										= "Paid";
 		$arr[$l]["finalization_of_purchases"]					= "Finalization of Purchases";
 		$arr[$l]["finalization_of_purchases_failed"]			= "Finalization of Purchases Failed";
 		$arr[$l]["notes_for_seller"]							= "Notes for Seller";
@@ -222,9 +223,19 @@ class Vocabulary{
 		$arr[$l]["notes"]										= "Notes";
 		$arr[$l]["invoice_at"]									= "Invoice At";
 		$arr[$l]["invoice_no"]									= "Invoice No";
+		$arr[$l]["po_at"]										= "PO At";
+		$arr[$l]["po_no"]										= "PO No";
+		$arr[$l]["process_this_po"]								= "Process this PO";
+		$arr[$l]["this_po_has_been_processed"]					= "This PO has been processed";
+		$arr[$l]["this_po_was_delivered"]						= "Goods on this PO list was delivered";
+		$arr[$l]["are_you_sure_to_process_this_po"]				= "Are You sure to process this PO";
+		$arr[$l]["are_you_sure_this_po_was_delivered"]			= "Are You sure goods on this PO list was delivered";
+		$arr[$l]["transaction_done"]							= "Transaction Done";
+		$arr[$l]["are_you_sure_transaction_done"]				= "Are You sure this transaction were done";
 		$arr[$l]["purchase_list"]								= "Purchase List";
 		$arr[$l]["store_sales_list"]							= "Store Sales List";
 		$arr[$l]["total_bill"]									= "Total Bill";
+		$arr[$l]["payment_confirmation_success"]				= "Payment Confirmation sent";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -361,6 +372,7 @@ class Vocabulary{
 		$arr[$l]["success_add_to_cart"]							= "Produk berhasil ditambahkan ke keranjang";
 		$arr[$l]["more_shopping"]								= "Lanjut Belanja";
 		$arr[$l]["pay"]											= "Bayar";
+		$arr[$l]["paid"]										= "Lunas";
 		$arr[$l]["finalization_of_purchases"]					= "Finalisasi Pembelian";
 		$arr[$l]["finalization_of_purchases_failed"]			= "Finalisasi Pembelian Gagal";
 		$arr[$l]["notes_for_seller"]							= "Catatan untuk Penjual";
@@ -434,9 +446,19 @@ class Vocabulary{
 		$arr[$l]["notes"]										= "Keterangan";
 		$arr[$l]["invoice_at"]									= "Tanggal Invoice";
 		$arr[$l]["invoice_no"]									= "Nomor Invoice";
+		$arr[$l]["po_at"]										= "Tanggal PO";
+		$arr[$l]["po_no"]										= "Nomor PO";
+		$arr[$l]["process_this_po"]								= "Proses PO ini";
+		$arr[$l]["this_po_has_been_processed"]					= "PO ini telah diproses";
+		$arr[$l]["this_po_was_delivered"]						= "Barang pada PO ini telah dikirim";
+		$arr[$l]["are_you_sure_to_process_this_po"]				= "Anda yakin akan memproses PO ini";
+		$arr[$l]["are_you_sure_this_po_was_delivered"]			= "Anda yakin barang pada PO ini telah terkirim";
+		$arr[$l]["transaction_done"]							= "Transaksi Selesai";
+		$arr[$l]["are_you_sure_transaction_done"]				= "Anda yakin transaksi ini telah selesai";
 		$arr[$l]["purchase_list"]								= "Daftar Pembelian";
 		$arr[$l]["store_sales_list"]							= "Daftar Penjualan Toko";
 		$arr[$l]["total_bill"]									= "Total Tagihan";
+		$arr[$l]["payment_confirmation_success"]				= "Konfirmasi pembayaran telah terkirim";
 		
 		return $arr[$this->locale][$index];
 	}

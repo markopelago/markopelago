@@ -1,6 +1,10 @@
 <?php  include_once "header.php"; ?>
 <?php
-	
+	$transaction_id = $db->fetch_single_data("transactions","id",["buyer_user_id" => $__user_id,"status" => 0]);
+	if($transaction_id <= 0){
+		javascript("window.location='index.php'");
+		exit();
+	}
 	if($_POST["save"]){
 		$db->addtable("transactions");			$db->where("id",$_GET["id"]); $db->delete_();
 		$db->addtable("transaction_details");	$db->where("transaction_id",$_GET["id"]); $db->delete_();

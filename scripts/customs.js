@@ -57,6 +57,17 @@ $(document).ready( function() {
 	});
 });
 
+
+function loadNotifCount(elmId,count){
+	if(count != 0){
+		$("#" + elmId).html(count);
+		$("#" + elmId).attr("style","visibility:visible");
+	} else {
+		$("#" + elmId).html("");
+		$("#" + elmId).attr("style","visibility:hidden");
+	}
+}
+
 function getParams(script_name) {
   // Find all script tags
 

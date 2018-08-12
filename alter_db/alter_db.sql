@@ -16,6 +16,9 @@ ALTER TABLE `messages` ADD PRIMARY KEY (`id`), ADD KEY `created_at` (`created_at
 ALTER TABLE `messages` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `messages` ADD `user_id_as` VARCHAR(10) NOT NULL AFTER `user_id2`, ADD `user_id2_as` VARCHAR(10) NOT NULL AFTER `user_id_as`, ADD INDEX (`user_id_as`), ADD INDEX (`user_id2_as`);
 ALTER TABLE `transaction_forwarder` ADD `courier_service` VARCHAR(100) NOT NULL AFTER `name`;
+ALTER TABLE `transaction_payments` CHANGE `bank` `bank_id` INT NOT NULL;
+ALTER TABLE `transaction_payments` ADD `status` SMALLINT NOT NULL AFTER `transfer_at`, ADD INDEX (`status`);
+INSERT INTO a_backoffice_menu (parent_id,name,url) VALUES (18,'PO','po_list.php');
 
 rfo
 	id

@@ -8,18 +8,23 @@
 		$db->where("cart_group",$cart_group);
 		$db->addfield("account_name");	    $db->addvalue($_POST["bank_an"]);
 		$db->addfield("account_no");		$db->addvalue($_POST["account"]);
-		$db->addfield("bank");	            $db->addvalue($_POST["bank"]);
-		$db->addfield("transfer_at");		$db->addvalue($__now);
+		$db->addfield("bank_id");	        $db->addvalue($_POST["bank_id"]);
+		$db->addfield("transfer_at");		$db->addvalue($_POST["transfer_at"]);
 		$updating = $db->update();
         
         if($updating["affected_rows"] > 0){
+			$db->addtable("transactions");	$db->where("cart_group",$cart_group);
+			$db->addfield("status");	    $db->addvalue("2");
+			$updating = $db->update();
             $_SESSION["message"] = v("payment_confirmation_success");
-            javascript("window.location='dashboard.php?tabActive=invoice';");
-        }else{
+            javascript("window.location='dashboard.php?tabActive=purchase_list';");
+			exit();
+        } else {
             $_SESSION["errormessage"] = v("payment_confirmation_failed");
         }
         
     }
+	$transaction_payments["transfer_at"] = date("Y-m-d");
 ?>
 <form role="form" method="POST" autocomplete="off">	
 <div style="height:20px;"></div>
@@ -63,8 +68,8 @@
                                 <table>
                                     <tr><td>Nama Pemilik Rekening &nbsp;&nbsp;&nbsp;</td><td nowrap><?=$f->input("bank_an","".$transaction_payments["account_name"]."","","form-control");?></td></tr>
                                     <tr><td>No Rekening Bank Pengirim  &nbsp;&nbsp;&nbsp;</td><td nowrap><?=$f->input("account","".$transaction_payments["account_no"]."","","form-control");?></td></tr>
-                                    <tr><td>Nama Bank Pengirim  &nbsp;&nbsp;&nbsp;</td><td nowrap><?=$f->input("bank","".$transaction_payments["bank"]."","","form-control");?></td></tr>
-                                    <tr><td>Tanggal Transfer  &nbsp;&nbsp;&nbsp;</td><td nowrap><?=$f->input("transfer_at",date("Y-m-d"),"type='date'","form-control");?></td></tr>
+                                    <tr><td>Nama Bank Pengirim  &nbsp;&nbsp;&nbsp;</td><td nowrap><?=$f->select("bank_id",$db->fetch_select_data("banks","id","name",[],["name"],"",true),$transaction_payments["bank_id"],"required placeholder='".v("bank_name")."...'","form-control");?></td></tr>
+                                    <tr><td>Tanggal Transfer  &nbsp;&nbsp;&nbsp;</td><td nowrap><?=$f->input("transfer_at",$transaction_payments["transfer_at"],"type='date'","form-control");?></td></tr>
                                 </table>
                                 <br>
                                 <?=$f->input("payment","Konfirmasi","type='submit' style='width:100%;'","btn btn-lg btn-info");?>

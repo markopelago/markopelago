@@ -62,21 +62,6 @@
 				}
 			});
 		}
-		function loadNotifCount(elmId,count){
-			if(count != 0){
-				$("#" + elmId).html(count);
-				$("#" + elmId).attr("style","visibility:visible");
-			} else {
-				$("#" + elmId).html("");
-				$("#" + elmId).attr("style","visibility:hidden");
-			}
-		}
-		function loadNotifMessageCount(count){
-			try{ loadNotifCount("notifNavCount",count); } catch(e){}
-			try{ loadNotifCount("notifCount",count); } catch(e){}
-			try{ loadNotifCount("notifMessageCount",count); } catch(e){}
-			try{ loadNotifCount("notifMessageTabCount",count); } catch(e){}
-		}
 		function openNav() {
 			<?php if(!$__isloggedin){ ?>
 				document.getElementById("sidenavContent").innerHTML = "<div class='navbar-collapse'>"+document.getElementById("myMenu").innerHTML+"</div>";
@@ -209,7 +194,12 @@
 								</a>
 							</div>
 							<ul class="dropdown-menu" role="menu" id="forSideMenu">
-								<li><a href="dashboard.php"><?=v("my_dashboard");?></a></li>
+								<li>
+									<a href="dashboard.php">
+									<?=v("my_dashboard");?>
+										<span class="notification-counter" style="visibility:hidden;" id="notifMyDashboardCount"></span>
+									</a>
+								</li>
 								<li>
 									<a href="dashboard.php?tabActive=message">
 										<?=v("message");?>
