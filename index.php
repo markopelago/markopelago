@@ -109,6 +109,7 @@
 		<?php 
 			$sellers = $db->fetch_all_data("sellers",[],"1=1 ORDER BY RAND() LIMIT 10");
 			foreach($sellers as $seller){
+				if($seller["logo"] == "") $seller["logo"] = "nologo.jpg";
 		?>
 			<div class="img-thumbnail">
 				<a href="seller_detail.php?id=<?=$seller["id"];?>">
