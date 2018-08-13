@@ -39,6 +39,7 @@
 						$goods_photo = $db->fetch_all_data("goods_photos",[],"goods_id='".$goods["id"]."' ORDER BY seqno")[0];
 						if($goods_photo["id"] > 0){
 							$filename = $goods_photo["filename"];
+							if($filename == "") $filename = "no_goods.png";
 							$img_goods_photo = "<img src='goods/".$filename."' width='80'>";
 						}
 						$onclick = "onclick=\"window.location='goods_view.php?id=".$goods["id"]."';\"";

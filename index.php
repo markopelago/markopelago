@@ -89,6 +89,7 @@
 			$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY RAND() LIMIT 10");
 			foreach($products as $product){
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
+				if($img == "") $img = "no_goods.png";
 		?>
 			<div class="img-thumbnail">
 				<a href="product_detail.php?id=<?=$product["id"];?>">
@@ -129,7 +130,7 @@
 	<div class="row">
 		<center><img class="img-responsive" src="http://testing.markopelago.com/img/mr.png"></center>
 	</div>
-	<br><br>
+	<!--br><br>
 	<table width="100%">
 		<?=$t->row([
 			"<img style='max-width: 180px;max-height: 130px;' class='img-responsive thumbnail' src='banners/evercoss.png'>",
@@ -148,9 +149,9 @@
 			"<img style='max-width: 180px;max-height: 130px;' class='thumbnail' src='banners/Ultrajaya.png'>",
 			"<img style='max-width: 180px;max-height: 130px;' class='thumbnail' src='banners/zyrex.png'>",
 		],["align='center'"]);?>
-	</table>
+	</table-->
 </div>
-<div style="height:20px;"></div>
+<!--div style="height:20px;"></div>
 <div class="container" style="background-color: #800000; min-height: 332px; width: 100%;">
 	<div class="row">
 		<div style="float:left !important;"><img style="height:335px" src="banners/tangan.png"></div>
@@ -160,6 +161,6 @@
 			<center style="margin-top:85px;color:white;font-size:20px;cursor:pointer;">Read All About This &gt;</center>
 		</div>
 	</div>
-</div>
+</div-->
 <div style="height:40px;"></div>
 <?php include_once "footer.php"; ?>

@@ -16,6 +16,7 @@
 		$products = $db->fetch_all_data("goods",[],$whereclause);
 		foreach($products as $product){
 			$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
+			if($img == "") $img = "no_goods.png";
 	?>
 		<div class="img-thumbnail thumbnail_goods">
 			<a href="product_detail.php?id=<?=$product["id"];?>">

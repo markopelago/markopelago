@@ -34,10 +34,14 @@
 						<!-- Wrapper for slides -->
 						<div class="carousel-inner" style="height: auto !important ">
 							<?php
-								foreach($goods_photos as $goods_photo){
-									$addClass = "";
-									if($goods_photo["seqno"] == "1") $addClass = "active";
-									?><div class="item <?=$addClass;?>"> <img src="goods/<?=$goods_photo["filename"];?>"> </div><?php
+								if(count($goods_photos) > 0){
+									foreach($goods_photos as $goods_photo){
+										$addClass = "";
+										if($goods_photo["seqno"] == "1") $addClass = "active";
+										?><div class="item <?=$addClass;?>"> <img src="goods/<?=$goods_photo["filename"];?>"> </div><?php
+									}
+								} else {
+									?><div class="item active"> <img src="goods/no_goods.png"> </div><?php
 								}
 							?>
 						</div>
@@ -87,6 +91,7 @@
 				</div>
 				<div class="panel-body">
 					<center>
+						<?php $seller["logo"] = ($seller["logo"] == "")?"nologo.jpg":$seller["logo"]; ?>
 						<img class="img-responsive" src="users_images/<?=$seller["logo"];?>"><br>
 						<b><?=$seller["name"];?></b><br><br>
 						<?php if($__seller_id != $goods["seller_id"]){ ?>
