@@ -16,6 +16,7 @@ $(document).ready( function() {
 				data.scale = parseFloat(data.scale.toFixed(4));
 				for(var k in data) { $("#form_"+k).val(data[k]); }
 			});
+			picture.guillotine("fit");
 		});
 	});
 	 

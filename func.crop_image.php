@@ -135,7 +135,7 @@ function getWidth($image) {
 	return $width;
 }
 
-$max_file = "2"; 							// Maximum file size in MB
+$max_file = "5"; 							// Maximum file size in MB
 $max_width = "500";							// Max width allowed for the large image
 $thumb_width = "120";						// Width of thumbnail image
 $thumb_height = "150";						// Height of thumbnail image
