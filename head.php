@@ -65,17 +65,6 @@
 		function openNav() {
 			<?php if(!$__isloggedin){ ?>
 				document.getElementById("sidenavContent").innerHTML = "<div class='navbar-collapse'>"+document.getElementById("myMenu").innerHTML+"</div>";
-			<?php } else { ?>
-				// var manuContent = 	"<b><?=v("hello");?>, <?=$__fullname;?></b><br><img width='50' class='profile-img-card' src='images/nophoto.png'>";
-				// manuContent += 		"<div style='height:10px;'></div>";
-				// manuContent += 		"<div class='navbar-collapse'>";
-				// manuContent += 		"<div class='header-cart' id='cartcount2'><span class='glyphicon glyphicon-shopping-cart' style='color:#800000;'></span> <?=$cartcount;?></div><br>";
-				// manuContent += 		"<div style='height:10px;'></div>";
-				// manuContent += 		"<ul class='nav navbar-nav navbar-right'>";
-				// manuContent += 		document.getElementById("forSideMenu").innerHTML.replace("sr-only","");
-				// manuContent += 		"</ul>";
-				// manuContent += 		"</div>";
-				// document.getElementById("sidenavContent").innerHTML = manuContent;
 			<?php } ?>
 			document.getElementById("mySidenav").style.width = "90%";
 		}
