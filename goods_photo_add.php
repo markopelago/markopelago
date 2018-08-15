@@ -8,6 +8,10 @@
 	include_once "func.crop_image.php";
 	$photoW = 400;
 	$photoH = 400;
+	if(isMobile()){
+		$photoW = 200;
+		$photoH = 200;
+	}
 	if(isset($_POST["save"])){
 		$error = "";
 		$_type = $_FILES["goods"]["type"];

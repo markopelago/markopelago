@@ -10,13 +10,13 @@
 	</script>
 	<div class="container">
 		<div class="row">
-			<h2 class="well"><?=strtoupper(v("dashboard"));?></h2>
-			<h3><?=$db->fetch_single_data("a_users","name",["id" => $__user_id]);?></h3>
+			<h2 class="well hidden-xs"><?=strtoupper(v("dashboard"));?></h2>
+			<h3 class="hidden-xs"><?=$db->fetch_single_data("a_users","name",["id" => $__user_id]);?></h3>
 			<?php 
 				if($__seller_id > 0){
 					$__seller["header_image"] = ($__seller["header_image"] == "")?"no_header.jpg":$__seller["header_image"];
 			?>
-				<div class="col-md-12">
+				<div class="col-md-12 hidden-xs">
 					<img id="headerProfileImg" src="users_images/<?=$__seller["header_image"];?>" class="img-responsive">
 					<input name="change_header" id="change_header" value="<?=v("change_header");?>" style="position:relative;top:-33px;" type="button" onclick="window.location='dashboard_seller_header.php';" class="btn btn-primary">
 					<br><br>
@@ -26,14 +26,14 @@
 	</div>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-2">
+			<div class="col-md-2 hidden-xs">
 				<div><img id="mainProfileImg" src="users_images/<?=($__buyer["avatar"] == "")?"nophoto.png":$__buyer["avatar"];?>"></div>
 				<div><input name="change_avatar" id="change_avatar" value="<?=v("change_avatar");?>" style="width:200px;position:relative;top:-32px;" type="button" onclick="window.location='dashboard_avatar.php';" class="btn btn-primary"></div>
 				<br><br>
 			</div>
 			<div class="col-md-10">
 				<div class="col-md-12">
-					<ul class="col-md-12 nav nav-tabs">
+					<ul class="col-md-12 nav nav-tabs hidden-xs">
 						<li class="active"><a data-toggle="tab" href="#profile" onclick="changeState('profile');">Profile</a></li>
 						<li><a data-toggle="tab" href="#seller" onclick="changeState('seller');"><?=v("profile_my_store");?></a></li>
 						<li><a data-toggle="tab" href="#addresses" onclick="changeState('addresses');"><?=v("addresses");?></a></li>

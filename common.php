@@ -48,6 +48,7 @@
 	$__forwarder_id = $__forwarder["id"];
 	$__isBackofficer = $__user["is_backofficer"];
 	if($__user_id == 1) $__isBackofficer = "1";
+	$__showXSonly 	= "class='hidden-sm hidden-md hidden-lg'";
 	
 	function v($index){
 		global $vocabulary;

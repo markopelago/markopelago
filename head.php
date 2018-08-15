@@ -66,31 +66,64 @@
 			<?php if(!$__isloggedin){ ?>
 				document.getElementById("sidenavContent").innerHTML = "<div class='navbar-collapse'>"+document.getElementById("myMenu").innerHTML+"</div>";
 			<?php } else { ?>
-				var manuContent = 	"<b><?=v("hello");?>, <?=$__fullname;?></b><br><img width='50' class='profile-img-card' src='images/nophoto.png'>";
-				manuContent += 		"<div style='height:10px;'></div>";
-				manuContent += 		"<div class='navbar-collapse'>";
-				manuContent += 		"<div class='header-cart' id='cartcount2'><span class='glyphicon glyphicon-shopping-cart' style='color:#800000;'></span> <?=$cartcount;?></div><br>";
-				manuContent += 		"<div style='height:10px;'></div>";
-				manuContent += 		"<ul class='nav navbar-nav navbar-right'>";
-				manuContent += 		document.getElementById("forSideMenu").innerHTML.replace("sr-only","");
-				manuContent += 		"</ul>";
-				manuContent += 		"</div>";
-				document.getElementById("sidenavContent").innerHTML = manuContent;
+				// var manuContent = 	"<b><?=v("hello");?>, <?=$__fullname;?></b><br><img width='50' class='profile-img-card' src='images/nophoto.png'>";
+				// manuContent += 		"<div style='height:10px;'></div>";
+				// manuContent += 		"<div class='navbar-collapse'>";
+				// manuContent += 		"<div class='header-cart' id='cartcount2'><span class='glyphicon glyphicon-shopping-cart' style='color:#800000;'></span> <?=$cartcount;?></div><br>";
+				// manuContent += 		"<div style='height:10px;'></div>";
+				// manuContent += 		"<ul class='nav navbar-nav navbar-right'>";
+				// manuContent += 		document.getElementById("forSideMenu").innerHTML.replace("sr-only","");
+				// manuContent += 		"</ul>";
+				// manuContent += 		"</div>";
+				// document.getElementById("sidenavContent").innerHTML = manuContent;
 			<?php } ?>
-			document.getElementById("mySidenav").style.width = "300px";
+			document.getElementById("mySidenav").style.width = "90%";
 		}
 		function closeNav() {
 			document.getElementById("mySidenav").style.width = "0";
 		}
 	</script>
 </head>
+<?php
+	$userImage = $db->fetch_single_data("buyers","avatar",["user_id"=>$__user_id]);
+	if($userImage == "") $userImage = $db->fetch_single_data("sellers","logo",["user_id"=>$__user_id]);
+	if($userImage == "") $userImage = "nophoto.png";
+				
+	$mainMenu .= "<li class='hidden-xs'><a href=\"dashboard.php\">".v("my_dashboard")."</a></li>";
+	$mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=profile\">Profile</a></li>";
+	$mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard_avatar.php\">".v("change_avatar")."</a></li>";
+	if($__seller_id > 0){
+		$mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=seller\">".v("profile_my_store")."</a></li>";
+		$mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard_seller_header.php\">".v("change_header")."</a></li>";
+	}
+	$mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=addresses\">".v("addresses")."</a></li>";
+	$mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=banks\">".v("banks")."</a></li>";
+	if($__seller_id > 0) $mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=goods\">".v("my_goods")."</a></li>";
+	$mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=purchase_list\">".v("purchase_list")."<span class='notification-counter' style='visibility:hidden;' id='notifPurchaseListTabCount'></span></a></li>";
+	if($__seller_id > 0|| $__forwarder_id > 0)  $mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=store_sales_list\">".v("store_sales_list")."<span class='notification-counter' style='visibility:hidden;' id='notifStoreSalesListTabCount'></span></a></li>";
+	$mainMenu .= "<li><a href=\"dashboard.php?tabActive=message\">".v("message")."</a><span class='notification-counter' style='visibility:hidden;' id='notifMessageTabCount'></span></li>";
+	if($__isBackofficer)$mainMenu .= "<li><a href=\"mysurvey.php\">".v("survey")."</a></li>";
+	$mainMenu .= "<li><a href=\"change_password.php\">".v("change_password")."</a></li>";
+	$mainMenu .= "<li class=\"sr-only\"><a href=\"index.php?locale=".$__anti_locale."\"><img class=\"localeFlag\" height=\"20\" src=\"icons/".$__anti_locale.".png\"></a></li>";
+	$mainMenu .= "<li><a href=\"?logout_action=1\">Logout</a></li>";
+?>
 <body style="margin:0px;">
 	<div id="mySidenav" class="navbar-default sidenav">
 		<div class="menuTitle">
 			MENU
 			<div class="closebtn"><a href="javascript:void(0)" onclick="closeNav()">&times;</a></div>
 		</div>
-		<div class="container" id="sidenavContent"></div>
+		<div class="container visible-xs-12" id="sidenavContent">
+			<b><?=v("hello");?>, <?=$__fullname;?></b><br><img width='50' class='profile-img-card' src='users_images/<?=$userImage;?>'>
+			<div style='height:10px;'></div>
+			<div class='navbar-collapse'>
+			<div class='header-cart' id='cartcount2'><span class='glyphicon glyphicon-shopping-cart' style='color:#800000;'></span> <?=$cartcount;?></div><br>
+			<div style='height:10px;'></div>
+				<ul class='nav navbar-nav navbar-right'>
+					<?=$mainMenu;?>
+				</ul>
+			</div>
+		</div>
 	</div>
 	<!-- Modal -->
 	<div class="modal fade" id="myModal" role="dialog">
@@ -157,7 +190,7 @@
 										<div style="width:200px;" class="text-center">
 											<?php $f->setAttribute("class='this_form_login'");?>
 											<?=$f->start();?>
-												<img width="100" class="profile-img-card" src="images/nophoto.png" />
+												<img width="100" class="profile-img-card hidden-xs" src="images/nophoto.png" />
 												<p id="profile-name" class="profile-name-card"></p>
 												<form class="form-signin">
 													<input name="username" class="form-control" placeholder="Username" required autofocus>
@@ -173,20 +206,13 @@
 							</ul>
 						</li>
 					<?php } else { ?>
-					
-						<?php 
-							$userImage = $db->fetch_single_data("buyers","avatar",["user_id"=>$__user_id]);
-							if($userImage == "") $userImage = $db->fetch_single_data("sellers","logo",["user_id"=>$__user_id]);
-							if($userImage == "") $userImage = "nophoto.png";
-						?>
-					
 						<li class="dropdown">
 							<div>
 								<div class="header-cart" id="cartcount1">
-                                    <a href="mycart.php">
-                                    <span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <?=$cartcount;?>
-                                    </a>
-                                </div>
+									<a href="mycart.php">
+									<span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <?=$cartcount;?>
+									</a>
+								</div>
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 									<img height="30" class="profile-img-card" src="users_images/<?=$userImage;?>">&nbsp;<?=v("hello");?>, <?=$__fullname;?>
 									<span class="notification-counter" style="visibility:hidden;" id="notifCount"></span>
@@ -194,24 +220,7 @@
 								</a>
 							</div>
 							<ul class="dropdown-menu" role="menu" id="forSideMenu">
-								<li>
-									<a href="dashboard.php">
-									<?=v("my_dashboard");?>
-										<span class="notification-counter" style="visibility:hidden;" id="notifMyDashboardCount"></span>
-									</a>
-								</li>
-								<li>
-									<a href="dashboard.php?tabActive=message">
-										<?=v("message");?>
-										<span class="notification-counter" style="visibility:hidden;" id="notifMessageCount"></span>
-									</a>
-								</li>
-								<?php if($__isBackofficer){ ?>
-								<li><a href="mysurvey.php"><?=v("survey");?></a></li>
-								<?php } ?>
-								<li><a href="change_password.php"><?=v("change_password");?></a></li>
-								<li class="sr-only"><a href="index.php?locale=<?=$__anti_locale;?>"><img class="localeFlag" height="20" src="icons/<?=$__anti_locale;?>.png"></a></li>
-								<li><a href="?logout_action=1">Logout</a></li>
+								<?=$mainMenu;?>
 							</ul>
 						</li>
 					<?php } ?>

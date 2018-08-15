@@ -48,6 +48,7 @@
 		}
 	}
 </script>
+<h2 class="well hidden-sm hidden-md hidden-lg"><?=strtoupper(v("profile"));?></h2>
 <form method="POST">	
 	<div class="col-sm-9 ">
 		<div class="col-md-12">

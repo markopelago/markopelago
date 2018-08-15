@@ -32,6 +32,7 @@
 		<div class="panel-body"><?=v("register_as_seller_now");?>? <?=$f->input("yes",v("yes"),"type='button' onclick=\"register_as_seller_now();\"","btn btn-primary");?></div>
 	</div>
 </div>
+<h2 class="well hidden-sm hidden-md hidden-lg"><?=strtoupper(v("profile_my_store"));?></h2>
 <div id="seller_form_area" style="display:<?=($__seller_id > 0)?"block":"none";?>;">
 	<?php if($__seller_id > 0){ ?>
 	<center>
