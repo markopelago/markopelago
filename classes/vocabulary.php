@@ -195,6 +195,7 @@ class Vocabulary{
 		$arr[$l]["goods_photos"]								= "Goods Photos";
 		$arr[$l]["stock"]										= "Stock";
 		$arr[$l]["stock_history"]								= "Stock History";
+		$arr[$l]["empty_stock"]									= "Empty Stock";
 		$arr[$l]["current_stock"]								= "Current Stcok";
 		$arr[$l]["example_first_stock"]							= "example: First Stock";
 		$arr[$l]["add_goods_stock_history"]						= "Add Stock History";
@@ -237,6 +238,8 @@ class Vocabulary{
 		$arr[$l]["store_sales_list"]							= "Store Sales List";
 		$arr[$l]["total_bill"]									= "Total Bill";
 		$arr[$l]["payment_confirmation_success"]				= "Payment Confirmation sent";
+		$arr[$l]["payment"]										= "Payment";
+		$arr[$l]["choose_the_destination_bank"]					= "Choose the destination bank";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -419,6 +422,7 @@ class Vocabulary{
 		$arr[$l]["goods_photos"]								= "Foto Produk";
 		$arr[$l]["stock"]										= "Stok";
 		$arr[$l]["stock_history"]								= "Catatan Stok";
+		$arr[$l]["empty_stock"]									= "Stok Kosong";
 		$arr[$l]["current_stock"]								= "Stok Sekarang";
 		$arr[$l]["example_first_stock"]							= "contoh: Stok Awal";
 		$arr[$l]["add_goods_stock_history"]						= "Tambah Catatan Stok";
@@ -461,6 +465,8 @@ class Vocabulary{
 		$arr[$l]["store_sales_list"]							= "Daftar Penjualan Toko";
 		$arr[$l]["total_bill"]									= "Total Tagihan";
 		$arr[$l]["payment_confirmation_success"]				= "Konfirmasi pembayaran telah terkirim";
+		$arr[$l]["payment"]										= "Pembayaran";
+		$arr[$l]["choose_the_destination_bank"]					= "Pilih bank tujuan";
 		
 		return $arr[$this->locale][$index];
 	}

@@ -191,7 +191,10 @@
 			<div class="col-md-12">
 				<div class="col-md-3">
 					<label><?=v("delivery_courier");?></label>
-					<?php $forwarders = $db->fetch_select_data("forwarders","rajaongkir_code","concat(name,' (',upper(rajaongkir_code),')')");?>
+					<?php 
+						$forwarder_ids = str_replace(["||","|"],[",",""],$db->fetch_single_data("goods","forwarder_ids",["id" => $_GET["id"]]));
+						$forwarders = $db->fetch_select_data("forwarders","rajaongkir_code","concat(name,' (',upper(rajaongkir_code),')')",["id" => $forwarder_ids.":IN"]);
+					?>
 					<?=$f->select("delivery_courier",$forwarders,"","","form-control");?>
 				</div>
 				<div class="col-md-3">

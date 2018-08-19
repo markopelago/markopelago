@@ -8,6 +8,9 @@
 		$onclickSendMessage = "onclick=\"newMessage('".$seller["user_id"]."','".$goods["id"]."','buyer','seller');\"";
 		$onclickBuy = "onclick=\"window.location='transaction.php?id=".$_GET["id"]."';\"";
 	}
+	$stock = $db->fetch_single_data("goods_histories","concat(sum(qty))",["goods_id" => $_GET["id"],"in_out" => "in"]);
+	$stock -= $db->fetch_single_data("goods_histories","concat(sum(qty))",["goods_id" => $_GET["id"],"in_out" => "out"]);
+	if($stock<0) $stock = 0;
 ?>
 
 <div style="height:20px;"></div>
@@ -70,6 +73,10 @@
 								<td><?=v("condition")?></td>
 								<td><?=($goods["is_new"] != 1) ? v("second") : v("new");?></td>
 							</tr>
+							<tr>
+								<td><?=v("stock")?></td>
+								<td><?=$stock;?></td>
+							</tr>
 						</table>
 					</div>
                 </div>
@@ -112,7 +119,11 @@
             </div>
             <div style="height:2px;"></div>
 			<?php if($__seller_id != $goods["seller_id"]){ ?>
-            <button <?=$onclickBuy;?> class="btn btn-primary btn-lg" style="width:100%"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;<?=v("buy");?></button>
+				<?php if($stock > 0){ ?>
+					<button <?=$onclickBuy;?> class="btn btn-primary btn-lg" style="width:100%"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;<?=v("buy");?></button>
+				<?php } else { ?>
+					<button class="btn btn-lg" style="width:100%"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;<?=v("buy");?> (<?=v("empty_stock");?>)</button>
+				<?php } ?>
 			<?php } ?>
         </div>
     </div>

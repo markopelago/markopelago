@@ -68,4 +68,11 @@
 		$total = $price + $shippingcharges;
 		echo "Rp. ".format_amount($price)."|||Rp. ".format_amount($shippingcharges)."|||Rp. ".format_amount($total)."|||".$shippingcharges."|||".$total;
 	}
+	
+	if($mode == "loadBankAccounts"){
+		$bank_account_id = $_GET["bank_account_id"];
+		$bank_account = $db->fetch_all_data("bank_accounts",[],"id = '".$bank_account_id."'")[0];
+		$bank_name = $db->fetch_single_data("banks","name",["id" => $bank_account["bank_id"]]);
+		echo $bank_name."<br>No Rekening: ".$bank_account["account_no"]."<br>a/n: ".$bank_account["account_name"];
+	}
 ?>
