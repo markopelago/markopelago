@@ -5,7 +5,7 @@
 		
 		public function __construct(){
 			$this->api = "2d6f75f04f060ebf03bdd3bfb77537bc";
-			$this->url = "https://api.rajaongkir.com/starter/";
+			$this->url = "https://pro.rajaongkir.com/api/";
 		}
 		
 		public function provinces(){
@@ -60,7 +60,7 @@
 		}
 		
 		public function cost($origin,$destination,$weight,$courier){
-			//origin=501&destination=114&weight=1700&courier=jne
+			//origin=501&originType=city&destination=574&destinationType=subdistrict&weight=1700&courier=jne
 			$curl = curl_init();
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt_array($curl,
@@ -72,7 +72,7 @@
 					CURLOPT_TIMEOUT => 30,
 					CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 					CURLOPT_CUSTOMREQUEST => "POST",
-					CURLOPT_POSTFIELDS => "origin=".$origin."&destination=".$destination."&weight=".$weight."&courier=".$courier,
+					CURLOPT_POSTFIELDS => "origin=".$origin."&destination=".$destination."&weight=".$weight."&courier=".$courier."&originType=city&destinationType=subdistrict",
 					CURLOPT_HTTPHEADER => ["content-type: application/x-www-form-urlencoded","key: ".$this->api]
 				]
 			);
