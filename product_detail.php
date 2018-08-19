@@ -15,10 +15,12 @@
 
 
 <div class="container">
-<h3><span class="glyphicon glyphicon-chevron-left" onClick="history.go(-1);">Back</span></h3>
+<div class="row">
+<a class="btn" href="index.php"><h3><span class="glyphicon glyphicon-chevron-left"><b>BACK</b></span></h3></a>
 	<div style="height:20px;"></div>
 	<div class="row sub-title-area">
 		<div class="sub-title-text"> <?=$db->fetch_single_data("goods","name",["id"=>$_GET["id"]]);?> </div>
+	</div>
 	</div>
     <div class="row">
         <div class="col-md-9" style="border-top: 1px solid #ccc;">
