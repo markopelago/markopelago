@@ -1,5 +1,6 @@
 <?php include_once "header.php"; ?>
-<div style="height:20px;"></div>
+<h3><span class="glyphicon glyphicon-chevron-left" onClick="history.go(-1);">Back</span></h3>
+<div style="height:60px;"></div>
 <div class="container">
 	<div class="row sub-title-area">
 		<div class="sub-title-text"> <?=$db->fetch_single_data("categories","name_".$__locale,["id"=>$_GET["id"]]);?> </div>

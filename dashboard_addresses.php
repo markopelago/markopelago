@@ -11,7 +11,8 @@
 	if(isset($_GET["deleting"])){
 		$db->addtable("user_addresses"); $db->where("id",$_GET["deleting"]); $db->where("user_id",$__user_id); $db->where("default_buyer","0"); $db->delete_();
 	}
-	echo $f->input("add_address",v("add_address"),"onclick=\"window.location='user_address_add.php'\" type='button'","btn btn-primary");
+	echo "<button class='btn btn-primary' onclick=\"window.location='user_address_add.php'\"><span class='glyphicon glyphicon-plus-sign' title='".v("add_address")."'></span></button>";
+	
 ?>
 <script>
 	function addresses_change_primary(user_address_id){
@@ -27,12 +28,12 @@
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
+				<th></th>
 				<th><?=v("address_name");?></th>
 				<th><?=v("pic");?></th>
 				<th><?=v("address");?></th>
 				<th><?=v("phone");?></th>
 				<th><?=v("primary_address");?></th>
-				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -53,18 +54,18 @@
 						if($locations[3]["zipcode"] != "") $location .= " - ".$locations[3]["zipcode"];
 						?>
 						<tr style="cursor:pointer;">
+							<td class="nowrap">
+								<?php 
+									echo "<button class='btn btn-primary' onclick=\"window.location='user_address_edit.php?id=".$user_address["id"]."'\"><span class='glyphicon glyphicon-edit' title='".v("edit")."'></span></button>";
+									if(!$user_address["default_buyer"])
+										echo "&nbsp;<button class='btn btn-warning' onclick=\"delete_address('".$user_address["id"]."');\"><span class='glyphicon glyphicon-trash'  title='".v("delete")."'></span></button>";
+								?>
+							</td>
 							<td class="nowrap"><?=$user_address["name"];?></td>
 							<td class="nowrap"><?=$user_address["pic"];?></td>
 							<td><?=$location;?></td>
 							<td class="nowrap"><?=$user_address["phone"];?></td>
 							<td align="center"><?=$primary_address;?></td>
-							<td class="nowrap">
-								<?php 
-									echo $f->input("edit",v("edit"),"onclick=\"window.location='user_address_edit.php?id=".$user_address["id"]."'\" type='button'","btn btn-primary");
-									if(!$user_address["default_buyer"])
-										echo "&nbsp;".$f->input("delete",v("delete"),"onclick=\"delete_address('".$user_address["id"]."');\" type='button'","btn btn-warning");
-								?>
-							</td>
 						</tr>
 						<?php
 					}

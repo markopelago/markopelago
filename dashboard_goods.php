@@ -47,7 +47,7 @@
 							[
 							 "<span title='".v("view")."' class='glyphicon glyphicon-search btn btn-primary' onclick=\"window.location='goods_view.php?id=".$goods["id"]."'\"></span>".
 							 "&nbsp;<span title='".v("edit")."' class='glyphicon glyphicon-edit btn btn-primary' onclick=\"window.location='goods_edit.php?id=".$goods["id"]."'\"></span>".
-							 "&nbsp;<span title='".v("delete")."' class='glyphicon glyphicon-remove btn btn-warning' onclick=\"delete_goods('".$goods["id"]."');\"></span>",
+							 "&nbsp;<span title='".v("delete")."' class='glyphicon glyphicon-trash btn btn-warning' onclick=\"delete_goods('".$goods["id"]."');\"></span>",
 							 $img_goods_photo,
 							 $goods["name"],
 							 $categories,

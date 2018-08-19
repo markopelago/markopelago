@@ -13,8 +13,10 @@
 	if($stock<0) $stock = 0;
 ?>
 
-<div style="height:20px;"></div>
+
 <div class="container">
+<h3><span class="glyphicon glyphicon-chevron-left" onClick="history.go(-1);">Back</span></h3>
+	<div style="height:20px;"></div>
 	<div class="row sub-title-area">
 		<div class="sub-title-text"> <?=$db->fetch_single_data("goods","name",["id"=>$_GET["id"]]);?> </div>
 	</div>

@@ -10,7 +10,7 @@
 	</script>
 	<div class="container">
 		<div class="row">
-			<h2 class="well hidden-xs"><?=strtoupper(v("dashboard"));?></h2>
+			<h2 class="well hidden-xs"><a class="btn" href="index.php"><span class="glyphicon glyphicon-chevron-left"></span></a><?=strtoupper(v("dashboard"));?></h2>
 			<h3 class="hidden-xs"><?=$db->fetch_single_data("a_users","name",["id" => $__user_id]);?></h3>
 			<?php 
 				if($__seller_id > 0){

@@ -11,7 +11,8 @@
 	if(isset($_GET["deleting"])){
 		$db->addtable("user_banks"); $db->where("id",$_GET["deleting"]); $db->where("user_id",$__user_id); $db->where("default_buyer","0"); $db->delete_();
 	}
-	echo $f->input("add_bank",v("add_bank"),"onclick=\"window.location='user_bank_add.php'\" type='button'","btn btn-primary");
+	echo "<button class='btn btn-primary' onclick=\"window.location='user_bank_add.php'\"><span class='glyphicon glyphicon-plus-sign' title='".v("add_bank")."'></span></button>";
+	
 ?>
 <script>
 	function banks_change_primary(user_bank_id){
@@ -46,18 +47,18 @@
 						$primary_bank = $f->input("primary_bank",$user_bank["id"],"onchange=\"banks_change_primary('".$user_bank["id"]."');\" type='radio' ".$checked);
 						?>
 						<tr style="cursor:pointer;">
+							<td class="nowrap">
+								<?php 
+									echo "<button class='btn btn-primary' onclick=\"window.location='user_bank_edit.php?id=".$user_bank["id"]."'\"><span class='glyphicon glyphicon-edit' title='".v("edit")."'></span></button>";
+									if(!$user_bank["default_buyer"])
+									echo "&nbsp;<button class='btn btn-warning' onclick=\"delete_bank('".$user_bank["id"]."'\"><span class='glyphicon glyphicon-trash' title='".v("delete")."'></span></button>";
+								?>
+							</td>
 							<td class="nowrap"><?=$db->fetch_single_data("banks","name",["id" => $user_bank["bank_id"]]);?></td>
 							<td class="nowrap"><?=$user_bank["name"];?></td>
 							<td class="nowrap"><?=$user_bank["account_no"];?></td>
 							<td class="nowrap"><?=$user_bank["branch"];?></td>
 							<td align="center"><?=$primary_bank;?></td>
-							<td class="nowrap">
-								<?php 
-									echo $f->input("edit",v("edit"),"onclick=\"window.location='user_bank_edit.php?id=".$user_bank["id"]."'\" type='button'","btn btn-primary");
-									if(!$user_bank["default_buyer"])
-										echo "&nbsp;".$f->input("delete",v("delete"),"onclick=\"delete_bank('".$user_bank["id"]."');\" type='button'","btn btn-warning");
-								?>
-							</td>
 						</tr>
 						<?php
 					}
