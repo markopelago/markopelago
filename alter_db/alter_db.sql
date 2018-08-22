@@ -1,6 +1,3 @@
-ALTER TABLE `transaction_forwarder` ADD `receipt_no` VARCHAR(100) NOT NULL AFTER `total`, ADD INDEX (`receipt_no`);
-ALTER TABLE `transaction_forwarder` ADD `receipt_at` datetime NOT NULL AFTER `receipt_no`, ADD INDEX (`receipt_at`);
-
 rfo
 	id
 	user_id
