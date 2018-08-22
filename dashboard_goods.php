@@ -1,5 +1,5 @@
 <?php
-	echo $f->input("add_goods",v("add_goods"),"onclick=\"window.location='goods_add.php'\" type='button'","btn btn-primary");
+	echo "<button class='btn btn-primary' onclick=\"window.location='goods_add.php'\"><span class='glyphicon glyphicon-plus-sign' title='".v("add_goods")."'></span> ".v("add_goods")."</button>";
 	if(isset($_GET["delete_goods"])){
 		$goods_photos = $db->fetch_all_data("goods_photos",[],"goods_id = '".$_GET["delete_goods"]."'");
 		foreach($goods_photos as $goods_photo){

@@ -11,7 +11,7 @@
 	if(isset($_GET["deleting"])){
 		$db->addtable("user_banks"); $db->where("id",$_GET["deleting"]); $db->where("user_id",$__user_id); $db->where("default_buyer","0"); $db->delete_();
 	}
-	echo "<button class='btn btn-primary' onclick=\"window.location='user_bank_add.php'\"><span class='glyphicon glyphicon-plus-sign' title='".v("add_bank")."'></span></button>";
+	echo "<button class='btn btn-primary' onclick=\"window.location='user_bank_add.php'\"><span class='glyphicon glyphicon-plus-sign' title='".v("add_bank")."'></span> ".v("add_bank")."</button>";
 	
 ?>
 <script>
@@ -28,12 +28,12 @@
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
+				<th></th>
 				<th><?=v("bank");?></th>
 				<th><?=v("account_name");?></th>
 				<th><?=v("account_no");?></th>
 				<th><?=v("branch");?></th>
 				<th><?=v("primary_bank");?></th>
-				<th></th>
 			</tr>
 		</thead>
 		<tbody>

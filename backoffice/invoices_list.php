@@ -43,12 +43,15 @@
 	<?=$t->header(["No",
 					"Invoice No",
 					"PO No",
+					"<div onclick=\"sorting('transaction_at');\">Transaction At</div>",
 					"<div onclick=\"sorting('buyer_user_id');\">Buyer</div>",
 					"Nominal",
-					"Uniq Code",
+					"Uniq",
 					"Total",
 					"<div onclick=\"sorting('status');\">Status</div>",
-					"<div onclick=\"sorting('transaction_at');\">Transaction At</div>",
+					"Transfer At",
+					"Bank From",
+					"Bank To",
 					""]);?>
 	<?php 
 		foreach($carts as $no => $cart){
@@ -77,19 +80,31 @@
 			}else{
 				$status = "";
 			}
+			$bank_from = $db->fetch_single_data("banks","name",["id" => $transaction_payments["bank_id"]]);
+			$bank_from .= " (".$transaction_payments["account_no"].") <br> a/n:".$transaction_payments["account_name"];
+			$bank_to = "";
+			if($transaction_payments["bank_account_id"] > 0){
+				$bank_account = $db->fetch_all_data("bank_accounts",[],"id = '".$transaction_payments["bank_account_id"]."'")[0];
+				$bank_to = $db->fetch_single_data("banks","name",["id" => $bank_account["bank_id"]]);
+				$bank_to .= " (".$bank_account["account_no"].") <br> a/n:".$bank_account["account_name"];				
+			}
+			
 			$actions = 	"<a href=\"invoice_view.php?cart_group=".$cart["cart_group"]."\">View</a>";
 			echo $t->row(
 				[$no+$start+1,
 				$invoice_no,
 				$po_no,
+				$transaction["transaction_at"],
 				$buyer,
 				format_amount($transaction_payments["total"]),
 				format_amount($transaction_payments["uniqcode"]),
 				format_amount($transaction_payments["total"] + $transaction_payments["uniqcode"]),
 				$status,
-				$transaction["transaction_at"],
+				format_tanggal($transaction_payments["transfer_at"]),
+				$bank_from,
+				$bank_to,
 				$actions],
-				["align='right' valign='top'","","","align='right' valign='top'","align='right' valign='top'","align='right' valign='top'"]
+				["align='right' valign='top'","","","","","align='right' valign='top'","align='right' valign='top'","align='right' valign='top'"]
 			);
 		} 
 	?>

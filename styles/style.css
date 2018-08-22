@@ -635,10 +635,9 @@ footer {
 .notification-counter {
 	background: #5bc0de;
 	position: absolute;
-	right: -5px;
 	display: block;
-	padding: 2px 5px;
-	height: 15px;
+	padding: 2px 5px 1px;
+	height: 17px;
 	color: #fff;
 	text-align: center;
 	line-height: 15px;
@@ -822,6 +821,18 @@ input[type=checkbox]{
 .navbar-default .navbar-nav>.open>a:hover{
 	background-color:#800000 !important;
 	font-weight:bolder;
+}
+
+.nav-tabs>li>a{
+    border-color: #eee #eee #ddd !important;
+}
+.nav>li>a{
+	margin-top:5px !important;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    background-color: #ddd !important;
+    border: 1px solid #ddd !important;
+    border-bottom-color: transparent !important;
 }
 
 .carousel-inner{
@@ -1177,6 +1188,15 @@ a:focus, a:hover {
 textarea{
 	width:430px !important;
 	height:300px !important;
+}
+
+.clickable{
+    cursor: pointer;   
+}
+
+.panel-heading span {
+	margin-top: -20px;
+	font-size: 15px;
 }
 
 @media screen and (max-width: 995px) {

@@ -11,7 +11,9 @@
 	if(isset($_GET["deleting"])){
 		$db->addtable("user_addresses"); $db->where("id",$_GET["deleting"]); $db->where("user_id",$__user_id); $db->where("default_buyer","0"); $db->delete_();
 	}
-	echo "<button class='btn btn-primary' onclick=\"window.location='user_address_add.php'\"><span class='glyphicon glyphicon-plus-sign' title='".v("add_address")."'></span></button>";
+	echo "<button class='btn btn-primary' onclick=\"window.location='user_address_add.php'\">
+		<span class='glyphicon glyphicon-plus-sign' title='".v("add_address")."'></span> ".v("add_address")."
+	</button>";
 	
 ?>
 <script>

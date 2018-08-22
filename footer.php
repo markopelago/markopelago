@@ -47,21 +47,24 @@
 					totalcount = totalcount + (result*1);
 					try{ loadNotifCount("notifMessageCount",result); } catch(e){}
 					try{ loadNotifCount("notifMessageTabCount",result); } catch(e){}
+					try{ loadNotifCount("notifMessageTabCount1",result); } catch(e){}
 	
 					$.ajax({url: "ajax/purchase_list.php?mode=checkPurchaseList", success: function(result){
 						totalcount = totalcount + (result*1);
 						totalDashboardcount = totalDashboardcount + (result*1);
 						try{ loadNotifCount("notifPurchaseListTabCount",result); } catch(e){}
+						try{ loadNotifCount("notifPurchaseListTabCount1",result); } catch(e){}
 						
 						$.ajax({url: "ajax/purchase_list.php?mode=checkStoreSalesList", success: function(result){
 							totalcount = totalcount + (result*1);
 							totalDashboardcount = totalDashboardcount + (result*1);
 							try{ loadNotifCount("notifStoreSalesListTabCount",result); } catch(e){}
+							try{ loadNotifCount("notifStoreSalesListTabCount1",result); } catch(e){}
 							try{ loadNotifCount("notifNavCount",totalcount); } catch(e){}
 							try{ loadNotifCount("notifCount",totalcount); } catch(e){}
-							try{ loadNotifCount("notifMyDashboardCount",totalDashboardcount); } catch(e){}
-							if(totalcount > 0){ document.getElementsByTagName('title')[0].innerHTML = "<?=$__title_project." (";?>"+totalcount+"<?=")";?>"; }
 						}});
+						try{ loadNotifCount("notifMyDashboardCount",totalDashboardcount); } catch(e){}
+						if(totalcount > 0){ document.getElementsByTagName('title')[0].innerHTML = "<?=$__title_project." (";?>"+totalcount+"<?=")";?>"; }
 					}});
 				}});
 				setTimeout(function(){ checkCounter(); }, 2000); 

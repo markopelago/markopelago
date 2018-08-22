@@ -119,12 +119,13 @@
             </div>
         </div>
 		<a href="dashboard.php?tabActive=purchase_list" class="btn btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> <?=v("back");?></a>
+		<br><br>
 		<?php 
 			if($cart_group != ""){
 				if($db->fetch_single_data("transactions","id",["cart_group" => $cart_group,"status" => "2:<="]) > 0){
 					echo $f->input("pay",v("pay"),"style=\"position:relative;float:right;\" onclick='window.location=\"payment.php?cart_group=".$cart_group."\";'","btn btn-success");
 				} else {
-					echo "<span style='width:100%' class='btn btn-success'><h3><b><span class='glyphicon glyphicon-ok '> <?=v('paid');?></span></b></h3></span>";
+					echo "<div style='width:100%;font-size:20px;text-align:center;' class='alert alert-success'><span class='glyphicon glyphicon-ok '> ".v("paid")."</span></div>";
 				}
 			} else {
 				if($transaction["status"] < 7){

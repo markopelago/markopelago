@@ -78,23 +78,29 @@
 	if($userImage == "") $userImage = $db->fetch_single_data("sellers","logo",["user_id"=>$__user_id]);
 	if($userImage == "") $userImage = "nophoto.png";
 				
-	$mainMenu .= "<li class='hidden-xs'><a href=\"dashboard.php\">".v("my_dashboard")."</a></li>";
-	$mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=profile\">Profile</a></li>";
-	$mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard_avatar.php\">".v("change_avatar")."</a></li>";
+	$mainMenu_lg .= "<li><a href=\"dashboard.php\">".v("my_dashboard")."<span class='notification-counter' style='visibility:hidden;' id='notifMyDashboardCount'></span></a></li>";
+	$mainMenu_lg .= "<li><a href=\"dashboard.php?tabActive=message\">".v("message")."</a><span class='notification-counter' style='visibility:hidden;' id='notifMessageTabCount1'></span></li>";
+	if($__isBackofficer)$mainMenu_lg .= "<li><a href=\"mysurvey.php\">".v("survey")."</a></li>";
+	$mainMenu_lg .= "<li><a href=\"change_password.php\">".v("change_password")."</a></li>";
+	$mainMenu_lg .= "<li class=\"sr-only\"><a href=\"index.php?locale=".$__anti_locale."\"><img class=\"localeFlag\" height=\"20\" src=\"icons/".$__anti_locale.".png\"></a></li>";
+	$mainMenu_lg .= "<li><a href=\"?logout_action=1\">Logout</a></li>";
+				
+	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=profile\">Profile</a></li>";
+	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard_avatar.php\">".v("change_avatar")."</a></li>";
 	if($__seller_id > 0){
-		$mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=seller\">".v("profile_my_store")."</a></li>";
-		$mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard_seller_header.php\">".v("change_header")."</a></li>";
+		$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=seller\">".v("profile_my_store")."</a></li>";
+		$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard_seller_header.php\">".v("change_header")."</a></li>";
 	}
-	$mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=addresses\">".v("addresses")."</a></li>";
-	$mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=banks\">".v("banks")."</a></li>";
-	if($__seller_id > 0) $mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=goods\">".v("my_goods")."</a></li>";
-	$mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=purchase_list\">".v("purchase_list")."<span class='notification-counter' style='visibility:hidden;' id='notifPurchaseListTabCount'></span></a></li>";
-	if($__seller_id > 0|| $__forwarder_id > 0)  $mainMenu .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=store_sales_list\">".v("store_sales_list")."<span class='notification-counter' style='visibility:hidden;' id='notifStoreSalesListTabCount'></span></a></li>";
-	$mainMenu .= "<li><a href=\"dashboard.php?tabActive=message\">".v("message")."</a><span class='notification-counter' style='visibility:hidden;' id='notifMessageTabCount'></span></li>";
-	if($__isBackofficer)$mainMenu .= "<li><a href=\"mysurvey.php\">".v("survey")."</a></li>";
-	$mainMenu .= "<li><a href=\"change_password.php\">".v("change_password")."</a></li>";
-	$mainMenu .= "<li class=\"sr-only\"><a href=\"index.php?locale=".$__anti_locale."\"><img class=\"localeFlag\" height=\"20\" src=\"icons/".$__anti_locale.".png\"></a></li>";
-	$mainMenu .= "<li><a href=\"?logout_action=1\">Logout</a></li>";
+	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=addresses\">".v("addresses")."</a></li>";
+	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=banks\">".v("banks")."</a></li>";
+	if($__seller_id > 0) $mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=goods\">".v("my_goods")."</a></li>";
+	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=purchase_list\">".v("purchase_list")."<span class='notification-counter' style='visibility:hidden;' id='notifPurchaseListTabCount1'></span></a></li>";
+	if($__seller_id > 0|| $__forwarder_id > 0)  $mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=store_sales_list\">".v("store_sales_list")."<span class='notification-counter' style='visibility:hidden;' id='notifStoreSalesListTabCount1'></span></a></li>";
+	$mainMenu_xs .= "<li><a href=\"dashboard.php?tabActive=message\">".v("message")."</a><span class='notification-counter' style='visibility:hidden;' id='notifMessageTabCount1'></span></li>";
+	if($__isBackofficer)$mainMenu_xs .= "<li><a href=\"mysurvey.php\">".v("survey")."</a></li>";
+	$mainMenu_xs .= "<li><a href=\"change_password.php\">".v("change_password")."</a></li>";
+	$mainMenu_xs .= "<li class=\"sr-only\"><a href=\"index.php?locale=".$__anti_locale."\"><img class=\"localeFlag\" height=\"20\" src=\"icons/".$__anti_locale.".png\"></a></li>";
+	$mainMenu_xs .= "<li><a href=\"?logout_action=1\">Logout</a></li>";
 ?>
 <body style="margin:0px;">
 	<div id="mySidenav" class="navbar-default sidenav">
@@ -103,13 +109,13 @@
 			<div class="closebtn"><a href="javascript:void(0)" onclick="closeNav()">&times;</a></div>
 		</div>
 		<div class="container visible-xs-12" id="sidenavContent">
-			<b><?=v("hello");?>, <?=$__fullname;?></b><br><img width='50' class='profile-img-card' src='users_images/<?=$userImage;?>'>
-			<div style='height:10px;'></div>
-			<div class='navbar-collapse'>
-			<div class='header-cart' id='cartcount2'><span class='glyphicon glyphicon-shopping-cart' style='color:#800000;'></span> <?=$cartcount;?></div><br>
-			<div style='height:10px;'></div>
-				<ul class='nav navbar-nav navbar-right'>
-					<?=$mainMenu;?>
+			<b><?=v("hello");?>, <?=$__fullname;?></b><br><img width="50" class="profile-img-card" src="users_images/<?=$userImage;?>">
+			<div style="height:10px;"></div>
+			<div class="navbar-collapse">
+			<div class="header-cart" id="cartcount2"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <?=$cartcount;?></div><br>
+			<div style="height:10px;"></div>
+				<ul class="nav navbar-nav navbar-right">
+					<?=$mainMenu_xs;?>
 				</ul>
 			</div>
 		</div>
@@ -155,7 +161,7 @@
 								}
 							?>
 							<?=$f->select("c",$categories,$_GET["c"]);?>
-							<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+							<button class="btn btn-default" type="submit"><i style="color:white;" class="fa fa-search"></i></button>
 						</div>
 					</form>
 				</div>
@@ -209,7 +215,7 @@
 								</a>
 							</div>
 							<ul class="dropdown-menu" role="menu" id="forSideMenu">
-								<?=$mainMenu;?>
+								<?=$mainMenu_lg;?>
 							</ul>
 						</li>
 					<?php } ?>
