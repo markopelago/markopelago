@@ -131,6 +131,7 @@ class Vocabulary{
 		$arr[$l]["failed_sign_up"]								= "Sign up failed, please try again";
 		$arr[$l]["browse"]										= "Browse";
 		$arr[$l]["description"]									= "Description";
+		$arr[$l]["store"]										= "Store";
 		$arr[$l]["store_name"]									= "Store Name";
 		$arr[$l]["pic"]											= "PIC";
 		$arr[$l]["product_information"]							= "Product Information";
@@ -245,6 +246,7 @@ class Vocabulary{
 		$arr[$l]["payment_confirmation_success"]				= "Payment Confirmation sent";
 		$arr[$l]["payment"]										= "Payment";
 		$arr[$l]["choose_the_destination_bank"]					= "Choose the destination bank";
+		$arr[$l]["please_add_your_store_address"]				= "Please add Your store`s address";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -363,6 +365,7 @@ class Vocabulary{
 		$arr[$l]["failed_sign_up"]								= "Registrasi gagal, silakan coba lagi";
 		$arr[$l]["browse"]										= "Telusuri";
 		$arr[$l]["description"]									= "Deskripsi";
+		$arr[$l]["store"]										= "Toko";
 		$arr[$l]["store_name"]									= "Nama Toko";
 		$arr[$l]["pic"]											= "PIC";
 		$arr[$l]["product_information"]							= "Info Produk";
@@ -477,6 +480,7 @@ class Vocabulary{
 		$arr[$l]["payment_confirmation_success"]				= "Konfirmasi pembayaran telah terkirim";
 		$arr[$l]["payment"]										= "Pembayaran";
 		$arr[$l]["choose_the_destination_bank"]					= "Pilih bank tujuan";
+		$arr[$l]["please_add_your_store_address"]				= "Silakan tambahkan alamat toko Anda";
 		
 		return $arr[$this->locale][$index];
 	}

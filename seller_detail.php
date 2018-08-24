@@ -19,9 +19,7 @@
 </div>
 <div class="container store-desc">
 	<div class="row">
-		<div class="panel panel-info">
-			<div class="panel-heading"><?=$seller["description"];?></div>
-		</div>
+		<span class="col-sm-12 well" style="color:#333;"><?=$seller["description"];?></span>
 	</div>
 	<div class="row sub-title-area">
 		<div class="sub-title-text"> <?=v("goods_list");?> </div>

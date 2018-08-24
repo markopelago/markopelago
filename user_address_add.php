@@ -10,12 +10,24 @@
 		$db->addfield("location_id");		$db->addvalue($_POST["subdistrict_id"]);
 		$inserting = $db->insert();
 		if($inserting["affected_rows"] > 0){
+			if($_GET["default_seller"] == "1"){
+				$db->addtable("user_addresses");	$db->where("user_id",$__user_id);
+				$db->addfield("default_seller");	$db->addvalue(0);
+				$db->update();
+				$db->addtable("user_addresses");	$db->where("id",$inserting["insert_id"]);	
+													$db->where("user_id",$__user_id);
+				$db->addfield("default_seller");	$db->addvalue(1);
+				$db->update();
+			}
 			$_SESSION["message"] = v("data_saved_successfully");
 			javascript("window.location='dashboard.php?tabActive=addresses';");
 			exit();
 		} else {
 			$_SESSION["error_message"] = v("failed_saving_data");
 		}
+	}
+	if($_GET["default_seller"] == 1){
+		$name = v("store");
 	}
 ?>
 <div class="row">	
@@ -24,10 +36,10 @@
 		<h3><?=v("add_address");?></h3>
 	</div>
 	<div class="container">
-		<form method="POST">
+		<form method="POST" action="?default_seller=<?=$_GET["default_seller"];?>">
 			<div class="col-md-12">
 				<div class="form-group">
-					<label><?=v("name");?></label><?=$f->input("name","","required placeholder='".v("name")."... (".v("example_home_office").")'","form-control");?>
+					<label><?=v("name");?></label><?=$f->input("name",$name,"required placeholder='".v("name")."... (".v("example_home_office").")'","form-control");?>
 				</div>
 				<div class="form-group">
 					<label><?=v("pic");?></label><?=$f->input("pic",$pic,"required placeholder='".v("pic")."...'","form-control");?>

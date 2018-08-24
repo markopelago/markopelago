@@ -8,10 +8,23 @@
 		$db->update();
 		$_SESSION["message"]= v("data_saved_successfully");
 	}
+	if(isset($_GET["addresses_change_store"])){
+		$db->addtable("user_addresses");$db->where("user_id",$__user_id);
+		$db->addfield("default_seller");	$db->addvalue("0");
+		$db->update();
+		$db->addtable("user_addresses"); $db->where("id",$_GET["addresses_change_store"]); $db->where("user_id",$__user_id);
+		$db->addfield("default_seller");	$db->addvalue("1");
+		$db->update();
+		$_SESSION["message"]= v("data_saved_successfully");
+	}
 	if(isset($_GET["deleting"])){
 		$db->addtable("user_addresses"); $db->where("id",$_GET["deleting"]); $db->where("user_id",$__user_id); $db->where("default_buyer","0"); $db->delete_();
 	}
-	echo "<button class='btn btn-primary' onclick=\"window.location='user_address_add.php'\">
+	if($_SESSION["message"] == v("please_add_your_store_address")){
+		echo "<div class='panel panel-warning'><div class='panel-heading'>".$_SESSION["message"]."</div></div>";
+		$default_seller = "?default_seller=1";
+	}
+	echo "<button style='position:relative;display:inline;' class='btn btn-primary' onclick=\"window.location='user_address_add.php".$default_seller."'\">
 		<span class='glyphicon glyphicon-plus-sign' title='".v("add_address")."'></span> ".v("add_address")."
 	</button>";
 	
@@ -19,6 +32,9 @@
 <script>
 	function addresses_change_primary(user_address_id){
 		window.location="?tabActive=addresses&addresses_change_primary="+user_address_id;
+	}
+	function addresses_change_store(user_address_id){
+		window.location="?tabActive=addresses&addresses_change_store="+user_address_id;
 	}
 	function delete_address(user_address_id){
 		if(confirm("<?=v("confirm_delete");?> ?")){
@@ -36,6 +52,7 @@
 				<th><?=v("address");?></th>
 				<th><?=v("phone");?></th>
 				<th><?=v("primary_address");?></th>
+				<?php if($__seller_id > 0){ ?> <th><?=v("store");?></th> <?php } ?>
 			</tr>
 		</thead>
 		<tbody>
@@ -47,6 +64,8 @@
 					foreach($user_addresses as $user_address){
 						$checked = ($user_address["default_buyer"]) ? "checked":"";
 						$primary_address = $f->input("primary_address",$user_address["id"],"onchange=\"addresses_change_primary('".$user_address["id"]."');\" type='radio' ".$checked);
+						$checked = ($user_address["default_seller"]) ? "checked":"";
+						$store_address = $f->input("store_address",$user_address["id"],"onchange=\"addresses_change_store('".$user_address["id"]."');\" type='radio' ".$checked);
 						$locations = get_location($user_address["location_id"]);
 						$location = $user_address["address"];
 						$location .= "<br>".$locations[3]["name"];
@@ -68,6 +87,7 @@
 							<td><?=$location;?></td>
 							<td class="nowrap"><?=$user_address["phone"];?></td>
 							<td align="center"><?=$primary_address;?></td>
+							<?php if($__seller_id > 0){ ?> <td align="center"><?=$store_address;?></td> <?php } ?>
 						</tr>
 						<?php
 					}

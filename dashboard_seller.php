@@ -11,8 +11,13 @@
 		if($__seller_id > 0) $inserting = $db->update();
 		else $inserting = $db->insert();
 		if($inserting["affected_rows"] > 0){
-			$_SESSION["message"] = v("data_saved_successfully");
-			javascript("window.location='?tabActive=seller';"); 
+			if($__seller_id > 0){				
+				$_SESSION["message"] = v("data_saved_successfully");
+				javascript("window.location='?tabActive=seller';"); 
+			} else {
+				$_SESSION["message"] = v("please_add_your_store_address");
+				javascript("window.location='?tabActive=addresses';"); 
+			}
 			exit();
 		} else {
 			$_SESSION["errormessage"] = v("saving_data_failed");
