@@ -28,6 +28,7 @@
 				}
 			}
 			$db->addtable("transactions");	$db->where("po_no",$po_no); $db->where("seller_user_id",$__user_id);
+			$db->addfield("sent_at");		$db->addvalue($__now);
 			$db->addfield("status");		$db->addvalue(5);
 			$updating = $db->update();
 			$_SESSION["message"] = v("po_was_delivered");
@@ -37,13 +38,13 @@
 		javascript("window.location='?po_no=".$po_no."';");
 		exit();
 	}
-	if($_GET["changeStatus"] > 3){
+	if($_GET["changeStatus"] == 4){
 		$db->addtable("transactions");	$db->where("po_no",$po_no); $db->where("seller_user_id",$__user_id);
-		$db->addfield("status");		$db->addvalue($_GET["changeStatus"]);
+		$db->addfield("process_at");	$db->addvalue($__now);
+		$db->addfield("status");		$db->addvalue(4);
 		$updating = $db->update();
 		if($updating["affected_rows"] > 0){
-			if($_GET["changeStatus"] == 4) $_SESSION["message"] = v("this_po_has_been_processed");
-			if($_GET["changeStatus"] == 5) $_SESSION["message"] = v("po_was_delivered");
+			$_SESSION["message"] = v("this_po_has_been_processed");
 			javascript("window.location='?po_no=".$po_no."';");
 			exit();
 		} else {
@@ -134,7 +135,7 @@
 						<td colspan="3" width="70%"> 
 							<u><?=v("courier_service");?> :</u><br> <?=$transaction_forwarder["name"];?> -- <?=explode(" (",$transaction_forwarder["courier_service"])[0];?>
 							<?php
-								if($status == "5" && $transaction_forwarder["receipt_at"] != "0000-00-00 00:00:00") {
+								if($status >= "5" && $transaction_forwarder["receipt_at"] != "0000-00-00 00:00:00") {
 									echo "<br><b>".v("delivered_at").": ".format_tanggal($transaction_forwarder["receipt_at"]);
 									echo "<br>".v("shipping_receipt_number").": ".$transaction_forwarder["receipt_no"]."</b>";
 								}

@@ -13,6 +13,7 @@
 		$db->where("invoice_no",$_GET["invoice_no"]);
 		$db->where("buyer_user_id",$__user_id);
 		$db->addfield("status");	$db->addvalue("7");
+		$db->addfield("done_at");	$db->addvalue($__now);
 		$updating = $db->update();
 		if($updating["affected_rows"] > 0){
 			$_SESSION["message"] = v("transaction_done");
@@ -96,6 +97,12 @@
 						<tr>
 							<td colspan="3" width="70%"> 
 								<u><?=v("courier_service");?> :</u><br> <?=$transaction_forwarder["name"];?> -- <?=explode(" (",$transaction_forwarder["courier_service"])[0];?>
+							<?php
+								if($transaction["status"] >= 5 && $transaction_forwarder["receipt_at"] != "0000-00-00 00:00:00") {
+									echo "<br><b>".v("delivered_at").": ".format_tanggal($transaction_forwarder["receipt_at"]);
+									echo "<br>".v("shipping_receipt_number").": ".$transaction_forwarder["receipt_no"]."</b>";
+								}
+							?>
 							</td>
                             <td nowrap width="15%" align="right">
 								<?=v("weight");?><br> <?=($transaction_forwarder["weight"]*$transaction_forwarder["qty"]/1000);?> Kg
@@ -104,9 +111,11 @@
 								<?=v("shipping_charges");?><br> Rp <?=format_amount($transaction_forwarder["total"])?>
 							</td>
                         </tr>
-                        <tr>
-                            <td colspan="6" align="right"><b> Total : Rp <?=format_amount($total)?></b></td>
-                        </tr>
+                        <tr><td colspan="6" align="right"><b> Total : Rp <?=format_amount($total)?></b></td></tr>
+						<?php 
+							if($transaction["status"] == "7")	
+								echo "<tr><td colspan='6' style='width:100%;font-size:20px;text-align:center;' class='alert alert-success'><span class='glyphicon glyphicon-thumbs-up '></span> ".v("transaction_done")."</td></tr>";
+						?>
                         <tr><td colspan="6"></td></tr>
 						<?php } ?>
                     </table>
