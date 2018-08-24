@@ -26,7 +26,7 @@
 		$qty = $_GET["qty"];
 		$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
 		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
-		$seller_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id]);
+		$seller_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]);
 		$origin = $ro->location_id(get_location($seller_location_id)[0]["name"],0,get_location($seller_location_id)[1]["name"]);
 		
 		$buyer_location_id = $db->fetch_single_data("user_addresses","location_id",["id" => $buyer_address_id,"user_id" => $__user_id]);
