@@ -104,7 +104,7 @@
 				<label><?=v("nppkp");?></label><?=$f->input("nppkp",$data["nppkp"],"placeholder='".v("nppkp")."...'","form-control");?>
 			</div>
 			<div class="form-group">
-				<label><?=v("npwp_address");?></label><?=$f->textarea("npwp_address",$data["npwp_address"],"placeholder='".v("npwp_address")."...'","form-control textarea-default");?>
+				<label><?=v("npwp_address");?></label><?=$f->textarea("npwp_address",$data["npwp_address"],"placeholder='".v("npwp_address")."...'","form-control");?>
 			</div>
 		</div>
 		

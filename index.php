@@ -61,7 +61,7 @@
 <div class="container">
 	<div class="row sub-title-area">
 		<div class="sub-title-text"><?=v("categories");?></div>
-		<div class="view-all-text"><a href="#"><?=v("view_all");?></a></div>
+		<div class="view-all-text"><a href="products.php?s=%20"><?=v("view_all");?></a></div>
 	</div>
 	<div class="scrolling-wrapper categories">
 		<?php 
@@ -127,10 +127,10 @@
 <div style="height:20px;"></div>
 
 <div class="container">
-	<div class="row">
+	<!--div class="row">
 		<center><img class="img-responsive" src="http://testing.markopelago.com/img/mr.png"></center>
 	</div>
-	<!--br><br>
+	<br><br>
 	<table width="100%">
 		<?=$t->row([
 			"<img style='max-width: 180px;max-height: 130px;' class='img-responsive thumbnail' src='banners/evercoss.png'>",

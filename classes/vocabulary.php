@@ -188,6 +188,7 @@ class Vocabulary{
 		$arr[$l]["profile_my_store"]							= "Profile My Store";
 		$arr[$l]["my_goods"]									= "My Products";
 		$arr[$l]["goods"]										= "Goods";
+		$arr[$l]["goods_list"]									= "Goods List";
 		$arr[$l]["you_not_yet_seller"]							= "You are not yet registered as a seller";
 		$arr[$l]["register_as_seller_now"]						= "Want to register as a seller now";
 		$arr[$l]["add_goods"]									= "Add Goods";
@@ -419,6 +420,7 @@ class Vocabulary{
 		$arr[$l]["profile_my_store"]							= "Profil Toko Saya";
 		$arr[$l]["my_goods"]									= "Daftar Produk Saya";
 		$arr[$l]["goods"]										= "Produk";
+		$arr[$l]["goods_list"]									= "Daftar Produk";
 		$arr[$l]["you_not_yet_seller"]							= "Anda belum terdaftar sebagai penjual";
 		$arr[$l]["register_as_seller_now"]						= "Ingin mendaftar sebagai penjual sekarang";
 		$arr[$l]["add_goods"]									= "Tambah Produk";

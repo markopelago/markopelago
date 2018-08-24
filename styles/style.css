@@ -1184,15 +1184,8 @@ a:focus, a:hover {
 }
 
 textarea{
-	width:430px !important;
-	height:300px !important;
-}
-
-.textarea-default{
-	width: 100% !important;
 	height:150px !important;
 }
-
 
 .clickable{
     cursor: pointer;   

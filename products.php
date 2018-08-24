@@ -2,7 +2,7 @@
 <div style="height:20px;"></div>
 <div class="container">
 	<div class="row sub-title-area">
-		<div class="sub-title-text"> <?=v("goods");?> </div>
+		<div class="sub-title-text"> <?=v("goods_list");?> </div>
 	</div>
 	<?php 
 		if($_GET["s"] == ""){
@@ -11,7 +11,7 @@
 			exit();
 		}
 		$whereclause = "";
-		if($_GET["s"] != "") $whereclause .= "(name LIKE '%".$_GET["s"]."%' OR description LIKE '%".$_GET["s"]."%')";
+		if($_GET["s"] != "") $whereclause .= "(name LIKE '%".str_replace(" ","%",$_GET["s"])."%' OR description LIKE '%".$_GET["s"]."%')";
 		if($_GET["c"] > 0) $whereclause .= " AND category_ids LIKE '%|".$_GET["c"]."|%'";
 		$products = $db->fetch_all_data("goods",[],$whereclause);
 		foreach($products as $product){
