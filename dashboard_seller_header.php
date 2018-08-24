@@ -9,7 +9,7 @@
 			<?php 
 				
 				$photoW = 1100;
-				$photoH = 120;
+				$photoH = 200;
 				if(isset($_POST["next"])){
 					$error = "";
 					$_type = $_FILES["header_image"]["type"];

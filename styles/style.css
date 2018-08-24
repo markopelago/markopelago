@@ -1196,6 +1196,30 @@ textarea{
 	font-size: 15px;
 }
 
+.store-logo{
+	position:relative;
+	top:-100px;
+	left:2%;
+	width:94%;
+}
+.store-title{
+	position:relative;
+	font-size:24px;
+	font-weight:bolder;
+	top:110px;
+	left:5px;
+}
+.store-subtitle{
+	position:relative;
+	font-size:18px;
+	top:110px;
+	left:5px;
+}
+.store-desc{
+	position:relative;
+	top:-80px;
+}
+
 @media screen and (max-width: 995px) {
 	.header-start{ height:110px; }
 	.carousel-inner{
@@ -1221,6 +1245,25 @@ textarea{
 	}
 	.carousel-indicators{
 		bottom:-10px !important;
+	}
+	.store-logo{ 
+		top:-40px;
+	}
+	.store-logo img{ 
+		width:80px;
+	}	
+	.store-title{
+		font-size:18px;
+		top:50px;
+		left:3px;
+	}
+	.store-subtitle{
+		font-size:14px;
+		top:50px;
+		left:3px;
+	}
+	.store-desc{
+		top:-15px;
 	}
 }
 
