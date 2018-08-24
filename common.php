@@ -2,7 +2,8 @@
 	ini_set("session.cookie_lifetime", 60 * 60 * 24 * 100);
 	ini_set("session.gc_maxlifetime", 60 * 60 * 24 * 100);
 	set_time_limit(0);
-	if($_SERVER["REMOTE_ADDR"] != "::1"){
+	if($_SERVER["REMOTE_ADDR"] != "::1" 
+		&& $_SERVER["REMOTE_ADDR"] != "207.244.94.8" ){
 		?> <img src="http://bluefish.co.id/images/under_maintenance.jpg"> <?php
 		exit();
 	}

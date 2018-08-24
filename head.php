@@ -188,9 +188,9 @@
 												<img width="100" class="profile-img-card hidden-xs" src="images/nophoto.png" />
 												<p id="profile-name" class="profile-name-card"></p>
 												<form class="form-signin">
-													<input name="username" class="form-control" placeholder="Username" required autofocus>
+													<input name="username" class="form-control" placeholder="Username" autocomplete="off" required autofocus>
 													<div style="height:5px;"></div>
-													<input name="password" type="password" class="form-control" placeholder="Password" autocomplete="new-password" required>
+													<input name="password" type="password" class="form-control" placeholder="Password" required>
 													<div style="height:5px;"></div>
 													<?=$t->row([$f->input("login_action","Login","type='submit'","btn btn-link-1")]);?>
 												</form>
