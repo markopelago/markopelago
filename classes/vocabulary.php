@@ -24,6 +24,7 @@ class Vocabulary{
 		$arr[$l]["yes"] 										= "Yes";
 		$arr[$l]["no"] 											= "No";
 		$arr[$l]["cancel"] 										= "Cancel";
+		$arr[$l]["close"] 										= "Close";
 		$arr[$l]["at"] 											= "at";
 		$arr[$l]["send"] 										= "send";
 		$arr[$l]["more"] 										= "More";
@@ -52,6 +53,7 @@ class Vocabulary{
 		$arr[$l]["range_characters"]							= "6-8 characters";
 		$arr[$l]["by_signing_up_i_agree_to"]					= "By Signing Up, I agree to markopelago's";
 		$arr[$l]["terms_and_conditions"]						= "Terms and Conditions";
+		$arr[$l]["terms_and_conditions_agreed"]					= "Yes, I agree to the <a class=\"scroll-link\" href=\"javascript:loadInfo('terms_and_conditions');\">Terms and Conditions</a> that apply at Markopelago.com";
 		$arr[$l]["and"]											= "and";
 		$arr[$l]["or"]											= "or";
 		$arr[$l]["privacy_policy"]								= "Privacy Policy";
@@ -253,6 +255,7 @@ class Vocabulary{
 		$arr[$l]["yes"] 										= "Ya";
 		$arr[$l]["no"] 											= "Tidak";
 		$arr[$l]["cancel"] 										= "Batal";
+		$arr[$l]["close"] 										= "Tutup";
 		$arr[$l]["at"] 											= "pada";
 		$arr[$l]["send"] 										= "kirim";
 		$arr[$l]["more"] 										= "Lihat Lebih";
@@ -281,6 +284,7 @@ class Vocabulary{
 		$arr[$l]["range_characters"]							= "6-8 Karakter";
 		$arr[$l]["by_signing_up_i_agree_to"]					= "Dengan mendaftar berarti Saya telah menyetujui";
 		$arr[$l]["terms_and_conditions"]						= "Syarat dan Ketentuan";
+		$arr[$l]["terms_and_conditions_agreed"]					= "Ya, Saya menyetujui <a class=\"scroll-link\" href=\"javascript:loadInfo('terms_and_conditions');\">Syarat dan Ketentuan</a> yang berlaku di Markopelago.com";
 		$arr[$l]["and"]											= "dan";
 		$arr[$l]["or"]											= "atau";
 		$arr[$l]["privacy_policy"]								= "Polis kerahasiaan";

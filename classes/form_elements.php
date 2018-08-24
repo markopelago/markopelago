@@ -43,7 +43,7 @@ class FormElements extends Database {
 		if ($class!="") $class='class="'.$class.'"';
 		if ($attr=="") $attr="type='text'";
 		if (stripos(" ".$attr,"type") <= 0) $attr.=" type='text'";
-        return '<input name="'.$name.'" id="'.$name.'" '.$value.' '.$attr.' '.$class.' onmouseover="try{ hiding_select_box(\'\'); } catch(e){}">';
+        return '<input name="'.$name.'" id="'.$name.'" '.$value.' '.$attr.' '.$class.'>';
     }
 
     public function textarea($name,$value="",$attr="",$class=""){
@@ -51,7 +51,7 @@ class FormElements extends Database {
     }
 
     public function select($name,$values,$selected=null,$attr="",$class=""){
-        $return='<select name="'.$name.'" id="'.$name.'" '.$attr.' class="'.$class.'" onmouseover="try{ hiding_select_box(\'\'); } catch(e){}">';
+        $return='<select name="'.$name.'" id="'.$name.'" '.$attr.' class="'.$class.'">';
         foreach($values as $value => $caption){
           $isselected=($selected==$value)?"selected":"";
           $return.='<option value="'.$value.'" '.$isselected.'>'.$caption.'</option>';
@@ -428,7 +428,7 @@ class FormElements extends Database {
 			.slider_'.$name.'.round:before { border-radius: 50%; }
 		</style>
 		<label class="switch_'.$name.'">
-		  <input type="checkbox" '.$checked.' name="'.$name.'" id="'.$name.'" value="1" '.$events.' onmouseover="try{ hiding_select_box(\'\'); } catch(e){}">
+		  <input type="checkbox" '.$checked.' name="'.$name.'" id="'.$name.'" value="1" '.$events.'>
 		  <div class="slider_'.$name.' '.$theme.'"></div>
 		</label>';
     }

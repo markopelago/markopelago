@@ -115,6 +115,8 @@ div { font-family: "Raleway"; }
 
 .localeFlag {
 	box-shadow: 0 0 1px #666;
+	position:relative;
+	top:-5px;
 }
 
 @keyframes blinking {
@@ -811,10 +813,6 @@ input[type=checkbox]{
 .navbar-default {
     background-color: #f4f4f4 !important;
 }
-.navbar-nav {
-    position: relative;
-    top: 5px;
-}
 .navbar-default .navbar-nav a{
 	color:#000 !important;
 }
@@ -874,8 +872,8 @@ input[type=checkbox]{
   float: right;
 }
 .search-container input[type=text] {
-  padding: 8px;
-  margin-top: 8px;
+  padding: 7px;
+  /* margin-top: 8px; */
   font-size: 13px;
   border: none;
   width:300px;
@@ -895,7 +893,7 @@ input[type=checkbox]{
   background: #EFB509;
 }
 .search-container select {
-  padding: 11px 0px 11px 0px;
+  padding: 11px 0px 10px 0px;
   margin-top: 8px;
   font-size: 10px;
   border: none;
@@ -1167,10 +1165,10 @@ a:focus, a:hover {
 }
 
 .header-cart{
-	position:relative;
+	font-size:18px;
 	float:left;
 	margin-right:20px;
-	margin-top:10px;
+	margin-top:15px;
 	color:#800000;
 }
 .header-cart img{
@@ -1189,6 +1187,12 @@ textarea{
 	width:430px !important;
 	height:300px !important;
 }
+
+.textarea-default{
+	width: 100% !important;
+	height:150px !important;
+}
+
 
 .clickable{
     cursor: pointer;   

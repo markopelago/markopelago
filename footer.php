@@ -26,9 +26,9 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-6">
-								<p><a class="scroll-link" href="#top-content"><?=v("terms_and_conditions");?></a></p>
-								<p><a class="scroll-link" href="#features"><?=v("privacy_policy");?></a></p>
-								<p><a class="scroll-link" href="#video"><?=v("contact_us");?></a></p>
+								<p><a class="scroll-link" href="javascript:loadInfo('terms_and_conditions');"><?=v("terms_and_conditions");?></a></p>
+								<p><a class="scroll-link" href="javascript:loadInfo('privacy_policy');"><?=v("privacy_policy");?></a></p>
+								<p><a class="scroll-link" href="javascript:loadInfo('contact_us');"><?=v("contact_us");?></a></p>
 							</div>
 						</div>
 					</div>
@@ -81,7 +81,7 @@
 		}
 		$( document ).ready(function() { 
 			setTimeout(function(){ session_checker(); }, 60000); 
-			checkCounter();
+			<?php if($__isloggedin){ ?> checkCounter(); <?php } ?>
 		});
 		
 		<?php if(isset($_GET["tabActive"])){ ?>

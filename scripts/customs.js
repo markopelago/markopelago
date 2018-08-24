@@ -172,3 +172,16 @@ function sendMessage(sender_id,textmessage,user_id_as,user_id2_as){
 		}});
 	}
 }
+
+function loadInfo(mode){
+	$.get( "ajax/info.php?mode="+mode, function(modalBody) {
+		modalBody = modalBody.split("|||");
+		modalTitle = modalBody[0];
+		modalFooter = modalBody[2];
+		modalBody = modalBody[1];
+		$('#modalTitle').html(modalTitle);
+		$('#modalBody').html(modalBody);
+		$('#modalFooter').html(modalFooter);
+		$('#myModal').modal('show');
+	});
+}
