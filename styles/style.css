@@ -1265,6 +1265,9 @@ textarea{
 	.store-desc{
 		top:-15px;
 	}
+	.sub-title-text{
+		font-size:18px;
+	}
 }
 
 @media screen and (max-width: 733px) {

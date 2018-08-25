@@ -53,12 +53,16 @@
 	}
 ?>
 <link href="styles/jquery.guillotine.css" media="all" rel="stylesheet">
-<div class="row">	
-	<div class="container">
-		<h2 class="well"><?=strtoupper(v("dashboard"));?></h2>
-		<h3><?=v("change_avatar")?></h3>
+<div style="height:20px;"></div>
+<div class="container">
+	<div class="row sub-title-area well">
+		<div class="sub-title-text">
+			<?=strtoupper(v("change_avatar"));?>
+		</div>
 	</div>
-	<div class="container">
+</div>
+<div class="container">
+	<div class="row">	
 		<script id="guillotinejs" src="scripts/jquery.guillotine.js?width=<?=$photoW;?>&height=<?=$photoH;?>"></script>
 		<form method="POST" enctype="multipart/form-data">
 			<input type="hidden" name="mode_photo" value="avatar">
@@ -68,37 +72,35 @@
 			<input type="hidden" name="form_h" value="" id="form_h" />
 			<input type="hidden" name="form_scale" value="" id="form_scale" />
 			<input type="hidden" name="form_angle" value="" id="form_angle" />
-			<div class="col-md-12">
-				 <div class="form-group">
-					<div class="input-group">
-						<span class="input-group-btn">
-							<span class="btn btn-default btn-file">
-								<?=v("browse");?>... <input type="file" name="avatar" id="imgInp" accept="image/*">
-							</span>
+			<div class="form-group">
+				<div class="input-group">
+					<span class="input-group-btn">
+						<span class="btn btn-default btn-file">
+							<?=v("browse");?>... <input type="file" name="avatar" id="imgInp" accept="image/*">
 						</span>
-						<input type="text" class="form-control" readonly>
-					</div>
-					<br>
-					<center>
-					<div class="frame" style="border:1px solid grey;width:<?=$photoW;?>px;height:<?=$photoH;?>px;">
-						<img id="photo_uploaded" src="users_images/<?=$__buyer["avatar"];?>">
-					</div>
-					</center>
-					<br>
-					
-					<div id="controls" class="">
-					  <a href="#" id="rotate_left" title="Rotate left"><i class="fa fa-rotate-left"></i></a>
-					  <a href="#" id="zoom_out" title="Zoom out"><i class="fa fa-search-minus"></i></a>
-					  <a href="#" id="fit" title="Fit image"><i class="fa fa-arrows-alt"></i></a>
-					  <a href="#" id="zoom_in" title="Zoom in"><i class="fa fa-search-plus"></i></a>
-					  <a href="#" id="rotate_right" title="Rotate right"><i class="fa fa-rotate-right"></i></a>
-					</div>
+					</span>
+					<input type="text" class="form-control" readonly>
 				</div>
+				<br>
+				<center>
+				<div class="frame" style="border:1px solid grey;width:<?=$photoW;?>px;height:<?=$photoH;?>px;">
+					<img id="photo_uploaded" src="users_images/<?=$__buyer["avatar"];?>">
+				</div>
+				</center>
+				<br>
 				
-				<div class="form-group">
-					<?=$f->input("back",v("back"),"type='button' onclick=\"window.location='dashboard.php';\"","btn btn-warning");?>
-					<?=$f->input("save",v("save"),"type='submit'","btn btn-primary");?>
+				<div id="controls" class="">
+				  <a href="#" id="rotate_left" title="Rotate left"><i class="fa fa-rotate-left"></i></a>
+				  <a href="#" id="zoom_out" title="Zoom out"><i class="fa fa-search-minus"></i></a>
+				  <a href="#" id="fit" title="Fit image"><i class="fa fa-arrows-alt"></i></a>
+				  <a href="#" id="zoom_in" title="Zoom in"><i class="fa fa-search-plus"></i></a>
+				  <a href="#" id="rotate_right" title="Rotate right"><i class="fa fa-rotate-right"></i></a>
 				</div>
+			</div>
+			
+			<div class="form-group">
+				<?=$f->input("back",v("back"),"type='button' onclick=\"javascript:window.history.back();\"","btn btn-warning");?>
+				<?=$f->input("save",v("save"),"type='submit'","btn btn-primary");?>
 			</div>
 		</form>
 	</div>

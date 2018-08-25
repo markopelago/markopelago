@@ -37,7 +37,14 @@
 		<div class="panel-body"><?=v("register_as_seller_now");?>? <?=$f->input("yes",v("yes"),"type='button' onclick=\"register_as_seller_now();\"","btn btn-primary");?></div>
 	</div>
 </div>
-<h2 class="well hidden-sm hidden-md hidden-lg"><?=strtoupper(v("profile_my_store"));?></h2>
+<div class="container hidden-sm hidden-md hidden-lg">
+	<div class="row sub-title-area well">
+		<div class="sub-title-text">
+			<a class="btn btn-default" href="javascript:window.history.back();"><span class="glyphicon glyphicon-chevron-left"></span></a>
+			<?=strtoupper(v("profile_my_store"));?>
+		</div>
+	</div>
+</div>
 <div id="seller_form_area" style="display:<?=($__seller_id > 0)?"block":"none";?>;">
 	<?php if($__seller_id > 0){ ?>
 	<center>
@@ -47,20 +54,18 @@
 	</center>
 	<?php } ?>
 	<form role="form" method="POST" autocomplete="off">	
-		<div class="col-md-12">
-			<div class="form-group">
-				<label><?=v("store_name");?></label><?=$f->input("name",$seller["name"],"type='name' required placeholder='".v("store_name")."...'","form-control");?>
-			</div>
-			<div class="form-group">
-				<label><?=v("description");?></label><?=$f->textarea("description",$seller["description"],"required placeholder='".v("description")."...'","form-control");?>
-			</div>
-			<div class="form-group">
-				<label><?=v("pic");?></label><?=$f->input("pic",$seller["pic"],"required placeholder='".v("pic")."...'","form-control");?>
-			</div>	
-			
-			<div class="form-group">
-				<?=$f->input("save_seller",v("save"),"type='submit'","btn btn-primary");?>
-			</div>
+		<div class="form-group">
+			<label><?=v("store_name");?></label><?=$f->input("name",$seller["name"],"type='name' required placeholder='".v("store_name")."...'","form-control");?>
+		</div>
+		<div class="form-group">
+			<label><?=v("description");?></label><?=$f->textarea("description",$seller["description"],"required placeholder='".v("description")."...'","form-control");?>
+		</div>
+		<div class="form-group">
+			<label><?=v("pic");?></label><?=$f->input("pic",$seller["pic"],"required placeholder='".v("pic")."...'","form-control");?>
+		</div>	
+		
+		<div class="form-group">
+			<?=$f->input("save_seller",v("save"),"type='submit'","btn btn-primary");?>
 		</div>
 	</form>
 </div>
