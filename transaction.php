@@ -173,18 +173,21 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-6">
-			<label><b><?=v("delivery_destination");?></b></label>
+		<div class="row">
+			<div class="col-md-7">
+				<label><b><?=v("delivery_destination");?></b></label>
+			</div>
+			<?php $user_addresses = $db->fetch_select_data("user_addresses","id","name",["user_id " => $__user_id]); ?>
+			<div class="col-md-5">
+				<label for="user_address" class="col-md-4"><b><?=v("choose_another_address");?> : </b></label>
+				<div class="col-md-8"> <?=$f->select("user_address",$user_addresses,$user_address_default,"onchange = 'change_address(this.value);'","form-control");?> </div>
+			</div>
 		</div>
-		<?php $user_addresses = $db->fetch_select_data("user_addresses","id","name",["user_id " => $__user_id]); ?>
-		<div class="col-md-6">
-			<label for="user_address" class="col-md-4"><b><?=v("choose_another_address");?> : </b></label>
-			<div class="col-md-8"> <?=$f->select("user_address",$user_addresses,$user_address_default,"onchange = 'change_address(this.value);'","form-control");?> </div>
-		</div>
-		<div style="height:40px;"></div>
-		<div class="col-md-12">
-			<div class="panel panel-default">
-				<div class="panel-body bg-grey" id="div_delivery_destination"></div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-body bg-grey" id="div_delivery_destination"></div>
+				</div>
 			</div>
 		</div>
 		<div class="row">

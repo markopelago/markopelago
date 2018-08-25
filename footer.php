@@ -64,7 +64,7 @@
 							try{ loadNotifCount("notifCount",totalcount); } catch(e){}
 						}});
 						try{ loadNotifCount("notifMyDashboardCount",totalDashboardcount); } catch(e){}
-						if(totalcount > 0){ document.getElementsByTagName('title')[0].innerHTML = "<?=$__title_project." (";?>"+totalcount+"<?=")";?>"; }
+						if(totalcount > 0){ document.getElementsByTagName('title')[0].innerHTML = "<?="(";?>"+totalcount+"<?=") ".$__title_project;?>"; }
 					}});
 				}});
 				setTimeout(function(){ checkCounter(); }, 2000); 

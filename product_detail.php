@@ -2,8 +2,8 @@
 	include_once "header.php"; 
 	$goods = $db->fetch_all_data("goods",[],"id = '".$_GET["id"]."'")[0];
 	$seller = $db->fetch_all_data("sellers",[],"id = '".$goods["seller_id"]."'")[0];
-	$onclickSendMessage = "onclick=\"$('#ul_signin').addClass('show');\"";
-	$onclickBuy = "onclick=\"$('#ul_signin').addClass('show');\"";
+	$onclickSendMessage = "onclick=\"try{ $('#ul_signin').addClass('show'); }catch(e){} try{ openNav(); }catch(e){}\"";
+	$onclickBuy = $onclickSendMessage;
 	if($__isloggedin){
 		$onclickSendMessage = "onclick=\"newMessage('".$seller["user_id"]."','".$goods["id"]."','buyer','seller');\"";
 		$onclickBuy = "onclick=\"window.location='transaction.php?id=".$_GET["id"]."';\"";
@@ -15,15 +15,17 @@
 
 
 <div class="container">
-<div class="row">
-<a class="btn" href="index.php"><h3><span class="glyphicon glyphicon-chevron-left"><b>BACK</b></span></h3></a>
-	<div style="height:20px;"></div>
-	<div class="row sub-title-area">
-		<div class="sub-title-text"> <?=$db->fetch_single_data("goods","name",["id"=>$_GET["id"]]);?> </div>
-	</div>
+	<div class="row" style="margin-left:0px;">
+		<div style="height:20px;"></div>
+		<div class="row sub-title-area well">
+			<div class="sub-title-text">
+				<a class="btn btn-default" href="javascript:window.history.back();"><span class="glyphicon glyphicon-chevron-left"></span></a>
+				<?=$db->fetch_single_data("goods","name",["id"=>$_GET["id"]]);?>
+			</div>
+		</div>
 	</div>
     <div class="row">
-        <div class="col-md-9" style="border-top: 1px solid #ccc;">
+        <div class="col-md-9">
             <div style="height:20px;"></div>
             <div class="col-md-5">
 				<div class="panel panel-default">

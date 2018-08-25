@@ -96,7 +96,7 @@
 	if($__seller_id > 0) $mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=goods\">".v("my_goods")."</a></li>";
 	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=purchase_list\">".v("purchase_list")."<span class='notification-counter' style='visibility:hidden;' id='notifPurchaseListTabCount1'></span></a></li>";
 	if($__seller_id > 0|| $__forwarder_id > 0)  $mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=store_sales_list\">".v("store_sales_list")."<span class='notification-counter' style='visibility:hidden;' id='notifStoreSalesListTabCount1'></span></a></li>";
-	$mainMenu_xs .= "<li><a href=\"dashboard.php?tabActive=message\">".v("message")."</a><span class='notification-counter' style='visibility:hidden;' id='notifMessageTabCount1'></span></li>";
+	$mainMenu_xs .= "<li><a href=\"dashboard.php?tabActive=message\">".v("message")."<span class='notification-counter' style='visibility:hidden;' id='notifMessageTabCount1'></span></a></li>";
 	if($__isBackofficer)$mainMenu_xs .= "<li><a href=\"mysurvey.php\">".v("survey")."</a></li>";
 	$mainMenu_xs .= "<li><a href=\"change_password.php\">".v("change_password")."</a></li>";
 	$mainMenu_xs .= "<li class=\"sr-only\"><a href=\"index.php?locale=".$__anti_locale."\"><img class=\"localeFlag\" height=\"20\" src=\"icons/".$__anti_locale.".png\"></a></li>";
@@ -112,7 +112,7 @@
 			<b><?=v("hello");?>, <?=$__fullname;?></b><br><img width="50" class="profile-img-card" src="users_images/<?=$userImage;?>">
 			<div style="height:10px;"></div>
 			<div class="navbar-collapse">
-			<div class="header-cart" id="cartcount2"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <?=$cartcount;?></div><br>
+			<div class="header-cart" id="cartcount2"><a href="mycart.php"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <?=$cartcount;?></a></div><br>
 			<div style="height:10px;"></div>
 				<ul class="nav navbar-nav navbar-right">
 					<?=$mainMenu_xs;?>
@@ -204,9 +204,7 @@
 						<li class="dropdown">
 							<div>
 								<div class="header-cart" id="cartcount1">
-									<a href="mycart.php">
-									<span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <?=$cartcount;?>
-									</a>
+									<a href="mycart.php"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <?=$cartcount;?></a>
 								</div>
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 									<img height="30" class="profile-img-card" src="users_images/<?=$userImage;?>">&nbsp;<?=v("hello");?>, <?=$__fullname;?>
