@@ -72,6 +72,16 @@
 			document.getElementById("mySidenav").style.width = "0";
 		}
 	</script>
+	
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-124578891-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-124578891-1');
+	</script>
 </head>
 <?php
 	$userImage = $db->fetch_single_data("buyers","avatar",["user_id"=>$__user_id]);
