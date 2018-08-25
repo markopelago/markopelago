@@ -1,3 +1,12 @@
+<div class="container hidden-sm hidden-md hidden-lg">
+	<div class="row sub-title-area well">
+		<div class="sub-title-text">
+			<a class="btn btn-default" href="javascript:window.history.back();"><span class="glyphicon glyphicon-chevron-left"></span></a>
+			<?=strtoupper(v("address"));?>
+		</div>
+	</div>
+</div>
+<br><br>
 <?php
 	if(isset($_GET["addresses_change_primary"])){
 		$db->addtable("user_addresses");$db->where("user_id",$__user_id);
@@ -42,6 +51,7 @@
 		}
 	}
 </script>
+<div class="container">
 <div class="row scrolling-wrapper">
 	<table class="table table-striped table-hover">
 		<thead>
@@ -95,4 +105,5 @@
 			?>
 		</tbody>
 	</table>
+</div>
 </div>
