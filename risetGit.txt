@@ -1,2 +1,4 @@
 baris1
 baris2
+baris5
+baris6
