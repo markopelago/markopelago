@@ -1220,6 +1220,12 @@ textarea{
 	top:-80px;
 }
 
+.header-image-frame{
+	border:1px solid grey;
+	width:1100px;
+	height:200px;
+}
+
 @media screen and (max-width: 995px) {
 	.header-start{ height:110px; }
 	.carousel-inner{
@@ -1267,6 +1273,14 @@ textarea{
 	}
 	.sub-title-text{
 		font-size:18px;
+	}
+	.header-image-frame{
+		width:310px;
+		height:56px;
+	}
+	.header-image-frame img{
+		width:310px;
+		height:56px;
 	}
 }
 

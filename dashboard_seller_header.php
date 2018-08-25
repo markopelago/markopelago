@@ -78,7 +78,7 @@
 						</div>
 						<br>
 						<center>
-						<div class="frame" style="border:1px solid grey;width:<?=$photoW;?>px;height:<?=$photoH;?>px;">
+						<div class="frame header-image-frame">
 							<img id="photo_uploaded" src="users_images/<?=($__seller["header_image"] == "")?"no_header.jpg":$__seller["header_image"];?>">
 						</div>
 						</center>
