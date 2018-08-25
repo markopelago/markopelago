@@ -1,4 +1,4 @@
-<div style="height:20px;"></div>
+<div style="height:20px;" class="hidden-xs"></div>
 <?php 
 	if(isset($_POST["save_profile"])){
 		$db->addtable("a_users");		$db->where("id",$__user_id);
@@ -48,45 +48,46 @@
 		}
 	}
 </script>
-<h2 class="well hidden-sm hidden-md hidden-lg"><?=strtoupper(v("profile"));?></h2>
-<form method="POST">	
-	<div class="col-sm-9 ">
-		<div class="col-md-12">
-			<div class="form-group">
-				<label><?=v("name");?></label><?=$f->input("name",$__user["name"],"required placeholder='".v("name")."...'","form-control");?>
-			</div>
-			<div class="form-group">
-				<label><?=v("phone");?></label><?=$f->input("phone",$__user["phone"],"required placeholder='".v("phone")."...'","form-control");?>
-			</div>
-			<div class="form-group">
-				<label><?=v("birth_place");?></label><?=$f->select("birthplace_id",$locations,$__buyer["birthplace_id"],"required placeholder='".v("birth_place")."...'","form-control");?>
-			</div>
-			<div class="form-group">
-				<label><?=v("birth_at");?></label><?=$f->input("birthdate",$__buyer["birthdate"],"type='date' required placeholder='".v("birth_at")."...'","form-control");?>
-			</div>
-			<div class="form-group">
-				<label><?=v("gender");?></label><?=$f->select("gender_id",$db->fetch_select_data("genders","id","name_".$__locale,"","","",true),$__buyer["gender_id"],"required ","form-control");?>
-			</div>
-			<div class="form-group">
-				<?php $checked = ($__user["is_taxable"] == "1") ? "checked":"";?>
-				<label><?=v("is_taxable");?></label><?=$f->input("is_taxable","1",$checked ." type='checkbox' onclick='is_taxable_change(this.checked);'","form-control");?> <?=v("yes");?>
-			</div>
-			<div id="is_taxable_area" style="display:<?=($__user["is_taxable"] == "1") ? "block":"none";?>">
-				<div class="form-group">
-					<label><?=v("npwp");?></label><?=$f->input("npwp",$__user["npwp"],"placeholder='".v("npwp")."...'","form-control");?>
-				</div>
-				<div class="form-group">
-					<label><?=v("nppkp");?></label><?=$f->input("nppkp",$__user["nppkp"],"placeholder='".v("nppkp")."...'","form-control");?>
-				</div>
-				<div class="form-group">
-					<label><?=v("npwp_address");?></label><?=$f->textarea("npwp_address",$__user["npwp_address"],"placeholder='".v("npwp_address")."...'","form-control");?>
-				</div>
-			</div>
+
+<div class="container hidden-sm hidden-md hidden-lg">
+	<div class="row sub-title-area well">
+		<div class="sub-title-text">
+			<a class="btn btn-default" href="javascript:window.history.back();"><span class="glyphicon glyphicon-chevron-left"></span></a>
+			<?=strtoupper(v("profile"));?>
 		</div>
 	</div>
-	<div class="col-md-12">
-		<?=$f->input("save_profile",v("save"),"type='submit' width='75%'","btn btn-primary");?>
-	</div>	
+</div>
+<form method="POST">
+	<div class="form-group">
+		<label><?=v("name");?></label><?=$f->input("name",$__user["name"],"required placeholder='".v("name")."...'","form-control");?>
+	</div>
+	<div class="form-group">
+		<label><?=v("phone");?></label><?=$f->input("phone",$__user["phone"],"required placeholder='".v("phone")."...'","form-control");?>
+	</div>
+	<div class="form-group">
+		<label><?=v("birth_place");?></label><?=$f->select("birthplace_id",$locations,$__buyer["birthplace_id"],"required placeholder='".v("birth_place")."...'","form-control");?>
+	</div>
+	<div class="form-group">
+		<label><?=v("birth_at");?></label><?=$f->input("birthdate",$__buyer["birthdate"],"type='date' required placeholder='".v("birth_at")."...'","form-control");?>
+	</div>
+	<div class="form-group">
+		<label><?=v("gender");?></label><?=$f->select("gender_id",$db->fetch_select_data("genders","id","name_".$__locale,"","","",true),$__buyer["gender_id"],"required ","form-control");?>
+	</div>
+	<div class="form-group">
+		<?php $checked = ($__user["is_taxable"] == "1") ? "checked":"";?>
+		<label><?=v("is_taxable");?></label><?=$f->input("is_taxable","1",$checked ." type='checkbox' onclick='is_taxable_change(this.checked);'","form-control");?> <?=v("yes");?>
+	</div>
+	<div id="is_taxable_area" style="display:<?=($__user["is_taxable"] == "1") ? "block":"none";?>">
+		<div class="form-group">
+			<label><?=v("npwp");?></label><?=$f->input("npwp",$__user["npwp"],"placeholder='".v("npwp")."...'","form-control");?>
+		</div>
+		<div class="form-group">
+			<label><?=v("nppkp");?></label><?=$f->input("nppkp",$__user["nppkp"],"placeholder='".v("nppkp")."...'","form-control");?>
+		</div>
+		<div class="form-group">
+			<label><?=v("npwp_address");?></label><?=$f->textarea("npwp_address",$__user["npwp_address"],"placeholder='".v("npwp_address")."...'","form-control");?>
+		</div>
+	</div>
+	<?=$f->input("save_profile",v("save"),"type='submit' width='75%'","btn btn-primary");?>
 </form>
 <div style="height:20px;"></div>
-<br><br>

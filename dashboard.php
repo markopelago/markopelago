@@ -47,8 +47,8 @@
 						<?php } ?>
 						<li><a data-toggle="tab" href="#message" onclick="changeState('message');loadMessages();"><?=v("message");?><span class="notification-counter" style="visibility:hidden;" id="notifMessageTabCount"></span></a></li>
 					</ul>
-					<br><br>
-					<div class="col-md-12 tab-content">
+					<br>
+					<div class="col-md-12 tab-content" style="padding:0px;">
 						<div id="profile" class="tab-pane active">	<?php include_once "dashboard_profiles.php";?></div><br>
 						<div id="seller" class="tab-pane">			<?php include_once "dashboard_seller.php";?></div><br>
 						<div id="addresses" class="tab-pane">		<?php include_once "dashboard_addresses.php"; ?></div>
