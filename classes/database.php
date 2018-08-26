@@ -226,7 +226,7 @@
 				}
 			}
 			
-			if(count($orders) > 0) {
+			if(count($orders) > 0 && (is_array($orders) || is_object($orders))) {
 				foreach($orders as $key => $value) {
 					$this->order($value);
 				}
