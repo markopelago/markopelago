@@ -219,7 +219,7 @@
 			$this->addfield($id);
 			$this->addfield($field);
 			
-			if(count($wheres) > 0) {
+			if(count($wheres) > 0 && (is_array($wheres) || is_object($wheres))) {
 				foreach($wheres as $condition => $value) {
 					$values = explode(":",$value);
 					$this->where($condition,$values[0],"",$values[1]);
