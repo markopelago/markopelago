@@ -4,6 +4,8 @@
 	set_time_limit(0);
 	
 	session_start();
+	if(!isset($_SERVER["HTTP_REFERER"]))	$_SERVER["HTTP_REFERER"] = "";
+	
 	$__title_project			= "Markopelago.Com";
 	$__isloggedin				= @$_SESSION["isloggedin"];
 	$__username					= @$_SESSION["username"];
@@ -166,6 +168,7 @@
 	}
 	
 	function format_tanggal ($tanggal,$mode="dmY",$withtime=false,$gmt7 = false) {
+		$h = 0; $i = 0; $s = 0;
 		if(substr($tanggal,0,10) != "0000-00-00" && $tanggal != ""){
 			$arr = explode(" ",$tanggal);
 			$time = null;
