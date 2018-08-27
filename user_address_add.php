@@ -32,8 +32,7 @@
 ?>
 <div class="row">	
 	<div class="container">
-		<h2 class="well"><?=strtoupper(v("dashboard"));?></h2>
-		<h3><?=v("add_address");?></h3>
+		<h2 class="well"><?=strtoupper(v("add_address"));?></h2>
 	</div>
 	<div class="container">
 		<form method="POST" action="?default_seller=<?=$_GET["default_seller"];?>">

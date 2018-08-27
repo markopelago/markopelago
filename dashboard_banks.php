@@ -1,9 +1,3 @@
-<div class="row sub-title-area well hidden-sm hidden-md hidden-lg">
-	<div class="sub-title-text">
-		<a class="btn btn-default" href="javascript:window.history.back();"><span class="glyphicon glyphicon-chevron-left"></span></a>
-		<?=strtoupper(v("bank"));?>
-	</div>
-</div>
 <?php
 	if(isset($_GET["banks_change_primary"])){
 		$db->addtable("user_banks");$db->where("user_id",$__user_id);

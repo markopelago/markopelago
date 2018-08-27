@@ -37,14 +37,6 @@
 		<div class="panel-body"><?=v("register_as_seller_now");?>? <?=$f->input("yes",v("yes"),"type='button' onclick=\"register_as_seller_now();\"","btn btn-primary");?></div>
 	</div>
 </div>
-<div class="container hidden-sm hidden-md hidden-lg">
-	<div class="row sub-title-area well">
-		<div class="sub-title-text">
-			<a class="btn btn-default" href="javascript:window.history.back();"><span class="glyphicon glyphicon-chevron-left"></span></a>
-			<?=strtoupper(v("profile_my_store"));?>
-		</div>
-	</div>
-</div>
 <div id="seller_form_area" style="display:<?=($__seller_id > 0)?"block":"none";?>;">
 	<?php if($__seller_id > 0){ ?>
 	<center>

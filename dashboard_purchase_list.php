@@ -1,4 +1,4 @@
-<div class="panel panel-primary">
+<!--div class="panel panel-primary">
 	<div class="panel-heading">
 		<h3 class="panel-title">Filter</h3>
 		<span class="pull-right clickable panel-collapsed"><i class="glyphicon glyphicon-chevron-down"></i></span>
@@ -18,7 +18,7 @@
 			<div class="form-group"><button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> <?v("search");?></button></div>
 		</form>
 	</div>
-</div>
+</div-->
 <br>
 <div class="row scrolling-wrapper">
 	<table class="table table-striped table-hover">

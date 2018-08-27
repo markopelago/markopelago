@@ -27,8 +27,7 @@
 ?>
 <div class="row">	
 	<div class="container">
-		<h2 class="well"><?=strtoupper(v("dashboard"));?></h2>
-		<h3><?=v("edit_address");?></h3>
+		<h2 class="well"><?=strtoupper(v("edit_address"));?></h2>
 	</div>
 	<div class="container">
 		<form method="POST" action="?id=<?=$_GET["id"];?>">

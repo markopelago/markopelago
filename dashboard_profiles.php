@@ -3,6 +3,7 @@
 	if(isset($_POST["save_profile"])){
 		$db->addtable("a_users");		$db->where("id",$__user_id);
 		$db->addfield("name");			$db->addvalue($_POST["name"]);
+		$db->addfield("phone");			$db->addvalue($_POST["phone"]);
 		$db->addfield("is_taxable");	$db->addvalue($_POST["is_taxable"]);
 		if($_POST["is_taxable"] == "1"){
 			$db->addfield("npwp");			$db->addvalue($_POST["npwp"]);
@@ -21,6 +22,8 @@
 		} else {
 			$_SESSION["errormessage"] = v("failed_saving_data");
 		}
+		javascript("window.location='?tabActive=profile'");
+		exit();
 	}
 	$provinces = $db->fetch_select_data("locations","id","name_".$__locale,["parent_id" => 0],"seqno","",true);
 	$locations = array();
@@ -48,15 +51,6 @@
 		}
 	}
 </script>
-
-<div class="container hidden-sm hidden-md hidden-lg">
-	<div class="row sub-title-area well">
-		<div class="sub-title-text">
-			<a class="btn btn-default" href="javascript:window.history.back();"><span class="glyphicon glyphicon-chevron-left"></span></a>
-			<?=strtoupper(v("profile"));?>
-		</div>
-	</div>
-</div>
 <form method="POST">
 	<div class="form-group">
 		<label><?=v("name");?></label><?=$f->input("name",$__user["name"],"required placeholder='".v("name")."...'","form-control");?>

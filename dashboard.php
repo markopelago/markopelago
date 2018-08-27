@@ -4,63 +4,107 @@
 		?> <script> window.location = "index.php"; </script> <?php
 		exit();
 	}
+	$scrollAdj = (isMobile())?180:60;
 ?>
 	<script>
-		function changeState(tab_id){ window.history.pushState("","","?tabActive="+tab_id); }
+		function focusto(tab_id){
+			setTimeout(function(){ 
+				$("html, body").animate({ scrollTop: $("#panel_"+tab_id).offset().top - <?=$scrollAdj;?> }, 1000); 
+			}, 500);
+		}
+		function changeState(tab_id){ 
+			window.history.pushState("","","?tabActive="+tab_id); 
+			focusto(tab_id);
+		}
 	</script>
 	<div class="container">
 		<div class="row">
-			<h2 class="well hidden-xs"><a class="btn" href="index.php"><span class="glyphicon glyphicon-chevron-left"></span></a><?=strtoupper(v("dashboard"));?></h2>
-			<h3 class="hidden-xs"><?=$db->fetch_single_data("a_users","name",["id" => $__user_id]);?></h3>
-			<?php 
-				if($__seller_id > 0){
-					$__seller["header_image"] = ($__seller["header_image"] == "")?"no_header.jpg":$__seller["header_image"];
-			?>
-				<div class="col-md-12 hidden-xs">
-					<img id="headerProfileImg" src="users_images/<?=$__seller["header_image"];?>" class="img-responsive">
-					<input name="change_header" id="change_header" value="<?=v("change_header");?>" style="position:relative;top:-33px;" type="button" onclick="window.location='dashboard_seller_header.php';" class="btn btn-primary">
-					<br><br>
-				</div>	
-			<?php } ?>
+			<h2 class="well"><a class="btn btn-default" href="index.php"><span class="glyphicon glyphicon-chevron-left"></span></a><?=strtoupper(v("dashboard"));?></h2>
 		</div>
 	</div>
 	<div class="container">
-		<div class="row">
-			<div class="col-md-2 hidden-xs">
-				<div><img id="mainProfileImg" src="users_images/<?=($__buyer["avatar"] == "")?"nophoto.png":$__buyer["avatar"];?>"></div>
-				<div><input name="change_avatar" id="change_avatar" value="<?=v("change_avatar");?>" style="width:200px;position:relative;top:-32px;" type="button" onclick="window.location='dashboard_avatar.php';" class="btn btn-primary"></div>
-				<br><br>
-			</div>
-			<div class="col-md-10">
-				<div class="col-md-12">
-					<ul class="col-md-12 nav nav-tabs hidden-xs">
-						<li class="active"><a data-toggle="tab" href="#profile" onclick="changeState('profile');">Profile</a></li>
-						<li><a data-toggle="tab" href="#seller" onclick="changeState('seller');"><?=v("profile_my_store");?></a></li>
-						<li><a data-toggle="tab" href="#addresses" onclick="changeState('addresses');"><?=v("addresses");?></a></li>
-						<li><a data-toggle="tab" href="#banks" onclick="changeState('banks');"><?=v("banks");?></a></li>
-						<?php if($__seller_id > 0){ ?>
-							<li><a data-toggle="tab" href="#goods" onclick="changeState('goods');"><?=v("my_goods");?></a></li>
-						<?php } ?>
-						<li><a data-toggle="tab" href="#purchase_list" onclick="changeState('purchase_list');"><?=v("purchase_list");?><span class="notification-counter" style="visibility:hidden;" id="notifPurchaseListTabCount"></span></a></li>
-						<?php if($__seller_id > 0|| $__forwarder_id > 0){ ?>
-							<li><a data-toggle="tab" href="#store_sales_list" onclick="changeState('store_sales_list');"><?=v("store_sales_list");?><span class="notification-counter" style="visibility:hidden;" id="notifStoreSalesListTabCount"></span></a></li>
-						<?php } ?>
-						<li><a data-toggle="tab" href="#message" onclick="changeState('message');loadMessages();"><?=v("message");?><span class="notification-counter" style="visibility:hidden;" id="notifMessageTabCount"></span></a></li>
-					</ul>
-					<br>
-					<div class="col-md-12 tab-content" style="padding:0px;">
-						<div id="profile" class="tab-pane active">	<?php include_once "dashboard_profiles.php";?></div><br>
-						<div id="seller" class="tab-pane">			<?php include_once "dashboard_seller.php";?></div><br>
-						<div id="addresses" class="tab-pane">		<?php include_once "dashboard_addresses.php"; ?></div>
-						<div id="banks" class="tab-pane">			<?php include_once "dashboard_banks.php"; ?></div>
-						<div id="purchase_list" class="tab-pane">	<?php include_once "dashboard_purchase_list.php"; ?></div>
-						<div id="store_sales_list" class="tab-pane"><?php include_once "dashboard_store_sales_list.php"; ?></div>
-						<div id="goods" class="tab-pane">			<?php include_once "dashboard_goods.php"; ?></div>
-						<div id="message" class="tab-pane">			<?php include_once "dashboard_messages.php"; ?></div>
-					</div>
-				</div>		
-			</div>
-		</div>
+		<div class="panel-group" id="dashboard">
+			<div id="panel_profile" class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<b><a data-toggle="collapse" data-parent="#dashboard" href="#profile" onclick="changeState('profile');">Profile</a></b>
+					</h3>
+				</div>
+				<?php $is_collapse = ($_GET["tabActive"] == "profile" || $_GET["tabActive"] == "")?"in":"";?>
+				<div id="profile" class="panel-collapse collapse <?=$is_collapse;?>"><div class="panel-body"><?php include_once "dashboard_profiles.php";?></div></div>
+			</div><br>
+			<div id="panel_seller" class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<b><a data-toggle="collapse" data-parent="#dashboard" href="#seller" onclick="changeState('seller');"><?=v("profile_my_store");?></a></b>
+					</h3>
+				</div>
+				<div id="seller" class="panel-collapse collapse <?=($_GET["tabActive"] == "seller")?"in":"";?>"><div class="panel-body">
+					<?php $__seller["header_image"] = ($__seller["header_image"] == "")?"no_header.jpg":$__seller["header_image"]; ?>
+						<div class="col-md-12 hidden-xs">
+							<img id="headerProfileImg" src="users_images/<?=$__seller["header_image"];?>" class="img-responsive">
+							<input name="change_header" id="change_header" value="<?=v("change_header");?>" style="position:relative;top:-33px;" type="button" onclick="window.location='dashboard_seller_header.php';" class="btn btn-primary">
+							<br><br>
+						</div>
+					<?php include_once "dashboard_seller.php";?>
+				</div></div>
+			</div><br>
+			<div id="panel_addresses" class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<b><a data-toggle="collapse" data-parent="#dashboard" href="#addresses" onclick="changeState('addresses');"><?=v("addresses");?></a></b>
+					</h3>
+				</div>
+				<div id="addresses" class="panel-collapse collapse <?=($_GET["tabActive"] == "addresses")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_addresses.php";?></div></div>
+			</div><br>
+			<div id="panel_banks" class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<b><a data-toggle="collapse" data-parent="#dashboard" href="#banks" onclick="changeState('banks');"><?=v("banks");?></a></b>
+					</h3>
+				</div>
+				<div id="banks" class="panel-collapse collapse <?=($_GET["tabActive"] == "banks")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_banks.php";?></div></div>
+			</div><br>
+			<?php if($__seller_id > 0){ ?>
+			<div id="panel_goods" class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<b><a data-toggle="collapse" data-parent="#dashboard" href="#goods" onclick="changeState('goods');"><?=v("my_goods");?></a></b>
+					</h3>
+				</div>
+				<div id="goods" class="panel-collapse collapse <?=($_GET["tabActive"] == "goods")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_goods.php";?></div></div>
+			</div><br>
+			<?php } ?>
+			<div id="panel_purchase_list" class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<b><a data-toggle="collapse" data-parent="#dashboard" href="#purchase_list" onclick="changeState('purchase_list');"><?=v("purchase_list");?></a></b>
+					</h3>
+				</div>
+				<div id="purchase_list" class="panel-collapse collapse <?=($_GET["tabActive"] == "purchase_list")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_purchase_list.php";?></div></div>
+			</div><br>
+			<?php if($__seller_id > 0 || $__forwarder_id > 0){ ?>
+			<div id="panel_store_sales_list" class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<b><a data-toggle="collapse" data-parent="#dashboard" href="#store_sales_list" onclick="changeState('store_sales_list');"><?=v("store_sales_list");?></a></b>
+					</h3>
+				</div>
+				<div id="store_sales_list" class="panel-collapse collapse <?=($_GET["tabActive"] == "store_sales_list")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_store_sales_list.php";?></div></div>
+			</div><br>
+			<?php } ?>
+			<div id="panel_message" class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<b><a data-toggle="collapse" data-parent="#dashboard" href="#message" onclick="changeState('message');loadMessages();"><?=v("message");?></a></b>
+					</h3>
+				</div>
+				<div id="message" class="panel-collapse collapse <?=($_GET["tabActive"] == "message")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_messages.php";?></div></div>
+			</div><br>
+		</div> 
 	</div>
 	<div style="height:20px;"></div>
+	<?php if($_GET["tabActive"] != ""){ ?>
+		<script> focusto("<?=$_GET["tabActive"];?>"); </script>
+	<?php } ?>
 <?php include_once "footer.php"; ?>
