@@ -1,5 +1,5 @@
 <?php
-	include_once "homepage_header.php";
+	include_once "header.php";
 	if($__seller_id != $db->fetch_single_data("goods","seller_id",["id" => $_GET["id"]])){
 		$_SESSION["errormessage"] = v("you_dont_have_access");
 		javascript("window.location='dashboard.php?tabActive=goods'");
@@ -66,12 +66,14 @@
 <link href="styles/jquery.guillotine.css" media="all" rel="stylesheet">
 <div class="row">	
 	<div class="container">
-		<h2 class="well"><?=strtoupper(v("add_goods_photo"));?></h2>
-		<h3><?=$db->fetch_single_data("goods","name",["id" => $_GET["id"]]);?></h3>
+		<h3 class="well"><b><?=strtoupper(v("add_goods_photo"));?></b></h3>
+		<h4><b><?=$db->fetch_single_data("goods","name",["id" => $_GET["id"]]);?></b></h4>
 	</div>
 	<div class="container">
 		<script id="guillotinejs" src="scripts/jquery.guillotine.js?width=<?=$photoW;?>&height=<?=$photoH;?>"></script>
 		<form method="POST" enctype="multipart/form-data">
+			<input style="display:none;" type="submit" id="btn_save" name="btn_save" value="1">
+			<input type="hidden" name="save" value="1">
 			<input type="hidden" name="mode_photo" value="goods">
 			<input type="hidden" name="form_x" value="" id="form_x" />
 			<input type="hidden" name="form_y" value="" id="form_y" />
@@ -105,13 +107,14 @@
 						<a href="#" id="rotate_right" title="Rotate right"><i class="fa fa-rotate-right"></i></a>
 					</div>
 				</div>
-				
-				<div class="form-group">
-					<?=$f->input("back",v("back"),"type='button' onclick=\"window.location='dashboard.php';\"","btn btn-warning");?>
-					<?=$f->input("save",v("save"),"type='submit'","btn btn-primary");?>
-				</div>
 			</div>
 		</form>
+		<div class="col-md-12">
+			<div class="form-group">
+				<button class="btn btn-warning" onclick="window.location='goods_photo.php?id=<?=$_GET["id"];?>';"><span class="glyphicon glyphicon-arrow-left"></span> <?=v("back");?></button>
+				<button style="float:right;" class="btn btn-primary" onclick="btn_save.click();"><?=v("save");?> <span class="glyphicon glyphicon-floppy-save"></span></button>
+			</div>
+		</div>
 	</div>
 </div>
 <?php include_once "footer.php"; ?>

@@ -69,7 +69,7 @@
 			$categories = $db->fetch_all_data("categories",[],"parent_id > 0","id");
 			foreach($categories as $key => $category){
 		?>
-			<div class="img-thumbnail">
+			<div class="img-thumbnail categories-thumbnail">
 				<a href="category_detail.php?id=<?=$category["id"];?>">
 					<img src="icons/categories/<?=$category["id"].".png";?>" alt="#">
 					<div class="caption"><p><?=$category["name_".$__locale];?></p></div>
@@ -91,7 +91,7 @@
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 				if($img == "") $img = "no_goods.png";
 		?>
-			<div class="img-thumbnail">
+			<div class="img-thumbnail goods-thumbnail">
 				<a href="product_detail.php?id=<?=$product["id"];?>">
 					<img src="goods/<?=$img;?>" alt="#">
 					<div class="caption"><p><?=substr($product["name"],0,50);?></p></div>
@@ -112,7 +112,7 @@
 			foreach($sellers as $seller){
 				if($seller["logo"] == "") $seller["logo"] = "nologo.jpg";
 		?>
-			<div class="img-thumbnail">
+			<div class="img-thumbnail seller-thumbnail">
 				<a href="seller_detail.php?id=<?=$seller["id"];?>">
 					<img src="users_images/<?=$seller["logo"];?>" alt="#">
 					<center>

@@ -53,12 +53,14 @@
 </script>
 <div class="container">
 	<div class="row">	
-		<h2 class="well"><?=strtoupper(v("add_goods"));?></h2>
+		<h3 class="well"><b><?=strtoupper(v("add_goods"));?></b></h3>
 	</div>
 </div>
 <div class="container">
 	<div class="row">	
 		<form method="POST">
+			<input style="display:none;" type="submit" id="btn_save_goods" name="btn_save_goods" value="1">
+			<input type="hidden" name="save_goods" value="1">
 			<div class="col-md-12">
 				<div class="form-group">
 					<label><?=v("categories");?></label> 
@@ -85,12 +87,12 @@
 				<div class="form-group">
 					<label><?=v("dimension");?> (<?=v("l_w_h");?>)</label>
 					<div class="row">
-						<div class="col-md-2"><?=$f->input("length",$_POST["length"],"type='number' step='any' required placeholder='".v("length")."...'","form-control");?></div>
-						<div class="col-md-1"> X </div>
-						<div class="col-md-2"><?=$f->input("width",$_POST["width"],"type='number' step='any' required placeholder='".v("width")."...'","form-control");?></div>
-						<div class="col-md-1"> X </div>
-						<div class="col-md-2"><?=$f->input("height",$_POST["height"],"type='number' step='any' required placeholder='".v("height")."...'","form-control");?></div>
-						<div class="col-md-4"></div>
+						<div class="col-xs-3"><?=$f->input("length",$_POST["length"],"type='number' step='any' required placeholder='".v("length")."...'","form-control");?></div>
+						<div class="col-xs-1"> X </div>
+						<div class="col-xs-3"><?=$f->input("width",$_POST["width"],"type='number' step='any' required placeholder='".v("width")."...'","form-control");?></div>
+						<div class="col-xs-1"> X </div>
+						<div class="col-xs-3"><?=$f->input("height",$_POST["height"],"type='number' step='any' required placeholder='".v("height")."...'","form-control");?></div>
+						<div class="col-xs-1"></div>
 					</div>
 				</div>
 				<div class="form-group">
@@ -103,11 +105,9 @@
 					<label><?=v("delivery_courier");?></label> 
 					<?=$f->select("couriers",$db->fetch_select_data("forwarders","id","name",[],["id"]),"","multiple=\"multiple\"","form-control");?>
 				</div>
-				
-				
 				<div class="form-group">
-					<?=$f->input("back",v("back"),"type='button' onclick=\"window.location='dashboard.php?tabActive=goods';\"","btn btn-warning");?>
-					<?=$f->input("save_goods",v("next"),"type='submit'","btn btn-primary");?>
+					<button class="btn btn-warning" onclick="window.location='dashboard.php?tabActive=goods';"><span class="glyphicon glyphicon-arrow-left"></span> <?=v("back");?></button>
+					<button style="float:right;" class="btn btn-primary" onclick="btn_save_goods.click();"><?=v("next");?> <span class="glyphicon glyphicon-arrow-right"></span></button>
 				</div>
 			</div>
 		</form>

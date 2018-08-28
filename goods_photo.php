@@ -1,5 +1,5 @@
 <?php 
-	include_once "homepage_header.php"; 
+	include_once "header.php"; 
 	if($__seller_id != $db->fetch_single_data("goods","seller_id",["id" => $_GET["id"]])){
 		$_SESSION["errormessage"] = v("you_dont_have_access");
 		javascript("window.location='dashboard.php?tabActive=goods'");
@@ -27,8 +27,8 @@
 </script>
 <div class="container">
 	<div class="row">	
-		<h2 class="well"><?=strtoupper(v("goods_photos"));?></h2>
-		<h3><?=$db->fetch_single_data("goods","name",["id" => $_GET["id"]]);?></h3>
+		<h3 class="well"><b><?=strtoupper(v("goods_photos"));?></b></h3>
+		<h4><b><?=$db->fetch_single_data("goods","name",["id" => $_GET["id"]]);?></b></h4>
 	</div>
 	<div class="row">
 		<div class="col-md-12">

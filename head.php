@@ -29,6 +29,18 @@
 	<script src="scripts/multiselect.js"></script>
 	
 	<script>
+		$(document).ready( function() {
+			<?php if(isMobile() && !$headerWithoutSearch){ ?>
+				window.addEventListener("scroll", function (event) {
+					if(this.scrollY > 50){
+						$("#headerSearch").fadeOut( "fast", function() {});
+					} else {
+						$("#headerSearch").fadeIn( "fast", function() {});
+					}
+				});
+			<?php } ?>
+		});
+	
 		var toastroptions = {
 			"closeButton": true,
 			"debug": false,
