@@ -4,12 +4,11 @@
 		?> <script> window.location = "index.php"; </script> <?php
 		exit();
 	}
-	$scrollAdj = (isMobile())?180:60;
 ?>
 	<script>
 		function focusto(tab_id){
 			setTimeout(function(){ 
-				$("html, body").animate({ scrollTop: $("#panel_"+tab_id).offset().top - <?=$scrollAdj;?> }, 1000); 
+				$("html, body").animate({ scrollTop: $("#panel_"+tab_id).offset().top - 60 }, 200); 
 			}, 500);
 		}
 		function changeState(tab_id){ 
