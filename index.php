@@ -60,7 +60,7 @@
 <div style="height:20px;"></div>
 <div class="container">
 	<div class="row sub-title-area">
-		<div class="sub-title-text"><?=v("hot_products");?></div>
+		<div class="sub-title-text"><?=v("best_selling_goods");?></div>
 		<div class="view-all-text"><a href="#"><?=v("view_all");?></a></div>
 	</div>
 	<div class="scrolling-wrapper">
@@ -82,6 +82,33 @@
 </div>
 <div style="height:20px;"></div>
 <div class="container">
+	<div class="row">
+		<div class="sub-title-text"><?=v("recommended_goods");?></div>
+		<div class="view-all-text"><a href="#"><?=v("view_all");?></a></div>
+	</div>
+	<div class="row">
+		<?php 
+			$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY RAND() LIMIT 10");
+			foreach($products as $product){
+				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
+				if($img == "") $img = "no_goods.png";
+		?>
+			<div class="col-md-3 col-xs-6" style="margin-bottom:10px;">
+				<div style="width:100%;" class="img-thumbnail goods-thumbnail">
+					<center>
+						<a href="product_detail.php?id=<?=$product["id"];?>">
+							<img src="goods/<?=$img;?>" alt="#">
+							<div class="caption"><p><?=substr($product["name"],0,50);?></p></div>
+							<div class="price"><p>Rp. <?=format_amount($product["price"]);?> / <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?></p></div>
+						</a>
+					</center>
+				</div>
+			</div>
+		<?php } ?>
+	</div>
+</div>
+<div style="height:20px;"></div>
+<div class="container">
 	<div class="row sub-title-area">
 		<div class="sub-title-text"><?=v("recommended_sellers");?></div>
 	</div>
@@ -90,13 +117,15 @@
 			$sellers = $db->fetch_all_data("sellers",[],"1=1 ORDER BY RAND() LIMIT 10");
 			foreach($sellers as $seller){
 				if($seller["logo"] == "") $seller["logo"] = "nologo.jpg";
+				$seller_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller["user_id"]]);
+				$seller_location = get_location($seller_location_id)[0]["name"];
 		?>
 			<div class="img-thumbnail seller-thumbnail">
 				<a href="seller_detail.php?id=<?=$seller["id"];?>">
-					<img src="users_images/<?=$seller["logo"];?>" alt="#">
+					<img class="img-circle" src="users_images/<?=$seller["logo"];?>" alt="#">
 					<center>
-					<div class="caption" style="font-size:14px !important;"><b><p><?=$seller["name"];?></p></b></div>
-					<div class="price"><p><?=$seller["city"];?></p></div>
+						<div class="caption"><b><p><?=$seller["name"];?></p></b></div>
+						<div class="location"><p><?=$seller_location;?></p></div>
 					</center>
 				</a>
 			</div>

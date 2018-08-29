@@ -981,22 +981,26 @@ input[type=checkbox]{
 }
 
 .seller-thumbnail{
+	border:0px !important;
 	vertical-align: top;
 	width:200px;
-	height:280px !important;
 	overflow: hidden;
 	white-space: normal;
 	font-size: 0.9em;
 }
 .seller-thumbnail img {
+	border:2px solid #800000;
 	width:190px;
 	height:190px;
 }
 .seller-thumbnail .caption {
-	height: 40px;
+	padding-top:5px;
+	font-size:13px;
 }
-.seller-thumbnail .price {
+.seller-thumbnail .location {
 	color: #800000 ;
+	font-size:12px;
+	margin-top:-5px;
 }
 .seller-thumbnail .seller-info{
 	margin-top:10px;
@@ -1464,6 +1468,14 @@ textarea{
 	}	
 	.carousel-control{
 		width:8% !important;
+	}
+	
+	.seller-thumbnail .caption {
+		font-size:12px;
+		height: 40px;
+	}
+	.seller-thumbnail .location {
+		font-size:10px;
 	}
 	
 }
