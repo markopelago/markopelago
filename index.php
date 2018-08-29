@@ -135,10 +135,10 @@
 <div style="height:20px;"></div>
 
 <div class="container">
+	<div class="row sub-title-area">
+		<div class="sub-title-text"><?=v("allcategories");?></div>
+	</div>
 	<div class="row">
-		<div class="row sub-title-area">
-			<div class="sub-title-text"><?=v("allcategories");?></div>
-		</div>
 		<table class="table-categories all-categories">
 			<tr>
 			<?php 
