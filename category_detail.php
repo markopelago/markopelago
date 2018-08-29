@@ -1,14 +1,14 @@
 <?php include_once "header.php"; ?>
-<div class="container">
-<div class="row">
-<a class="btn" href="index.php"><h3><span class="glyphicon glyphicon-chevron-left"><b>BACK</b></span></h3></a>
-	</div>
-</div>
 <div style="height:20px;"></div>
 <div class="container">
-	<div class="row sub-title-area">
-		<div class="sub-title-text"> <?=$db->fetch_single_data("categories","name_".$__locale,["id"=>$_GET["id"]]);?> </div>
+	<div class="row sub-title-area well">
+		<div class="sub-title-text"> 
+			<a class="btn btn-default" href="javascript:window.history.back();"><span class="glyphicon glyphicon-chevron-left"></span></a>
+			<?=$db->fetch_single_data("categories","name_".$__locale,["id"=>$_GET["id"]]);?>
+		</div>
 	</div>
+</div>
+<div class="container">
 	<?php 
 		$products = $db->fetch_all_data("goods",[],"category_ids like '%|".$_GET["id"]."|%' ORDER BY RAND() LIMIT 10");
 		foreach($products as $product){
