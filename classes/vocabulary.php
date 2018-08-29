@@ -250,6 +250,7 @@ class Vocabulary{
 		$arr[$l]["payment"]										= "Payment";
 		$arr[$l]["choose_the_destination_bank"]					= "Choose the destination bank";
 		$arr[$l]["please_add_your_store_address"]				= "Please add Your store`s address";
+		$arr[$l]["to"]											= "to";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -487,6 +488,7 @@ class Vocabulary{
 		$arr[$l]["payment"]										= "Pembayaran";
 		$arr[$l]["choose_the_destination_bank"]					= "Pilih bank tujuan";
 		$arr[$l]["please_add_your_store_address"]				= "Silakan tambahkan alamat toko Anda";
+		$arr[$l]["to"]											= "s/d";
 		
 		return $arr[$this->locale][$index];
 	}

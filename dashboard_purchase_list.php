@@ -1,24 +1,33 @@
-<!--div class="panel panel-primary">
-	<div class="panel-heading">
-		<h3 class="panel-title">Filter</h3>
-		<span class="pull-right clickable panel-collapsed"><i class="glyphicon glyphicon-chevron-down"></i></span>
-	</div>
-	<div class="panel-body" style="display:none;">
-		<form method="GET">
-			<?=$f->input("tabActive","purchase_list","type='hidden'");?>
-			<div class="form-group">
-				<label><?=v("invoice_at");?></label> 
-				<?=$f->input("invoice_at1",$_GET["invoice_at1"],"style='display: inline !important;width:auto !important;' type='date'","form-control") ." - ";?>
-				<?=$f->input("invoice_at2",$_GET["invoice_at2"],"style='display: inline !important;width:auto !important;' type='date'","form-control");?>
+<div class="panel-group" id="panel_filter_group_purchase">
+	<div class="panel panel-default">
+		<div class="panel-heading" data-toggle="collapse" data-parent="#panel_filter_group_purchase" href="#panel_filter_purchase">
+			<h3 class="panel-title"><b>Filter</b></h3>
+			<span class="pull-right panel-collapsed"><i class="glyphicon glyphicon-chevron-down"></i></span>
+		</div>
+		<div id="panel_filter_purchase" class="panel-collapse collapse">
+			<div class="panel-body" style="background-color:#e7e7e7;">
+				<form method="GET">
+					<?=$f->input("tabActive","purchase_list","type='hidden'");?>
+					<div class="form-group">
+						<label><?=v("invoice_at");?></label> 
+						<div class="col-md-5">
+							<?=$f->input("invoice_at1",$_GET["invoice_at1"],"type='date'","form-control") ;?>
+						</div>
+						<div class="col-md-1"><center><?=v("to");?></center></div>
+						<div class="col-md-6">
+							<?=$f->input("invoice_at2",$_GET["invoice_at2"],"type='date'","form-control");?>
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Status</label>
+						<?=$f->select("status_purchase_list",transactionstatuses(),$_GET["status_purchase_list"],"style='display: inline !important;width:auto !important;'","form-control");?>
+					</div>
+					<div class="form-group"><button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> <?v("search");?></button></div>
+				</form>
 			</div>
-			<div class="form-group">
-				<label>Status</label>
-				<?=$f->select("status_purchase_list",transactionstatuses(),$_GET["status_purchase_list"],"style='display: inline !important;width:auto !important;'","form-control");?>
-			</div>
-			<div class="form-group"><button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> <?v("search");?></button></div>
-		</form>
+		</div>
 	</div>
-</div-->
+</div>
 <br>
 <div class="row scrolling-wrapper">
 	<table class="table table-striped table-hover">
