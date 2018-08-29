@@ -61,7 +61,7 @@
 <div class="container">
 	<div class="row sub-title-area">
 		<div class="sub-title-text"><?=v("best_selling_goods");?></div>
-		<div class="view-all-text"><a href="#"><?=v("view_all");?></a></div>
+		<div class="view-all-text"><a href="products.php?s=%20"><?=v("view_all");?></a></div>
 	</div>
 	<div class="scrolling-wrapper">
 		<?php 
@@ -84,7 +84,7 @@
 <div class="container">
 	<div class="row">
 		<div class="sub-title-text"><?=v("recommended_goods");?></div>
-		<div class="view-all-text"><a href="#"><?=v("view_all");?></a></div>
+		<div class="view-all-text"><a href="products.php?s=%20"><?=v("view_all");?></a></div>
 	</div>
 	<div class="row">
 		<?php 
