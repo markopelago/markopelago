@@ -204,18 +204,20 @@
 							<ul id="ul_signin" class="dropdown-menu" role="menu">
 								<li>
 									<div class="col-sm-5">
-										<div style="width:200px;" class="text-center">
-											<?php $f->setAttribute("class='this_form_login'");?>
+										<div style="width:300px;padding-left:20px;padding-right:20px;">
+											<div style="height:20px;"></div>
 											<?=$f->start();?>
-												<img width="100" class="profile-img-card hidden-xs" src="images/nophoto.png" />
-												<p id="profile-name" class="profile-name-card"></p>
-												<form class="form-signin">
-													<input name="username" class="form-control" placeholder="Username" autocomplete="off" required autofocus>
-													<div style="height:5px;"></div>
-													<input name="password" type="password" class="form-control" placeholder="Password" required>
-													<div style="height:5px;"></div>
-													<?=$t->row([$f->input("login_action","Login","type='submit'","btn btn-link-1")]);?>
-												</form>
+												<div class="form-group">
+													<?=v("email");?>
+													<input name="username" class="form-control" placeholder="<?=v("email");?>" autocomplete="off" required autofocus>
+												</div>
+												<div class="form-group">
+													<?=v("password");?>
+													<input name="password" type="password" class="form-control" placeholder="<?=v("password");?>" required>
+												</div>
+												<div class="form-group">
+													<?=$t->row([$f->input("login_action",v("signin"),"type='submit'","btn btn-link-1")]);?>
+												</div>
 											<?=$f->end();?>
 										</div>
 									</div>
