@@ -31,6 +31,7 @@
 			</div>
 		</div>
 		<div class="col-md-7">
+			<div class="hidden-md hidden-lg" style="height:20px;"></div>
 			<div class="row sub-title-area">
 				<div class="sub-title-text"><?=v("categories");?></div>
 				<div class="view-all-text"><a href="products.php?s=%20"><?=v("view_all");?></a></div>
