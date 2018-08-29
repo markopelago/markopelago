@@ -101,9 +101,9 @@
 			</div>
 			
 			<div class="form-group">
-				<?=$f->input("btn_save_goods",v("save"),"type='submit' style='display:none;'","btn btn-primary");?>
+				<?=$f->input("btn_save",v("save"),"type='submit' style='display:none;'","btn btn-primary");?>
 				<button class="btn btn-warning" onclick="javascript:window.history.back();"><span class="glyphicon glyphicon-arrow-left"></span> <?=v("back");?></button>
-				<button style="float:right;" class="btn btn-primary" onclick="btn_save_goods.click();"><?=v("save");?> <span class="glyphicon glyphicon-arrow-right"></span></button>
+				<button style="float:right;" class="btn btn-primary" onclick="btn_save.click();"><?=v("save");?> <span class="glyphicon glyphicon-arrow-right"></span></button>
 			</div>
 		</form>
 	</div>

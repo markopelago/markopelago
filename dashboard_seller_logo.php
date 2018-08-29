@@ -1,5 +1,5 @@
 <?php
-	include_once "homepage_header.php";
+	include_once "header.php";
 	include_once "func.crop_image.php";
 	$photoW = 200;
 	$photoH = 200;
@@ -41,6 +41,7 @@
 					chmod($srcimg, 0777);
 					unlink($srcimg);
 					unlink("users_images/".$oldfile);
+					$_SESSION["message"] = v("image_saved_successfully");
 					javascript("window.location='dashboard.php?tabActive=seller';"); 
 					exit();
 				}
@@ -66,6 +67,7 @@
 	<div class="row">	
 		<script id="guillotinejs" src="scripts/jquery.guillotine.js?width=<?=$photoW;?>&height=<?=$photoH;?>"></script>
 		<form method="POST" enctype="multipart/form-data">
+			<input type="hidden" name="save" value="1">
 			<input type="hidden" name="mode_photo" value="logo">
 			<input type="hidden" name="form_x" value="" id="form_x" />
 			<input type="hidden" name="form_y" value="" id="form_y" />
@@ -98,10 +100,10 @@
 				  <a href="#" id="rotate_right" title="Rotate right"><i class="fa fa-rotate-right"></i></a>
 				</div>
 			</div>
-			
-			<div class="form-group">
-				<?=$f->input("back",v("back"),"type='button' onclick=\"javascript:window.history.back();\"","btn btn-warning");?>
-				<?=$f->input("save",v("save"),"type='submit'","btn btn-primary");?>
+			<div class="form-group">				
+				<?=$f->input("btn_save",v("save"),"type='submit' style='display:none;'","btn btn-primary");?>
+				<button class="btn btn-warning" onclick="javascript:window.history.back();"><span class="glyphicon glyphicon-arrow-left"></span> <?=v("back");?></button>
+				<button style="float:right;" class="btn btn-primary" onclick="btn_save.click();"><?=v("save");?> <span class="glyphicon glyphicon-arrow-right"></span></button>
 			</div>
 		</form>
 	</div>
