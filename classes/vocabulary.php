@@ -176,6 +176,7 @@ class Vocabulary{
 		$arr[$l]["account_name"]								= "Account Name";
 		$arr[$l]["branch"]										= "Branch";
 		$arr[$l]["data_saved_successfully"]						= "Data saved successfully";
+		$arr[$l]["image_saved_successfully"]					= "Image saved successfully";
 		$arr[$l]["failed_saving_data"]							= "Failed saving data.";
 		$arr[$l]["example_home_office"]							= "example: Home, Office,...";
 		$arr[$l]["address_name"]								= "Address Name";
@@ -412,6 +413,7 @@ class Vocabulary{
 		$arr[$l]["account_name"]								= "Nama Pemilik Rekening";
 		$arr[$l]["branch"]										= "Cabang";
 		$arr[$l]["data_saved_successfully"]						= "Penyimpanan data berhasil";
+		$arr[$l]["image_saved_successfully"]					= "Penyimpanan gambar berhasil";
 		$arr[$l]["failed_saving_data"]							= "Gagal menyimpan data.";
 		$arr[$l]["example_home_office"]							= "contoh: Rumah, Kantor,...";
 		$arr[$l]["address_name"]								= "Nama Alamat";
