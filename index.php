@@ -118,7 +118,7 @@
 			$sellers = $db->fetch_all_data("sellers",[],"1=1 ORDER BY RAND() LIMIT 10");
 			foreach($sellers as $seller){
 				if($seller["logo"] == "") $seller["logo"] = "nologo.jpg";
-				$seller_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller["user_id"]]);
+				$seller_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller["user_id"],"default_seller" => 1]);
 				$seller_location = get_location($seller_location_id)[0]["name"];
 		?>
 			<div class="img-thumbnail seller-thumbnail">
@@ -134,38 +134,5 @@
 	</div>
 </div>
 <div style="height:20px;"></div>
-
-<div class="container">
-	<div class="row sub-title-area">
-		<div class="sub-title-text"><?=v("allcategories");?></div>
-	</div>
-	<div class="row">
-		<table class="table-categories all-categories">
-			<tr>
-			<?php 
-				unset($categories);
-				$categories = $db->fetch_all_data("categories",[],"parent_id > 0","id");
-				foreach($categories as $key => $category){
-					if(($key)%4 == 0) echo "</tr><tr>";
-			?>
-				<td width="25%">
-					<a href="category_detail.php?id=<?=$category["id"];?>" style="color:grey;">
-						<div class="caption"><p><?=$category["name_".$__locale];?></p></div>
-					</a>
-				</td>
-			<?php
-				}
-			?>
-			<?php
-				$key++;
-				while(($key)%4 != 0){
-					$key++;
-					echo "<td></td>";
-				}
-			?>
-			</tr>
-		</table>
-	</div>
-</div>
-<div style="height:40px;"></div>
+<?php include_once "categories_footer.php"; ?>
 <?php include_once "footer.php"; ?>

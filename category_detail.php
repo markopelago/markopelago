@@ -30,4 +30,5 @@
 	<?php } ?>
 </div>
 <div style="height:40px;"></div>
+<?php include_once "categories_footer.php"; ?>
 <?php include_once "footer.php"; ?>
