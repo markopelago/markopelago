@@ -355,6 +355,7 @@ footer {
 
 
 .footer-top {
+	border-top: 8px solid #800000;
 	background: #333;
 	text-align: left;
 	color: #aaa;
@@ -1309,6 +1310,10 @@ textarea{
 .table-categories .caption{
 	font-size:14px;
 }
+.table-categories.all-categories td{	
+	text-align:left;
+	padding:10px 10px 0px 30px;
+}
 
 @media screen and (max-width: 995px) {
 	.header-start{ height:110px; }
@@ -1371,6 +1376,10 @@ textarea{
 	}
 	.table-categories .caption{
 		font-size:10px;
+	}
+	.table-categories.all-categories td{
+		text-align:center;
+		padding:3px 3px 0px 3px;
 	}
 }
 
