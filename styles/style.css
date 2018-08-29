@@ -833,12 +833,17 @@ input[type=checkbox]{
     border-bottom-color: transparent !important;
 }
 
+.carousel{
+	height:240px !important;
+	width:480px !important;
+}
 .carousel-inner{
-	height:550px !important;
+	height:250px !important;
+	width:480px !important;
 }
 .carousel-control{
 	color:#800000 !important;
-	width:10% !important;
+	width:5% !important;
 	z-index:10 !important;
 }
 .carousel-indicators li{
@@ -916,16 +921,16 @@ input[type=checkbox]{
 .sub-title-text{
 	position:relative;
 	float:left;
-	font-size:24px;
+	font-size:14px;
 	font-weight:bolder;
 	margin-left:15px;
 }
 
 .view-all-text{
+	font-size:14px;
 	position:relative;
 	float:right;
 	margin-right:15px;
-	margin-top:15px;
 }
 .view-all-text a {
 	color:#800000;
@@ -1288,6 +1293,23 @@ textarea{
 	height:200px;
 }
 
+.table-categories{
+	background-color:#fff;
+	width:100%;
+	border-collapse:collapse;
+}
+.table-categories td{
+	border:1px solid #ddd;
+	text-align:center;
+	vertical-align:top;
+}
+.table-categories img{
+	height:78px;
+}
+.table-categories .caption{
+	font-size:14px;
+}
+
 @media screen and (max-width: 995px) {
 	.header-start{ height:110px; }
 	.carousel-inner{
@@ -1334,7 +1356,10 @@ textarea{
 		top:-15px;
 	}
 	.sub-title-text{
-		font-size:18px;
+		font-size:10px;
+	}
+	.view-all-text{
+		font-size:10px;
 	}
 	.header-image-frame{
 		width:310px;
@@ -1343,6 +1368,9 @@ textarea{
 	.header-image-frame img{
 		width:310px;
 		height:56px;
+	}
+	.table-categories .caption{
+		font-size:10px;
 	}
 }
 
@@ -1416,6 +1444,17 @@ textarea{
 	.categories .img-thumbnail img {
 		width:50px;
 		height:50px;
+	}
+	.carousel{
+		height:165px !important;
+		width:330px !important;
+	}
+	.carousel-inner{
+		height:175px !important;
+		width:330px !important;
+	}	
+	.carousel-control{
+		width:8% !important;
 	}
 	
 }
