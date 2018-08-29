@@ -204,6 +204,7 @@ class Vocabulary{
 		$arr[$l]["current_stock"]								= "Current Stcok";
 		$arr[$l]["example_first_stock"]							= "example: First Stock";
 		$arr[$l]["add_goods_stock_history"]						= "Add Stock History";
+		$arr[$l]["edit_goods_stock_history"]					= "Edit Stock History";
 		$arr[$l]["goods_name"]									= "Goods Name";
 		$arr[$l]["unit"]										= "Unit";
 		$arr[$l]["new"]											= "New";
@@ -439,6 +440,7 @@ class Vocabulary{
 		$arr[$l]["current_stock"]								= "Stok Sekarang";
 		$arr[$l]["example_first_stock"]							= "contoh: Stok Awal";
 		$arr[$l]["add_goods_stock_history"]						= "Tambah Catatan Stok";
+		$arr[$l]["edit_goods_stock_history"]					= "Ubah Catatan Stok";
 		$arr[$l]["goods_name"]									= "Nama Produk";
 		$arr[$l]["unit"]										= "Satuan";
 		$arr[$l]["new"]											= "Baru";

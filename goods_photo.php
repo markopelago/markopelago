@@ -45,7 +45,7 @@
 				?> <table class="table table-striped table-hover"><tr class="danger"><td colspan="9" align="center"><b><?=v("data_not_found");?></b></td></tr></table> <?php
 			} else {
 				foreach($goods_photos as $goods_photo){
-					?> <div class="img-thumbnail"> 
+					?> <div class="img-thumbnail goods-thumbnail"> 
 						<img src="goods/<?=$goods_photo["filename"];?>" alt="#"> 
 						<div style="height:20px;"></div>
 						<div class="form-group">

@@ -1,5 +1,5 @@
 <?php
-	include_once "homepage_header.php";
+	include_once "header.php";
 	if(isset($_POST["save_goods"])){
 		if(count($_POST["forwarder_ids"]) <= 0)	$_SESSION["errormessage"] = v("please_select_couriers");
 		if(count($_POST["category_ids"]) <= 0)	$_SESSION["errormessage"] = v("please_select_categories");
@@ -72,9 +72,6 @@
 				<div class="form-group">
 					<label><?=v("description");?></label><?=$f->textarea("description",$_POST["description"],"required placeholder='".v("description")."...'","form-control");?>
 				</div>
-				<!--div class="form-group">
-					<label>Barcode</label><?=$f->input("barcode",$_POST["barcode"],"required placeholder='Barcode...'","form-control");?>
-				</div-->
 				<div class="form-group">
 					<label><?=v("condition");?></label><?=$f->select("is_new",["" => "","1" => v("new"),"2" => v("second_hand")],$_POST["is_new"],"required placeholder='".v("unit")."...'","form-control");?>
 				</div>
