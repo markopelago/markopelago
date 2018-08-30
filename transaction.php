@@ -115,6 +115,7 @@
 		$("#div_delivery_destination").html("<img src='images/fancybox_loading.gif'>");
 		$.get("ajax/transaction.php?mode=getAddress&user_address_id="+user_address_id, function(returnval){
 			$("#div_delivery_destination").html(returnval);
+			load_calculation();
 		});
 	}
 	

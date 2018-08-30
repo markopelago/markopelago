@@ -59,8 +59,32 @@
 			}
 		}
 		
+		public function subdistricts($city_id){
+			$curl = curl_init();
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt_array($curl, 
+				[
+					CURLOPT_URL => $this->url."subdistrict?city=".$city_id,
+					CURLOPT_RETURNTRANSFER => true,
+					CURLOPT_ENCODING => "",
+					CURLOPT_MAXREDIRS => 10,
+					CURLOPT_TIMEOUT => 30,
+					CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+					CURLOPT_CUSTOMREQUEST => "GET",
+					CURLOPT_HTTPHEADER => ["key: ".$this->api]
+				]
+			);
+			$response = curl_exec($curl);
+			$err = curl_error($curl);
+			curl_close($curl);
+			if ($err) {
+				return json_decode($err, true)["rajaongkir"];
+			} else {
+				return json_decode($response, true)["rajaongkir"];
+			}
+		}
+		
 		public function cost($origin,$destination,$weight,$courier){
-			//origin=501&originType=city&destination=574&destinationType=subdistrict&weight=1700&courier=jne
 			$curl = curl_init();
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt_array($curl,
@@ -72,7 +96,7 @@
 					CURLOPT_TIMEOUT => 30,
 					CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 					CURLOPT_CUSTOMREQUEST => "POST",
-					CURLOPT_POSTFIELDS => "origin=".$origin."&destination=".$destination."&weight=".$weight."&courier=".$courier."&originType=city&destinationType=subdistrict",
+					CURLOPT_POSTFIELDS => "origin=".$origin."&destination=".$destination."&weight=".$weight."&courier=".$courier."&originType=subdistrict&destinationType=subdistrict",
 					CURLOPT_HTTPHEADER => ["content-type: application/x-www-form-urlencoded","key: ".$this->api]
 				]
 			);
@@ -86,7 +110,7 @@
 			}
 		}
 		
-		public function location_id($province,$postal_code="",$city=""){
+		public function location_id($province,$city,$subdistrict){
 			$arr = $this->provinces()["results"];
 			$province_id = 0;
 			foreach($arr as $data){
@@ -98,14 +122,19 @@
 			if($province_id > 0){
 				$arr = $this->cities($province_id)["results"];
 				foreach($arr as $data){
-					if($postal_code != ""){
-						if($data["postal_code"] == $postal_code){
-							return $data["city_id"];
-						}
+					if(stripos(" ".$data["city_name"],$city) > 0){
+						$city_id .= $data["city_id"].",";
 					}
-					if($city != ""){
-						if(stripos(" ".$data["city_name"],$city) > 0){
-							return $data["city_id"];
+				}
+				$city_id = substr($city_id,0,-1);
+				$city_ids = explode(",",$city_id);
+				foreach($city_ids as $city_id){
+					if($city_id > 0){
+						$arr = $this->subdistricts($city_id)["results"];
+						foreach($arr as $data){
+							if(stripos(" ".$data["subdistrict_name"],$subdistrict) > 0){
+								return $data["subdistrict_id"];
+							}
 						}
 					}
 				}

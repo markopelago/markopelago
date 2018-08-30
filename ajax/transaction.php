@@ -26,14 +26,15 @@
 		$qty = $_GET["qty"];
 		$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
 		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
-		$seller_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]);
-		$origin = $ro->location_id(get_location($seller_location_id)[0]["name"],0,get_location($seller_location_id)[1]["name"]);
+		$seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]));
+		$origin = $ro->location_id($seller_locations[0]["name"],$seller_locations[1]["name"],$seller_locations[2]["name"]);
 		
-		$buyer_location_id = $db->fetch_single_data("user_addresses","location_id",["id" => $buyer_address_id,"user_id" => $__user_id]);
-		$destination = $ro->location_id(get_location($buyer_location_id)[0]["name"],0,get_location($buyer_location_id)[1]["name"]);
+		$buyer_locations = get_location($db->fetch_single_data("user_addresses","location_id",["id" => $buyer_address_id,"user_id" => $__user_id]));
+		$destination = $ro->location_id($buyer_locations[0]["name"],$buyer_locations[1]["name"],$buyer_locations[2]["name"]);
 		$weight = $db->fetch_single_data("goods","weight",["id" => $goods_id]);
 		$courier_services = array();
 		$ro_cost = $ro->cost($origin,$destination,($weight*$qty),$courier);
+		
 		if($ro_cost["status"]["code"] == "400"){
 			echo $ro_cost["status"]["description"];
 		} else {
@@ -52,11 +53,11 @@
 		$qty = $_GET["qty"];
 		$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
 		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
-		$seller_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id]);
-		$origin = $ro->location_id(get_location($seller_location_id)[0]["name"],0,get_location($seller_location_id)[1]["name"]);
+		$seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id]));
+		$origin = $ro->location_id($seller_locations[0]["name"],$seller_locations[1]["name"],$seller_locations[2]["name"]);
 		
-		$buyer_location_id = $db->fetch_single_data("user_addresses","location_id",["id" => $buyer_address_id,"user_id" => $__user_id]);
-		$destination = $ro->location_id(get_location($buyer_location_id)[0]["name"],0,get_location($buyer_location_id)[1]["name"]);
+		$buyer_locations = get_location($db->fetch_single_data("user_addresses","location_id",["id" => $buyer_address_id,"user_id" => $__user_id]));
+		$destination = $ro->location_id($buyer_locations[0]["name"],$buyer_locations[1]["name"],$buyer_locations[2]["name"]);
 		$weight = $db->fetch_single_data("goods","weight",["id" => $goods_id]);
 		foreach($ro->cost($origin,$destination,($weight*$qty),$courier)["results"][0]["costs"] as $cost){
 			if(strtolower($cost["service"]) == strtolower($courier_service)){
