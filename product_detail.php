@@ -19,8 +19,8 @@
         <div class="col-md-9">
             <div style="height:20px;"></div>
             <div class="col-md-5">
-				<div class="panel panel-default">
-					<div id="myCarousel" class="carousel slide" data-ride="carousel" style="width:auto !important;">
+				<center>
+					<div id="myCarousel" class="carousel carousel-goods slide" data-ride="carousel">
 						<ol class="carousel-indicators">
 							<?php 
 								$goods_photos = $db->fetch_all_data("goods_photos",[],"goods_id = '".$_GET["id"]."'");
@@ -32,7 +32,7 @@
 							?>
 						</ol>
 						<!-- Wrapper for slides -->
-						<div class="carousel-inner" style="height: auto !important ">
+						<div class="carousel-inner carousel-inner-goods">
 							<?php
 								if(count($goods_photos) > 0){
 									foreach($goods_photos as $goods_photo){
@@ -49,8 +49,9 @@
 						<a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
 						<a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
 					</div>
-				</div>
+				</center>
 			</div>
+			<div style="height:20px;" class="hidden-md hidden-lg"></div>
             <div class="col-md-7">
                 <div class="panel panel-default">
 					<div class="panel-body">

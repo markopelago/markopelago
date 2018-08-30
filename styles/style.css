@@ -838,9 +838,17 @@ input[type=checkbox]{
 	height:240px !important;
 	width:480px !important;
 }
+.carousel-goods{
+	height:300px !important;
+	width:300px !important;
+}
 .carousel-inner-main{
 	height:250px !important;
 	width:480px !important;
+}
+.carousel-inner-goods{
+	height:310px !important;
+	width:300px !important;
 }
 .carousel-control{
 	color:#800000 !important;

@@ -6,12 +6,12 @@
 		exit();
 	}
 	include_once "func.crop_image.php";
-	$photoW = 400;
-	$photoH = 400;
-	if(isMobile()){
-		$photoW = 200;
-		$photoH = 200;
-	}
+	$photoW = 300;
+	$photoH = 300;
+	// if(isMobile()){
+		// $photoW = 200;
+		// $photoH = 200;
+	// }
 	if(isset($_POST["save"])){
 		$error = "";
 		$_type = $_FILES["goods"]["type"];
@@ -66,7 +66,7 @@
 <link href="styles/jquery.guillotine.css" media="all" rel="stylesheet">
 <div class="row">	
 	<div class="container">
-		<h3 class="well"><b><?=strtoupper(v("add_goods_photo"));?></b></h3>
+		<h4 class="well"><b><?=strtoupper(v("add_goods_photo"));?></b></h4>
 		<h4><b><?=$db->fetch_single_data("goods","name",["id" => $_GET["id"]]);?></b></h4>
 	</div>
 	<div class="container">
