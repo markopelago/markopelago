@@ -18,7 +18,7 @@
 	</script>
 	<div class="container">
 		<div class="row">
-			<h2 class="well"><a class="btn btn-default" href="index.php"><span class="glyphicon glyphicon-chevron-left"></span></a><?=strtoupper(v("dashboard"));?></h2>
+			<h4 class="well"><a class="btn btn-default" href="index.php"><span class="glyphicon glyphicon-chevron-left"></span></a> <b><?=strtoupper(v("dashboard"));?></b></h4>
 		</div>
 	</div>
 	<div class="container">

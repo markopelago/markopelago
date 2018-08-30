@@ -51,8 +51,8 @@
 </script>
 <div class="container">
 	<div class="row">	
-		<h2 class="well"><?=strtoupper(v("stock_history"));?></h2>
-		<h3><?=$db->fetch_single_data("goods","name",["id" => $_GET["goods_id"]]);?></h3>
+		<h3 class="well"><?=strtoupper(v("stock_history"));?></h3>
+		<h4><b><?=$db->fetch_single_data("goods","name",["id" => $_GET["goods_id"]]);?></b></h4>
 		<b><?=v("current_stock");?> : <?=$stock;?></b>
 	</div>
 	<br>

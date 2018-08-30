@@ -29,7 +29,7 @@
 ?>
 <div class="container">
 	<div class="row">	
-		<h2 class="well"><?=strtoupper(v("goods"));?></h2>
+		<h4 class="well"><b><?=strtoupper(v("goods"));?></b></h4>
 	</div>
 </div>
 <div class="container">

@@ -27,13 +27,13 @@
 ?>
 <div class="row">	
 	<div class="container">
-		<h2 class="well"><?=strtoupper(v("edit_address"));?></h2>
+		<h4 class="well"><b><?=strtoupper(v("edit_address"));?></b></h4>
 	</div>
 	<div class="container">
 		<form method="POST" action="?id=<?=$_GET["id"];?>">
 			<div class="col-md-12">
 				<div class="form-group">
-					<label><?=v("address_type");?></label><?=$f->input("name",$user_address["name"],"required placeholder='".v("name")."... (".v("example_home_office").")'","form-control");?>
+					<label><?=v("address_type");?></label><?=$f->input("name",$user_address["name"],"required placeholder='".v("address_type")."... (".v("example_home_office").")'","form-control");?>
 				</div>
 				<div class="form-group">
 					<label><?=v("pic");?></label><?=$f->input("pic",$user_address["pic"],"required placeholder='".v("pic")."...'","form-control");?>

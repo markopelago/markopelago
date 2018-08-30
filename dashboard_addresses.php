@@ -47,7 +47,7 @@
 		<thead>
 			<tr>
 				<th></th>
-				<th><?=v("address_name");?></th>
+				<th><?=v("address_type");?></th>
 				<th><?=v("pic");?></th>
 				<th><?=v("address");?></th>
 				<th><?=v("phone");?></th>

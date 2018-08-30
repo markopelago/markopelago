@@ -19,7 +19,7 @@
 ?>
 <div class="row">	
 	<div class="container">
-		<h2 class="well"><?=strtoupper(v("edit_bank"));?></h2>
+		<h4 class="well"><b><?=strtoupper(v("edit_bank"));?></b></h4>
 	</div>
 	<div class="container">
 		<form method="POST">
