@@ -92,7 +92,6 @@
 	$seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]));
 ?>
 <?php $user_address_default = $db->fetch_single_data("user_addresses","id",["user_id" => $__user_id, "default_buyer" => "1"]); ?>
-<div style="height:20px;"></div>
 <script>
 	$(document).ready(function(){
 		change_address("<?=$user_address_default;?>");
@@ -145,17 +144,14 @@
 		});
 	}
 </script>
+<div class="container">
+	<h4 class="well"><b><?=v("buy");?></b></h4>
+</div>
 <form role="form" method="POST" autocomplete="off">	
 	<?=$f->input("goods_id",$_GET["id"],"type='hidden'");?>
 	<?=$f->input("shipping_charges",0,"type='hidden'");?>
 	<?=$f->input("sub_total",0,"type='hidden'");?>
 	<div class="container">
-		<div class="row sub-title-area" style="border-bottom: 1px solid #ccc;">
-			<div class="sub-title-text">
-			  <?=v("buy");?>
-			</div>
-		</div>
-		<div style="height:20px;"></div>
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group col-md-12">
