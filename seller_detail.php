@@ -19,7 +19,7 @@
 </div>
 <div class="container store-desc">
 	<div class="row">
-		<div class="panel panel-default">
+		<div class="panel panel-default col-md-11">
 			<div class="panel-body">
 				<p><?=str_replace(chr(13).chr(10),"<br>",$seller["description"]);?></p>
 			</div>
