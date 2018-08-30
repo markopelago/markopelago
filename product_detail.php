@@ -95,7 +95,10 @@
 					<center>
 						<?php $seller["logo"] = ($seller["logo"] == "")?"nologo.jpg":$seller["logo"]; ?>
 						<img class="img-responsive" src="users_images/<?=$seller["logo"];?>"><br>
-						<b><a href="seller_detail.php?id=<?=$seller["id"];?>"><?=$seller["name"];?></a></b><br><br>
+						<b><a href="seller_detail.php?id=<?=$seller["id"];?>"><?=$seller["name"];?></a></b><br>
+ 						<?php $seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller["user_id"],"default_seller" => 1])); ?>
+						<span class="glyphicon glyphicon-map-marker"></span> <?=$seller_locations[3]["name"];?>, <?=$seller_locations[2]["name"];?>
+						<br><br>
 						<?php if($__seller_id != $goods["seller_id"]){ ?>
 						<button class="btn btn-primary btn-red" <?=$onclickSendMessage;?>><span class="glyphicon glyphicon-envelope"></span>&nbsp;<?=v("send_message_to_seller");?></button>
 						<?php } ?>
@@ -114,6 +117,8 @@
 			foreach($products as $product){
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 				if($img == "") $img = "no_goods.png";
+				$seller_user_id = $db->fetch_single_data("sellers","user_id",["id"=> $product["seller_id"]]);
+				$seller_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]);
 		?>
 			<div class="img-thumbnail goods-thumbnail goods-thumbnail2">
 				<a href="product_detail.php?id=<?=$product["id"];?>">
@@ -122,8 +127,8 @@
 					<div class="price"><p>Rp. <?=format_amount($product["price"]);?> / <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?></p></div>
 					<button class="btn btn-primary btn-sm" style="width:100%"><?=v("buy");?></button>
 					<div class="seller-info">
-						<img src="icons/location.png" alt="#" style="width:15px; height:15px;">
-						<?=$db->fetch_single_data("sellers","name",["id"=>$product["seller_id"]]);?>
+						<?=$db->fetch_single_data("sellers","name",["id"=>$product["seller_id"]]);?><br>
+						<span class="glyphicon glyphicon-map-marker"></span> <?=get_location($seller_location_id)[0]["name"];?>
 					</div>
 				</a>
 			</div>
