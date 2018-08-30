@@ -7,11 +7,11 @@
 			<div id="myCarousel" class="carousel slide carousel-main" data-ride="carousel">
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner carousel-inner-main">
-					<div class="item active">	<img src="images/main1.jpg"><div class="carousel-overlay"></div></div>
-					<div class="item">			<img src="images/main2.jpg"><div class="carousel-overlay"></div></div>
-					<div class="item">			<img src="images/main3.jpg"><div class="carousel-overlay"></div></div>
-					<div class="item">			<img src="images/main4.jpg"><div class="carousel-overlay"></div></div>
-					<div class="item">			<img src="images/main5.jpg"><div class="carousel-overlay"></div></div>
+					<div class="item active">	<img src="images/main01.jpg"><div class="carousel-overlay"></div></div>
+					<div class="item">			<img src="images/main02.jpg"><div class="carousel-overlay"></div></div>
+					<div class="item">			<img src="images/main03.jpg"><div class="carousel-overlay"></div></div>
+					<div class="item">			<img src="images/main04.jpg"><div class="carousel-overlay"></div></div>
+					<div class="item">			<img src="images/main05.jpg"><div class="carousel-overlay"></div></div>
 				</div>
 				<!-- Left and right controls -->
 				<a class="left carousel-control" href="#myCarousel" data-slide="prev">
