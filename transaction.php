@@ -86,6 +86,10 @@
 		}
 		exit();
 	}
+	
+	$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $_GET["id"]]);
+	$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
+	$seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]));
 ?>
 <?php $user_address_default = $db->fetch_single_data("user_addresses","id",["user_id" => $__user_id, "default_buyer" => "1"]); ?>
 <div style="height:20px;"></div>
@@ -157,6 +161,7 @@
 				<div class="form-group col-md-12">
 					<label><b><?=v("product_name");?></b></label>
 					<div class="trx-value-text"><?=$db->fetch_single_data("goods","name",["id"=>$_GET["id"]]);?></div>
+					<span class="glyphicon glyphicon-map-marker"></span> <?=$seller_locations[2]["name"];?>, <?=$seller_locations[1]["name"];?>, <?=$seller_locations[0]["name"];?>
 				</div>
 				<div class="form-group col-md-6">
 					<label><b><?=v("qty");?></b></label>
