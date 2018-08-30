@@ -182,6 +182,7 @@ class Vocabulary{
 		$arr[$l]["failed_saving_data"]							= "Failed saving data.";
 		$arr[$l]["example_home_office"]							= "example: Home, Office,...";
 		$arr[$l]["address_name"]								= "Address Name";
+		$arr[$l]["address_type"]								= "Address Type";
 		$arr[$l]["primary_address"]								= "Primary Address";
 		$arr[$l]["add_address"]									= "Add Address";
 		$arr[$l]["edit_address"]								= "Edit Address";
@@ -423,6 +424,7 @@ class Vocabulary{
 		$arr[$l]["failed_saving_data"]							= "Gagal menyimpan data.";
 		$arr[$l]["example_home_office"]							= "contoh: Rumah, Kantor,...";
 		$arr[$l]["address_name"]								= "Nama Alamat";
+		$arr[$l]["address_type"]								= "Jenis Alamat";
 		$arr[$l]["primary_address"]								= "Alamat Utama";
 		$arr[$l]["add_address"]									= "Tambah Alamat";
 		$arr[$l]["edit_address"]								= "Ubah Alamat";

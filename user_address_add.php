@@ -38,7 +38,7 @@
 		<form method="POST" action="?default_seller=<?=$_GET["default_seller"];?>">
 			<div class="col-md-12">
 				<div class="form-group">
-					<label><?=v("name");?></label><?=$f->input("name",$name,"required placeholder='".v("name")."... (".v("example_home_office").")'","form-control");?>
+					<label><?=v("address_type");?></label><?=$f->input("name",$name,"required placeholder='".v("name")."... (".v("example_home_office").")'","form-control");?>
 				</div>
 				<div class="form-group">
 					<label><?=v("pic");?></label><?=$f->input("pic",$pic,"required placeholder='".v("pic")."...'","form-control");?>
