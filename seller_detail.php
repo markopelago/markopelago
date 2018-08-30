@@ -19,7 +19,11 @@
 </div>
 <div class="container store-desc">
 	<div class="row">
-		<span class="col-sm-12 well" style="color:#333;"><?=$seller["description"];?></span>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<p><?=str_replace(chr(13).chr(10),"<br>",$seller["description"]);?></p>
+			</div>
+		</div>
 	</div>
 	<div class="row sub-title-area">
 		<div class="sub-title-text"> <?=v("goods_list");?> </div>
@@ -44,5 +48,5 @@
 		</div>
 	<?php } ?>
 </div>
-<div style="height:40px;"></div>
+<?php include_once "categories_footer.php"; ?>
 <?php include_once "footer.php"; ?>
