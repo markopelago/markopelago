@@ -834,11 +834,11 @@ input[type=checkbox]{
     border-bottom-color: transparent !important;
 }
 
-.carousel{
+.carousel-main{
 	height:240px !important;
 	width:480px !important;
 }
-.carousel-inner{
+.carousel-inner-main{
 	height:250px !important;
 	width:480px !important;
 }
@@ -1321,7 +1321,7 @@ textarea{
 
 @media screen and (max-width: 995px) {
 	.header-start{ height:110px; }
-	.carousel-inner{
+	.carousel-inner-main{
 		height:100% !important;
 	}
 	.r-form-1-top {
@@ -1458,11 +1458,11 @@ textarea{
 		width:50px;
 		height:50px;
 	}
-	.carousel{
+	.carousel-main{
 		height:165px !important;
 		width:330px !important;
 	}
-	.carousel-inner{
+	.carousel-inner-main{
 		height:175px !important;
 		width:330px !important;
 	}	

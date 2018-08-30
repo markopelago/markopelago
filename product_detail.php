@@ -29,7 +29,7 @@
             <div style="height:20px;"></div>
             <div class="col-md-5">
 				<div class="panel panel-default">
-					<div id="myCarousel" class="carousel slide" data-ride="carousel">
+					<div id="myCarousel" class="carousel slide" data-ride="carousel" style="width:auto !important;">
 						<ol class="carousel-indicators">
 							<?php 
 								$goods_photos = $db->fetch_all_data("goods_photos",[],"goods_id = '".$_GET["id"]."'");

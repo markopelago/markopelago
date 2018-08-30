@@ -4,9 +4,9 @@
 	<div class="row">
 		<div class="col-md-5">
 			<br>
-			<div id="myCarousel" class="carousel slide" data-ride="carousel">
+			<div id="myCarousel" class="carousel slide carousel-main" data-ride="carousel">
 				<!-- Wrapper for slides -->
-				<div class="carousel-inner">
+				<div class="carousel-inner carousel-inner-main">
 					<div class="item active">	<img src="images/main1.jpg"><div class="carousel-overlay"></div></div>
 					<div class="item">			<img src="images/main2.jpg"><div class="carousel-overlay"></div></div>
 					<div class="item">			<img src="images/main3.jpg"><div class="carousel-overlay"></div></div>
