@@ -144,9 +144,13 @@ class Vocabulary{
 		$arr[$l]["condition"]									= "Condition";
 		$arr[$l]["product_description"]							= "Product Description";
 		$arr[$l]["price"]										= "Price";
+		$arr[$l]["goods_prices"]								= "Goods Price List";
 		$arr[$l]["failed_transaction"]							= "Transaction was failed, please contact our customer service.";
 		$arr[$l]["product_name"]								= "Product Name";
 		$arr[$l]["qty"]											= "Qty";
+		$arr[$l]["min_qty"]										= "Minumum Qty";
+		$arr[$l]["commission"]									= "Commission";
+		$arr[$l]["display_price"]								= "Display Price";
 		$arr[$l]["promo_code"]									= "Promo Code";
 		$arr[$l]["province"]									= "Province";
 		$arr[$l]["city"]										= "City";
@@ -210,6 +214,8 @@ class Vocabulary{
 		$arr[$l]["example_first_stock"]							= "example: First Stock";
 		$arr[$l]["add_goods_stock_history"]						= "Add Stock History";
 		$arr[$l]["edit_goods_stock_history"]					= "Edit Stock History";
+		$arr[$l]["add_goods_prices"]							= "Add Goods Prices";
+		$arr[$l]["edit_goods_prices"]							= "Edit Goods Prices";
 		$arr[$l]["goods_name"]									= "Goods Name";
 		$arr[$l]["unit"]										= "Unit";
 		$arr[$l]["new"]											= "New";
@@ -387,9 +393,13 @@ class Vocabulary{
 		$arr[$l]["condition"]									= "Kondisi";
 		$arr[$l]["product_description"]							= "Deskripsi Produk";
 		$arr[$l]["price"]										= "Harga";
+		$arr[$l]["goods_prices"]								= "Daftar Harga Produk";
 		$arr[$l]["failed_transaction"]							= "Transaksi gagal, silakan hubungi pelayanan pelanggan Kami";
 		$arr[$l]["product_name"]								= "Nama Produk";
 		$arr[$l]["qty"]											= "Qty";
+		$arr[$l]["min_qty"]										= "Qty Minumum";
+		$arr[$l]["commission"]									= "Komisi";
+		$arr[$l]["display_price"]								= "Harga tampilan";
 		$arr[$l]["promo_code"]									= "Kode Promo";
 		$arr[$l]["province"]									= "Propinsi";
 		$arr[$l]["city"]										= "Kota";
@@ -453,6 +463,8 @@ class Vocabulary{
 		$arr[$l]["example_first_stock"]							= "contoh: Stok Awal";
 		$arr[$l]["add_goods_stock_history"]						= "Tambah Catatan Stok";
 		$arr[$l]["edit_goods_stock_history"]					= "Ubah Catatan Stok";
+		$arr[$l]["add_goods_prices"]							= "Tambah Harga Produk";
+		$arr[$l]["edit_goods_prices"]							= "Ubah Harga Produk";
 		$arr[$l]["goods_name"]									= "Nama Produk";
 		$arr[$l]["unit"]										= "Satuan";
 		$arr[$l]["new"]											= "Baru";

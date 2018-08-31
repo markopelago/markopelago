@@ -436,5 +436,14 @@
 		$invoice_no = "INV/".date("Ymd")."/".numberpad($seqno,7);
 		return $invoice_no;
 	}
+	
+	function get_goods_price($goods_id,$qty = 0){
+		global $db;
+		if($qty == 0) $qty = 1;
+		$price = $db->fetch_single_data("goods_prices","price",["goods_id" => $goods_id,"qty" => $qty.":<="],["qty DESC"]);
+		$commission = $db->fetch_single_data("goods_prices","commission",["goods_id" => $goods_id,"qty" => $qty.":<="],["qty DESC"]);
+		$display_price = $price + ($price * $commission / 100);
+		return ["price" => $price, "commission" => $commission, "display_price" => $display_price];
+	}
 ?>
 <?php include_once "log_action.php"; ?>

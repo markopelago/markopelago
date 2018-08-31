@@ -47,6 +47,7 @@
 			$stock_out = $db->fetch_single_data("goods_histories","concat(sum(qty))",["seller_user_id" => $__user_id,"goods_id" => $_GET["id"],"in_out" => "out"]);
 			$stock = $stock_in - $stock_out;
 			$btnStockHistory = "<div style=\"position:relative;float:right;\">".$f->input("stock_history",v("stock_history"),"type='button' onclick=\"window.location='goods_stock_history.php?goods_id=".$_GET["id"]."';\"","btn btn-primary")."</div>";
+			$btnGoodsPrices = "<div style=\"position:relative;float:right;\">".$f->input("goods_prices",v("goods_prices"),"type='button' onclick=\"window.location='goods_prices.php?goods_id=".$_GET["id"]."';\"","btn btn-primary")."</div>";
 		?>
 	</div>
 	<br>
@@ -116,7 +117,7 @@
 			<tr>
 				<td>
 					<div class="col-md-3"><b><?=v("price");?></b></div>
-					<div class="col-md-9">Rp. <?=format_amount($goods["price"]);?></div>
+					<div class="col-md-9">Rp. <?=format_amount(get_goods_price($goods["id"])["display_price"])." ".$btnGoodsPrices;?></div>
 				</td>
 			</tr>
 			<tr>
@@ -127,26 +128,6 @@
 			</tr>
 		</table>
 	</div>
-	
-	
-		
-		
-		<!--
-		<?=$t->start("","","table table-striped table-hover");?>
-			<?=$t->row(["<b>".v("categories")."</b>",$goods_categories]);?>
-			<?=$t->row(["<b>".v("goods_name")."</b>",$goods["name"]]);?>
-			<?=$t->row(["<b>".v("description")."</b>","<pre>".$goods["description"]."</pre>"]);?>
-			<?=$t->row(["<b>Barcode</b>",$goods["barcode"]]);?>
-			<?=$t->row(["<b>".v("condition")."</b>",$good_is_new]);?>
-			<?=$t->row(["<b>".v("stock")."</b>",$stock." ".$btnStockHistory]);?>
-			<?=$t->row(["<b>".v("unit")."</b>",$db->fetch_single_data("units","name_".$__locale,["id" => $goods["unit_id"]])]);?>
-			<?=$t->row(["<b>".v("weight_per_unit")."</b>",$goods["weight"]]);?>
-			<?=$t->row(["<b>".v("dimension"). " (".v("l_w_h").")</b>",$goods["dimension"]]);?>
-			<?=$t->row(["<b>".v("availability_days")."</b>",$goods["availability_days"]." ".v("days")]);?>
-			<?=$t->row(["<b>".v("price")."</b>","Rp. ".format_amount($goods["price"])]);?>
-			<?=$t->row(["<b>".v("delivery_courier")."</b>",$goods_forwarders]);?>
-		<?=$t->end();?>
-		-->
 	<br>
 	<div class="row">
 		<div class="col-md-12">
