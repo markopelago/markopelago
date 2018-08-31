@@ -951,6 +951,7 @@ input[type=checkbox]{
 }
 
 .goods-thumbnail{
+	border:0px !important;
 	vertical-align: top;
 	width:200px;
 	height:280px !important;
