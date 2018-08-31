@@ -94,7 +94,7 @@
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 				if($img == "") $img = "no_goods.png";
 		?>
-			<div class="col-md-3 col-xs-4" style="margin-bottom:10px;">
+			<div class="col-md-2 col-xs-4" style="margin-bottom:10px;">
 				<div style="width:100%;" class="img-thumbnail goods-thumbnail">
 					<center>
 						<a href="product_detail.php?id=<?=$product["id"];?>">
