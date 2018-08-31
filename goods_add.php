@@ -17,7 +17,6 @@
 			$db->addfield("weight");			$db->addvalue($_POST["weight"]);
 			$db->addfield("dimension");			$db->addvalue($dimension);
 			$db->addfield("is_new");			$db->addvalue($_POST["is_new"]);
-			$db->addfield("price");				$db->addvalue($_POST["price"]);
 			$db->addfield("availability_days");	$db->addvalue($_POST["availability_days"]);
 			$db->addfield("forwarder_ids");		$db->addvalue(sel_to_pipe($_POST["forwarder_ids"]));
 			$inserting = $db->insert();
@@ -94,9 +93,6 @@
 				</div>
 				<div class="form-group">
 					<label><?=v("availability_days");?> (<?=v("days");?>)</label><?=$f->input("availability_days",$_POST["availability_days"],"type='number' step='any' required placeholder='".v("availability_days")."...'","form-control");?>
-				</div>
-				<div class="form-group">
-					<label><?=v("price");?> (<?=v("rupiahs");?>)</label><?=$f->input("price",$_POST["price"],"type='number' step='any' required placeholder='".v("price")."...'","form-control");?>
 				</div>
 				<div class="form-group">
 					<label><?=v("delivery_courier");?></label> 

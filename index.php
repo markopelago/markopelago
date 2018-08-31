@@ -75,7 +75,7 @@
 				<a href="product_detail.php?id=<?=$product["id"];?>">
 					<img src="goods/<?=$img;?>" alt="#">
 					<div class="caption"><p><?=substr($product["name"],0,50);?></p></div>
-					<div class="price"><p>Rp. <?=format_amount($product["price"]);?> / <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?></p></div>
+					<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> / <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?></p></div>
 				</a>
 			</div>
 		<?php } ?>
@@ -100,7 +100,7 @@
 						<a href="product_detail.php?id=<?=$product["id"];?>">
 							<img src="goods/<?=$img;?>" alt="#">
 							<div class="caption"><p><?=substr($product["name"],0,50);?></p></div>
-							<div class="price"><p>Rp. <?=format_amount($product["price"]);?> / <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?></p></div>
+							<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> / <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?></p></div>
 						</a>
 					</center>
 				</div>

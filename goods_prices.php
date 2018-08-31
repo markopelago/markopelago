@@ -33,6 +33,8 @@
 		}
 	}
 	$goods_prices = $db->fetch_all_data("goods_prices",[],"goods_id = '".$_GET["goods_id"]."' ORDER BY id");
+	$unit_id = $db->fetch_single_data("goods","unit_id",["id" => $_GET["goods_id"]]);
+	$unit = $db->fetch_single_data("units","name_".$__locale,["id" => $unit_id]);
 ?>
 <script>
 	function delete_goods_price(goods_price_id){
@@ -80,7 +82,7 @@
 						<div class="col-md-12">
 							<form method="POST" action="?add=<?=$_GET["add"];?>&edit=<?=$_GET["edit"];?>&goods_id=<?=$_GET["goods_id"];?>">
 								<div class="form-group"><label><?=v("min_qty");?></label><?=$txt_qty;?></div>
-								<div class="form-group"><label><?=v("price");?> (Rp.)</label><?=$txt_price;?></div>
+								<div class="form-group"><label><?=v("price");?> (Rp.) per <?=$unit;?></label><?=$txt_price;?></div>
 								<div class="form-group"><label><?=v("commission");?> (%)</label><?=$txt_commission;?></div>
 								<div class="form-group"><label><?=v("display_price");?></label><div id="div_display_price"><?=format_amount($display_price);?></div></div>
 								<div class="form-group"><?=$btn_save;?></div>
@@ -97,7 +99,7 @@
 	<div class="row scrolling-wrapper">	
 		<table class="table table-striped table-hover">
 			<tbody>
-			<thead> <?=$t->header([v("min_qty"),v("price"),v("commission"),v("display_price"),""]);?> </thead>
+			<thead> <?=$t->header([v("min_qty"),v("price")."/".$unit,v("commission"),v("display_price"),""]);?> </thead>
 				<?php
 					if(count($goods_prices) <= 0){
 						echo $t->row(["<b>".v("data_not_found")."</b>"],["colspan='5' align='center'"],"","danger");

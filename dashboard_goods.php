@@ -45,7 +45,7 @@
 						<div class="well col-md-11">
 							<?="<center><b>".$goods["name"]."</b> (".(($goods["is_new"] == 1)?v("new"):v("second_hand")).")<br><br>".
 							"".$img_goods_photo."</center><br>".
-							"<b>Rp. ".format_amount($goods["price"])."</b><br>".
+							"<b>Rp. ".format_amount(get_goods_price($goods["id"])["display_price"])."</b><br>".
 							$categories."<br>".
 							v("stock")." : ".$stock." ".$db->fetch_single_data("units","name_".$__locale,["id" => $goods["unit_id"]])."<br>".
 							"<pre class='hidden-xs' style='width:100%;height:150px;'>".$goods["description"]."</pre>".
