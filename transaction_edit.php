@@ -29,7 +29,10 @@
 			$transaction_id = $inserting["insert_id"];
 			$qty = $_POST["qty"];
 			$unit_id = $db->fetch_single_data("goods","unit_id",["id" => $goods_id]);
-			$price = $db->fetch_single_data("goods","price",["id" => $goods_id]);
+			$goods_price = get_goods_price($goods_id,$qty);
+			$gross = $goods_price["price"];
+			$commission = $goods_price["commission"];
+			$price = $goods_price["display_price"];
 			$weight = $db->fetch_single_data("goods","weight",["id" => $goods_id]);
 			$total = $price * $qty;
 			$notes = $_POST["notes"];
@@ -39,6 +42,8 @@
 			$db->addfield("goods_id");				$db->addvalue($goods_id);
 			$db->addfield("qty");					$db->addvalue($qty);
 			$db->addfield("unit_id");				$db->addvalue($unit_id);
+			$db->addfield("gross");					$db->addvalue($gross);
+			$db->addfield("commission");			$db->addvalue($commission);
 			$db->addfield("price");					$db->addvalue($price);
 			$db->addfield("total");					$db->addvalue($total);
 			$db->addfield("weight");				$db->addvalue($weight);
@@ -97,6 +102,10 @@
 	$transaction_detail = $db->fetch_all_data("transaction_details",[],"transaction_id = '".$_GET["id"]."'")[0];
 	$goods_id = $transaction_detail["goods_id"];
 	$user_address_default = $db->fetch_single_data("user_addresses","id",["user_id" => $__user_id, "default_buyer" => "1"]);
+	
+	$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
+	$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
+	$seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]));
 ?>
 <div style="height:20px;"></div>
 <script>
@@ -150,22 +159,22 @@
 		});
 	}
 </script>
+<div class="container">
+	<h4 class="well"><b><?=v("buy");?></b></h4>
+</div>
 <form role="form" action="?id=<?=$_GET["id"];?>" method="POST" autocomplete="off">	
+	<?=$f->input("save",1,"type='hidden'");?>
 	<?=$f->input("goods_id",$goods_id,"type='hidden'");?>
 	<?=$f->input("shipping_charges",0,"type='hidden'");?>
 	<?=$f->input("sub_total",0,"type='hidden'");?>
 	<div class="container">
-		<div class="row sub-title-area" style="border-bottom: 1px solid #ccc;">
-			<div class="sub-title-text">
-			  <?=v("buy");?>
-			</div>
-		</div>
-		<div style="height:20px;"></div>
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group col-md-12">
 					<label><b><?=v("product_name");?></b></label>
 					<div class="trx-value-text"><?=$db->fetch_single_data("goods","name",["id"=>$goods_id]);?></div>
+					<span class="glyphicon glyphicon-map-marker"></span> <?=$seller_locations[2]["name"];?>, <?=$seller_locations[1]["name"];?>, <?=$seller_locations[0]["name"];?><br>
+					<span class="glyphicon glyphicon-scale"></span> <?=$db->fetch_single_data("goods","weight",["id"=>$goods_id]);?> Grams
 				</div>
 				<div class="form-group col-md-6">
 					<label><b><?=v("qty");?></b></label>
@@ -173,7 +182,7 @@
 				</div>
 				<div class="form-group col-md-6">
 					<label><b><?=v("price");?></b></label>
-					<div id="div_price" class="trx-value-text">Rp. <?=format_amount($db->fetch_single_data("goods","price",["id"=>$goods_id]))?></div>
+					<div id="div_price" class="trx-value-text">Rp. <?=format_amount(get_goods_price($goods_id,$transaction_detail["qty"])["display_price"])?></div>
 				</div>
 			</div>
 			<div class="col-md-6">
@@ -221,8 +230,9 @@
 		<div style="height:20px;"></div>
 		<div class="row">
 			<div class="col-md-12">
-				<?=$f->input("back",v("back"),"type='button' onclick='history.back();'","btn btn-warning");?>
-				<?=$f->input("save",v("save"),"type='submit' style='position:relative;float:right;'","btn btn-primary");?>
+				<?=$f->input("btn_save",v("save"),"type='submit' style='display:none;'","btn btn-primary");?>
+				<button class="btn btn-warning" onclick="history.back();"><span class="glyphicon glyphicon-arrow-left"></span> <?=v("back");?></button>
+				<button style="float:right;" class="btn btn-primary" onclick="save.click();"><span class="glyphicon glyphicon-shopping-cart"></span> <?=v("save");?></button>
 			</div>
 		</div>
 	</div>

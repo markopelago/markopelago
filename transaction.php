@@ -1,6 +1,5 @@
 <?php  include_once "header.php"; ?>
 <?php
-	
 	if($_POST["buy"]){
 		$goods_id = $_POST["goods_id"];
 		
@@ -21,7 +20,10 @@
 			$transaction_id = $inserting["insert_id"];
 			$qty = $_POST["qty"];
 			$unit_id = $db->fetch_single_data("goods","unit_id",["id" => $goods_id]);
-			$price = $db->fetch_single_data("goods","price",["id" => $goods_id]);
+			$goods_price = get_goods_price($goods_id,$qty);
+			$gross = $goods_price["price"];
+			$commission = $goods_price["commission"];
+			$price = $goods_price["display_price"];
 			$weight = $db->fetch_single_data("goods","weight",["id" => $goods_id]);
 			$total = $price * $qty;
 			$notes = $_POST["notes"];
@@ -31,6 +33,8 @@
 			$db->addfield("goods_id");				$db->addvalue($goods_id);
 			$db->addfield("qty");					$db->addvalue($qty);
 			$db->addfield("unit_id");				$db->addvalue($unit_id);
+			$db->addfield("gross");					$db->addvalue($gross);
+			$db->addfield("commission");			$db->addvalue($commission);
 			$db->addfield("price");					$db->addvalue($price);
 			$db->addfield("total");					$db->addvalue($total);
 			$db->addfield("weight");				$db->addvalue($weight);
@@ -148,6 +152,7 @@
 	<h4 class="well"><b><?=v("buy");?></b></h4>
 </div>
 <form role="form" method="POST" autocomplete="off">	
+	<?=$f->input("buy",1,"type='hidden'");?>
 	<?=$f->input("goods_id",$_GET["id"],"type='hidden'");?>
 	<?=$f->input("shipping_charges",0,"type='hidden'");?>
 	<?=$f->input("sub_total",0,"type='hidden'");?>
@@ -157,7 +162,8 @@
 				<div class="form-group col-md-12">
 					<label><b><?=v("product_name");?></b></label>
 					<div class="trx-value-text"><?=$db->fetch_single_data("goods","name",["id"=>$_GET["id"]]);?></div>
-					<span class="glyphicon glyphicon-map-marker"></span> <?=$seller_locations[2]["name"];?>, <?=$seller_locations[1]["name"];?>, <?=$seller_locations[0]["name"];?>
+					<span class="glyphicon glyphicon-map-marker"></span> <?=$seller_locations[2]["name"];?>, <?=$seller_locations[1]["name"];?>, <?=$seller_locations[0]["name"];?><br>
+					<span class="glyphicon glyphicon-scale"></span> <?=$db->fetch_single_data("goods","weight",["id"=>$_GET["id"]]);?> Grams
 				</div>
 				<div class="form-group col-md-6">
 					<label><b><?=v("qty");?></b></label>
@@ -165,7 +171,7 @@
 				</div>
 				<div class="form-group col-md-6">
 					<label><b><?=v("price");?></b></label>
-					<div id="div_price" class="trx-value-text">Rp. <?=format_amount($db->fetch_single_data("goods","price",["id"=>$_GET["id"]]))?></div>
+					<div id="div_price" class="trx-value-text">Rp. <?=format_amount(get_goods_price($_GET["id"])["display_price"])?></div>
 				</div>
 			</div>
 			<div class="col-md-6">
@@ -219,11 +225,12 @@
 		<div style="height:20px;"></div>
 		<div class="row">
 			<div class="col-md-12">
-				<?=$f->input("back",v("back"),"type='button' onclick='history.back();'","btn btn-warning");?>
-				<?=$f->input("buy",v("buy"),"type='submit' style='position:relative;float:right;'","btn btn-primary");?>
+				<?=$f->input("btn_buy",v("buy"),"type='submit' style='display:none;'","btn btn-primary");?>
+				<button class="btn btn-warning" onclick="history.back();"><span class="glyphicon glyphicon-arrow-left"></span> <?=v("back");?></button>
+				<button style="float:right;" class="btn btn-primary" onclick="btn_buy.click();"><span class="glyphicon glyphicon-shopping-cart"></span> <?=v("buy");?></button>
 			</div>
 		</div>
 	</div>
-</div>
+</form>
 <div style="height:20px;"></div>
 <?php include_once "footer.php"; ?>

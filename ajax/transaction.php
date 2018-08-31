@@ -65,9 +65,10 @@
 				break;
 			}
 		}
-		$price = $db->fetch_single_data("goods","price",["id" => $goods_id]) * $qty;
-		$total = $price + $shippingcharges;
-		echo "Rp. ".format_amount($price)."|||Rp. ".format_amount($shippingcharges)."|||Rp. ".format_amount($total)."|||".$shippingcharges."|||".$total;
+		$price = get_goods_price($goods_id,$qty)["display_price"];
+		$subtotal = $price * $qty;
+		$total = $subtotal + $shippingcharges;
+		echo " x Rp. ".format_amount($price)." = Rp. ".format_amount($subtotal)."|||Rp. ".format_amount($shippingcharges)."|||Rp. ".format_amount($total)."|||".$shippingcharges."|||".$total;
 	}
 	
 	if($mode == "loadBankAccounts"){
@@ -75,5 +76,11 @@
 		$bank_account = $db->fetch_all_data("bank_accounts",[],"id = '".$bank_account_id."'")[0];
 		$bank_name = $db->fetch_single_data("banks","name",["id" => $bank_account["bank_id"]]);
 		echo $bank_name."<br>No Rekening: ".$bank_account["account_no"]."<br>a/n: ".$bank_account["account_name"];
+	}
+	
+	if($mode == "loadUserBank"){
+		$user_bank_id = $_GET["user_bank_id"];
+		$user_bank = $db->fetch_all_data("user_banks",[],"id = '".$user_bank_id."'")[0];
+		echo $user_bank["bank_id"]."|||".$user_bank["name"]."|||".$user_bank["account_no"]."|||";
 	}
 ?>

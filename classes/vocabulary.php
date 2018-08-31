@@ -259,6 +259,7 @@ class Vocabulary{
 		$arr[$l]["payment_confirmation_success"]				= "Payment Confirmation sent";
 		$arr[$l]["payment"]										= "Payment";
 		$arr[$l]["choose_the_destination_bank"]					= "Choose the destination bank";
+		$arr[$l]["the_destination_bank"]						= "The destination bank";
 		$arr[$l]["please_add_your_store_address"]				= "Please add Your store`s address";
 		$arr[$l]["to"]											= "to";
 		$arr[$l]["other_goods_from_seller"]						= "Otehr goods from seller";
@@ -508,6 +509,7 @@ class Vocabulary{
 		$arr[$l]["payment_confirmation_success"]				= "Konfirmasi pembayaran telah terkirim";
 		$arr[$l]["payment"]										= "Pembayaran";
 		$arr[$l]["choose_the_destination_bank"]					= "Pilih bank tujuan";
+		$arr[$l]["the_destination_bank"]						= "Bank tujuan";
 		$arr[$l]["please_add_your_store_address"]				= "Silakan tambahkan alamat toko Anda";
 		$arr[$l]["to"]											= "s/d";
 		$arr[$l]["other_goods_from_seller"]						= "Produk lainnya dari penjual";

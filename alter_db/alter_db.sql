@@ -15,7 +15,8 @@ CREATE TABLE goods_prices(
 	PRIMARY KEY (id),
 	KEY project_ids (goods_id)
 );
-
+ALTER TABLE `transaction_details` ADD `gross` DOUBLE NOT NULL AFTER `unit_id`, ADD `commission` DOUBLE NOT NULL AFTER `gross`;
+ALTER TABLE `transaction_payments` ADD `user_bank_id` INT NOT NULL AFTER `bank_account_id`, ADD INDEX (`user_bank_id`);
 	
 
 
