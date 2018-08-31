@@ -66,21 +66,21 @@
 			<?php } ?>
 			<div id="panel_purchase_list" class="panel panel-default">
 				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#purchase_list" onclick="changeState('purchase_list');">
-					<h3 class="panel-title"><b><?=v("purchase_list");?></b></h3>
+					<h3 class="panel-title"><b><?=v("purchase_list");?></b><span class="notification-counter" style="visibility:hidden;" id="notifPurchaseListTabCount"></span></h3>
 				</div>
 				<div id="purchase_list" class="panel-collapse collapse <?=($_GET["tabActive"] == "purchase_list")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_purchase_list.php";?></div></div>
 			</div><br>
 			<?php if($__seller_id > 0 || $__forwarder_id > 0){ ?>
 			<div id="panel_store_sales_list" class="panel panel-default">
 				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#store_sales_list" onclick="changeState('store_sales_list');">
-					<h3 class="panel-title"><b><?=v("store_sales_list");?></b></h3>
+					<h3 class="panel-title"><b><?=v("store_sales_list");?></b><span class="notification-counter" style="visibility:hidden;" id="notifStoreSalesListTabCount"></span></h3>
 				</div>
 				<div id="store_sales_list" class="panel-collapse collapse <?=($_GET["tabActive"] == "store_sales_list")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_store_sales_list.php";?></div></div>
 			</div><br>
 			<?php } ?>
 			<div id="panel_message" class="panel panel-default">
 				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#message" onclick="changeState('message');loadMessages();">
-					<h3 class="panel-title"><b><?=v("message");?></b></h3>
+					<h3 class="panel-title"><b><?=v("message");?></b><span class="notification-counter" style="visibility:hidden;" id="notifMessageTabCount"></span></h3>
 				</div>
 				<div id="message" class="panel-collapse collapse <?=($_GET["tabActive"] == "message")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_messages.php";?></div></div>
 			</div><br>

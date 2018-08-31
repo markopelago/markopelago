@@ -636,12 +636,13 @@ footer {
 }
 
 .notification-counter {
-	background: #5bc0de;
+	background: #800000;
 	position: absolute;
 	display: block;
 	padding: 2px 5px 1px;
 	height: 17px;
 	color: #fff;
+	font-weight:bolder;
 	text-align: center;
 	line-height: 15px;
 	font-size: 10px;
