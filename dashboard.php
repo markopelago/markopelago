@@ -25,14 +25,14 @@
 		<div class="panel-group" id="dashboard">
 			<div id="panel_profile" class="panel panel-default">
 				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#profile" onclick="changeState('profile');">
-					<h3 class="panel-title"><b>Profile</b></h3>
+					<h3 class="panel-title"><span class="glyphicon glyphicon-user"></span> <b>Profile</b></h3>
 				</div>
 				<?php $is_collapse = ($_GET["tabActive"] == "profile" || $_GET["tabActive"] == "")?"in":"";?>
 				<div id="profile" class="panel-collapse collapse <?=$is_collapse;?>"><div class="panel-body"><?php include_once "dashboard_profiles.php";?></div></div>
 			</div><br>
 			<div id="panel_seller" class="panel panel-default">
 				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#seller" onclick="changeState('seller');">
-					<h3 class="panel-title"><b><?=v("profile_my_store");?></b></h3>
+					<h3 class="panel-title"><span class="glyphicon glyphicon-home"></span> <b><?=v("profile_my_store");?></b></h3>
 				</div>
 				<div id="seller" class="panel-collapse collapse <?=($_GET["tabActive"] == "seller")?"in":"";?>"><div class="panel-body">
 					<?php $__seller["header_image"] = ($__seller["header_image"] == "")?"no_header.jpg":$__seller["header_image"]; ?>
@@ -46,41 +46,41 @@
 			</div><br>
 			<div id="panel_addresses" class="panel panel-default">
 				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#addresses" onclick="changeState('addresses');">
-					<h3 class="panel-title"><b><?=v("addresses");?></b></h3>
+					<h3 class="panel-title"><span class="glyphicon glyphicon-map-marker"></span> <b><?=v("addresses");?></b></h3>
 				</div>
 				<div id="addresses" class="panel-collapse collapse <?=($_GET["tabActive"] == "addresses")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_addresses.php";?></div></div>
 			</div><br>
 			<div id="panel_banks" class="panel panel-default">
 				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#banks" onclick="changeState('banks');">
-					<h3 class="panel-title"><b><?=v("banks");?></b></h3>
+					<h3 class="panel-title"><span class="glyphicon glyphicon-piggy-bank"></span> <b><?=v("banks");?></b></h3>
 				</div>
 				<div id="banks" class="panel-collapse collapse <?=($_GET["tabActive"] == "banks")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_banks.php";?></div></div>
 			</div><br>
 			<?php if($__seller_id > 0){ ?>
 			<div id="panel_goods" class="panel panel-default">
 				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#goods" onclick="changeState('goods');">
-					<h3 class="panel-title"><b><?=v("my_goods");?></b></h3>
+					<h3 class="panel-title"><span class="glyphicon glyphicon-barcode"></span> <b><?=v("my_goods");?></b></h3>
 				</div>
 				<div id="goods" class="panel-collapse collapse <?=($_GET["tabActive"] == "goods")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_goods.php";?></div></div>
 			</div><br>
 			<?php } ?>
 			<div id="panel_purchase_list" class="panel panel-default">
 				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#purchase_list" onclick="changeState('purchase_list');">
-					<h3 class="panel-title"><b><?=v("purchase_list");?></b><span class="notification-counter" style="visibility:hidden;" id="notifPurchaseListTabCount"></span></h3>
+					<h3 class="panel-title"><span class="glyphicon glyphicon-shopping-cart"></span> <b><?=v("purchase_list");?></b><span class="notification-counter" style="visibility:hidden;" id="notifPurchaseListTabCount"></span></h3>
 				</div>
 				<div id="purchase_list" class="panel-collapse collapse <?=($_GET["tabActive"] == "purchase_list")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_purchase_list.php";?></div></div>
 			</div><br>
 			<?php if($__seller_id > 0 || $__forwarder_id > 0){ ?>
 			<div id="panel_store_sales_list" class="panel panel-default">
 				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#store_sales_list" onclick="changeState('store_sales_list');">
-					<h3 class="panel-title"><b><?=v("store_sales_list");?></b><span class="notification-counter" style="visibility:hidden;" id="notifStoreSalesListTabCount"></span></h3>
+					<h3 class="panel-title"><span class="glyphicon glyphicon-list-alt"></span> <b><?=v("store_sales_list");?></b><span class="notification-counter" style="visibility:hidden;" id="notifStoreSalesListTabCount"></span></h3>
 				</div>
 				<div id="store_sales_list" class="panel-collapse collapse <?=($_GET["tabActive"] == "store_sales_list")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_store_sales_list.php";?></div></div>
 			</div><br>
 			<?php } ?>
 			<div id="panel_message" class="panel panel-default">
 				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#message" onclick="changeState('message');loadMessages();">
-					<h3 class="panel-title"><b><?=v("message");?></b><span class="notification-counter" style="visibility:hidden;" id="notifMessageTabCount"></span></h3>
+					<h3 class="panel-title"><span class="glyphicon glyphicon-envelope"></span> <b><?=v("message");?></b><span class="notification-counter" style="visibility:hidden;" id="notifMessageTabCount"></span></h3>
 				</div>
 				<div id="message" class="panel-collapse collapse <?=($_GET["tabActive"] == "message")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_messages.php";?></div></div>
 			</div><br>

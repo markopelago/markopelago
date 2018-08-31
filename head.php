@@ -100,29 +100,29 @@
 	if($userImage == "") $userImage = $db->fetch_single_data("sellers","logo",["user_id"=>$__user_id]);
 	if($userImage == "") $userImage = "nophoto.png";
 				
-	$mainMenu_lg .= "<li><a href=\"dashboard.php\">".v("my_dashboard")."<span class='notification-counter' style='visibility:hidden;' id='notifMyDashboardCount'></span></a></li>";
-	$mainMenu_lg .= "<li><a href=\"dashboard.php?tabActive=message\">".v("message")."</a><span class='notification-counter' style='visibility:hidden;' id='notifMessageTabCount1'></span></li>";
-	if($__isBackofficer)$mainMenu_lg .= "<li><a href=\"mysurvey.php\">".v("survey")."</a></li>";
-	$mainMenu_lg .= "<li><a href=\"change_password.php\">".v("change_password")."</a></li>";
+	$mainMenu_lg .= "<li><a href=\"dashboard.php\"><span class='glyphicon glyphicon-th-large'></span> ".v("my_dashboard")."<span class='notification-counter' style='visibility:hidden;' id='notifMyDashboardCount'></span></a></li>";
+	$mainMenu_lg .= "<li><a href=\"dashboard.php?tabActive=message\"><span class='glyphicon glyphicon-envelope'></span> ".v("message")."</a><span class='notification-counter' style='visibility:hidden;' id='notifMessageTabCount1'></span></li>";
+	if($__isBackofficer)$mainMenu_lg .= "<li><a href=\"mysurvey.php\"><span class='glyphicon glyphicon-th-list'></span> ".v("survey")."</a></li>";
+	$mainMenu_lg .= "<li><a href=\"change_password.php\"><span class='glyphicon glyphicon-lock'></span> ".v("change_password")."</a></li>";
 	$mainMenu_lg .= "<li class=\"sr-only\"><a href=\"index.php?locale=".$__anti_locale."\"><img class=\"localeFlag\" height=\"20\" src=\"icons/".$__anti_locale.".png\"></a></li>";
-	$mainMenu_lg .= "<li><a href=\"?logout_action=1\">Logout</a></li>";
+	$mainMenu_lg .= "<li><a href=\"?logout_action=1\"><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>";
 				
-	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=profile\">Profile</a></li>";
-	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard_avatar.php\">".v("change_avatar")."</a></li>";
+	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=profile\"><span class='glyphicon glyphicon-user'></span> Profile</a></li>";
+	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard_avatar.php\"><span class='glyphicon glyphicon-picture'></span> ".v("change_avatar")."</a></li>";
 	if($__seller_id > 0){
-		$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=seller\">".v("profile_my_store")."</a></li>";
-		$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard_seller_header.php\">".v("change_header")."</a></li>";
+		$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=seller\"><span class='glyphicon glyphicon-home'></span> ".v("profile_my_store")."</a></li>";
+		$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard_seller_header.php\"><span class='glyphicon glyphicon-object-align-top'></span> ".v("change_header")."</a></li>";
 	}
-	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=addresses\">".v("addresses")."</a></li>";
-	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=banks\">".v("banks")."</a></li>";
-	if($__seller_id > 0) $mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=goods\">".v("my_goods")."</a></li>";
-	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=purchase_list\">".v("purchase_list")."<span class='notification-counter' style='visibility:hidden;' id='notifPurchaseListTabCount1'></span></a></li>";
-	if($__seller_id > 0|| $__forwarder_id > 0)  $mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=store_sales_list\">".v("store_sales_list")."<span class='notification-counter' style='visibility:hidden;' id='notifStoreSalesListTabCount1'></span></a></li>";
-	$mainMenu_xs .= "<li><a href=\"dashboard.php?tabActive=message\">".v("message")."<span class='notification-counter' style='visibility:hidden;' id='notifMessageTabCount1'></span></a></li>";
-	if($__isBackofficer)$mainMenu_xs .= "<li><a href=\"mysurvey.php\">".v("survey")."</a></li>";
-	$mainMenu_xs .= "<li><a href=\"change_password.php\">".v("change_password")."</a></li>";
+	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=addresses\"><span class='glyphicon glyphicon-map-marker'></span> ".v("addresses")."</a></li>";
+	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=banks\"><span class='glyphicon glyphicon-piggy-bank'></span> ".v("banks")."</a></li>";
+	if($__seller_id > 0) $mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=goods\"><span class='glyphicon glyphicon-barcode'></span> ".v("my_goods")."</a></li>";
+	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=purchase_list\"><span class='glyphicon glyphicon-shopping-cart'></span> ".v("purchase_list")."<span class='notification-counter' style='visibility:hidden;' id='notifPurchaseListTabCount1'></span></a></li>";
+	if($__seller_id > 0|| $__forwarder_id > 0)  $mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=store_sales_list\"><span class='glyphicon glyphicon-list-alt'></span> ".v("store_sales_list")."<span class='notification-counter' style='visibility:hidden;' id='notifStoreSalesListTabCount1'></span></a></li>";
+	$mainMenu_xs .= "<li><a href=\"dashboard.php?tabActive=message\"><span class='glyphicon glyphicon-envelope'></span> ".v("message")."<span class='notification-counter' style='visibility:hidden;' id='notifMessageTabCount1'></span></a></li>";
+	if($__isBackofficer)$mainMenu_xs .= "<li><a href=\"mysurvey.php\"><span class='glyphicon glyphicon-th-list'></span> ".v("survey")."</a></li>";
+	$mainMenu_xs .= "<li><a href=\"change_password.php\"><span class='glyphicon glyphicon-lock'></span> ".v("change_password")."</a></li>";
 	$mainMenu_xs .= "<li class=\"sr-only\"><a href=\"index.php?locale=".$__anti_locale."\"><img class=\"localeFlag\" height=\"20\" src=\"icons/".$__anti_locale.".png\"></a></li>";
-	$mainMenu_xs .= "<li><a href=\"?logout_action=1\">Logout</a></li>";
+	$mainMenu_xs .= "<li><a href=\"?logout_action=1\"><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>";
 ?>
 <body style="margin:0px;">
 	<div id="mySidenav" class="navbar-default sidenav">
