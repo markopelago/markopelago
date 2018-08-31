@@ -1,6 +1,3 @@
-ALTER TABLE `transactions` ADD `seller_paid` SMALLINT NOT NULL AFTER `status`, ADD `seller_paid_at` DATETIME NOT NULL AFTER `seller_paid`, ADD `seller_paid_by` VARCHAR(100) NOT NULL AFTER `seller_paid_at`, ADD INDEX (`seller_paid`);
-
-
 rfo
 	id
 	user_id
