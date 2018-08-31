@@ -41,14 +41,16 @@
 					$img_goods_photo = "<img src='goods/".$filename."' style=\"width:200px;\">";
 				}
 				?>
-					<div class="row well">
-						<?="<center><b>".$goods["name"]."</b> (".(($goods["is_new"] == 1)?v("new"):v("second_hand")).")<br><br>".
+					<div class="row">
+						<div class="well col-md-11">
+							<?="<center><b>".$goods["name"]."</b> (".(($goods["is_new"] == 1)?v("new"):v("second_hand")).")<br><br>".
 							"".$img_goods_photo."</center><br>".
 							"<b>Rp. ".format_amount($goods["price"])."</b><br>".
 							$categories."<br>".
 							v("stock")." : ".$stock." ".$db->fetch_single_data("units","name_".$__locale,["id" => $goods["unit_id"]])."<br>".
 							"<pre class='hidden-xs' style='width:100%;height:150px;'>".$goods["description"]."</pre>".
-							"<span style='width:100%;' title='".v("view")."' class='glyphicon glyphicon-search btn btn-primary' onclick=\"window.location='goods_view.php?id=".$goods["id"]."'\"></span>";?>
+							"<button style='width:100%;' title='".v("view_detail")."' class='btn btn-primary' onclick=\"window.location='goods_view.php?id=".$goods["id"]."'\"><span class='glyphicon glyphicon-search'></span> ".v("view_detail")."</button>";?>
+						</div>
 					</div>
 				<?php
 			}

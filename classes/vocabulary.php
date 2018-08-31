@@ -86,6 +86,7 @@ class Vocabulary{
 		$arr[$l]["add"]											= "Add";
 		$arr[$l]["edit"]										= "Edit";
 		$arr[$l]["view"]										= "View";
+		$arr[$l]["view_detail"]									= "View Detail";
 		$arr[$l]["delete"]										= "Delete";
 		$arr[$l]["data_not_found"]								= "Data not found";
 		$arr[$l]["no_photo_found"]								= "No photo found";
@@ -328,6 +329,7 @@ class Vocabulary{
 		$arr[$l]["add"]											= "Tambah";
 		$arr[$l]["edit"]										= "Ubah";
 		$arr[$l]["view"]										= "Lihat";
+		$arr[$l]["view_detail"]									= "Lihat Detail";
 		$arr[$l]["delete"]										= "Hapus";
 		$arr[$l]["data_not_found"]								= "Data tidak ditemukan";
 		$arr[$l]["no_photo_found"]								= "Foto tidak ditemukan";
