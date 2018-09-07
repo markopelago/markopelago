@@ -10,13 +10,13 @@
 					</div>
 					<div class="col-sm-4 footer-contact">
 						<h4><?=v("contact");?></h4>
-						<p><i class="fa fa-map-marker"></i> Jl. Diklat Pemda, No. 24, Dukuh Pinang, Kel. Bojong Nangka Kec. Kelapa Dua, Tangearang Banten 15810</p>
-						<p><i class="fa fa-phone"></i> Phone: +62 21 54210226</p>
-						<p><i class="fa fa-envelope"></i> Email: <a href="mailto:cs@markopelago.com">cs@markopelago.com</a></p>
-						<p><i class="fa fa-instagram"></i> IG: markopelago</p>
-						<p><i class="fa fa-facebook"></i> Facebook: markopelago indonesia</p>
-						<p><i class="fa fa-youtube"></i> Youtube: markopelago indonesia</p>
-						<p><i class="fa fa-twitter"></i> Twitter: @markopelago</p>
+						<p><image src="icons\iconpin.png"></i> PT. Markopelago Indonesia Persada</p>
+						
+						<p><image src="icons\iconemail.png"></i> Email: <a href="mailto:cs@markopelago.com">cs@markopelago.com</a></p>
+						<p><image src="icons\iconig.png"></i> <a href="https://www.instagram.com/markopelago/">IG: markopelago</a></p>
+						<p><image src="icons\iconfb.png"></i> <a href="https://www.facebook.com/marko.pelago.73">Facebook: markopelago indonesia</a></p>
+						<p><image src="icons\iconyt.png"></i> <a href="https://www.youtube.com/channel/UCZM1TAGwxOoR27mbxhJMQwQ">Youtube: markopelago indonesia</p>
+						<p><image src="icons\icontwitter.png"></i> <a href="https://twitter.com/markopelago">Twitter: @markopelago</a></p>
 					</div>
 					<div class="col-sm-4 footer-links">
 						<div class="row">
