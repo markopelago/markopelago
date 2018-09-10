@@ -43,6 +43,7 @@ class Vocabulary{
 		$arr[$l]["birth_place"]									= "Birth Place";
 		$arr[$l]["email_address"]								= "E-mail Address";
 		$arr[$l]["password"]									= "Password";
+		$arr[$l]["forgot password"]								= "Forgot Password";
 		$arr[$l]["oldpassword"]									= "Old Password";
 		$arr[$l]["newpassword"]									= "New Password";
 		$arr[$l]["repassword"]									= "Retype Password";
@@ -293,6 +294,7 @@ class Vocabulary{
 		$arr[$l]["birth_place"]									= "Tempat Lahir";
 		$arr[$l]["email_address"]								= "Alamat Email";
 		$arr[$l]["password"]									= "Kata Sandi";
+		$arr[$l]["forgot password"]								= "Lupa Kata Sandi";
 		$arr[$l]["oldpassword"]									= "Password Lama";
 		$arr[$l]["newpassword"]									= "Password Baru";
 		$arr[$l]["repassword"]									= "Ketik Ulang Kata Sandi";

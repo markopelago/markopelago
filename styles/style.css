@@ -1419,6 +1419,9 @@ textarea{
 	.goods-thumbnail .caption {
 		padding-top:2px;
 		height: 25px;
+		white-space: nowrap; 
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 	.goods-thumbnail2{
 		height:220px !important;
@@ -1460,6 +1463,9 @@ textarea{
 	.categories-thumbnail .caption {
 		padding-top:2px;
 		height: 25px;
+		white-space: nowrap; 
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 	
 	.categories .img-thumbnail {
