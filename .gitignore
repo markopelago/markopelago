@@ -1,5 +1,5 @@
-goods/*.*
-goods_temp/*.*
-users_images/*.*
-users_temp/*.*
-surveys/*.*
+goods/
+goods_temp/
+users_images/
+users_temp/
+surveys/
