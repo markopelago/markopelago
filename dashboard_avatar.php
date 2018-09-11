@@ -99,13 +99,12 @@
 				  <a href="#" id="rotate_right" title="Rotate right"><i class="fa fa-rotate-right"></i></a>
 				</div>
 			</div>
-			
-			<div class="form-group">
-				<?=$f->input("btn_save",v("save"),"type='submit' style='display:none;'","btn btn-primary");?>
-				<button class="btn btn-warning" onclick="javascript:window.history.back();"><span class="glyphicon glyphicon-arrow-left"></span> <?=v("back");?></button>
-				<button style="float:right;" class="btn btn-primary" onclick="btn_save.click();"><?=v("save");?> <span class="glyphicon glyphicon-arrow-right"></span></button>
-			</div>
-		</form>
+			<?=$f->input("btn_save",v("save"),"type='submit' style='display:none;'","btn btn-primary");?>
+		</form>			
+		<div class="form-group">
+			<button class="btn btn-warning" onclick="window.history.back();"><span class="glyphicon glyphicon-arrow-left"></span> <?=v("back");?></button>
+			<button style="float:right;" class="btn btn-primary" onclick="btn_save.click();"><?=v("save");?> <span class="glyphicon glyphicon-arrow-right"></span></button>
+		</div>
 	</div>
 </div>
 <?php include_once "footer.php";
