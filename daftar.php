@@ -97,22 +97,6 @@ include_once "header.php";
 		<div class="form-group">
 			<label><?=v("gender");?></label><?=$f->select("gender_id",$db->fetch_select_data("genders","id","name_".$__locale,"","","",true),$data["gender_id"],"required ","form-control");?>
 		</div>
-		
-		<div class="form-group">
-			<?=$f->input("is_taxable","1","type='checkbox' onclick='is_taxable_change(this.checked);'","form-control");?> <?=v("is_taxable");?>
-		</div>
-		<div id="is_taxable_area" style="display:none">
-			<div class="form-group">
-				<label><?=v("npwp");?></label><?=$f->input("npwp",$data["npwp"],"placeholder='".v("npwp")."...'","form-control");?>
-			</div>
-			<div class="form-group">
-				<label><?=v("nppkp");?></label><?=$f->input("nppkp",$data["nppkp"],"placeholder='".v("nppkp")."...'","form-control");?>
-			</div>
-			<div class="form-group">
-				<label><?=v("npwp_address");?></label><?=$f->textarea("npwp_address",$data["npwp_address"],"placeholder='".v("npwp_address")."...'","form-control");?>
-			</div>
-		</div>
-		
 		<div class="form-group">
 			<?=$f->input("terms_and_conditions_agreed","1","type='checkbox' required","form-control");?> <?=v("terms_and_conditions_agreed");?>
 		</div>
