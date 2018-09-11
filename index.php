@@ -134,5 +134,5 @@
 	</div>
 </div>
 <div style="height:20px;"></div>
-<?php include_once "categories_footer.php"; ?>
+<?php //include_once "categories_footer.php"; ?>
 <?php include_once "footer.php"; ?>
