@@ -1,7 +1,8 @@
 <?php
 function login_action($username,$password){
-	global $_SERVER,$_SESSION,$db,$_POST,$v;
-	$users = $db->fetch_all_data("a_users",[],"email='".$username."'")[0];
+	global $_SERVER,$_SESSION,$db;
+	// $users = $db->fetch_all_data("a_users",[],"email='".$username."'")[0];
+	$users = $db->fetch_all_data("a_users",["id","group_id","name","password"],"email='".$username."'")[0];
 	if($users["id"] > 0){
 		if($users["password"] == base64_encode($password)){
 			$_SESSION["errormessage"] = "";
@@ -11,14 +12,14 @@ function login_action($username,$password){
 			$_SESSION["group_id"] = $users["group_id"];
 			$_SESSION["fullname"] = $users["name"];
 			
-			$db->addtable("a_users"); 
-			$db->where("id",$users["id"]);
-			$db->addfield("sign_in_count");$db->addvalue($users["sign_in_count"] + 1);
-			$db->addfield("current_sign_in_at");$db->addvalue(date("Y-m-d H:i:s"));
-			$db->addfield("last_sign_in_at");$db->addvalue($users["current_sign_in_at"]);
-			$db->addfield("current_sign_in_ip");$db->addvalue($_SERVER["REMOTE_ADDR"]);
-			$db->addfield("last_sign_in_ip");$db->addvalue($users["current_sign_in_ip"]);
-			$db->update(); 
+			// $db->addtable("a_users"); 
+			// $db->where("id",$users["id"]);
+			// $db->addfield("sign_in_count");$db->addvalue($users["sign_in_count"] + 1);
+			// $db->addfield("current_sign_in_at");$db->addvalue(date("Y-m-d H:i:s"));
+			// $db->addfield("last_sign_in_at");$db->addvalue($users["current_sign_in_at"]);
+			// $db->addfield("current_sign_in_ip");$db->addvalue($_SERVER["REMOTE_ADDR"]);
+			// $db->addfield("last_sign_in_ip");$db->addvalue($users["current_sign_in_ip"]);
+			// $db->update(); 
 			
 			$db->addtable("a_log_histories"); 
 			$db->addfield("user_id");$db->addvalue($users["id"]);
