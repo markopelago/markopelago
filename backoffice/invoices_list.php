@@ -1,4 +1,15 @@
-<?php include_once "head.php";?>
+<?php 
+	if($_GET["export"]){
+		$_exportname = "Inbound.xls";
+		header("Content-type: application/x-msdownload");
+		header("Content-Disposition: attachment; filename=".$_exportname);
+		header("Pragma: no-cache");
+		header("Expires: 0");
+		$_GET["do_filter"]="Load";
+		$_isexport = true;
+	}
+	include_once "head.php";
+?>
 <?php
 	if($_GET["changeStatus"]  == 3){
 		$cart_group = $_GET["cart_group"];
@@ -34,12 +45,50 @@
 		}
 	}
 </script>
-<div class="bo_title">INBOUND</div>
+<?php if(!$_isexport){ ?>
+	<div class="bo_title">INBOUND</div>
+	<div id="bo_expand" onclick="toogle_bo_filter();">[+] View Filter</div>
+	<div id="bo_filter">
+		<div id="bo_filter_container">
+			<?=$f->start("filter","GET");?>
+				<?=$t->start();?>
+				<?php
+					$txt_buyer = $f->input("txt_buyer",@$_GET["txt_buyer"]);
+					$sel_status = $f->select("sel_status",["" => "","2" => "Tunggu verifikasi pembayaran","3" => "Pembayaran terverifikasi"],@$_GET["sel_status"],"style='height:20px;'");
+					$txt_transaction_at = $f->input("txt_transaction_at1",$_GET["txt_transaction_at1"],"type='date' style='width:150px;'")." to ";
+					$txt_transaction_at .= $f->input("txt_transaction_at2",$_GET["txt_transaction_at2"],"type='date' style='width:150px;'");
+				?>
+				<?=$t->row(array("Buyer",$txt_buyer));?>
+				<?=$t->row(array("Status",$sel_status));?>
+				<?=$t->row(array("Transaction At",$txt_transaction_at));?>
+				<?=$t->end();?>
+				<?=$f->input("page","1","type='hidden'");?>
+				<?=$f->input("sort",@$_GET["sort"],"type='hidden'");?>
+				<?=$f->input("do_filter","Load","type='submit' style='width:180px;'");?>
+				<?=$f->input("export","Export to Excel","type='submit' style='width:180px;'");?>
+				<?=$f->input("reset","Reset","type='button' onclick=\"window.location='?';\" style='width:180px;'");?>
+			<?=$f->end();?>
+		</div>
+	</div>
+<?php } else { ?>
+	<h2><b>INBOUND</b></h2>
+<?php } ?>
 
 <?php
-	$carts = $db->fetch_all_data("transactions",[],"status >= 2 GROUP BY cart_group");
+	$whereclause = "";
+	if(@$_GET["txt_buyer"]!="") $whereclause .= "buyer_user_id IN (SELECT id FROM a_users WHERE email LIKE '%".$_GET["txt_buyer"]."%' OR name LIKE '%".$_GET["txt_buyer"]."%') AND ";
+	if(@$_GET["sel_status"]!=""){
+		if($_GET["sel_status"]=="2") $whereclause .= "status = 2 AND ";
+		if($_GET["sel_status"]=="3") $whereclause .= "status >= 3 AND ";
+	}
+	if(@$_GET["txt_transaction_at1"]!="") $whereclause .= "date(transaction_at) >= '".$_GET["txt_transaction_at1"]."' AND ";
+	if(@$_GET["txt_transaction_at2"]!="") $whereclause .= "date(transaction_at) <= '".$_GET["txt_transaction_at2"]."' AND ";
+	$whereclause .= "status >= 2 GROUP BY cart_group";
+	if(@$_GET["sort"] != "") $order = $_GET["sort"]; else $order = "";
+	$carts = $db->fetch_all_data("transactions",[],$whereclause,$order,"100000");
 ?>
-	<?=$t->start("","data_content");?>
+	<?php if($_isexport){ $_tableattr = "border='1'"; }?>
+	<?=$t->start($_tableattr,"data_content");?>
 	<?=$t->header(["No",
 					"Invoice No",
 					"PO No",

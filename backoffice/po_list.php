@@ -1,4 +1,15 @@
-<?php include_once "head.php";?>
+<?php 
+	if($_GET["export"]){
+		$_exportname = "Outbound.xls";
+		header("Content-type: application/x-msdownload");
+		header("Content-Disposition: attachment; filename=".$_exportname);
+		header("Pragma: no-cache");
+		header("Expires: 0");
+		$_GET["do_filter"]="Load";
+		$_isexport = true;
+	}
+	include_once "head.php";
+?>
 <?php 
 	if($_GET["seller_paid"] == "1"){
 		$db->addtable("transactions");  
@@ -15,7 +26,6 @@
 			$_SESSION["errormessage"] = "Status gagal diubah";
 		}
 	}
-	$carts = $db->fetch_all_data("transactions",[],"status >= 3 GROUP BY po_no"); 
 ?>
 
 <script>
@@ -25,8 +35,54 @@
 		}
 	}
 </script>
-<div class="bo_title">OUTBOUND</div>
-	<?=$t->start("","data_content");?>
+<?php if(!$_isexport){ ?>
+	<div class="bo_title">OUTBOUND</div>
+	<div id="bo_expand" onclick="toogle_bo_filter();">[+] View Filter</div>
+	<div id="bo_filter">
+		<div id="bo_filter_container">
+			<?=$f->start("filter","GET");?>
+				<?=$t->start();?>
+				<?php
+					$txt_seller = $f->input("txt_seller",@$_GET["txt_seller"]);
+					$txt_buyer = $f->input("txt_buyer",@$_GET["txt_buyer"]);
+					$sel_status = $f->select("sel_status",["" => "","1" => "Transaction not yet done","2" => "Unpaid", "3" => "Paid"],@$_GET["sel_status"],"style='height:20px;'");
+					$txt_transaction_at = $f->input("txt_transaction_at1",$_GET["txt_transaction_at1"],"type='date' style='width:150px;'")." to ";
+					$txt_transaction_at .= $f->input("txt_transaction_at2",$_GET["txt_transaction_at2"],"type='date' style='width:150px;'");
+				?>
+				<?=$t->row(array("Seller",$txt_seller));?>
+				<?=$t->row(array("Buyer",$txt_buyer));?>
+				<?=$t->row(array("Status",$sel_status));?>
+				<?=$t->row(array("Transaction At",$txt_transaction_at));?>
+				<?=$t->end();?>
+				<?=$f->input("page","1","type='hidden'");?>
+				<?=$f->input("sort",@$_GET["sort"],"type='hidden'");?>
+				<?=$f->input("do_filter","Load","type='submit' style='width:180px;'");?>
+				<?=$f->input("export","Export to Excel","type='submit' style='width:180px;'");?>
+				<?=$f->input("reset","Reset","type='button' onclick=\"window.location='?';\" style='width:180px;'");?>
+			<?=$f->end();?>
+		</div>
+	</div>
+<?php } else { ?>
+	<h2><b>OUTBOUND</b></h2>
+<?php } ?>
+<?php
+	$whereclause = "";
+	if(@$_GET["txt_seller"]!="") $whereclause .= "seller_user_id IN (SELECT id FROM a_users WHERE email LIKE '%".$_GET["txt_seller"]."%' UNION SELECT user_id FROM sellers WHERE name LIKE '%".$_GET["txt_seller"]."%') AND ";
+	if(@$_GET["txt_buyer"]!="") $whereclause .= "buyer_user_id IN (SELECT id FROM a_users WHERE email LIKE '%".$_GET["txt_buyer"]."%' OR name LIKE '%".$_GET["txt_buyer"]."%') AND ";
+	if(@$_GET["sel_status"]!=""){
+		if($_GET["sel_status"]=="1") $whereclause .= "status < 7 AND ";
+		if($_GET["sel_status"]=="2") $whereclause .= "status >= 7 AND seller_paid = 0 AND ";
+		if($_GET["sel_status"]=="3") $whereclause .= "status >= 7 AND seller_paid <> 0 AND ";
+		
+	}
+	if(@$_GET["txt_transaction_at1"]!="") $whereclause .= "date(transaction_at) >= '".$_GET["txt_transaction_at1"]."' AND ";
+	if(@$_GET["txt_transaction_at2"]!="") $whereclause .= "date(transaction_at) <= '".$_GET["txt_transaction_at2"]."' AND ";
+	$whereclause .= "status >= 3 GROUP BY po_no";
+	if(@$_GET["sort"] != "") $order = $_GET["sort"]; else $order = "";
+	$carts = $db->fetch_all_data("transactions",[],$whereclause,$order,"100000");
+?>
+	<?php if($_isexport){ $_tableattr = "border='1'"; }?>
+	<?=$t->start($_tableattr,"data_content");?>
 	<?=$t->header(["No",
 					"PO No",
 					"Seller",
@@ -61,7 +117,7 @@
 			} else {
 				$status = "<b style='color:blue;'>Seller Paid At ".$transaction["seller_paid_at"]."</b>";
 			}
-			$actions = 	"<a href=\"invoice_view.php?cart_group=".$cart["cart_group"]."\">View</a>";
+			$actions = 	"<a href=\"po_view.php?po_no=".$cart["po_no"]."\">View</a>";
 			echo $t->row(
 				[$no+$start+1,
 				$cart["po_no"],

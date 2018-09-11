@@ -1,52 +1,38 @@
 <?php include_once "head.php"; ?>
 <?php
-    $cart_group = $_GET["cart_group"];
-	if($_GET["changeStatus"]  == 3){
-		$failedUpdatingTransactions = false;
-		$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$cart_group."'");
-		foreach($transactions as $transaction){
-			$po_no = generate_po_no();
-			$db->addtable("transactions");  
-			$db->where("cart_group",$cart_group);
-			$db->where("seller_user_id",$transaction["seller_user_id"]);
-			$db->where("status","2");
-			$db->addfield("po_no");			$db->addvalue($po_no);
-			$db->addfield("po_at");			$db->addvalue($__now);
-			$db->addfield("status");        $db->addvalue("3");
-			$updating = $db->update();
-			// if($updating["affected_rows"] <= 0) $failedUpdatingTransactions = true;
-		}
-		if(!$failedUpdatingTransactions){
+    $po_no = $_GET["po_no"];
+	if($_GET["seller_paid"] == "1"){
+		$db->addtable("transactions");  
+		$db->where("po_no",$po_no);
+		$db->addfield("seller_paid");	$db->addvalue(1);
+		$db->addfield("seller_paid_at");$db->addvalue($__now);
+		$db->addfield("seller_paid_by");$db->addvalue($__username);
+		$updating = $db->update();
+		if($updating["affected_rows"] > 0){
 			$_SESSION["message"] = "Status berhasil diubah";
+			?><script> window.location='po_list.php'; </script><?php
+			exit();
 		} else {
 			$_SESSION["errormessage"] = "Status gagal diubah";
 		}
 	}
-	$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$cart_group."'");
+	$transactions = $db->fetch_all_data("transactions",[],"po_no = '".$po_no."'");
 	foreach($transactions as $transaction){
 		$_trxBySeller[$transaction["seller_user_id"]][] = $transaction;
 	}
-	$transaction_payments = $db->fetch_all_data("transaction_payments",[],"cart_group = '".$cart_group."'")[0];
-	$bank_from = $db->fetch_single_data("banks","name",["id" => $transaction_payments["bank_id"]]);
-	$bank_from .= " (".$transaction_payments["account_no"].") <br> a/n:".$transaction_payments["account_name"];
-	$bank_to = "";
-	if($transaction_payments["bank_account_id"] > 0){
-		$bank_account = $db->fetch_all_data("bank_accounts",[],"id = '".$transaction_payments["bank_account_id"]."'")[0];
-		$bank_to = $db->fetch_single_data("banks","name",["id" => $bank_account["bank_id"]]);
-		$bank_to .= " (".$bank_account["account_no"].") <br> a/n:".$bank_account["account_name"];				
-	}
-	if($transactions[0]["status"] == "2") $status = "<button onclick=\"changeStatus('".$cart_group."',3)\">Payment Verified</button>";
 ?>
+
 <script>
-	function changeStatus(cart_group,status){
-		if(status == 3){
-			if(confirm("Anda yakin pembayaran sudah terverifikasi?")){
-				window.location="?cart_group="+cart_group+"&changeStatus="+status;
-			}
+	function seller_paid(po_no){
+		if(confirm("Anda yakin sudah membayar ke seller yang bersangkutan?")){
+			window.location="?po_no="+po_no+"&seller_paid=1";
 		}
 	}
 </script>
 <div class="container">
+    <div class="row">
+	<h3><b>PURCHASE ORDER</b></h3>
+	</div>
     <div class="row">
 		<?php 
 			foreach($_trxBySeller as $seller_user_id => $transactions){
@@ -124,20 +110,6 @@
 				<td align="right"><b>Total Bill : &nbsp;&nbsp;Rp. <?=format_amount($total_tagihan)?></b></td>
 			</tr>
 		</table>
-		<h3><b>Payment Info:</b></h3>
-		<table>
-			<tr><td valign="top"><b>Transaction At</b></td><td valign="top"><b>:</b></td><td><?=format_tanggal($transactions[0]["transaction_at"]);?></td></tr>
-			<tr><td valign="top"><b>Transfer At</b></td><td valign="top"><b>:</b></td><td><?=format_tanggal($transaction_payments["transfer_at"]);?></td></tr>
-			<tr><td valign="top"><b>Uniq Code</b></td><td valign="top"><b>:</b></td><td align="right"><?=format_amount($transaction_payments["uniqcode"]);?></td></tr>
-			<tr><td valign="top"><b>Total Amount</b></td><td valign="top"><b>:</b></td><td align="right"><b><?=format_amount($transaction_payments["total"]);?></b></td></tr>
-			<tr><td valign="top"><b>Bank From</b></td><td valign="top"><b>:</b></td><td><?=$bank_from;?></td></tr>
-			<tr><td valign="top"><b>Bank To</b></td><td valign="top"><b>:</b></td><td><?=$bank_to;?></td></tr>
-			<tr><td colspan="3"><?=$status;?></td></tr>
-		</table>
-		<br>
-		<?php if($db->fetch_single_data("transactions","id",["cart_group" => $cart_group,"status" => "2:<="]) <= 0){ ?>
-			<span style="width:100%;color:green;"><h3><b>PAID</b></h3></span>
-		<?php } ?>
     </div>
 	<?=$f->input("back","Back","type='button' onclick=\"window.history.back();\"");?>
 </div>
