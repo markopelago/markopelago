@@ -219,6 +219,8 @@
 													<?=$t->row([$f->input("login_action",v("signin"),"type='submit'","btn btn-link-1")]);?>
 												</div>
 											<?=$f->end();?>
+											<center><a style="color: #337ab7 !important;" href="forgot_password.php"><b><?=v("forgot_password");?></b></a></center>
+											<div style="height:20px;"></div>
 										</div>
 									</div>
 								</li>

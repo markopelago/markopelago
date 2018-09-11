@@ -1,3 +1,4 @@
+ALTER TABLE `a_users` ADD `token` VARCHAR(100) NOT NULL AFTER `last_sign_in_ip`, ADD INDEX (`token`);
 rfo
 	id
 	user_id
