@@ -25,7 +25,7 @@
 		}
 	}
 </script>
-<div class="bo_title">PO</div>
+<div class="bo_title">OUTBOUND</div>
 	<?=$t->start("","data_content");?>
 	<?=$t->header(["No",
 					"PO No",

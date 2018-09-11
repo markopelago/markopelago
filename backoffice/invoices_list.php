@@ -34,7 +34,7 @@
 		}
 	}
 </script>
-<div class="bo_title">Invoices</div>
+<div class="bo_title">INBOUND</div>
 
 <?php
 	$carts = $db->fetch_all_data("transactions",[],"status >= 2 GROUP BY cart_group");

@@ -2,7 +2,10 @@
 	include_once "header.php"; 
 	$goods = $db->fetch_all_data("goods",[],"id = '".$_GET["id"]."'")[0];
 	$seller = $db->fetch_all_data("sellers",[],"id = '".$goods["seller_id"]."'")[0];
-	$onclickSendMessage = "onclick=\"try{ $('#ul_signin').addClass('show'); }catch(e){} try{ openNav(); }catch(e){}\"";
+	
+	if(isMobile()) $onclickSendMessage = "onclick=\"try{ $('#ul_signin').addClass('show'); }catch(e){} try{ openNav(); }catch(e){}\"";
+	else $onclickSendMessage = "onclick=\"try{ $('#ul_signin').addClass('show'); }catch(e){}\"";
+	
 	$onclickBuy = $onclickSendMessage;
 	if($__isloggedin){
 		$onclickSendMessage = "onclick=\"newMessage('".$seller["user_id"]."','".$goods["id"]."','buyer','seller');\"";
