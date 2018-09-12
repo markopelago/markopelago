@@ -445,5 +445,16 @@
 		$display_price = $price + ($price * $commission / 100);
 		return ["price" => $price, "commission" => $commission, "display_price" => $display_price];
 	}
+	
+	function getHari($day){
+		$arr[1] = "Senin";
+		$arr[2] = "Selasa";
+		$arr[3] = "Rabu";
+		$arr[4] = "Kamis";
+		$arr[5] = "Jumat";
+		$arr[6] = "Sabtu";
+		$arr[7] = "Minggu";
+		return $arr[$day];
+	}
 ?>
 <?php include_once "log_action.php"; ?>
