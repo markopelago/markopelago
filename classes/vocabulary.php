@@ -178,6 +178,7 @@ class Vocabulary{
 		$arr[$l]["courier_service"]								= "Courier Service";
 		$arr[$l]["shipping_charges"]							= "Shipping Charges";
 		$arr[$l]["addresses"]									= "Addresses";
+		$arr[$l]["register_shipping_address_first"]				= "Please register your shipping address first";
 		$arr[$l]["banks"]										= "Banks";
 		$arr[$l]["bank"]										= "Bank";
 		$arr[$l]["change_photo"]								= "Change Photo";
@@ -435,6 +436,7 @@ class Vocabulary{
 		$arr[$l]["courier_service"]								= "Servis Kurir";
 		$arr[$l]["shipping_charges"]							= "Ongkos Kirim";
 		$arr[$l]["addresses"]									= "Alamat";
+		$arr[$l]["register_shipping_address_first"]				= "Harap daftarkan alamat pengiriman terlebih dahulu";
 		$arr[$l]["banks"]										= "Bank";
 		$arr[$l]["bank"]										= "Bank";
 		$arr[$l]["change_photo"]								= "Ubah Foto";

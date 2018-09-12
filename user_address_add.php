@@ -1,6 +1,7 @@
 <?php
 	include_once "homepage_header.php";
 	if(isset($_POST["save_address"])){
+		$user_addresses_id = $db->fetch_single_data("user_addresses","id",["user_id" => $__user_id]);
 		$db->addtable("user_addresses");
 		$db->addfield("user_id");			$db->addvalue($__user_id);
 		$db->addfield("name");				$db->addvalue($_POST["name"]);
@@ -8,6 +9,11 @@
 		$db->addfield("phone");				$db->addvalue($_POST["phone"]);
 		$db->addfield("address");			$db->addvalue($_POST["address"]);
 		$db->addfield("location_id");		$db->addvalue($_POST["subdistrict_id"]);
+		if($user_addresses_id <= 0){
+			$db->addfield("default_buyer");		$db->addvalue("1");
+			$db->addfield("default_seller");	$db->addvalue("1");
+			$db->addfield("default_forwarder");	$db->addvalue("1");
+		}
 		$inserting = $db->insert();
 		if($inserting["affected_rows"] > 0){
 			if($_GET["default_seller"] == "1"){
@@ -19,8 +25,13 @@
 				$db->addfield("default_seller");	$db->addvalue(1);
 				$db->update();
 			}
-			$_SESSION["message"] = v("data_saved_successfully");
-			javascript("window.location='dashboard.php?tabActive=addresses';");
+			if($_SESSION["referer_url"] != ""){
+				$referer_url = $_SESSION["referer_url"]; $_SESSION["referer_url"] = "";
+				javascript("window.location='".$referer_url."';");
+			} else {
+				$_SESSION["message"] = v("data_saved_successfully");
+				javascript("window.location='dashboard.php?tabActive=addresses';");
+			}
 			exit();
 		} else {
 			$_SESSION["error_message"] = v("failed_saving_data");

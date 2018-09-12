@@ -1,5 +1,12 @@
 <?php  include_once "header.php"; ?>
 <?php
+	$user_address_default = $db->fetch_single_data("user_addresses","id",["user_id" => $__user_id, "default_buyer" => "1"]);
+	if($user_address_default <= 0){
+		$_SESSION["errormessage"] = v("register_shipping_address_first");
+		$_SESSION["referer_url"] = "transaction.php?id=".$_GET["id"];
+		javascript("window.location='user_address_add.php'");
+		exit();
+	}
 	if($_POST["buy"]){
 		$goods_id = $_POST["goods_id"];
 		
@@ -95,7 +102,6 @@
 	$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
 	$seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]));
 ?>
-<?php $user_address_default = $db->fetch_single_data("user_addresses","id",["user_id" => $__user_id, "default_buyer" => "1"]); ?>
 <script>
 	$(document).ready(function(){
 		change_address("<?=$user_address_default;?>");
