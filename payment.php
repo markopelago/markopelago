@@ -1,6 +1,20 @@
 <?php include_once "header.php"; ?>
 <?php
     $cart_group = ($_GET["cart_group"] == "")?$db->fetch_single_data("transactions","cart_group",["buyer_user_id"=>$__user_id,"status" => "0"]):$_GET["cart_group"];
+	
+	
+	$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$_GET["cart_group"]."'");
+	$invoice_nos = "";
+	foreach($transactions as $transaction){ 
+		if(!$_invoice_nos[$transaction["invoice_no"]]){
+			$_invoice_nos[$transaction["invoice_no"]] = 1;
+			$invoice_nos .= $transaction["invoice_no"].", "; 
+		}
+	}
+	$invoice_nos = substr($invoice_nos,0,-2);
+	$transaction_payments = $db->fetch_all_data("transaction_payments",[],"cart_group = '".$cart_group."'")[0];
+	$total_all = $transaction_payments["total"] + $transaction_payments["uniqcode"];
+	if($transaction_payments["transfer_at"] == "0000-00-00") $transaction_payments["transfer_at"] = date("Y-m-d");
 
     if($_POST["payment"]){
         
@@ -20,6 +34,18 @@
 			$db->where("buyer_user_id",$__user_id);
 			$db->addfield("status");	    $db->addvalue("2");
 			$updating = $db->update();
+			
+			$buyer_name = $db->fetch_single_data("a_users","name",["id" => $__user_id]);
+			$total = format_amount($transaction_payments["total"],2);
+			$uniq_code = format_amount($transaction_payments["uniqcode"],2);
+			$grandtotal = format_amount($total_all,2);
+			
+			$arr1 = ["{buyer_name}","{invoice_nos}","{total}","{uniq_code}","{grandtotal}"];
+			$arr2 = [$buyer_name,$invoice_nos,$total,$uniq_code,$grandtotal];
+			$body = read_file("html/email_payment_confirmed_id.html");
+			$body = str_replace($arr1,$arr2,$body);
+			sendingmail("Markopelago.com -- Payment Confirmation ".$buyer_name,"finance@markopelago.com",$body,"system@markopelago.com|Markopelago System");
+			
             $_SESSION["message"] = v("payment_confirmation_success");
             javascript("window.location='dashboard.php?tabActive=purchase_list';");
 			exit();
@@ -28,15 +54,6 @@
         }
         
     }
-	$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$_GET["cart_group"]."'");
-	$invoice_nos = "";
-	foreach($transactions as $transaction){ 
-		if(!$_invoice_nos[$transaction["invoice_no"]]){
-			$_invoice_nos[$transaction["invoice_no"]] = 1;
-			$invoice_nos .= $transaction["invoice_no"].", "; 
-		}
-	}
-	$invoice_nos = substr($invoice_nos,0,-2);
 ?>
 <script>
 	function load_bank_info(bank_account_id){
@@ -66,12 +83,6 @@
 			<div class="well">
 				<u>Detail Invoice:</u><br>
 				<i>
-					<?php
-					$transaction_payments = $db->fetch_all_data("transaction_payments",[],"cart_group = '".$cart_group."'")[0];
-					$total_all = $transaction_payments["total"] + $transaction_payments["uniqcode"];
-					if($transaction_payments["transfer_at"] == "0000-00-00") $transaction_payments["transfer_at"] = date("Y-m-d");
-					?>
-					
 					<b>Invoice No : <?=$invoice_nos;?></b><br><br>
 					<table width="200">
 						<tr><td colspan="3" nowrap>Dengan nilai :</td><tr>

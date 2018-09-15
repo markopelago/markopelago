@@ -133,7 +133,7 @@
 			$body = read_file("html/email_wait_payment_verification_id.html");
 			$body = str_replace($arr1,$arr2,$body);
 			sendingmail("Markopelago.com -- Menunggu Pembayaran ".$transaction["invoice_no"],$__user["email"],$body,"system@markopelago.com|Markopelago System");
-			sendingmail("Markopelago.com -- Menunggu Pembayaran ".$transaction["invoice_no"],"cs@markopelago.com",$body,"system@markopelago.com|Markopelago System");
+			sendingmail("Markopelago.com -- Menunggu Pembayaran ".$transaction["invoice_no"],"finance@markopelago.com",$body,"system@markopelago.com|Markopelago System");
 			
             javascript("window.location='payment.php?cart_group=".$cart_group."';");
             exit();
