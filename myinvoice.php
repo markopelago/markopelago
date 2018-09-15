@@ -123,10 +123,9 @@
 		<?php } ?>
 		<table width="100%">
 			<tr>
-				<td align="right"><h4><b><?=v("total_bill");?> : &nbsp;&nbsp;Rp. <?=format_amount($total_tagihan)?></b></h4></td>
+				<td align="right"><h4><b><?=v("total_shopping");?> : &nbsp;&nbsp;Rp. <?=format_amount($total_tagihan)?></b></h4></td>
 			</tr>
 		</table>
-		<a href="dashboard.php?tabActive=purchase_list" class="btn btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> <?=v("back");?></a>
 		<?php 
 			if($cart_group != ""){
 				if($db->fetch_single_data("transactions","id",["cart_group" => $cart_group,"status" => "2:<="]) > 0){
@@ -140,6 +139,7 @@
 				}
 			}
 		?>
+		<a href="dashboard.php?tabActive=purchase_list" class="btn btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> <?=v("back");?></a>
     </div>
 </div>
 <div style="height:40px;"></div>

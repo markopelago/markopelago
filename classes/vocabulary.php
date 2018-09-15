@@ -264,6 +264,7 @@ class Vocabulary{
 		$arr[$l]["purchase_list"]								= "Purchase List";
 		$arr[$l]["store_sales_list"]							= "Store Sales List";
 		$arr[$l]["total_bill"]									= "Total Bill";
+		$arr[$l]["total_shopping"]								= "Total Shopping";
 		$arr[$l]["payment_confirmation_success"]				= "Payment Confirmation sent";
 		$arr[$l]["payment"]										= "Payment";
 		$arr[$l]["choose_the_destination_bank"]					= "Choose the destination bank";
@@ -522,6 +523,7 @@ class Vocabulary{
 		$arr[$l]["purchase_list"]								= "Daftar Pembelian";
 		$arr[$l]["store_sales_list"]							= "Daftar Penjualan Toko";
 		$arr[$l]["total_bill"]									= "Total Tagihan";
+		$arr[$l]["total_shopping"]								= "Total Belanja";
 		$arr[$l]["payment_confirmation_success"]				= "Konfirmasi pembayaran telah terkirim";
 		$arr[$l]["payment"]										= "Pembayaran";
 		$arr[$l]["choose_the_destination_bank"]					= "Pilih bank tujuan";
