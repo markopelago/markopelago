@@ -30,7 +30,12 @@
     }
 	$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$_GET["cart_group"]."'");
 	$invoice_nos = "";
-	foreach($transactions as $transaction){ $invoice_nos .= $transaction["invoice_no"].", "; }
+	foreach($transactions as $transaction){ 
+		if(!$_invoice_nos[$transaction["invoice_no"]]){
+			$_invoice_nos[$transaction["invoice_no"]] = 1;
+			$invoice_nos .= $transaction["invoice_no"].", "; 
+		}
+	}
 	$invoice_nos = substr($invoice_nos,0,-2);
 ?>
 <script>

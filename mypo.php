@@ -14,18 +14,18 @@
 				$db->addfield("receipt_at");	$db->addvalue($__now);
 				$updating = $db->update();
 				
-				$transaction_details = $db->fetch_all_data("transaction_details",[],"transaction_id = '".$transaction["id"]."'");
-				foreach($transaction_details as $transaction_detail){
-					$db->addtable("goods_histories");
-					$db->addfield("seller_user_id");	$db->addvalue($__user_id);
-					$db->addfield("transaction_id");	$db->addvalue($transaction["id"]);
-					$db->addfield("goods_id");			$db->addvalue($transaction_detail["goods_id"]);
-					$db->addfield("in_out");			$db->addvalue("out");
-					$db->addfield("qty");				$db->addvalue($transaction_detail["qty"]);
-					$db->addfield("notes");				$db->addvalue($transaction_detail["notes"]);
-					$db->addfield("history_at");		$db->addvalue($__now);
-					$inserting = $db->insert();
-				}
+				// $transaction_details = $db->fetch_all_data("transaction_details",[],"transaction_id = '".$transaction["id"]."'");
+				// foreach($transaction_details as $transaction_detail){
+					// $db->addtable("goods_histories");
+					// $db->addfield("seller_user_id");	$db->addvalue($__user_id);
+					// $db->addfield("transaction_id");	$db->addvalue($transaction["id"]);
+					// $db->addfield("goods_id");			$db->addvalue($transaction_detail["goods_id"]);
+					// $db->addfield("in_out");			$db->addvalue("out");
+					// $db->addfield("qty");				$db->addvalue($transaction_detail["qty"]);
+					// $db->addfield("notes");				$db->addvalue($transaction_detail["notes"]);
+					// $db->addfield("history_at");		$db->addvalue($__now);
+					// $inserting = $db->insert();
+				// }
 			}
 			$db->addtable("transactions");	$db->where("po_no",$po_no); $db->where("seller_user_id",$__user_id);
 			$db->addfield("sent_at");		$db->addvalue($__now);

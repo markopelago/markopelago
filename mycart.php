@@ -42,6 +42,7 @@
 			$db->addfield("uniqcode");		    $db->addvalue($uniqcode);
 			$inserting = $db->insert();
 			
+			$emails = array();
 			$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$cart_group."'");
 			foreach($transactions as $transaction){
 				$trx_at_dd = substr($transaction["transaction_at"],8,2);
@@ -49,28 +50,90 @@
 				$trx_at_yy = substr($transaction["transaction_at"],0,4);
 				$last_transfer_day = getHari(date("N",mktime(0,0,0,$trx_at_mm,$trx_at_dd + 1,$trx_at_yy)));
 				$last_transfer_at = date("d F Y",mktime(0,0,0,$trx_at_mm,$trx_at_dd + 1,$trx_at_yy));
-				$cart_detail = "";
-				$total = 0;
+				$emails[$transaction["invoice_no"]]["last_transfer_day"] = $last_transfer_day;
+				$emails[$transaction["invoice_no"]]["last_transfer_at"] = $last_transfer_at;
 				$transaction_details = $db->fetch_all_data("transaction_details",[],"id = '".$transaction["id"]."'");
+				$seller_user_id = $transaction["seller_user_id"];
+				$seller_email = $db->fetch_single_data("a_users","email",["id" => $seller_user_id]);
+				$seller_name = $db->fetch_single_data("sellers","concat(pic,' - ',name)",["user_id" => $seller_user_id]);
 				foreach($transaction_details as $transaction_detail){
 					$goods_name = $db->fetch_single_data("goods","name",["id" => $transaction_detail["goods_id"]]);
 					$unit = $db->fetch_single_data("units","name_".$__locale,["id" => $transaction_detail["unit_id"]]);
-					$total += $transaction_detail["total"];
-					$cart_detail .= "<tr>
-										<td>".$goods_name."</td>
-										<td align='right'>".$transaction_detail["qty"]."</td>
-										<td>".$unit."</td>
-										<td>Rp</td>
-										<td align='right'>".format_amount($transaction_detail["total"])."</td>
-									</tr>";
+					$emails[$transaction["invoice_no"]]["total"] += $transaction_detail["total"];
+					$emails[$transaction["invoice_no"]]["cart_detail"] .= "<tr>
+																				<td>".$goods_name."</td>
+																				<td align='right'>".$transaction_detail["qty"]."</td>
+																				<td>".$unit."</td>
+																				<td>Rp</td>
+																				<td align='right'>".format_amount($transaction_detail["total"])."</td>
+																			</tr>";
+					
+					$db->addtable("goods_histories");
+					$db->addfield("seller_user_id");	$db->addvalue($seller_user_id);
+					$db->addfield("transaction_id");	$db->addvalue($transaction["id"]);
+					$db->addfield("goods_id");			$db->addvalue($transaction_detail["goods_id"]);
+					$db->addfield("in_out");			$db->addvalue("out");
+					$db->addfield("qty");				$db->addvalue($transaction_detail["qty"]);
+					$db->addfield("notes");				$db->addvalue($transaction_detail["notes"]);
+					$db->addfield("history_at");		$db->addvalue($__now);
+					$inserting = $db->insert();
+					
+					$arr1 = ["{seller_name}","{goods_name}","{qty}","{unit}"];
+					$arr2 = [$seller_name,$goods_name,$transaction_detail["qty"],$unit];
+					$body = read_file("html/email_reservasi_stok_id.html");
+					$body = str_replace($arr1,$arr2,$body);
+					sendingmail("Markopelago.com -- Reservasi Stok  ".$goods_name,$seller_email,$body,"system@markopelago.com|Markopelago System");
 				}
-				$arr1 = ["{last_transfer_day}","{last_transfer_at}","{invoice_no}","{cart_detail}","{total}"];
-				$arr2 = [$last_transfer_day,$last_transfer_at,$transaction["invoice_no"],$cart_detail,format_amount($total)];
-				$body = read_file("html/email_wait_payment_verification_id.html");
-				$body = str_replace($arr1,$arr2,$body);
-				sendingmail("Markopelago.com -- Menunggu Pembayaran ".$transaction["invoice_no"],$__user["email"],$body,"system@markopelago.com|Markopelago System");
-				sendingmail("Markopelago.com -- Menunggu Pembayaran ".$transaction["invoice_no"],"cs@markopelago.com",$body,"system@markopelago.com|Markopelago System");
 			}
+			
+			
+			$order_detail = "";
+			$TOTAL = 0;
+			$shoppingTotal = 0;
+			foreach($emails as $invoice_no => $email){
+				$TOTAL += $email["total"];
+				$shoppingTotal += $email["total"];
+				$order_detail .= "<p><h3>".$invoice_no."</h3></p>
+									<table cellpadding='3'>
+										".$email["cart_detail"]."
+										<tr>
+											<td><b>Sub Total</b></td>
+											<td></td>
+											<td></td>
+											<td><b>Rp</b></td>
+											<td align='right'><b>".format_amount($email["total"])."</b></td>
+										</tr>
+									</table>";
+									
+				$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"transaction_id IN (SELECT id FROM transactions WHERE invoice_no = '".$invoice_no."')");
+				if(count($transaction_forwarders) > 0){
+					$order_detail .= "<p></p><p><b>Servis Kurir : </b></p><table cellpadding='3'>";
+					$forwarder_total = 0;
+					foreach($transaction_forwarders as $transaction_forwarder){
+						$forwarder_total += $transaction_forwarder["total"];
+						$shoppingTotal += $transaction_forwarder["total"];
+						$order_detail .= "<tr><td>".$transaction_forwarder["name"]." -- ".$transaction_forwarder["courier_service"]."</td>";						
+						$order_detail .= "<td>Rp. </td>";						
+						$order_detail .= "<td align='right'>".format_amount($transaction_forwarder["total"])."</td></tr>";
+					}
+					$order_detail .= "<tr><td><b>Subtotal Servis Kurir</b></td><td><b>Rp.</b></td><td align='right'><b>".format_amount($forwarder_total)."</b></td></tr>";
+					$order_detail .= "</table><br>";
+				}
+			}
+			
+			$unique_code = $db->fetch_single_data("transaction_payments","uniqcode",["cart_group" => $cart_group]);
+			$GrandTotal = $shoppingTotal + $unique_code;
+			$payment_info = "<p><h3>Info Pembayaran:</h3></p>
+									<table cellpadding='3'>";
+			$payment_info .= "<tr><td>Total Belanja</td><td>Rp. </td><td align='right'>".format_amount($shoppingTotal)."</td></tr>";
+			$payment_info .= "<tr><td>Kode Unik</td><td>Rp. </td><td align='right'>".format_amount($unique_code)."</td></tr>";
+			$payment_info .= "<tr><td><b>Total Pembayaran</b></td><td><b>Rp. </b></td><td align='right'><b>".format_amount($GrandTotal)."</b></td></tr></table>";
+			$arr1 = ["{last_transfer_day}","{last_transfer_at}","{order_detail}","{payment_info}"];
+			$arr2 = [$email["last_transfer_day"],$email["last_transfer_at"],$order_detail,$payment_info];
+			$body = read_file("html/email_wait_payment_verification_id.html");
+			$body = str_replace($arr1,$arr2,$body);
+			sendingmail("Markopelago.com -- Menunggu Pembayaran ".$transaction["invoice_no"],$__user["email"],$body,"system@markopelago.com|Markopelago System");
+			sendingmail("Markopelago.com -- Menunggu Pembayaran ".$transaction["invoice_no"],"cs@markopelago.com",$body,"system@markopelago.com|Markopelago System");
 			
             javascript("window.location='payment.php?cart_group=".$cart_group."';");
             exit();
