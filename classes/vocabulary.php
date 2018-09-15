@@ -48,6 +48,9 @@ class Vocabulary{
 		$arr[$l]["reset_password_instruction_sent"]				= "Reset password instruction has been sent, please check Your email";
 		$arr[$l]["request_reset_password"]						= "Please enter your email address that is already registered in markopelago.com and we'll send you instruction on how to reset your password";
 		$arr[$l]["request_reset_password_token_expired"]		= "This reset password instruction has expired, make sure this link from the newest email or request reset password instruction again";
+		$arr[$l]["email_confirmation_token_expired"]			= "This email confirmation link has expired, please contact cs@markopelago.com";
+		$arr[$l]["email_confirmation_failed"]					= "Email confirmation failed, please contact cs@markopelago.com";
+		$arr[$l]["email_confirmed"]								= "Thank You, Your email confirmation was success.";
 		$arr[$l]["your_email_not_exist"]						= "Your email address is not registered at markopelago.com";
 		$arr[$l]["please_relogin"]								= "Please re-login";
 		$arr[$l]["oldpassword"]									= "Old Password";
@@ -72,6 +75,7 @@ class Vocabulary{
 		$arr[$l]["dashboard"]									= "Dashboard";
 		$arr[$l]["back_to_dashboard"]							= "Back to Dashboard";
 		$arr[$l]["signin_success"]								= "Sign In Success";
+		$arr[$l]["signup_success"]								= "Congratulations, You have successfully registered at markopelago.com";
 		$arr[$l]["error_wrong_username_password"]				= "Sign In failed, wrong username and/or password, Please try again!";
 		$arr[$l]["connect_socially_with_us"]					= "Connect socially with us";
 		$arr[$l]["links"]										= "Links";
@@ -307,6 +311,9 @@ class Vocabulary{
 		$arr[$l]["reset_password_instruction_sent"]				= "Instruksi reset kata sandi telah terkirim, silakan cek email Anda";
 		$arr[$l]["request_reset_password"]						= "Silakan masukan alamat email Anda yang telah terdaftar di markopelago.com dan Kami akan mengirimkan instruksi reset kata sandi kepada Anda";
 		$arr[$l]["request_reset_password_token_expired"]		= "Insturksi reset kata sandi ini telah kedaluwarsa, pastikan link ini dari email terbaru atau silakan minta instruksi reset kata sandi lagi.";
+		$arr[$l]["email_confirmation_token_expired"]			= "Link konfirmasi email ini telah kedaluwarsa, silakan hubungi cs@markopelago.com";
+		$arr[$l]["email_confirmation_failed"]					= "Konfirmasi email gagal, silakan hubungi cs@markopelago.com";
+		$arr[$l]["email_confirmed"]								= "Terima Kasih, Konfirmasi email Anda telah berhasil.";
 		$arr[$l]["your_email_not_exist"]						= "Alamat email Anda belum terdaftar di markopelago.com";
 		$arr[$l]["please_relogin"]								= "Silakan login ulang";
 		$arr[$l]["oldpassword"]									= "Kata Sandi Lama";
@@ -331,6 +338,7 @@ class Vocabulary{
 		$arr[$l]["dashboard"]									= "Dasbor";
 		$arr[$l]["back_to_dashboard"]							= "Kembali Ke Dasbor";
 		$arr[$l]["signin_success"]								= "Anda berhasil masuk";
+		$arr[$l]["signup_success"]								= "Selamat, Anda telah berhasil daftar di markopelago.com";
 		$arr[$l]["error_wrong_username_password"]				= "Anda gagal masuk, username dan/atau password salah, Silakan ulangi lagi!";
 		$arr[$l]["connect_socially_with_us"]					= "Terhubung media sosial dengan kami";
 		$arr[$l]["links"]										= "Link";

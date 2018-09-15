@@ -205,7 +205,7 @@
 				<ul class="nav navbar-nav navbar-right">
 					<?php if(!$__isloggedin){ ?>
 						<li class="dropdown">
-							<a href="daftar.php"><?=v("signup");?></a>
+							<a href="register.php"><?=v("signup");?></a>
 						</li>
 						
 						<li>

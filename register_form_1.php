@@ -23,14 +23,28 @@
 			}
 			$inserting = $db->insert();
 			if($inserting["affected_rows"] > 0){
+				$user_id = $inserting["insert_id"];
 				if(login_action($_POST["email"],$_POST["password"])){
 					$db->addtable("buyers");
-					$db->addfield("user_id");		$db->addvalue($inserting["insert_id"]);
+					$db->addfield("user_id");		$db->addvalue($user_id);
 					$db->addfield("birthdate");		$db->addvalue($_POST["birthdate"]);
 					$db->addfield("birthplace_id");	$db->addvalue($_POST["birthplace_id"]);
 					$db->addfield("gender_id");		$db->addvalue($_POST["gender_id"]);
 					$inserting = $db->insert();
-					javascript("window.location='?step=2';");
+					
+					$token = randtoken(15).base64_encode("_signup_".$_POST["email"]);
+					$db->addtable("a_users");	$db->where("id",$user_id);
+					$db->addfield("token");		$db->addvalue($token);
+					$db->update();
+					$arr1 = ["{link}"];
+					$arr2 = ["https://www.markopelago.com/email_confirmation.php?token=".$token];
+					$body = read_file("html/email_signup_confirmation_id.html");
+					$body = str_replace($arr1,$arr2,$body);
+					sendingmail("Markopelago.com -- Email Konfirmasi",$_POST["email"],$body,"system@markopelago.com|Markopelago System");
+					
+					$_SESSION["message"] = v("signup_success");
+					// javascript("window.location='?step=2';");
+					javascript("window.location='index.php';");
 					exit();
 				}
 			} else {
@@ -93,7 +107,7 @@
 			<label><?=v("gender");?></label><?=$f->select("gender_id",$db->fetch_select_data("genders","id","name_".$__locale,"","","",true),$data["gender_id"],"required ","form-control");?>
 		</div>
 		
-		<div class="form-group">
+		<!--div class="form-group">
 			<?=$f->input("is_taxable","1","type='checkbox' onclick='is_taxable_change(this.checked);'","form-control");?> <?=v("is_taxable");?>
 		</div>
 		<div id="is_taxable_area" style="display:none">
@@ -106,7 +120,7 @@
 			<div class="form-group">
 				<label><?=v("npwp_address");?></label><?=$f->textarea("npwp_address",$data["npwp_address"],"placeholder='".v("npwp_address")."...'","form-control");?>
 			</div>
-		</div>
+		</div-->
 		
 		<div class="form-group">
 			<?=$f->input("terms_and_conditions_agreed","1","type='checkbox' required","form-control");?> <?=v("terms_and_conditions_agreed");?>
