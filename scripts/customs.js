@@ -165,11 +165,12 @@ function newMessage(sender_id,goods_id,user_id_as,user_id2_as){
 	});
 }
 
-function sendMessage(sender_id,textmessage,user_id_as,user_id2_as){
+function sendMessage(sender_id,textmessage,user_id_as,user_id2_as,send_mail){
 	user_id_as = user_id_as || "";
 	user_id2_as = user_id2_as || "";
+	send_mail = send_mail || "";
 	if(sender_id > 0 && textmessage != ""){
-		$.ajax({url: "ajax/messages.php?mode=sendMessage&sender_id="+sender_id+"&message="+textmessage+"&user_id_as="+user_id_as+"&user_id2_as="+user_id2_as, success: function(result){
+		$.ajax({url: "ajax/messages.php?mode=sendMessage&sender_id="+sender_id+"&message="+textmessage+"&user_id_as="+user_id_as+"&user_id2_as="+user_id2_as+"&send_mail="+send_mail, success: function(result){
 			window.location="dashboard.php?tabActive=message";
 		}});
 	}

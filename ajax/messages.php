@@ -1,14 +1,23 @@
 <?php 
 	include_once "../common.php";
+	include_once "../func.sendingmail.php";
 	function getSenderInfo($sender_id,$sender_as){
 		global $db;
 		if($sender_as == "buyer" || $sender_as == ""){
 			$sender = $db->fetch_single_data("a_users","name",["id"=>$sender_id]);
-			$photo = "users_images/".$db->fetch_single_data("buyers","avatar",["user_id"=>$sender_id]);
+			$img = $db->fetch_single_data("buyers","avatar",["user_id"=>$sender_id]);
+			if($img == "") $img = $db->fetch_single_data("sellers","logo",["user_id"=>$sender_id]);
+			if($img == "") $img = "nophoto.png";
+			if(!file_exists("../users_images/".$img)) $img = "nophoto.png";
+			$photo = "users_images/".$img;
 		}
 		if($sender_as == "seller"){
 			$sender = $db->fetch_single_data("sellers","name",["user_id"=>$sender_id]);
-			$photo = "users_images/".$db->fetch_single_data("sellers","logo",["user_id"=>$sender_id]);
+			$img = $db->fetch_single_data("sellers","logo",["user_id"=>$sender_id]);
+			if($img == "") $img = $db->fetch_single_data("buyers","avatar",["user_id"=>$sender_id]);
+			if($img == "") $img = "nologo.jpg";
+			if(!file_exists("../users_images/".$img)) $img = "nologo.jpg";
+			$photo = "users_images/".$img;
 		}
 		$arrreturn["name"] = $sender;
 		$arrreturn["photopath"] = $photo;
@@ -27,6 +36,7 @@
 		$message = sanitasi($_GET["message"]);
 		$user_id_as = ($_GET["user_id_as"] == "")?"buyer":$_GET["user_id_as"];
 		$user_id2_as = ($_GET["user_id2_as"] == "")?"seller":$_GET["user_id2_as"];
+		$send_mail = $_GET["send_mail"];
 		
 		if($message != ""){
 			if($thread_id <=0){
@@ -42,6 +52,18 @@
 			$db->addfield("message");	$db->addvalue($message);
 			$db->addfield("status");	$db->addvalue(0);
 			$inserting = $db->insert();
+			
+			if($send_mail){
+				$seller_name = $db->fetch_single_data("sellers","concat(pic,' - ',name)",["user_id" => $sender_id]);
+				$seller_email = $db->fetch_single_data("a_users","email",["id" => $sender_id]);
+				$buyer_name = $db->fetch_single_data("a_users","name",["id" => $__user_id]);
+				$arr1 = ["{seller_name}","{buyer_name}"];
+				$arr2 = [$seller_name,$buyer_name];
+				$body = read_file("../html/email_inbox_notification_id.html");
+				$body = str_replace($arr1,$arr2,$body);
+				sendingmail("Markopelago.com -- Ada yang ingin `ngobrol` dengan Anda",$seller_email,$body,"system@markopelago.com|Markopelago System");
+			}
+			
 			$_GET["id"] = $inserting["insert_id"];
 		}
 		$mode = "loaddetail";
@@ -177,7 +199,7 @@
 		echo "<div class=\"form-group\">";
 		echo $f->textarea("message",$message,"style=\"height:100px !important;width:100% !important;\" required placeholder='".v("message")."...'","form-control");
 		echo "</div>|||";
-		echo "<button type=\"button\" class=\"btn btn-primary\" onclick=\"sendMessage('".$sender_id."',document.getElementById('message').value,'".$user_id_as."','".$user_id2_as."')\">".v("send")."</button>";
+		echo "<button type=\"button\" class=\"btn btn-primary\" onclick=\"sendMessage('".$sender_id."',document.getElementById('message').value,'".$user_id_as."','".$user_id2_as."','1')\">".v("send")."</button>";
 		echo "<button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\">".v("cancel")."</button>";
 	}
 ?>
