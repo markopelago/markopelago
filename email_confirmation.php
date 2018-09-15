@@ -9,6 +9,13 @@
 		$db->addfield("email_confirmed_at");$db->addvalue($__now);
 		$updating = $db->update();
 		if($updating["affected_rows"] > 0){
+			$users = $db->fetch_all_data("a_users",[],"id = '".$user_id."'");
+			$_SESSION["username"] = $users["email"];
+			$_SESSION["isloggedin"] = 1;
+			$_SESSION["user_id"] = $users["id"];
+			$_SESSION["group_id"] = $users["group_id"];
+			$_SESSION["fullname"] = $users["name"];
+			
 			$_SESSION["message"] = v("email_confirmed");
 		} else {
 			$_SESSION["errormessage"] = v("email_confirmation_failed");
