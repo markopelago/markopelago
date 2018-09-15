@@ -10,7 +10,13 @@
 </div>
 <div class="container">
 	<?php 
-		$products = $db->fetch_all_data("goods",[],"category_ids like '%|".$_GET["id"]."|%' ORDER BY RAND() LIMIT 10");
+		$category_ids = "(";
+		$categories = $db->fetch_all_data("categories",["id"],"parent_id = '".$_GET["id"]."'");
+		foreach($categories as $category){
+			$category_ids .= "category_ids like '%|".$category["id"]."|%' OR ";
+		}
+		$category_ids = substr($category_ids,0,-3).")";
+		$products = $db->fetch_all_data("goods",[],$category_ids." ORDER BY RAND() LIMIT 10");
 		foreach($products as $product){
 			$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 			if($img == "") $img = "no_goods.png";

@@ -40,7 +40,7 @@
 				<tr>
 				<?php 
 					unset($categories);
-					$categories = $db->fetch_all_data("categories",[],"parent_id > 0 AND id IN(10,11,12,14,16,17,19,20)","id");
+					$categories = $db->fetch_all_data("categories",[],"parent_id = 0 AND id IN(1,2,3,4,5,6,8,9)","id");
 					foreach($categories as $key => $category){
 						if(($key)%4 == 0) echo "</tr><tr>";
 				?>
