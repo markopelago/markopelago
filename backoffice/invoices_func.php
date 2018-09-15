@@ -1,6 +1,6 @@
 <?php 
 	function updateStatus3($cart_group,$seller_user_id,$po_no){
-		/* global $db,$__now;
+		global $db,$__now;
 		$db->addtable("transactions");  
 		$db->where("cart_group",$cart_group);
 		$db->where("seller_user_id",$seller_user_id);
@@ -8,7 +8,7 @@
 		$db->addfield("po_no");			$db->addvalue($po_no);
 		$db->addfield("po_at");			$db->addvalue($__now);
 		$db->addfield("status");        $db->addvalue("3");
-		$updating = $db->update(); */
+		$updating = $db->update();
 	}
 	function sendMailPaymentVerified($cart_group){
 		global $db;
