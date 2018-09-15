@@ -3,6 +3,7 @@
 	$goods_id = $_GET["goods_id"];
 	$goods_photo_id = $_GET["goods_photo_id"];
 	$filename = $db->fetch_single_data("goods_photos","filename",["id" => $goods_photo_id,"goods_id" => $goods_id]);
+	if(!file_exists("../goods/".$filename)) $filename = "no_goods.png";
 	$next_id = $db->fetch_single_data("goods_photos","id",["goods_id" => $goods_id,"id"=>$goods_photo_id.":>"],["id"]);
 	$prev_id = $db->fetch_single_data("goods_photos","id",["goods_id" => $goods_id,"id"=>$goods_photo_id.":<"],["id DESC"]);
 	if(!$next_id) $next_id = $db->fetch_single_data("goods_photos","id",["goods_id" => $goods_id],["id"]);

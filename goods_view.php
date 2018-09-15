@@ -40,6 +40,7 @@
 				?> <div class="alert alert-warning"><b><?=v("no_photo_found");?></b></div><?php
 			} else {
 				foreach($goods_photos as $goods_photo){
+					if(!file_exists("goods/".$goods_photo["filename"])) $goods_photo["filename"] = "no_goods.png";
 					?> <div class="img-thumbnail goods-thumbnail goods-thumbnail3"> <img src="goods/<?=$goods_photo["filename"];?>" alt="#"> </div> <?php 
 				}
 			} 

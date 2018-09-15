@@ -16,6 +16,7 @@
 		$products = $db->fetch_all_data("goods",[],$whereclause);
 		foreach($products as $product){
 			$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
+			if(!file_exists("goods/".$img)) $img = "no_goods.png";
 			if($img == "") $img = "no_goods.png";
 			$seller_user_id = $db->fetch_single_data("sellers","user_id",["id"=> $product["seller_id"]]);
 			$seller_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]);

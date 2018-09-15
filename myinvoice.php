@@ -65,6 +65,7 @@
 						$total = $transaction_details["total"] + $transaction_forwarder["total"];
 						$total_tagihan += $total;
 						$goods_photos["filename"] = ($goods_photos["filename"] == "")?"no_goods.png":$goods_photos["filename"];
+						if(!file_exists("goods/".$goods_photos["filename"])) $goods_photos["filename"] = "no_goods.png";
 				?>
 				<tr>
 					<td colspan="4">

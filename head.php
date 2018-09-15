@@ -108,6 +108,7 @@
 <?php
 	$userImage = $db->fetch_single_data("buyers","avatar",["user_id"=>$__user_id]);
 	if($userImage == "") $userImage = $db->fetch_single_data("sellers","logo",["user_id"=>$__user_id]);
+	if(!file_exists("users_images/".$userImage)) $userImage = "nophoto.png";
 	if($userImage == "") $userImage = "nophoto.png";
 				
 	$mainMenu_lg .= "<li><a href=\"dashboard.php\"><span class='glyphicon glyphicon-th-large'></span> ".v("my_dashboard")."<span class='notification-counter' style='visibility:hidden;' id='notifMyDashboardCount'></span></a></li>";

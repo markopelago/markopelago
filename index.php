@@ -69,6 +69,7 @@
 			$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY RAND() LIMIT 10");
 			foreach($products as $product){
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
+				if(!file_exists("goods/".$img)) $img = "no_goods.png";
 				if($img == "") $img = "no_goods.png";
 		?>
 			<div class="img-thumbnail goods-thumbnail">
@@ -92,6 +93,7 @@
 			$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY RAND() LIMIT 10");
 			foreach($products as $product){
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
+				if(!file_exists("goods/".$img)) $img = "no_goods.png";
 				if($img == "") $img = "no_goods.png";
 		?>
 			<div class="col-md-2 col-xs-4" style="margin-bottom:10px;">
@@ -117,6 +119,7 @@
 		<?php 
 			$sellers = $db->fetch_all_data("sellers",[],"1=1 ORDER BY RAND() LIMIT 10");
 			foreach($sellers as $seller){
+				if(!file_exists("users_images/".$seller["logo"])) $seller["logo"] = "nologo.jpg";
 				if($seller["logo"] == "") $seller["logo"] = "nologo.jpg";
 				$seller_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller["user_id"],"default_seller" => 1]);
 				$seller_location = get_location($seller_location_id)[0]["name"];
