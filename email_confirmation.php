@@ -9,7 +9,7 @@
 		$db->addfield("email_confirmed_at");$db->addvalue($__now);
 		$updating = $db->update();
 		if($updating["affected_rows"] > 0){
-			$users = $db->fetch_all_data("a_users",[],"id = '".$user_id."'");
+			$users = $db->fetch_all_data("a_users",[],"id = '".$user_id."'")[0];
 			$_SESSION["username"] = $users["email"];
 			$_SESSION["isloggedin"] = 1;
 			$_SESSION["user_id"] = $users["id"];
