@@ -62,10 +62,12 @@
 						<h3 style="color:#800000;"><b>Rp. <?=format_amount(get_goods_price($_GET["id"])["display_price"]);?></b></h3>
 						<div style="height:10px;"></div>
 						<?php if($__seller_id != $goods["seller_id"]){ ?>
-							<?php if($stock > 0){ ?>
-								<button <?=$onclickBuy;?> class="btn btn-primary btn-red" style="width:200px;"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;<?=v("buy");?></button>
-							<?php } else { ?>
+							<?php if($stock <= 0){ ?>
 								<button class="btn" style="width:200px;"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;<?=v("buy");?> (<?=v("empty_stock");?>)</button>
+							<?php }else if(get_goods_price($_GET["id"])["display_price"] <= 0){ ?>
+								<button class="btn" style="width:200px;"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;<?=v("buy");?></button>
+							<?php } else { ?>
+								<button <?=$onclickBuy;?> class="btn btn-primary btn-red" style="width:200px;"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;<?=v("buy");?></button>
 							<?php } ?>
 						<?php } ?>
 						<div style="height:10px;"></div>
