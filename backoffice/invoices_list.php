@@ -9,6 +9,7 @@
 		$_isexport = true;
 	}
 	include_once "head.php";
+	include_once "invoices_func.php";
 ?>
 <?php
 	if($_GET["changeStatus"]  == 3){
@@ -17,17 +18,11 @@
 		$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$cart_group."'");
 		foreach($transactions as $transaction){
 			$po_no = generate_po_no();
-			$db->addtable("transactions");  
-			$db->where("cart_group",$cart_group);
-			$db->where("seller_user_id",$transaction["seller_user_id"]);
-			$db->where("status","2");
-			$db->addfield("po_no");			$db->addvalue($po_no);
-			$db->addfield("po_at");			$db->addvalue($__now);
-			$db->addfield("status");        $db->addvalue("3");
-			$updating = $db->update();
+			updateStatus3($cart_group,$transaction["seller_user_id"],$po_no);
 			// if($updating["affected_rows"] <= 0) $failedUpdatingTransactions = true;
 		}
 		if(!$failedUpdatingTransactions){
+			sendMailPaymentVerified($cart_group);
 			$_SESSION["message"] = "Status berhasil diubah";
 			?><script> window.location='invoices_list.php'; </script><?php
 			exit();

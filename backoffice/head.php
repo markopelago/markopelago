@@ -1,4 +1,5 @@
 <?php include_once "common.php"; ?>
+<?php include_once "../func.sendingmail.php"; ?>
 <?php $_rowperpage = 200; ?>
 <?php $_max_counting = $db->max_counting; ?>
 <?php if(!$__isBackofficer){ ?><script> window.location="../index.php";</script><?php } ?>
