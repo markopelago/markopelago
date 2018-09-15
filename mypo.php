@@ -8,6 +8,7 @@
 	}
 	if(isset($_POST["savingPoDelivered"]) && $_POST["savingPoDelivered"] == 1){
 		if($_POST["receipt_no"] != ""){
+			$emails = array();
 			foreach($transactions as $transaction){
 				$db->addtable("transaction_forwarder");	$db->where("transaction_id",$transaction["id"]);
 				$db->addfield("receipt_no");	$db->addvalue($_POST["receipt_no"]);
@@ -26,7 +27,23 @@
 					// $db->addfield("history_at");		$db->addvalue($__now);
 					// $inserting = $db->insert();
 				// }
+				$buyer_email = $db->fetch_single_data("a_users","email",["id" => $transaction["buyer_user_id"]]);
+				$forwarder_name = $db->fetch_single_data("transaction_forwarder","concat(name,'(',courier_service,')')",["transaction_id" => $transaction["id"]]);
+				$emails[$transaction["invoice_no"]]["buyer_email"] = $buyer_email;
+				$emails[$transaction["invoice_no"]]["forwarder_name"] = $forwarder_name;
+				$emails[$transaction["invoice_no"]]["forwarder_receipt_no"] = $_POST["receipt_no"];
+				$emails[$transaction["invoice_no"]]["forwarder_receipt_at"] = substr($__now,0,10);
+				
 			}
+			
+			foreach($emails as $invoice_no => $email){
+				$arr1 = ["{invoice_no}","{forwarder_name}","{forwarder_receipt_no}","{forwarder_receipt_at}"];
+				$arr2 = [$invoice_no,$email["forwarder_name"],$email["forwarder_receipt_no"],format_tanggal($email["forwarder_receipt_at"],"dMY")];
+				$body = read_file("html/email_shipping_process_id.html");
+				$body = str_replace($arr1,$arr2,$body);
+				sendingmail("Markopelago.com -- Pengiriman Pesanan ".$invoice_no,$email["buyer_email"],$body,"system@markopelago.com|Markopelago System");
+			}
+			
 			$db->addtable("transactions");	$db->where("po_no",$po_no); $db->where("seller_user_id",$__user_id);
 			$db->addfield("sent_at");		$db->addvalue($__now);
 			$db->addfield("status");		$db->addvalue(5);
