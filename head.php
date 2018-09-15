@@ -83,6 +83,16 @@
 		function closeNav() {
 			document.getElementById("mySidenav").style.width = "0";
 		}
+		function showGoodsPhoto(goods_id,goods_photo_id){
+			$.get( "ajax/show_goods_photo.php?goods_id="+goods_id+"&goods_photo_id="+goods_photo_id, function(modalBody) {
+				modalFooter = "<button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\">Close</button>";
+				$('#modalTitle').html("");
+				$('#modalTitle').parent().css( "display", "none" );
+				$('#modalBody').html(modalBody);
+				$('#modalFooter').html(modalFooter);
+				$('#myModal').modal('show');
+			});
+		}
 	</script>
 	
 	<!-- Global site tag (gtag.js) - Google Analytics -->
