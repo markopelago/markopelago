@@ -19,6 +19,58 @@
 		$db->addfield("seller_paid_by");$db->addvalue($__username);
 		$updating = $db->update();
 		if($updating["affected_rows"] > 0){
+			$transactions = $db->fetch_all_data("transactions",[],"po_no = '".$_GET["po_no"]."'");
+			$invoice_nos = "";
+			$TOTAL = 0;
+			$order_detail = "<table cellpadding='3'>";
+			foreach($transactions as $transaction){
+				if(!$_invoice_nos[$transaction["invoice_no"]]){
+					$_invoice_nos[$transaction["invoice_no"]] = 1;
+					$invoice_nos .= $transaction["invoice_no"].", "; 
+				}
+				$transaction_details = $db->fetch_all_data("transaction_details",[],"transaction_id = '".$transaction["id"]."'");
+				foreach($transaction_details as $transaction_detail){
+					$goods_name = $db->fetch_single_data("goods","name",["id" => $transaction_detail["goods_id"]]);
+					$unit = $db->fetch_single_data("units","name_".$__locale,["id" => $transaction_detail["unit_id"]]);
+					$TOTAL += $transaction_detail["gross"] * $transaction_detail["qty"];
+					$order_detail .= "<tr>
+										<td>".$goods_name."</td>
+										<td align='right'>".$transaction_detail["qty"]."</td>
+										<td>".$unit."</td>
+										<td>Rp</td>
+										<td align='right'>".format_amount($transaction_detail["gross"] * $transaction_detail["qty"])."</td>
+									</tr>";
+				}
+				$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"transaction_id = '".$transaction["id"]."'");
+				foreach($transaction_forwarders as $transaction_forwarder){
+					$TOTAL += $transaction_forwarder["total"];
+					$order_detail .= "<tr>
+										<td colspan = '2' nowrap>&nbsp;&nbsp;&nbsp;Servis Kurir ".$transaction_forwarder["name"]." (".$transaction_forwarder["courier_service"].")</td>
+										<td></td>
+										<td>Rp</td>
+										<td align='right'>".format_amount($transaction_forwarder["total"])."</td>
+									</tr>";
+				}
+				
+			}
+			$invoice_nos = substr($invoice_nos,0,-2);
+			$order_detail .= "<tr>
+								<td colspan = '3' nowrap><b>TOTAL PEMBAYARAN</b></td>
+								<td><b>Rp</b></td>
+								<td align='right'><b>".format_amount($TOTAL)."</b></td>
+							</tr></table>";
+			
+			$transaction = $db->fetch_all_data("transactions",[],"po_no = '".$_GET["po_no"]."'")[0];
+			$seller_name = $db->fetch_single_data("sellers","concat(pic,' - ',name)",["user_id" => $transaction["seller_user_id"]]);
+			$seller_email = $db->fetch_single_data("a_users","email",["id" => $transaction["seller_user_id"]]);
+			$seller_bank_name = $db->fetch_single_data("user_banks","concat((SELECT name FROM banks WHERE id=bank_id))",["user_id" => $transaction["seller_user_id"],"default_seller" => 1]);
+			$seller_bank_branch = $db->fetch_single_data("user_banks","branch",["user_id" => $transaction["seller_user_id"],"default_seller" => 1]);
+			
+			$arr1 = ["{seller_name}","{invoice_no}","{seller_bank_name}","{seller_bank_branch}","{order_detail}"];
+			$arr2 = [$seller_name,$invoice_nos,$seller_bank_name,$seller_bank_branch,$order_detail];
+			$body = read_file("../html/email_payment_of_sales_id.html");
+			$body = str_replace($arr1,$arr2,$body);
+			sendingmail("Markopelago.com -- Pembayaran Penjualan ".$invoice_nos,$seller_email,$body,"system@markopelago.com|Markopelago System");
 			$_SESSION["message"] = "Status berhasil diubah";
 			?><script> window.location='po_list.php'; </script><?php
 			exit();
@@ -88,7 +140,8 @@
 					"Seller",
 					"Buyer",
 					"Total",
-					"commission",
+					"Commission",
+					"Courier",
 					"Payment to Seller",
 					"Seller Bank",
 					"<div onclick=\"sorting('status');\">Status</div>",
@@ -117,6 +170,11 @@
 			} else {
 				$status = "<b style='color:blue;'>Seller Paid At ".$transaction["seller_paid_at"]."</b>";
 			}
+			$courier = 0;
+			$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"transaction_id IN (SELECT id FROM transactions WHERE po_no = '".$cart["po_no"]."')");
+			foreach($transaction_forwarders as $transaction_forwarder){
+				$courier+= $transaction_forwarder["total"];
+			}
 			$actions = 	"<a href=\"po_view.php?po_no=".$cart["po_no"]."\">View</a>";
 			echo $t->row(
 				[$no+$start+1,
@@ -125,12 +183,13 @@
 				$buyer,
 				format_amount($total),
 				format_amount($commission),
-				"<b>".format_amount($totgross)."</b>",
+				format_amount($courier),
+				"<b>".format_amount($totgross + $courier)."</b>",
 				$seller_bank,
 				$status,
 				$transaction["transaction_at"],
 				$actions],
-				["align='right' valign='top'","","","","align='right' valign='top'","align='right' valign='top'","align='right' valign='top'",""]
+				["align='right' valign='top'","","","","align='right' valign='top'","align='right' valign='top'","align='right' valign='top'","align='right' valign='top'",""]
 			);
 		} 
 	?>
