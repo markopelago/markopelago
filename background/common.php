@@ -148,4 +148,16 @@
             return "0";
         }
     }
+	
+	function randtoken($len){
+		$return = "";
+		while(strlen($return) < $len){
+			if(rand(0,1) == 0){//angka
+				$return .= rand(0,9);
+			} else {//huruf
+				$return .= chr(rand(65,90));
+			}
+		}
+		return $return;
+	}
 ?>
