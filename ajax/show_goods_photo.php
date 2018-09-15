@@ -8,7 +8,13 @@
 	if(!$next_id) $next_id = $db->fetch_single_data("goods_photos","id",["goods_id" => $goods_id],["id"]);
 	if(!$prev_id) $prev_id = $db->fetch_single_data("goods_photos","id",["goods_id" => $goods_id],["id DESC"]);
 ?>
-<img class="img-responsive" src="goods/<?=$filename;?>" style="width:100%">
+<?php if(isMobile()){ ?>
+	<div style="height:360px;overflow: scroll;">
+		<img  src="goods/<?=$filename;?>" style="width:600px;">
+	</div>
+<?php } else { ?>
+	<img class="img-responsive" src="goods/<?=$filename;?>" style="width:100%">
+<?php } ?>
 <table width="100%">
 	<tr>
 		<td onclick="showGoodsPhoto('<?=$goods_id;?>','<?=$prev_id;?>');" nowrap><i style="font-size:40px;" class="fa fa-arrow-left"></i></td>
