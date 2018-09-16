@@ -49,9 +49,12 @@
 		?>
 			<table class="table table-bordered" width="100%">
 				<tr>
-					<td colspan="6">
+					<td colspan="4">
 						<b><?=$seller["name"];?></b><br>
 						<span class="glyphicon glyphicon-map-marker"></span> <?=$seller_locations[2]["name"];?>, <?=$seller_locations[1]["name"];?>, <?=$seller_locations[0]["name"];?><br>
+					</td>
+					<td colspan="2">
+						<button class="btn btn-info" onclick="loadShopping_progress('<?=$transactions[0]["id"];?>');"><span class="glyphicon glyphicon glyphicon-th-list"></span> <?=v("show_shopping_progress");?></button>
 					</td>
 				</tr> 
 				<?php 
@@ -79,11 +82,6 @@
 						</div>
 					</td>
 					<td colspan="2" align="right" nowrap>
-						<button class="btn btn-info" onclick="loadShopping_progress('<?=$transaction["id"];?>');"><span class="glyphicon glyphicon glyphicon-th-list"></span> <?=v("show_shopping_progress");?></button>
-						<br>
-						<br>
-						<br>
-						<br>
 						Sub Total<br>
 						Rp. <?=format_amount($transaction_details["total"])?>
 					</td>   
