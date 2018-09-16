@@ -61,7 +61,7 @@
 						$viewUrl = "myinvoice.php?cart_group=".$transaction["cart_group"];
 						if($transaction["status"] > 3) $viewUrl = "myinvoice.php?invoice_no=".$transaction["invoice_no"];
 						?>
-						<tr>
+						<tr onclick="loadShopping_progress('<?=$transaction["id"];?>');">
 							<td class="nowrap"><a href="<?=$viewUrl;?>" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></a></td>
 							<td class="nowrap"><?=format_tanggal($transaction["invoice_at"]);?></td>
 							<td class="nowrap"><?=$transaction["invoice_no"];?></td>

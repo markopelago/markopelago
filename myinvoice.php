@@ -79,13 +79,18 @@
 						</div>
 					</td>
 					<td colspan="2" align="right" nowrap>
+						<button class="btn btn-info" onclick="loadShopping_progress('<?=$transaction["id"];?>');"><span class="glyphicon glyphicon glyphicon-th-list"></span> <?=v("show_shopping_progress");?></button>
+						<br>
+						<br>
+						<br>
+						<br>
 						Sub Total<br>
 						Rp. <?=format_amount($transaction_details["total"])?>
 					</td>   
 				</tr>
 				<tr>
 					<td colspan="5">
-						<u><?=v("delivery_destination");?> :</u><br><br>
+						<u><?=v("delivery_destination");?> :</u><br>
 						<b><?=$transaction_forwarder["user_address_pic"];?></b> <br>
 						<?=$transaction_forwarder["user_address"];?> <br>
 						<?php

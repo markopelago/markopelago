@@ -188,3 +188,16 @@ function loadInfo(mode){
 		$('#myModal').modal('show');
 	});
 }
+
+function loadShopping_progress(transaction_id){
+	$.get( "ajax/transaction.php?mode=loadShoppingProgress&transaction_id="+transaction_id, function(modalBody) {
+		modalBody = modalBody.split("|||");
+		modalTitle = modalBody[0];
+		modalFooter = modalBody[2];
+		modalBody = modalBody[1];
+		$('#modalTitle').html(modalTitle);
+		$('#modalBody').html(modalBody);
+		$('#modalFooter').html(modalFooter);
+		$('#myModal').modal('show');
+	});
+}

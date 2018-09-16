@@ -275,7 +275,9 @@ class Vocabulary{
 		$arr[$l]["the_destination_bank"]						= "The destination bank";
 		$arr[$l]["please_add_your_store_address"]				= "Please add Your store`s address";
 		$arr[$l]["to"]											= "to";
-		$arr[$l]["other_goods_from_seller"]						= "Otehr goods from seller";
+		$arr[$l]["other_goods_from_seller"]						= "Other goods from seller";
+		$arr[$l]["show_shopping_progress"]						= "Show progress";
+		$arr[$l]["shopping_progress"]							= "Shopping Progress";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -539,6 +541,8 @@ class Vocabulary{
 		$arr[$l]["please_add_your_store_address"]				= "Silakan tambahkan alamat toko Anda";
 		$arr[$l]["to"]											= "s/d";
 		$arr[$l]["other_goods_from_seller"]						= "Produk lainnya dari penjual";
+		$arr[$l]["show_shopping_progress"]						= "Lihat Progres";
+		$arr[$l]["shopping_progress"]							= "Progres Belanja";
 		
 		return $arr[$this->locale][$index];
 	}
