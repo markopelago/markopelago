@@ -94,10 +94,18 @@
 		if($transaction["process_at"] != "0000-00-00 00:00:00") 	$return .= "<div class='panel panel-info'><div class='panel-heading'>".transactionList(4).":<br>&nbsp;&nbsp;&nbsp;".format_tanggal($transaction["process_at"],"dMY",true)."</div></div>";
 		if($transaction["sent_at"] != "0000-00-00 00:00:00") {
 			$receipt_no = $db->fetch_single_data("transaction_forwarder","receipt_no",["transaction_id" => $transaction_id]);
-			$return .= "<div class='panel panel-info'><div class='panel-heading'>
-							".transactionList(5).":<br>&nbsp;&nbsp;&nbsp;".format_tanggal($transaction["sent_at"],"dMY",true)."<br>
-							".v("shipping_receipt_number").":<br>&nbsp;&nbsp;&nbsp;".$receipt_no."
-						</div></div>";
+			$return .= "<div class='panel panel-info'><div class='panel-heading'>".transactionList(5).":<br>";
+			$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"id IN (SELECT id FROM transactions WHERE invoice_no='".$transaction["invoice_no"]."')");
+			$receipts = array();
+			foreach($transaction_forwarders as $transaction_forwarder){
+				if($transaction_forwarder["receipt_no"] != ""){
+					$receipts[$transaction_forwarder["receipt_no"]] = $transaction_forwarder["receipt_at"];
+				}
+			}
+			foreach($receipts as $receipt_no => $receipt_at){
+				$return .= "&nbsp;&nbsp;&nbsp;".v("receipt_number")." <b>".$receipt_no."</b> : ".format_tanggal($receipt_at,"dMY",true)."<br>";
+			}
+			$return .= "</div></div>";
 		}
 		if($transaction["delivered_at"] != "0000-00-00 00:00:00") 	$return .= "<div class='panel panel-info'><div class='panel-heading'>".transactionList(6).":<br>&nbsp;&nbsp;&nbsp;".format_tanggal($transaction["delivered_at"],"dMY",true)."</div></div>";
 		if($transaction["done_at"] != "0000-00-00 00:00:00") 		$return .= "<div class='panel panel-info'><div class='panel-heading'>".transactionList(7).":<br>&nbsp;&nbsp;&nbsp;".format_tanggal($transaction["done_at"],"dMY",true)."</div></div>";

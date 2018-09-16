@@ -8,47 +8,29 @@
 	}
 	if(isset($_POST["savingPoDelivered"]) && $_POST["savingPoDelivered"] == 1){
 		if($_POST["receipt_no"] != ""){
-			$emails = array();
-			foreach($transactions as $transaction){
-				$db->addtable("transaction_forwarder");	$db->where("transaction_id",$transaction["id"]);
-				$db->addfield("receipt_no");	$db->addvalue($_POST["receipt_no"]);
+			$transaction = $db->fetch_all_data("transactions",[],"id = '".$_POST["transaction_id"]."' AND seller_user_id = '".$__user_id."'")[0];
+			$transaction_forwarder_receipt_no = $db->fetch_single_data("transaction_forwarder","receipt_no",["transaction_id" => $transaction["id"]]);
+			$db->addtable("transaction_forwarder");	$db->where("transaction_id",$transaction["id"]);
+			$db->addfield("receipt_no");	$db->addvalue($_POST["receipt_no"]);
+			if($transaction_forwarder_receipt_no == ""){
 				$db->addfield("receipt_at");	$db->addvalue($__now);
-				$updating = $db->update();
-				
-				// $transaction_details = $db->fetch_all_data("transaction_details",[],"transaction_id = '".$transaction["id"]."'");
-				// foreach($transaction_details as $transaction_detail){
-					// $db->addtable("goods_histories");
-					// $db->addfield("seller_user_id");	$db->addvalue($__user_id);
-					// $db->addfield("transaction_id");	$db->addvalue($transaction["id"]);
-					// $db->addfield("goods_id");			$db->addvalue($transaction_detail["goods_id"]);
-					// $db->addfield("in_out");			$db->addvalue("out");
-					// $db->addfield("qty");				$db->addvalue($transaction_detail["qty"]);
-					// $db->addfield("notes");				$db->addvalue($transaction_detail["notes"]);
-					// $db->addfield("history_at");		$db->addvalue($__now);
-					// $inserting = $db->insert();
-				// }
-				$buyer_email = $db->fetch_single_data("a_users","email",["id" => $transaction["buyer_user_id"]]);
-				$forwarder_name = $db->fetch_single_data("transaction_forwarder","concat(name,'(',courier_service,')')",["transaction_id" => $transaction["id"]]);
-				$emails[$transaction["invoice_no"]]["buyer_email"] = $buyer_email;
-				$emails[$transaction["invoice_no"]]["forwarder_name"] = $forwarder_name;
-				$emails[$transaction["invoice_no"]]["forwarder_receipt_no"] = $_POST["receipt_no"];
-				$emails[$transaction["invoice_no"]]["forwarder_receipt_at"] = substr($__now,0,10);
-				
 			}
+			$updating = $db->update();
 			
-			foreach($emails as $invoice_no => $email){
-				$arr1 = ["{invoice_no}","{forwarder_name}","{forwarder_receipt_no}","{forwarder_receipt_at}"];
-				$arr2 = [$invoice_no,$email["forwarder_name"],$email["forwarder_receipt_no"],format_tanggal($email["forwarder_receipt_at"],"dMY")];
-				$body = read_file("html/email_shipping_process_id.html");
-				$body = str_replace($arr1,$arr2,$body);
-				sendingmail("Markopelago.com -- Pengiriman Pesanan ".$invoice_no,$email["buyer_email"],$body,"system@markopelago.com|Markopelago System");
-			}
+			$buyer_email = $db->fetch_single_data("a_users","email",["id" => $transaction["buyer_user_id"]]);
+			$forwarder_name = $db->fetch_single_data("transaction_forwarder","concat(name,'(',courier_service,')')",["transaction_id" => $transaction["id"]]);
 			
-			$db->addtable("transactions");	$db->where("po_no",$po_no); $db->where("seller_user_id",$__user_id);
+			$arr1 = ["{invoice_no}","{forwarder_name}","{forwarder_receipt_no}","{forwarder_receipt_at}"];
+			$arr2 = [$transaction["invoice_no"],$forwarder_name,$_POST["receipt_no"],format_tanggal(substr($__now,0,10),"dMY")];
+			$body = read_file("html/email_shipping_process_id.html");
+			$body = str_replace($arr1,$arr2,$body);
+			sendingmail("Markopelago.com -- Pengiriman Pesanan ".$invoice_no,$buyer_email,$body,"system@markopelago.com|Markopelago System");
+			
+			$db->addtable("transactions");	$db->where("id",$transaction["id"]); $db->where("seller_user_id",$__user_id);
 			$db->addfield("sent_at");		$db->addvalue($__now);
 			$db->addfield("status");		$db->addvalue(5);
 			$updating = $db->update();
-			$_SESSION["message"] = v("po_was_delivered");
+			$_SESSION["message"] = v("goods_was_delivered");
 		} else {
 			$_SESSION["errormessage"] = v("please_enter_the_shipping_receipt_number");
 		}
@@ -68,10 +50,11 @@
 			$_SESSION["errormessage"] = v("failed_saving_data");
 		}
 	}
-	$status = $db->fetch_single_data("transactions","status",["po_no" => $po_no]);
 ?>
 <script>
-	function changeStatus(status){
+	function changeStatus(status,transaction_id,receipt_no){
+		transaction_id = transaction_id || "";
+		receipt_no = receipt_no || "";
 		var txtConfirm = "";
 		if(status == 4){
 			if(confirm("<?=v("are_you_sure_to_process_this_po");?> ? ")){
@@ -79,12 +62,13 @@
 			}
 		} 
 		if(status == 5){
-			modalTitle 	= "	<?=v("po_was_delivered");?> ";
+			modalTitle 	= "	<?=v("goods_was_delivered");?> ";
 			modalBody	= "<form id=\"frmPoDelivered\" method='POST' action='?po_no=<?=$po_no;?>'>";
 			modalBody	+= "	<input type='hidden' name='savingPoDelivered' value='1'>";
 			modalBody 	+= "	<div class='form-group'>";
 			modalBody 	+= "		<label><?=v("please_enter_the_shipping_receipt_number");?> :</label>";
-			modalBody 	+= "		<input name='receipt_no' class='form-control' placeholder='<?=v("shipping_receipt_number");?>' required>";
+			modalBody 	+= "		<input name='receipt_no' value='"+receipt_no+"' class='form-control' placeholder='<?=v("shipping_receipt_number");?>' required>";
+			modalBody 	+= "		<input name='transaction_id' type='hidden' value='"+transaction_id+"'>";
 			modalBody 	+= "	</div>";
 			modalBody 	+= "</form>";
 			modalFooter = "<button type=\"button\" class=\"btn btn-primary\" onclick=\"frmPoDelivered.submit();\"><?=v("save");?></button>";
@@ -116,6 +100,7 @@
 					
 					$total = $transaction_details["total"] + $transaction_forwarder["total"];
 					$total_tagihan += $total;
+					$status = $db->fetch_single_data("transactions","status",["id" => $transaction["id"]]);
 			?>
 			<tr>
 				<td colspan="4">
@@ -125,7 +110,10 @@
 					<div class="col-md-10">
 						<b><?=$goods["name"]?></b><br>
 						<?=$transaction_details["qty"]?> <?=$units["name_".$__locale]?> x Rp <?=format_amount($transaction_details["price"])?><br>
-						<?=v("weight_per_unit");?> : <?=($goods["weight"]/1000);?> Kg
+						<?=v("weight_per_unit");?> : <?=($goods["weight"]/1000);?> Kg<br>
+						<?php if($status == "5") echo "<div style='width:220px;padding-top:5px;padding-bottom:5px;margin-bottom:10px;font-size:14px;text-align:center;' class='alert alert-success'><span class='glyphicon glyphicon-send '></span> ".v("goods_was_delivered")."</div>"; ?>
+						<?php if($status == "5") echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','".$transaction_forwarder["receipt_no"]."');\">".v("edit_receipt_no")."</button>"; ?>
+						<?php if($status == "4") echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."');\">".v("update_goods_was_delivered")."</button>"; ?>
 					</div>
 				</td>
 				<td colspan="2" align="right" nowrap>
@@ -177,8 +165,6 @@
 		<br>
 		<?php 
 			if($status == "3")	echo $f->input("process_po",v("process_this_po"),"style=\"width:100%;\" onclick=\"changeStatus(4);\"","btn btn-success");
-			if($status == "4")	echo $f->input("po_delivered",v("po_was_delivered"),"style=\"width:100%;\" onclick=\"changeStatus(5);\"","btn btn-success");
-			if($status == "5")	echo "<div style='width:100%;font-size:20px;text-align:center;' class='alert alert-success'><span class='glyphicon glyphicon-send '></span> ".v("po_was_delivered")."</div>";
 		?>
     </div>
 </div>
