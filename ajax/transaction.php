@@ -74,8 +74,10 @@
 	if($mode == "loadBankAccounts"){
 		$bank_account_id = $_GET["bank_account_id"];
 		$bank_account = $db->fetch_all_data("bank_accounts",[],"id = '".$bank_account_id."'")[0];
+		$bank_code = $db->fetch_single_data("banks","code",["id" => $bank_account["bank_id"]]);
 		$bank_name = $db->fetch_single_data("banks","name",["id" => $bank_account["bank_id"]]);
-		echo $bank_name."<br>No Rekening: ".$bank_account["account_no"]."<br>a/n: ".$bank_account["account_name"];
+		$bank_name .= " (Kode Bank ".numberpad($bank_code,3).")";
+		echo $bank_name."<br><b>No Rekening: ".$bank_account["account_no"]."</b><br>a/n: ".$bank_account["account_name"];
 	}
 	
 	if($mode == "loadUserBank"){

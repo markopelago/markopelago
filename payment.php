@@ -82,7 +82,6 @@
 		<div class="row">
 			<div class="well">
 				<u>Detail Invoice:</u><br>
-				<i>
 					<b>Invoice No : <?=$invoice_nos;?></b><br><br>
 					<table width="200">
 						<tr><td colspan="3" nowrap>Dengan nilai :</td><tr>
@@ -140,7 +139,7 @@
 							<br>
 						<?php } ?>
 					</form>
-				</i><br>				
+				<br>				
 			</div>
 		</div>
 	</div>

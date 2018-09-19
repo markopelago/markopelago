@@ -26,6 +26,8 @@
 			$po_s[$transaction["po_no"]]["seller_name"] = $seller_name;
 			foreach($transaction_details as $transaction_detail){
 				$goods_name = $db->fetch_single_data("goods","name",["id" => $transaction_detail["goods_id"]]);
+				$notes = "";
+				if($transaction_detail["notes"]!="") $notes = "<br><i>notes: ".$transaction_detail["notes"]."</i>";
 				$unit = $db->fetch_single_data("units","name_".$__locale,["id" => $transaction_detail["unit_id"]]);
 				$emails[$transaction["invoice_no"]]["total"] += $transaction_detail["total"];
 				$emails[$transaction["invoice_no"]]["cart_detail"] .= "<tr>
@@ -38,7 +40,7 @@
 																		
 				$po_s[$transaction["po_no"]]["total"] += $transaction_detail["total"];
 				$po_s[$transaction["po_no"]]["cart_detail"] .= "<tr>
-																	<td>".$goods_name."</td>
+																	<td nowrap>".$goods_name.$notes."</td>
 																	<td align='right'>".$transaction_detail["qty"]."</td>
 																	<td>".$unit."</td>
 																	<td>Rp</td>
