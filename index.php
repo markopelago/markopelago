@@ -90,7 +90,7 @@
 	</div>
 	<div class="row">
 		<?php 
-			$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY RAND() LIMIT 10");
+			$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY RAND() LIMIT 12");
 			foreach($products as $product){
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 				if(!file_exists("goods/".$img)) $img = "no_goods.png";
