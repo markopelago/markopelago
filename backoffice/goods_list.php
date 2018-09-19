@@ -14,25 +14,28 @@
 		<?=$f->start("filter","GET");?>
 			<?=$t->start();?>
 			<?php
-				$seller = $f->select("seller_id",$db->fetch_select_data("sellers","id","name",null,array("name")),@$_GET["seller"],"style='height:25px'");
+				$categories = $f->select("category_id",$db->fetch_select_data("categories","id","name_en",["parent_id" => "0:>"],["name_en"],"",true),@$_GET["category_id"],"style='height:25px'");
+				$seller = $f->select("seller_id",$db->fetch_select_data("sellers","id","name",null,["name"],"",true),@$_GET["seller_id"],"style='height:25px'");
 				$name = $f->input("name",@$_GET["name"]);
 			?>
+			<?=$t->row(array("Category",$categories));?>
 			<?=$t->row(array("Seller",$seller));?>
 			<?=$t->row(array("Name",$name));?>
 			<?=$t->end();?>
 			<?=$f->input("page","1","type='hidden'");?>
 			<?=$f->input("sort",@$_GET["sort"],"type='hidden'");?>
-			<?=$f->input("do_filter","Load","type='submit'");?>
-			<?=$f->input("reset","Reset","type='button' onclick=\"window.location='?';\"");?>
+			<?=$f->input("do_filter","Load","type='submit' style='width:30%'");?>
+			<?=$f->input("export","Export","type='button' style='width:30%' onclick=\"window.open('goods_export.php?category_id=".$_GET["category_id"]."&seller_id=".$_GET["seller_id"]."&name=".$_GET["name"]."&sort=".$_GET["sort"]."');\"");?>
+			<?=$f->input("reset","Reset","type='button' style='width:30%' onclick=\"window.location='?';\"");?>
 		<?=$f->end();?>
 	</div>
 </div>
 
 <?php
 	$whereclause = "";
-	if(@$_GET["store"]!="") $whereclause .= "store_id = '".$_GET["store"]."' AND ";
-	if(@$_GET["name"]!="") $whereclause .= "name LIKE '"."%".str_replace(" ","%",$_GET["name"])."%"."' AND ";
-	echo $whereclause;
+	if(@$_GET["category_id"]!="") $whereclause .= "category_ids LIKE '%|".$_GET["category_id"]."|%' AND ";
+	if(@$_GET["seller_id"]!="") $whereclause .= "seller_id = '".$_GET["seller_id"]."' AND ";
+	if(@$_GET["name"]!="") $whereclause .= "(name LIKE '%".str_replace(" ","%",$_GET["name"])."%' OR description LIKE '%".str_replace(" ","%",$_GET["name"])."%') AND ";
 	$maxrow = $db->get_maxrow("goods",substr($whereclause,0,-4));
 	$start = getStartRow(@$_GET["page"],$_rowperpage);
 	$paging = paging($_rowperpage,$maxrow,@$_GET["page"],"paging");
@@ -62,13 +65,10 @@
 			$seller = $db->fetch_single_data("sellers","name",array("id"=>$good["seller_id"]));
 			$category_ids = explode('|', $good["category_ids"]);
 			$categories ="";
-			foreach($category_ids as $num => $category_id){ 
-					$category = $db->fetch_single_data("categories","name_id",array("id"=>$category_id));
-					 if ($category!=null) {
-					 	
-					 $categories.=$category. ", ";
-}
-					}
+			foreach($category_ids as $num => $category_id){
+				$category = $db->fetch_single_data("categories","name_id",array("id"=>$category_id));
+				if ($category!=null) $categories.=$category. ", ";
+			}
 		?>
 		<?=$t->row(
 					array($no+$start+1,$good['name'],
