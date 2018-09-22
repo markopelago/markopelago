@@ -7,7 +7,7 @@
 			<tr>
 			<?php 
 				unset($categories);
-				$categories = $db->fetch_all_data("categories",[],"parent_id > 0","id");
+				$categories = $db->fetch_all_data("categories",[],"parent_id = 0","id");
 				foreach($categories as $key => $category){
 					if(($key)%4 == 0) echo "</tr><tr>";
 			?>
