@@ -38,9 +38,9 @@
 						<div class="carousel-inner carousel-inner-goods">
 							<?php
 								if(count($goods_photos) > 0){
-									foreach($goods_photos as $goods_photo){
+									foreach($goods_photos as $key => $goods_photo){
 										$addClass = "";
-										if($goods_photo["seqno"] == "1") $addClass = "active";
+										if($key == 0) $addClass = "active";
 										if(!file_exists("goods/".$goods_photo["filename"])) $goods_photo["filename"] = "no_goods.png";
 										?><div class="item <?=$addClass;?>"> <img src="goods/<?=$goods_photo["filename"];?>" onclick="showGoodsPhoto('<?=$goods_photo["goods_id"];?>','<?=$goods_photo["id"];?>')"> </div><?php
 									}
