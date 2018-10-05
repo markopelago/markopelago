@@ -8,6 +8,7 @@
 # hlsearch on (H) or off (h):
 ~h
 # Command Line History (newest to oldest):
+:q
 :wq
 
 # Search String History (newest to oldest):
@@ -21,16 +22,17 @@
 # Registers:
 
 # File marks:
-'0  6  24  ~/.gitignore
+'0  1  0  ~/.gitignore
+'1  6  24  ~/.gitignore
 
 # Jumplist (newest first):
--'  6  24  ~/.gitignore
 -'  1  0  ~/.gitignore
+-'  6  24  ~/.gitignore
 
 # History of marks within files (newest to oldest):
 
 > ~/.gitignore
-	"	6	24
+	"	1	0
 	^	6	25
 	.	6	0
 	+	6	0
