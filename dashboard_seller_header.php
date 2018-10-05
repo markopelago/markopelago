@@ -1,4 +1,4 @@
-<?php 
+<?php
 	include_once "header.php";
 	include_once "func.crop_image.php";
 ?>

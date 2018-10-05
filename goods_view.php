@@ -1,4 +1,4 @@
-<?php
+<?php 
 	include_once "header.php";
 	if($__seller_id != $db->fetch_single_data("goods","seller_id",["id" => $_GET["id"]])){
 		$_SESSION["errormessage"] = v("you_dont_have_access");

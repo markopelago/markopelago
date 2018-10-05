@@ -1,4 +1,4 @@
-<?php 
+<?php
 	include_once "header.php"; 
 	$goods = $db->fetch_all_data("goods",[],"id = '".$_GET["id"]."'")[0];
 	$seller = $db->fetch_all_data("sellers",[],"id = '".$goods["seller_id"]."'")[0];
