@@ -102,10 +102,21 @@
 			foreach($transaction_forwarders as $transaction_forwarder){
 				if($transaction_forwarder["receipt_no"] != ""){
 					$receipts[$transaction_forwarder["receipt_no"]] = $transaction_forwarder["receipt_at"];
+					$receipts_courier[$transaction_forwarder["receipt_no"]] = $db->fetch_single_data("forwarders","rajaongkir_code",["id" => $transaction_forwarder["forwarder_id"]]);
 				}
 			}
 			foreach($receipts as $receipt_no => $receipt_at){
-				$return .= "&nbsp;&nbsp;&nbsp;".v("receipt_number")." <b>".$receipt_no."</b> : ".format_tanggal($receipt_at,"dMY",true)."<br>";
+				$trackers = $ro->waybill($receipts_courier[$receipt_no],$receipt_no);
+				$return .= "&nbsp;&nbsp;&nbsp;".v("receipt_number")." <b>".$receipt_no."</b>";
+				if(count($trackers["result"]["manifest"]) <= 0) $return .= " : ".format_tanggal($receipt_at,"dMY",true);
+				if(count($trackers["result"]["manifest"]) > 0){
+					$return .= "</div>";
+					$return .= "<div class='panel-body'><b>TRACK SHIPMENT:</b>";
+					foreach($trackers["result"]["manifest"] as $manifest){
+						$return .= "<br><br>".$manifest["manifest_description"];
+						$return .= "<br>&nbsp;&nbsp;&nbsp;".format_tanggal($manifest["manifest_date"]." ".$manifest["manifest_time"] ,"dMY",true);
+					}
+				}
 			}
 			$return .= "</div></div>";
 		}
