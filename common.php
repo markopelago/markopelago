@@ -3,7 +3,7 @@
 	ini_set("session.gc_maxlifetime", 60 * 60 * 24 * 100);
 	set_time_limit(0);
 	
-	if($_COOKIE["kanari_access"] != "ok"){
+	if($_COOKIE["kanari_access"] != "ok" && $_COOKIE["android_apps"] != 1){
 		?> <img src="http://bluefish.co.id/images/under_maintenance.jpg"> <?php
 		exit();
 	}
@@ -83,6 +83,29 @@
 				if($db->fetch_single_data("a_users","id",["token" => $token]) <= 0 ){
 					$db->addtable("a_users");	$db->where("id",$__user_id);
 					$db->addfield("token");		$db->addvalue($token);
+					$updating = $db->update();
+					if($updating["affected_rows"] > 0){
+						$looping = false;
+					}
+				}
+			}
+			return $token;
+		}
+		return "";
+	}
+	
+	
+	
+	function generateAppsToken($suffix = ""){
+		global $db,$__user_id,$__isloggedin;
+		if($__user_id && $__isloggedin){
+			if($suffix == "") $suffix = $__user_id;
+			$looping = true;
+			while($looping){
+				$token = randtoken(20)."_".$suffix;
+				if($db->fetch_single_data("a_users","id",["token" => $token]) <= 0 ){
+					$db->addtable("a_users");	$db->where("id",$__user_id);
+					$db->addfield("app_token");	$db->addvalue($token);
 					$updating = $db->update();
 					if($updating["affected_rows"] > 0){
 						$looping = false;

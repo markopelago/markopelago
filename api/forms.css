@@ -1,0 +1,42 @@
+td{
+	vertical-align:top;
+	white-space: nowrap;
+}
+td,input,select{
+	font-size:10px;
+}
+a{
+	text-decoration:none;
+	color:#43579C;
+}
+.classinput{
+	border:1px solid grey;
+	width:100%;
+}
+.classinput80{
+	border:1px solid grey;
+	width:80%;
+}
+.classinput60{
+	border:1px solid grey;
+	width:60%;
+}
+.classinput40{
+	border:1px solid grey;
+	width:40%;
+}
+.classinput30{
+	border:1px solid grey;
+	width:30%;
+}
+.classinput20{
+	border:1px solid grey;
+	width:20%;
+}
+.big_button{
+	width:100%;
+	height:50px;
+	font-size:20px;
+	font-weight:bold;
+	margin-bottom:10px;
+}

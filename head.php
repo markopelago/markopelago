@@ -1,15 +1,24 @@
 <?php include_once "common.php"; ?>
 <?php $cartcount = count($db->fetch_all_data("transactions",[],"buyer_user_id='".$__user_id."' AND status=0")); ?>
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="<?=$_COOKIE["locale"];?>">
 <head>
-	<title><?=$__title_project;?></title>
-	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+	<meta property="og:image" content="images/icon.png">
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="X-UA-Compatible" content="IE=8;" />
+	<meta name="keywords" content="<?=$__project_description;?>"/>
 	<meta name="description" content="<?=$__project_description;?>">
-	<meta name="author" content="<?=$__title_project;?>">
-	<meta name="format-detection" content="telephone=no">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0">
-	
+	<meta name="title" content="markopelago.com"/>
+	<meta name="language" content="<?=$_COOKIE["locale"];?>"/>
+	<meta name="country" content="indonesia"/>
+	<meta name="source" content="https://www.markopelago.com/"/>
+	<meta name="subject" content="online store"/>
+	<meta name="revisit-after" content="7 days"/>
+	<meta name="robots" content="index, follow"/>
+	<link rel="Shortcut Icon" href="../favicon.ico">
+	<title id="titleid"><?=$__title_project;?></title>
+		
 	<link rel="canonical" href="<?=$__canonical;?>">
 	<link rel="shortcut icon" type="image/x-icon" href="images/icon.png">
 	<link rel="stylesheet" href="styles/style.css">

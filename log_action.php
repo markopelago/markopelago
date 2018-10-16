@@ -29,7 +29,7 @@ function login_action($username,$password){
 			$db->addfield("log_ip");$db->addvalue($_SERVER["REMOTE_ADDR"]);
 			$db->insert(); 
 
-			return 1;
+			return $users["id"];
 		} else {
 			$_SESSION["errormessage"] = v("error_wrong_username_password");
 			return 0;
@@ -61,12 +61,30 @@ if(isset($_POST["login_action"])){
 	if(substr($_SERVER["REQUEST_URI"],-1) != "/") $_SESSION["referer_url"] = basename($_SERVER["REQUEST_URI"]);
 	$_login_action = login_action($_POST["username"],$_POST["password"]);
 	if($_login_action > 0) {
+		if($_COOKIE["android_apps"] == 1){
+			$__user_id = $_login_action;
+			$__isloggedin = 1;
+			$app_token = $db->fetch_single_data("a_users","app_token",["id" => $__user_id]);
+			if($app_token == "") $app_token = generateAppsToken();
+		}
 		$_SESSION["message"] = v("signin_success");
 		if($_SESSION["referer_url"] != ""){
-			?><script> window.location="<?=$_SESSION["referer_url"];?>"; </script><?php
+			if($_COOKIE["android_apps"] == 1){
+				if(strpos($_SESSION["referer_url"],"?") > 0){
+					?><script> window.location="<?=$_SESSION["referer_url"];?>&set_apps_token=<?=$app_token;?>"; </script><?php
+				} else{
+					?><script> window.location="<?=$_SESSION["referer_url"];?>?set_apps_token=<?=$app_token;?>"; </script><?php
+				}
+			} else {
+				?><script> window.location="<?=$_SESSION["referer_url"];?>"; </script><?php
+			}
 			$_SESSION["referer_url"] = "";
 		} else {
-			?><script> window.location='index.php'; </script><?php
+			if($_COOKIE["android_apps"] == 1){
+				?><script> window.location='index.php?set_apps_token=<?=$app_token;?>'; </script><?php
+			} else {
+				?><script> window.location='index.php'; </script><?php
+			}
 		}
 		exit();
 	}
