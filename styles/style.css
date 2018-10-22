@@ -1225,10 +1225,10 @@ a:focus, a:hover {
     text-align: center;
 }
 #controls a {
-    display: inline-block;
+    /* display: inline-block; */
     padding: 0 5%;
     height: 50px;
-    line-height: 50px;
+    line-height: 30px;
     font-size: 20px;
     font-weight: 300;
     color: #888;

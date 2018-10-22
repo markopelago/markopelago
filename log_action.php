@@ -54,8 +54,11 @@ if(isset($_GET["logout_action"])){
 	
 	$_SESSION=array();
 	session_destroy();
-	
-	?><script> window.location='index.php'; </script><?php
+	if($_COOKIE["android_apps"] == 1){
+		?><script> window.location='index.php?logout_success=1'; </script><?php
+	}else{
+		?><script> window.location='index.php'; </script><?php
+	}
 }
 if(isset($_POST["login_action"])){
 	if(substr($_SERVER["REQUEST_URI"],-1) != "/") $_SESSION["referer_url"] = basename($_SERVER["REQUEST_URI"]);
