@@ -97,7 +97,11 @@
 		<table width="100%" cellspacing="10">
 		<?php 
 			$newest_goods_td_width = "width='20%'";
-			if(isMobile()) $newest_goods_td_width = "style='width:100px !important;'";
+			$newest_goods_div_width = "";
+			if(isMobile()){
+				$newest_goods_td_width = "style='width:132px !important;'";
+				$newest_goods_div_width = "width:132px !important;";
+			}
 			$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY created_at DESC LIMIT 5");
 			foreach($products as$key => $product){
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
@@ -105,7 +109,7 @@
 				if($img == "") $img = "no_goods.png";
 		?>
 			<td <?=$newest_goods_td_width;?> align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';">
-				<div class="home_recommended_goods_thumbnail" style="padding:10px;">
+				<div class="home_recommended_goods_thumbnail" style="padding:10px;<?=$newest_goods_div_width;?>">
 					<img class="img-responsive" src="goods/<?=$img;?>">
 					<div class="caption"><p><?=substr($product["name"],0,20);?></p></div>
 					<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> / <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?></p></div>
