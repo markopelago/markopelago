@@ -133,11 +133,13 @@
 				if($seller["logo"] == "") $seller["logo"] = "nologo.jpg";
 				$seller_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller["user_id"],"default_seller" => 1]);
 				$seller_location = get_location($seller_location_id)[0]["name"];
+				$i++;
+				if($i>4) $i=1;
 		?>
 			<div class="img-thumbnail seller-thumbnail" style="height:210px;">
 				<a href="seller_detail.php?id=<?=$seller["id"];?>">
 					<img class="img-circle" src="users_images/<?=$seller["logo"];?>" alt="#">
-					<img class="seller_body_profile" src="assets/seller_body_profile_1.png">
+					<img class="seller_body_profile" src="assets/seller_body_profile_<?=$i;?>.png">
 					<center>
 						<div class="caption"><b><p><?=$seller["name"];?></p></b></div>
 						<div class="location"><p><i class="fa fa-map-marker" style="font-size:24px">&nbsp;</i><?=$seller_location;?></p></div>
