@@ -12,7 +12,7 @@
 						<h4><?=v("contact");?></h4>
 						<p><image src="icons\iconpin.png"></i> PT. Markopelago Indonesia Persada</p>
 						
-						<p><image src="icons\iconemail.png"></i> Email: <a href="mailto:cs@markopelago.com">cs@markopelago.com</a></p>
+						<p><image src="icons\iconemail.png"></i> <a href="mailto:cs@markopelago.com">Email: cs@markopelago.com</a></p>
 						<p><image src="icons\iconig.png"></i> <a href="https://www.instagram.com/markopelago/">IG: markopelago</a></p>
 						<p><image src="icons\iconfb.png"></i> <a href="https://www.facebook.com/marko.pelago.73">Facebook: markopelago indonesia</a></p>
 						<p><image src="icons\iconyt.png"></i> <a href="https://www.youtube.com/channel/UCZM1TAGwxOoR27mbxhJMQwQ">Youtube: markopelago indonesia</p>

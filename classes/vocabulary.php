@@ -106,6 +106,7 @@ class Vocabulary{
 		$arr[$l]["applicants"]									= "Applicants";
 		$arr[$l]["you_have_to_login_first"]						= "You have to log in first";
 		$arr[$l]["hot_products"]								= "Hot Products";
+		$arr[$l]["newest_goods"]								= "Newest Goods";
 		$arr[$l]["best_selling_goods"]							= "Best selling goods";
 		$arr[$l]["recommended_goods"]							= "Recommended Goods";
 		$arr[$l]["recommended_sellers"]							= "Recommended Sellers";
@@ -282,6 +283,7 @@ class Vocabulary{
 		$arr[$l]["other_goods_from_seller"]						= "Other goods from seller";
 		$arr[$l]["show_shopping_progress"]						= "Show progress";
 		$arr[$l]["shopping_progress"]							= "Shopping Progress";
+		$arr[$l]["reason_markopelago_member"]					= "&#34;Why sell and shop at Markopleago?<br>because Markopelago is really Indonesian&#34; this is the proof :";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -375,6 +377,7 @@ class Vocabulary{
 		$arr[$l]["applicants"]									= "Pelamar";
 		$arr[$l]["you_have_to_login_first"]						= "Anda harus login terlebih dahulu";
 		$arr[$l]["hot_products"]								= "Hot Products";
+		$arr[$l]["newest_goods"]								= "Produk yang baru masuk";
 		$arr[$l]["best_selling_goods"]							= "Produk Terlaris";
 		$arr[$l]["recommended_goods"]							= "Rekomendasi Produk";
 		$arr[$l]["recommended_sellers"]							= "Rekomendasi Penjual";
@@ -551,6 +554,7 @@ class Vocabulary{
 		$arr[$l]["other_goods_from_seller"]						= "Produk lainnya dari penjual";
 		$arr[$l]["show_shopping_progress"]						= "Lihat Progres";
 		$arr[$l]["shopping_progress"]							= "Progres Belanja";
+		$arr[$l]["reason_markopelago_member"]					= "&#34;Kenapa jualan dan belanja di Markopleago?<br>Karena Markopelago Indonesia Banget&#34; ini buktinya :";
 		
 		return $arr[$this->locale][$index];
 	}

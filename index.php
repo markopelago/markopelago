@@ -1,54 +1,32 @@
 <?php include_once "homepage_header.php"; ?>
-<div style="height:20px;"></div>
-<div class="container">
-	<div class="row">
-		<div class="col-md-5">
-			<br>
-			<div id="myCarousel" class="carousel slide carousel-main" data-ride="carousel">
-				<!-- Wrapper for slides -->
-				<div class="carousel-inner carousel-inner-main">
-					<div class="item active">	<img src="images/main01.jpg"><div class="carousel-overlay"></div></div>
-					<div class="item">			<img src="images/main02.jpg"><div class="carousel-overlay"></div></div>
-					<div class="item">			<img src="images/main03.jpg"><div class="carousel-overlay"></div></div>
-					<div class="item">			<img src="images/main04.jpg"><div class="carousel-overlay"></div></div>
-					<div class="item">			<img src="images/main05.jpg"><div class="carousel-overlay"></div></div>
-				</div>
-				<!-- Left and right controls -->
-				<a class="left carousel-control" href="#myCarousel" data-slide="prev">
-					<span class="glyphicon glyphicon-chevron-left"></span> <span class="sr-only">Previous</span>
-				</a>
-				<a class="right carousel-control" href="#myCarousel" data-slide="next">
-					<span class="glyphicon glyphicon-chevron-right"></span>	<span class="sr-only">Next</span>
-				</a>
-				<!-- Indicators -->
-				<ol class="carousel-indicators">
-					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-					<li data-target="#myCarousel" data-slide-to="1"></li>
-					<li data-target="#myCarousel" data-slide-to="2"></li>
-					<li data-target="#myCarousel" data-slide-to="3"></li>
-					<li data-target="#myCarousel" data-slide-to="4"></li>
-				</ol>	
-			</div>
-		</div>
-		<div class="col-md-7">
-			<div class="hidden-md hidden-lg" style="height:20px;"></div>
-			<div class="row sub-title-area">
-				<div class="sub-title-text"><?=v("categories");?></div>
-				<div class="view-all-text"><a href="products.php?s=%20"><?=v("view_all");?></a></div>
-			</div>
-			<table class="table-categories">
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+	<div class="carousel-inner">
+		<div class="item active">	<img class="img-responsive" src="assets/banner_header_1.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item">			<img class="img-responsive" src="assets/banner_header_2.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item">			<img class="img-responsive" src="assets/banner_header_3.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item">			<img class="img-responsive" src="assets/banner_header_4.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item">			<img class="img-responsive" src="assets/banner_header_5.png" style="object-fit:cover;width:100%;"></div>
+	</div>
+</div>
+<div class="category_title"><?=v("categories");?></div>
+<div class="categories_head">
+	<div class="container">
+		<div class="row <?=(isMobile())?"scrolling-wrapper":"";?>">
+			<table class="table_categories_head">
 				<tr>
 				<?php 
+					$categories_td_width = "width='12%'";
+					if(isMobile()) $categories_td_width = "style='width:100px !important;'";
 					unset($categories);
-					$categories = $db->fetch_all_data("categories",[],"parent_id = 0 AND id IN(1,2,3,4,5,6,8,9)","id");
+					$categories = $db->fetch_all_data("categories",[],"id IN (1,2,3,4,5,6,8,9)","id");
 					foreach($categories as $key => $category){
-						if(($key)%4 == 0) echo "</tr><tr>";
+						$img = "category_".$category["id"].".png";
 				?>
-					<td width="25%">
-						<a href="category_detail.php?id=<?=$category["id"];?>">
-							<img src="icons/categories/<?=$category["id"].".png";?>" alt="#">
-							<div class="caption"><p><?=$category["name_".$__locale];?></p></div>
-						</a>
+					<td <?=$categories_td_width;?> onclick="window.location='category_detail.php?id=<?=$category["id"];?>';">
+						<div>
+							<p><?=$category["name_".$__locale];?></p>
+							<img class="img-responsive" src="assets/<?=$img;?>">
+						</div>
 					</td>
 				<?php
 					}
@@ -60,54 +38,80 @@
 </div>
 <div style="height:20px;"></div>
 <div class="container">
-	<div class="row sub-title-area">
-		<div class="sub-title-text"><?=v("best_selling_goods");?></div>
-		<div class="view-all-text"><a href="products.php?s=%20"><?=v("view_all");?></a></div>
+	<div class="row">
+		<div class="sub-title-text"><?=v("recommended_goods");?></div>
 	</div>
-	<div class="scrolling-wrapper">
-		<?php 
-			$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY RAND() LIMIT 10");
-			foreach($products as $product){
-				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
-				if(!file_exists("goods/".$img)) $img = "no_goods.png";
-				if($img == "") $img = "no_goods.png";
-		?>
-			<div class="img-thumbnail goods-thumbnail">
-				<a href="product_detail.php?id=<?=$product["id"];?>">
-					<img src="goods/<?=$img;?>" alt="#">
-					<div class="caption"><p><?=substr($product["name"],0,50);?></p></div>
-					<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> / <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?></p></div>
-				</a>
-			</div>
-		<?php } ?>
+	<div class="row">
+		<div class="col-md-5">
+			<img class="img-responsive" src="banners/banner_01.png">
+		</div>
+		<div class="col-md-7 home_recommended_goods">
+			<table width="100%">
+				<tr>
+				<?php 
+					$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY RAND() LIMIT 8");
+					foreach($products as$key => $product){
+						$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
+						if(!file_exists("goods/".$img)) $img = "no_goods.png";
+						if($img == "") $img = "no_goods.png";
+						if(isMobile()){
+							if($key%2 == 0) echo "</tr><tr>";
+						} else {
+							if($key%4 == 0) echo "</tr><tr>";
+						}
+				?>
+						<td align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';">
+							<div class="home_recommended_goods_thumbnail">
+								<img class="img-responsive" src="goods/<?=$img;?>">
+								<div class="caption"><p><?=substr($product["name"],0,20);?></p></div>
+								<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> / <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?></p></div>
+							</div>
+						</td>
+				<?php } ?>
+				</tr>
+			</table>
+		</div>
 	</div>
 </div>
 <div style="height:20px;"></div>
 <div class="container">
 	<div class="row">
-		<div class="sub-title-text"><?=v("recommended_goods");?></div>
-		<div class="view-all-text"><a href="products.php?s=%20"><?=v("view_all");?></a></div>
+		<div class="sub-title-text member_reason"><?=v("reason_markopelago_member");?></div>
 	</div>
+</div>
+<div id="myCarousel" class="carousel slide" data-ride="carousel" style="position:relative;top:-15px;">
+	<div class="carousel-inner">
+		<div class="item active">	<img class="img-responsive" src="assets/markopelago_reason_1.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item">			<img class="img-responsive" src="assets/markopelago_reason_2.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item">			<img class="img-responsive" src="assets/markopelago_reason_3.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item">			<img class="img-responsive" src="assets/markopelago_reason_4.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item">			<img class="img-responsive" src="assets/markopelago_reason_5.png" style="object-fit:cover;width:100%;"></div>
+	</div>
+</div>
+<div style="height:20px;"></div>
+<div class="container">
 	<div class="row">
+		<div class="sub-title-text"><?=v("newest_goods");?></div>
+	</div>
+	<div class="home_recommended_goods <?=(isMobile())?"scrolling-wrapper":"";?>" style="padding-bottom:20px;">
+		<table width="100%" cellspacing="10">
 		<?php 
-			$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY RAND() LIMIT 12");
-			foreach($products as $product){
+			$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY created_at DESC LIMIT 5");
+			foreach($products as$key => $product){
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 				if(!file_exists("goods/".$img)) $img = "no_goods.png";
 				if($img == "") $img = "no_goods.png";
 		?>
-			<div class="col-md-2 col-xs-4" style="margin-bottom:10px;">
-				<div style="width:100%;" class="img-thumbnail goods-thumbnail">
-					<center>
-						<a href="product_detail.php?id=<?=$product["id"];?>">
-							<img src="goods/<?=$img;?>" alt="#">
-							<div class="caption"><p><?=substr($product["name"],0,20);?></p></div>
-							<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> / <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?></p></div>
-						</a>
-					</center>
+			<td align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';">
+				<div class="home_recommended_goods_thumbnail" style="padding:10px;">
+					<img class="img-responsive" src="goods/<?=$img;?>">
+					<div class="caption"><p><?=substr($product["name"],0,20);?></p></div>
+					<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> / <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?></p></div>
 				</div>
-			</div>
+			</td>
+			<td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<?php } ?>
+		</table>
 	</div>
 </div>
 <div style="height:20px;"></div>
@@ -124,12 +128,13 @@
 				$seller_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller["user_id"],"default_seller" => 1]);
 				$seller_location = get_location($seller_location_id)[0]["name"];
 		?>
-			<div class="img-thumbnail seller-thumbnail">
+			<div class="img-thumbnail seller-thumbnail" style="height:210px;">
 				<a href="seller_detail.php?id=<?=$seller["id"];?>">
 					<img class="img-circle" src="users_images/<?=$seller["logo"];?>" alt="#">
+					<img class="seller_body_profile" src="assets/seller_body_profile_1.png">
 					<center>
 						<div class="caption"><b><p><?=$seller["name"];?></p></b></div>
-						<div class="location"><p><?=$seller_location;?></p></div>
+						<div class="location"><p><i class="fa fa-map-marker" style="font-size:24px">&nbsp;</i><?=$seller_location;?></p></div>
 					</center>
 				</a>
 			</div>
