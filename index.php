@@ -96,13 +96,15 @@
 	<div class="home_recommended_goods <?=(isMobile())?"scrolling-wrapper":"";?>" style="padding-bottom:20px;">
 		<table width="100%" cellspacing="10">
 		<?php 
+			$newest_goods_td_width = "width='20%'";
+			if(isMobile()) $newest_goods_td_width = "style='width:100px !important;'";
 			$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY created_at DESC LIMIT 5");
 			foreach($products as$key => $product){
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 				if(!file_exists("goods/".$img)) $img = "no_goods.png";
 				if($img == "") $img = "no_goods.png";
 		?>
-			<td align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';">
+			<td <?=$newest_goods_td_width;?> align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';">
 				<div class="home_recommended_goods_thumbnail" style="padding:10px;">
 					<img class="img-responsive" src="goods/<?=$img;?>">
 					<div class="caption"><p><?=substr($product["name"],0,20);?></p></div>
