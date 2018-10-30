@@ -284,6 +284,9 @@ class Vocabulary{
 		$arr[$l]["show_shopping_progress"]						= "Show progress";
 		$arr[$l]["shopping_progress"]							= "Shopping Progress";
 		$arr[$l]["reason_markopelago_member"]					= "&#34;Why sell and shop at Markopelago?<br>because Markopelago is really Indonesian&#34; this is the proof :";
+		$arr[$l]["marko_id_invalid_char"]						= "Use letters and numbers only (without spaces)";
+		$arr[$l]["marko_id_invalid_length"]						= "Minimum 6 characters";
+		$arr[$l]["marko_id_exist"]								= "Marko ID has already been used";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -555,6 +558,9 @@ class Vocabulary{
 		$arr[$l]["show_shopping_progress"]						= "Lihat Progres";
 		$arr[$l]["shopping_progress"]							= "Progres Belanja";
 		$arr[$l]["reason_markopelago_member"]					= "&#34;Kenapa jualan dan belanja di Markopelago?<br>Karena Markopelago Indonesia Banget&#34; ini buktinya :";
+		$arr[$l]["marko_id_invalid_char"]						= "Gunakan huruf dan angka saja (tanpa spasi)";
+		$arr[$l]["marko_id_invalid_length"]						= "Minimum 6 karakter";
+		$arr[$l]["marko_id_exist"]								= "Marko ID sudah ada yang menggunakan";
 		
 		return $arr[$this->locale][$index];
 	}

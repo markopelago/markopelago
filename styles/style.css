@@ -653,6 +653,55 @@ footer {
     color: #5bc0de;
 }
 
+div.callout {
+	background-color: #fff;
+	background-image: -moz-linear-gradient(top, #F5AD41, #F5AD41);
+	position: absolute;
+	color: #000;
+	border-radius: 3px;
+	box-shadow: 0px 0px 20px #999;
+	border: 1px solid #F5AD41;
+	padding:0px 4px 0px 4px;
+	font-size:0.7em;
+}
+.callout::before {
+	content: "";
+	width: 0px;
+	height: 0px;
+	border: 0.8em solid transparent;
+	position: absolute;
+}
+.callout.top::before {
+	left: 45%;
+	bottom: -20px;
+	border-top: 10px solid #F5AD41;
+}
+.callout.bottom::before {
+	left: 45%;
+	top: -20px;
+	border-bottom: 10px solid #F5AD41;
+}
+.callout.left::before {
+	right: -20px;
+	top: 40%;
+	border-left: 10px solid #F5AD41;
+}
+.callout.right::before {
+	left: -20px;
+	top: 40%;
+	border-right: 10px solid #F5AD41;
+}
+.callout.top-left::before {
+	left: 7px;
+	bottom: -20px;
+	border-top: 10px solid #F5AD41;
+}
+.callout.top-right::before {
+	right: 7px;
+	bottom: -20px;
+	border-top: 10px solid #F5AD41;
+}
+
 .top-right-img {
     position: absolute;
 	left:200px;

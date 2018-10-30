@@ -3,16 +3,33 @@
 	$step = $_GET["step"];
 	if(!$step) $step = 1;
 	if($__isloggedin && $step == 1){ javascript("window.location='index.php';"); exit(); }
-	if(isset($_POST["next"])){
-		if($_POST["password"] != $_POST["repassword"] || strlen($_POST["password"]) < 6 || strlen($_POST["password"]) > 8)
-			$_SESSION["errormessage"] = v("password_error");
+	if(isset($_POST["save"])){
+		$errors = array();
+		$haserrors= false;
+		if(!preg_match('/^[\w]+$/', $_POST["marko_id"])){
+			$haserrors= true;
+			$errors["marko_id"] = v("marko_id_invalid_char");
+		}
+		if(strlen($_POST["marko_id"]) < 6){
+			$haserrors= true;
+			$errors["marko_id"] = v("marko_id_invalid_length");
+		}
+		if($db->fetch_single_data("a_users","id",["marko_id" => $_POST["marko_id"]]) > 0){
+			$haserrors= true;
+			$errors["marko_id"] = v("marko_id_exist");
+		}
+		if($_POST["password"] != $_POST["repassword"] || strlen($_POST["password"]) < 6 || strlen($_POST["password"]) > 8){
+			$haserrors= true;
+			$errors["password"] = v("password_error");
+		}
+		if($db->fetch_single_data("a_users","id",["email" => $_POST["email"]]) > 0){
+			$haserrors= true;
+			$errors["email"] = v("email_already_in_use");
+		}
 		
-		if($db->fetch_single_data("a_users","id",["email" => $_POST["email"]]) > 0)
-			$_SESSION["errormessage"] = v("email_already_in_use");
-		
-		if($_SESSION["errormessage"] == ""){
+		if(!$haserrors){
 			$db->addtable("a_users");
-			$db->addfield("marko_id");			$db->addvalue($_POST["marko_id"]);
+			$db->addfield("marko_id");			$db->addvalue(strtolower($_POST["marko_id"]));
 			$db->addfield("group_id");			$db->addvalue("-1");
 			$db->addfield("email");				$db->addvalue($_POST["email"]);
 			$db->addfield("password");			$db->addvalue(base64_encode($_POST["password"]));
@@ -68,21 +85,43 @@
 					<td>
 						<div class="register_form_background">
 							<form method="POST" autocomplete="off">
+								<?=$f->input("save","1","type='hidden'");?>
 								<div class="form-group">
-									<label>Marko ID</label><?=$f->input("marko_id",$data["marko_id"],"autocomplete='off' required placeholder='Marko ID...'","form-control");?>
+									<?php 
+										if($errors["marko_id"]){
+											echo "<div class='callout top-left' style='margin-left:50px;'>".$errors["marko_id"]."</div>";
+											$marko_id_style = "style=\"background-color:rgba(248,166,168,0.8);\"";
+										}
+									?>
+									<label>Marko ID</label><?=$f->input("marko_id",$data["marko_id"],$marko_id_style." autocomplete='off' required placeholder='Marko ID...'","form-control");?>
+									<?php
+										
+									?>
 								</div>
 								<div class="form-group">
 									<label><?=v("name");?></label><?=$f->input("name",$data["name"],"required autocomplete='off' placeholder='".v("name")."...'","form-control");?>
 								</div>
 								<div class="form-group">
+									<?php 
+										if($errors["email"]){
+											echo "<div class='callout top-left' style='margin-left:50px;'>".$errors["email"]."</div>";
+											$email_style = "style=\"background-color:rgba(248,166,168,0.8);\"";
+										}
+									?>
 									<label><?=v("email");?></label>
-									<?=$f->input("email",$data["email"],"autocomplete='off' type='email' required placeholder='".v("email")."...'","form-control");?>
+									<?=$f->input("email",$data["email"],$email_style." autocomplete='off' type='email' required placeholder='".v("email")."...'","form-control");?>
 								</div>
 								<div class="form-group">
 									<label><?=v("phone");?></label><?=$f->input("phone",$data["phone"],"required autocomplete='off' placeholder='".v("phone")."...'","form-control");?>
 								</div>
 								<div class="form-group">
-									<label><?=v("password");?></label><?=$f->input("password",$data["password"],"type='password' pattern='.{6,8}' required title='".v("range_characters")."' placeholder='".v("password")." (".v("range_characters").") ...'","form-control");?>
+									<?php 
+										if($errors["password"]){
+											echo "<div class='callout top-left' style='margin-left:50px;'>".$errors["password"]."</div>";
+											$password_style = "style=\"background-color:rgba(248,166,168,0.8);\"";
+										}
+									?>
+									<label><?=v("password");?></label><?=$f->input("password",$data["password"],$password_style." type='password' pattern='.{6,8}' required title='".v("range_characters")."' placeholder='".v("password")." (".v("range_characters").") ...'","form-control");?>
 								</div>
 								<div class="form-group">
 									<label><?=v("repassword");?></label><?=$f->input("repassword",$data["repassword"],"type='password' required placeholder='".v("repassword")." ...'","form-control");?>
