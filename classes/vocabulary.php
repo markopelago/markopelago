@@ -283,7 +283,7 @@ class Vocabulary{
 		$arr[$l]["other_goods_from_seller"]						= "Other goods from seller";
 		$arr[$l]["show_shopping_progress"]						= "Show progress";
 		$arr[$l]["shopping_progress"]							= "Shopping Progress";
-		$arr[$l]["reason_markopelago_member"]					= "&#34;Why sell and shop at Markopleago?<br>because Markopelago is really Indonesian&#34; this is the proof :";
+		$arr[$l]["reason_markopelago_member"]					= "&#34;Why sell and shop at Markopelago?<br>because Markopelago is really Indonesian&#34; this is the proof :";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -554,7 +554,7 @@ class Vocabulary{
 		$arr[$l]["other_goods_from_seller"]						= "Produk lainnya dari penjual";
 		$arr[$l]["show_shopping_progress"]						= "Lihat Progres";
 		$arr[$l]["shopping_progress"]							= "Progres Belanja";
-		$arr[$l]["reason_markopelago_member"]					= "&#34;Kenapa jualan dan belanja di Markopleago?<br>Karena Markopelago Indonesia Banget&#34; ini buktinya :";
+		$arr[$l]["reason_markopelago_member"]					= "&#34;Kenapa jualan dan belanja di Markopelago?<br>Karena Markopelago Indonesia Banget&#34; ini buktinya :";
 		
 		return $arr[$this->locale][$index];
 	}

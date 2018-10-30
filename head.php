@@ -21,7 +21,7 @@
 		
 	<link rel="canonical" href="<?=$__canonical;?>">
 	<link rel="shortcut icon" type="image/x-icon" href="images/icon.png">
-	<link rel="stylesheet" href="styles/style.css?v=v20">
+	<link rel="stylesheet" href="styles/style.css?v=v21">
 	<link rel="stylesheet" href="styles/bootstrap.min.css">
 	<link rel="stylesheet" href="styles/bootstrap-slider.css">
 	<link rel="stylesheet" href="styles/animate.css">
@@ -267,4 +267,5 @@
 				</ul>
 			</div>
 		</div>
+		<img class="img-responsive" src="assets/header_line.png" width="100%">
 	</nav>

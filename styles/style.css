@@ -742,17 +742,17 @@ footer {
 	vertical-align:top;
 	padding-top:10px;
 	cursor:pointer;
-	height:140px;
+	height:105px;
 }
 .table_categories_head div{
 	width:140px;
 }
 .table_categories_head img{
-	height:78px;
+	height:58px;
 	margin-left:30px;
 }
 .table_categories_head img:hover{
-	height:82px;
+	height:62px;
 }
 .table_categories_head .caption{
 	font-size:1.1em;
@@ -1324,6 +1324,8 @@ textarea{
 
 .home_recommended_goods_thumbnail{
 	padding-top:10px;
+}
+.home_recommended_goods_thumbnail:hover{
 	box-shadow:0 10px 20px rgba(0,0,0,0.19),0 6px 6px rgba(0,0,0,0.23);
 }
 .home_recommended_goods .caption{
@@ -1339,6 +1341,48 @@ textarea{
 .home_recommended_goods img{
 	width:140px;
 	height:165px;
+}
+
+.register_page_background{
+	position:relative;
+	left:69px;
+	background-image: url("../assets/register_page_background.png");
+	background-repeat: no-repeat;
+	width:461px;
+	height:314px;
+}
+
+.register_form_background{
+	background-image: url("../assets/register_form_background.png");
+	background-repeat: no-repeat;
+	height:410px;
+	width:295px;
+	padding:40px 30px 40px 30px;
+}
+.register_form_background label{
+	font-size:0.8em;
+}
+.register_form_background .form-control{
+	height:22px;
+	font-size:0.8em;
+}
+.register_form_background .form-group{
+	margin-bottom: 7px;
+}
+.register_form_background button {
+	margin-top:10px;
+	padding: 5px 10px;
+	background: #800000;
+	color:#fff;
+	font-size: 17px;
+	border: none;
+	cursor: pointer;
+	height:30px;
+	width:100%;
+	font-weight:700;
+}
+.register_form_background button:hover {
+	background: #EFB509;
 }
 
 @media screen and (max-width: 995px) {
@@ -1417,5 +1461,30 @@ textarea{
 	.footer-top {
 		background-image: url("");
 		background-color: #F9CE20;
+	}
+	
+	.table_categories_head p{
+		height:18px;
+		width:105px;
+	}
+	.table_categories_head td{
+		text-align:center;
+		vertical-align:top;
+		padding-top:10px;
+		cursor:pointer;
+		height:70px;
+	}
+	.table_categories_head div{
+		width:110px;
+	}
+	.table_categories_head img{
+		height:38px;
+		margin-left:30px;
+	}
+	.table_categories_head img:hover{
+		height:42px;
+	}
+	.table_categories_head .caption{
+		font-size:0.8em;
 	}
 }

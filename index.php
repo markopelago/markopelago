@@ -16,7 +16,7 @@
 				<tr>
 				<?php 
 					$categories_td_width = "width='12%'";
-					if(isMobile()) $categories_td_width = "style='width:100px !important;'";
+					if(isMobile()) $categories_td_width = "style='width:70px !important;'";
 					unset($categories);
 					$categories = $db->fetch_all_data("categories",[],"id IN (1,2,3,4,5,6,8,9)","id");
 					foreach($categories as $key => $category){
