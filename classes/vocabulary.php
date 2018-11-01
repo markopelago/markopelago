@@ -287,6 +287,10 @@ class Vocabulary{
 		$arr[$l]["marko_id_invalid_char"]						= "Use letters and numbers only (without spaces)";
 		$arr[$l]["marko_id_invalid_length"]						= "Minimum 6 characters";
 		$arr[$l]["marko_id_exist"]								= "Marko ID has already been used";
+		$arr[$l]["narrow_the_results"]							= "Narrow the result";
+		$arr[$l]["seller_location"]								= "Seller Location";
+		$arr[$l]["price_min"]									= "Minimum Price";
+		$arr[$l]["price_max"]									= "Maximum Price";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -561,6 +565,10 @@ class Vocabulary{
 		$arr[$l]["marko_id_invalid_char"]						= "Gunakan huruf dan angka saja (tanpa spasi)";
 		$arr[$l]["marko_id_invalid_length"]						= "Minimum 6 karakter";
 		$arr[$l]["marko_id_exist"]								= "Marko ID sudah ada yang menggunakan";
+		$arr[$l]["narrow_the_results"]							= "Persempit hasil";
+		$arr[$l]["seller_location"]								= "Lokasi Penjual";
+		$arr[$l]["price_min"]									= "Harga Minimum";
+		$arr[$l]["price_max"]									= "Harga Maximum";
 		
 		return $arr[$this->locale][$index];
 	}

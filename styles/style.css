@@ -956,11 +956,10 @@ input[type=checkbox]{
 
 .sub-title-text{
 	position:relative;
-	font-size:1.6em;
+	font-size:1.4em;
 	font-weight:bolder;
 	margin-left:15px;
-	margin-bottom:20px;
-	text-align:center;
+	margin-bottom:15px;
 }
 
 .view-all-text{
@@ -1359,11 +1358,28 @@ textarea{
 	height:78px;
 }
 .table-categories .caption{
-	font-size:1.1em;
+	font-size:0.9em;
+	color:#000;
+	font-weight:bolder;
 }
 .table-categories.all-categories td{	
 	text-align:left;
 	padding:10px 10px 0px 30px;
+}
+
+.table_footer_categories_area{
+	width:100%;
+	background-color:#F1F1F1;
+}
+.table_footer_categories_area td{
+	padding-top:40px;
+	padding-bottom:40px;
+	background-color:#F1F1F1;
+}
+.table_footer_categories_area img{
+	width:30px;
+	height:30px;
+	margin-right:10px;
 }
 
 .btn-red{
@@ -1386,8 +1402,34 @@ textarea{
 	font-weight:bolder;
 	height:40px;
 }
-
 .home_recommended_goods img{
+	width:140px;
+	height:165px;
+}
+
+.goods_list_thumbnail{
+	padding-top:10px;
+}
+.goods_list_thumbnail:hover{
+	box-shadow:0 10px 20px rgba(0,0,0,0.19),0 6px 6px rgba(0,0,0,0.23);
+}
+.goods_list .caption{
+	margin-top:10px;
+	height:20px;
+}
+.goods_list .caption:hover{
+	border-bottom:1px dashed grey;
+}
+.goods_list .price{
+	color:#800000;
+	font-weight:bolder;
+	height:20px;
+}
+.goods_list .seller{
+	font-size:0.8em;
+	height:20px;
+}
+.goods_list img{
 	width:140px;
 	height:165px;
 }
@@ -1432,6 +1474,51 @@ textarea{
 }
 .register_form_background button:hover {
 	background: #EFB509;
+}
+
+.frame_common{
+	padding:0px;
+	border:1px solid #F4D8B0;
+	width:100%;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+.frame_title{
+	padding:12px 0px 12px 0px;
+	width:100%;
+	border-bottom:1px solid #F4D8B0;
+	text-align:center;
+	font-weight:bolder;
+	font-size:1.1em;
+}
+.frame_body{
+	padding:10px 15px 10px 15px;
+}
+.frame_body img{
+	width:20px;
+	height:20px;
+}
+.frame_body div{
+	padding-bottom:5px;
+}
+.frame_body a{
+	margin-left:5px;
+}
+.frame_body #search{
+	font-weight:bolder;
+	font-size:1.2em;
+}
+.frame_body .form-group{
+	margin-top:10px;
+	margin-bottom:0px !important;
+}
+.frame_subtitle{
+	width:100%;
+	border-bottom:1px solid #F4D8B0;
+	font-weight:bolder;
+	font-size:1.1em;
+	padding-bottom:5px;
+	margin-bottom:10px;
 }
 
 @media screen and (max-width: 995px) {

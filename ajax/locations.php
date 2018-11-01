@@ -4,7 +4,7 @@
 	if($mode == "loadCities"){
 		$parent_id = $_GET["parent_id"];
 		$cities = $db->fetch_select_data("locations","id","name_".$__locale,["parent_id" => $parent_id],["name_".$__locale],"",true);
-		echo $f->select("city_id",$cities,$city_id,"required onchange=\"loadDistricts(this.value);\"","form-control");
+		echo $f->select("city_id",$cities,$city_id," onchange=\"loadDistricts(this.value);\"","form-control");
 	}
 	if($mode == "loadDistricts"){
 		$parent_id = $_GET["parent_id"];

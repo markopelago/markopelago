@@ -329,6 +329,40 @@
 		return sprintf("%0".$pad."d", $number);
 	}
 	
+	function get_location_childest_ids($location_id){
+		global $db;
+		$location_ids = "";
+		$locations1 = $db->fetch_all_data("locations",[],"parent_id='".$location_id."'");
+		if(count($locations1) > 0){
+			foreach($locations1 as $location1){
+				$locations2 = $db->fetch_all_data("locations",[],"parent_id='".$location1["id"]."'");
+				if(count($locations2) > 0){
+					foreach($locations2 as $location2){
+						$locations3 = $db->fetch_all_data("locations",[],"parent_id='".$location2["id"]."'");
+						if(count($locations3) > 0){
+							foreach($locations3 as $location3){
+								$locations4 = $db->fetch_all_data("locations",[],"parent_id='".$location3["id"]."'");
+								if(count($locations4) > 0){
+									foreach($locations4 as $location4){
+										$locations5 = $db->fetch_all_data("locations",[],"parent_id='".$location4["id"]."'");										
+										if(count($locations5) > 0){
+											foreach($locations5 as $location5){
+												$locations6 = $db->fetch_all_data("locations",[],"parent_id='".$location5["id"]."'");
+												if(count($locations6) <= 0){
+													$location_ids .= $location5["id"].",";
+												}
+											}
+										} else $location_ids .= $location4["id"].",";
+									}
+								} else $location_ids .= $location3["id"].",";
+							}
+						} else $location_ids .= $location2["id"].",";
+					}
+				} else $location_ids .= $location1["id"].",";
+			}
+		} else $location_ids .= $location_id.",";
+		return substr($location_ids,0,-1);
+	}
 	function get_location($location_id){
 		global $db,$__locale;
 		//level => province,city,district,subdistrict
