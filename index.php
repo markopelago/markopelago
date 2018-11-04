@@ -22,7 +22,7 @@
 					foreach($categories as $key => $category){
 						$img = "category_".$category["id"].".png";
 				?>
-					<td <?=$categories_td_width;?> onclick="window.location='category_detail.php?id=<?=$category["id"];?>';">
+					<td <?=$categories_td_width;?> onclick="window.location='category_detail.php?category_id=<?=$category["id"];?>';">
 						<div>
 							<p><?=$category["name_".$__locale];?></p>
 							<img class="img-responsive" src="assets/<?=$img;?>">

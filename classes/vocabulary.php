@@ -291,6 +291,8 @@ class Vocabulary{
 		$arr[$l]["seller_location"]								= "Seller Location";
 		$arr[$l]["price_min"]									= "Minimum Price";
 		$arr[$l]["price_max"]									= "Maximum Price";
+		$arr[$l]["search_result"]								= "Serach result";
+		$arr[$l]["no_limit"]									= "No limit";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -569,6 +571,8 @@ class Vocabulary{
 		$arr[$l]["seller_location"]								= "Lokasi Penjual";
 		$arr[$l]["price_min"]									= "Harga Minimum";
 		$arr[$l]["price_max"]									= "Harga Maximum";
+		$arr[$l]["search_result"]								= "Hasil pencarian";
+		$arr[$l]["no_limit"]									= "Tak terhingga";
 		
 		return $arr[$this->locale][$index];
 	}

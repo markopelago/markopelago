@@ -1,22 +1,36 @@
-<div class="frame_common">
-	<div class="frame_body">
-		<?php $img = "category_".$_GET["category_id"].".png";?>
-		<img src="assets/<?=$img;?>">&nbsp;&nbsp;
-		<a class="btn btn-default" href="javascript:window.history.back();"><span class="glyphicon glyphicon-chevron-left"></span></a>&nbsp;&nbsp;
-		<?=$db->fetch_single_data("categories","name_".$__locale,["id" => $_GET["category_id"]]);?>
-	</div>
-</div>
 <div class="goods_list">
+	<?php
+		$_GET["category_id"] = ($_GET["category_id"]=="")?$_GET["c"]:$_GET["category_id"];
+		if($_GET["province_id"] > 0)
+			if($_GET["city_id"] > 0) $location = get_location($_GET["city_id"])["caption"]; else $location = get_location($_GET["province_id"])["caption"];
+		
+		if($_GET["price_min"] > 0) $pricerange = "Rp. ".format_amount($_GET["price_min"]);
+		if($_GET["price_max"] > 0){
+			if($_GET["price_min"] <= 0) $pricerange .= "Rp. ".format_amount(0);
+			$pricerange .= "&nbsp;".v("to")."&nbsp;Rp. ".format_amount($_GET["price_max"]);
+		} else {
+			if($_GET["price_min"] > 0) $pricerange .= "&nbsp;".v("to")."&nbsp;Rp. ".v("no_limit");
+		}
+		
+	?>
+	<div class="search_result"><?=v("search_result");?> <div class="search_result_value">"<?=$_GET["s"];?>"</div></div><br>
+	<?php if($location != ""){ ?> <div class="location"><?=v("location");?></div> <div class="location_value">: <?=$location;?></div> <?php } ?>
+	<?php if($pricerange != ""){ ?> <div class="location"><?=v("price");?></div> <div class="location_value">: <?=$pricerange;?></div> <?php } ?>
 	<table width="100%">
 		<tr>
 		<?php 
-			$category_ids = "(";
-			$categories = $db->fetch_all_data("categories",["id"],"parent_id = '".$_GET["category_id"]."'");
-			foreach($categories as $category){
-				$category_ids .= "category_ids like '%|".$category["id"]."|%' OR ";
-			}
-			$category_ids = substr($category_ids,0,-3).")";
 			$whereclause = "";
+			if($_GET["c"] || $_GET["category_id"]){
+				if($_GET["category_id"] == "") $_GET["category_id"] = $_GET["c"];
+				if($_GET["c"] == "") $_GET["c"] = $_GET["category_id"];
+				$category_ids = "(";
+				$categories = $db->fetch_all_data("categories",["id"],"parent_id = '".$_GET["category_id"]."'");
+				foreach($categories as $category){
+					$category_ids .= "category_ids like '%|".$category["id"]."|%' OR ";
+				}
+				$category_ids = substr($category_ids,0,-3).") AND ";
+			}
+			if($_GET["s"] != "") $whereclause .= "(name LIKE '%".str_replace(" ","%",$_GET["s"])."%' OR description LIKE '%".$_GET["s"]."%')";
 			if($_GET["province_id"] > 0){
 				if($_GET["city_id"] > 0) $location_ids = get_location_childest_ids($_GET["city_id"]);
 				else $location_ids = get_location_childest_ids($_GET["province_id"]);

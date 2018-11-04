@@ -21,7 +21,7 @@
 		
 	<link rel="canonical" href="<?=$__canonical;?>">
 	<link rel="shortcut icon" type="image/x-icon" href="images/icon.png">
-	<link rel="stylesheet" href="styles/style.css?v=v23">
+	<link rel="stylesheet" href="styles/style.css?v=v24">
 	<link rel="stylesheet" href="styles/bootstrap.min.css">
 	<link rel="stylesheet" href="styles/bootstrap-slider.css">
 	<link rel="stylesheet" href="styles/animate.css">
@@ -197,10 +197,11 @@
 							<?=$f->input("s",$_GET["s"]," placeholder='".v("search")."..'");?>
 							<?php
 								$categories[""] = "-- ".v("allcategories")." --";
-								$_categories = $db->fetch_all_data("categories",[],"parent_id > 0","id");
+								$_categories = $db->fetch_all_data("categories",[],"parent_id = 0","id");
 								foreach($_categories as $_category){
 									$categories[$_category["id"]] = $_category["name_".$__locale];
 								}
+								if($_GET["category_id"]) $_GET["c"] = $_GET["category_id"];
 							?>
 							<?=$f->select("c",$categories,$_GET["c"]);?>
 							<button class="btn btn-default" type="submit"><i style="color:white;" class="fa fa-search"></i></button>

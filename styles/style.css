@@ -1433,6 +1433,34 @@ textarea{
 	width:140px;
 	height:165px;
 }
+.goods_list .search_result{
+	position:relative;
+	left:20px;
+	float:left;
+	font-weight:bolder;
+	font-size:0.8em;
+}
+.goods_list .search_result_value{
+	position:relative;
+	top:-3px;
+	float:right;
+	margin-left:5px;
+	font-weight:bolder;
+	font-size:1.2em;
+}
+.goods_list .location{
+	position:relative;
+	left:20px;
+	float:left;
+	font-weight:bolder;
+	font-size:0.9em;
+	width:90px;
+}
+.goods_list .location_value{
+	margin-left:5px;
+	font-weight:bolder;
+	font-size:0.9em;
+}
 
 .register_page_background{
 	position:relative;

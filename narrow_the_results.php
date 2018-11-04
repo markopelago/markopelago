@@ -1,15 +1,24 @@
+<script>
+	function change_category(category_id){
+		document.getElementById("category_id").value = category_id;
+		document.getElementById("c").value = category_id;
+		document.getElementById("narrow_result_form").submit();
+	}
+</script>
 <div class="frame_common">
 	<div class="frame_title"><?=v("narrow_the_results");?></div>
-	<form method="GET">
-		<?=$f->input("id",$_GET["id"],"type='hidden'");?>
+	<form method="GET" id="narrow_result_form">
+		<?=$f->input("category_id",$_GET["category_id"],"type='hidden'");?>
+		<?=$f->input("s",$_GET["s"],"type='hidden'");?>
+		<?=$f->input("c",$_GET["c"],"type='hidden'");?>
 		<div class="frame_body">
 			<div class="frame_subtitle"><?=v("categories");?></div>
 			<?php
 				$categories = $db->fetch_all_data("categories",[],"id IN (1,2,3,4,5,6,8,9)","id");
 				foreach($categories as $key => $category){
 					$img = "category_".$category["id"].".png";
-					$isactive = ($category["id"] == $_GET["id"])?"style=\"color:#800000\"":"";
-					?> <div><img src="assets/<?=$img;?>"><a <?=$isactive;?> href="?id=<?=$category["id"];?>"><?=$category["name_".$__locale];?></a></div> <?php
+					$isactive = ($category["id"] == $_GET["category_id"])?"style=\"color:#800000\"":"";
+					?> <div><img src="assets/<?=$img;?>"><a <?=$isactive;?> href="javascript:change_category('<?=$category["id"];?>');"><?=$category["name_".$__locale];?></a></div> <?php
 				}
 			?>
 			

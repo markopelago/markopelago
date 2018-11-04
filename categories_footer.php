@@ -18,7 +18,7 @@
 								$img = "category_".$category["id"].".png";
 						?>
 							<td width="25%">
-								<a href="category_detail.php?id=<?=$category["id"];?>" style="color:grey;">
+								<a href="category_detail.php?category_id=<?=$category["id"];?>" style="color:grey;">
 									<div class="caption"><p><img src="assets/<?=$img;?>"><?=$category["name_".$__locale];?></p></div>
 								</a>
 							</td>
