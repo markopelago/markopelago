@@ -1,4 +1,4 @@
-<?php include_once "header.php"; ?>
+<?php include_once "homepage_header.php"; ?>
 <?php
 	if($_GET["s"] == ""){
 		$_SESSION["errormessage"] = v("please_type_your_serach");
