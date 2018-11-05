@@ -6,6 +6,12 @@
 		exit();
 	}
 ?>
+<script>
+	function change_sort(sort_id){
+		document.getElementById("sort_id").value = sort_id;
+		document.getElementById("narrow_result_form").submit();
+	}
+</script>
 <div style="height:20px;"></div>
 <div class="container">
 	<table width="100%" cellpadding="0" cellspacing="0">
@@ -24,4 +30,5 @@
 </div>
 <div style="height:40px;"></div>
 <?php include_once "categories_footer.php"; ?>
+<?php include_once "footer_tray.php"; ?>
 <?php include_once "footer.php"; ?>

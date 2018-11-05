@@ -293,6 +293,12 @@ class Vocabulary{
 		$arr[$l]["price_max"]									= "Maximum Price";
 		$arr[$l]["search_result"]								= "Serach result";
 		$arr[$l]["no_limit"]									= "No limit";
+		$arr[$l]["sort"]										= "Sort";
+		$arr[$l]["filter"]										= "Filter";
+		$arr[$l]["most_match"]									= "Most Match";
+		$arr[$l]["newest"]										= "Newest";
+		$arr[$l]["highest_price"]								= "Highest Price";
+		$arr[$l]["lowest_price"]								= "Lowest Price";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -573,6 +579,12 @@ class Vocabulary{
 		$arr[$l]["price_max"]									= "Harga Maximum";
 		$arr[$l]["search_result"]								= "Hasil pencarian";
 		$arr[$l]["no_limit"]									= "Tak terhingga";
+		$arr[$l]["sort"]										= "Urutkan";
+		$arr[$l]["filter"]										= "Filter";
+		$arr[$l]["most_match"]									= "Paling Sesuai";
+		$arr[$l]["newest"]										= "Terbaru";
+		$arr[$l]["highest_price"]								= "Harga Tertinggi";
+		$arr[$l]["lowest_price"]								= "Harga Terendah";
 		
 		return $arr[$this->locale][$index];
 	}

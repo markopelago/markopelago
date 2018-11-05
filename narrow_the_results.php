@@ -11,6 +11,7 @@
 		<?=$f->input("category_id",$_GET["category_id"],"type='hidden'");?>
 		<?=$f->input("s",$_GET["s"],"type='hidden'");?>
 		<?=$f->input("c",$_GET["c"],"type='hidden'");?>
+		<?=$f->input("sort_id",$_GET["sort_id"],"type='hidden'");?>
 		<div class="frame_body">
 			<div class="frame_subtitle"><?=v("categories");?></div>
 			<?php

@@ -30,7 +30,7 @@
 				}
 				$category_ids = substr($category_ids,0,-3).") AND ";
 			}
-			if($_GET["s"] != "") $whereclause .= "(name LIKE '%".str_replace(" ","%",$_GET["s"])."%' OR description LIKE '%".$_GET["s"]."%')";
+			if($_GET["s"] != "") $whereclause .= " (name LIKE '%".str_replace(" ","%",$_GET["s"])."%' OR description LIKE '%".$_GET["s"]."%')";
 			if($_GET["province_id"] > 0){
 				if($_GET["city_id"] > 0) $location_ids = get_location_childest_ids($_GET["city_id"]);
 				else $location_ids = get_location_childest_ids($_GET["province_id"]);
@@ -39,7 +39,12 @@
 			if($_GET["price_min"] > 0) $whereclause .= " AND (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) >= '".$_GET["price_min"]."'";
 			if($_GET["price_max"] > 0) $whereclause .= " AND (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) <= '".$_GET["price_max"]."'";
 			
-			$products = $db->fetch_all_data("goods",[],$category_ids." ".$whereclause." ORDER BY RAND()");
+			$order_by = "";
+			if($_GET["sort_id"] == "newest") $order_by = " ORDER BY id DESC";
+			if($_GET["sort_id"] == "highest_price") $order_by = " ORDER BY (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) DESC";
+			if($_GET["sort_id"] == "lowest_price") $order_by = " ORDER BY (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1)";
+			
+			$products = $db->fetch_all_data("goods",[],$category_ids.$whereclause.$order_by);
 			foreach($products as $key => $product){
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 				if(!file_exists("goods/".$img)) $img = "no_goods.png";
