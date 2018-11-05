@@ -40,16 +40,20 @@
 <div class="container">
 	<div class="row">
 		<div class="sub-title-text"><?=v("recommended_goods");?></div>
+		<?php if(!isMobile()) echo "<div class='view-all-text'><a href='products.php?s=+'>".v("view_all")."</a></div>";?>
 	</div>
 	<div class="row">
 		<div class="col-md-5">
 			<img class="img-responsive" src="banners/banner_01.png">
 		</div>
 		<div class="col-md-7 home_recommended_goods">
+			<?php if(isMobile()) echo "<div class='view-all-text' style='font-weight:bolder;font-size:1em;margin-top:15px;margin-right:10px;'><a href='products.php?s=+'>".v("view_all")."</a></div>";?>
 			<table width="100%">
 				<tr>
 				<?php 
-					$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY RAND() LIMIT 8");
+					$limit = 8;
+					if(isMobile()) $limit = 20;
+					$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY RAND() LIMIT $limit");
 					foreach($products as$key => $product){
 						$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 						if(!file_exists("goods/".$img)) $img = "no_goods.png";
@@ -91,7 +95,7 @@
 <div style="height:20px;"></div>
 <div class="container">
 	<div class="row">
-		<div class="sub-title-text"><?=v("newest_goods");?></div>
+		<div class="sub-title-text"><?=v("newest_goods");?><div class="view-all-text" style="font-size:0.7em;margin-top:15px;margin-right:10px;"><a href="products.php?s=+"><?=v("view_all");?></a></div></div>
 	</div>
 	<div class="home_recommended_goods <?=(isMobile())?"scrolling-wrapper":"";?>" style="padding-bottom:20px;">
 		<table width="100%" cellspacing="10">
@@ -102,7 +106,9 @@
 				$newest_goods_td_width = "style='width:132px !important;'";
 				$newest_goods_div_width = "width:132px !important;";
 			}
-			$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY created_at DESC LIMIT 5");
+			$limit = 5;
+			if(isMobile()) $limit = 20;
+			$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY created_at DESC LIMIT $limit");
 			foreach($products as$key => $product){
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 				if(!file_exists("goods/".$img)) $img = "no_goods.png";

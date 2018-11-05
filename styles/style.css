@@ -963,10 +963,10 @@ input[type=checkbox]{
 }
 
 .view-all-text{
-	font-size:1.1em;
+	font-size:0.9em;
 	position:relative;
 	float:right;
-	margin-right:15px;
+	margin-right:30px;
 }
 .view-all-text a {
 	color:#800000;
@@ -1592,6 +1592,7 @@ textarea{
 		width:100%;
 		float:left;
 		margin:0;
+		background: #F69320;
 	}
 	.header-start{ height:165px; }
 	
