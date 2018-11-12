@@ -6,10 +6,12 @@
 		
 		if($_SESSION["errormessage"] == ""){
 			$dimension = $_POST["length"]." x ".$_POST["width"]." x ".$_POST["height"];
+			$_POST["color_id"] = array_swap($_POST["color_id"]);
 			$db->addtable("goods");
 			$db->addfield("barcode");			$db->addvalue($_POST["barcode"]);
 			$db->addfield("seller_id");			$db->addvalue($__seller_id);
 			$db->addfield("category_ids");		$db->addvalue(sel_to_pipe($_POST["category_ids"]));
+			$db->addfield("color_ids");			$db->addvalue(sel_to_pipe($_POST["color_id"]));
 			$db->addfield("unit_id");			$db->addvalue($_POST["unit_id"]);
 			$db->addfield("promo_id");			$db->addvalue($_POST["promo_id"]);
 			$db->addfield("name");				$db->addvalue($_POST["name"]);
@@ -65,6 +67,22 @@
 					<label><?=v("categories");?></label> 
 					<?=$f->select("categories",$db->fetch_select_data("categories","id","name_".$__locale,["parent_id" => "0:>"],[]),"","multiple=\"multiple\"","form-control");?>
 				</div>
+				<div class="form-group">
+					<label><?=v("colors");?></label>
+					<?php 
+						$colors = $db->fetch_all_data("colors");
+						foreach($colors as $color){
+							$ischecked = ($_POST["color_id"][$color["id"]] == 1)?"checked":"";
+							?>
+								<div class="color_pick" style="background-color:#<?=$color["code"];?>;">
+									<?=$f->input("color_id[".$color["id"]."]",1,$ischecked." type='checkbox'","form-control");?>
+									<div class="color_pick_caption"><?=$color["name_".$__locale];?></div>
+								</div>
+							<?php
+						}
+					?>
+				</div>
+				<br><br><br><br>
 				<div class="form-group">
 					<label><?=v("goods_name");?></label><?=$f->input("name",$_POST["name"],"required placeholder='".v("goods_name")."...'","form-control");?>
 				</div>

@@ -11,6 +11,12 @@
 	}
 ?>
 <script>
+	function change_is_displayed(goods_id,value){
+		$("#switch_caption_"+goods_id).html("<img src='images/fancybox_loading.gif'>");
+		$.get("ajax/goods.php?mode=change_is_displayed&goods_id="+goods_id+"&value="+value, function(returnval){
+			$("#switch_caption_"+goods_id).html(returnval);
+		});
+	}
 	function delete_goods(goods_id){
 		if(confirm("<?=v("confirm_delete");?>")){
 			window.location = "?tabActive=goods&delete_goods="+goods_id;
@@ -43,6 +49,16 @@
 				?>
 					<div class="row">
 						<div class="well col-md-11">
+							<label class="switch">
+								<input <?=($goods["is_displayed"])?"checked":"";?> onchange="change_is_displayed('<?=$goods["id"];?>',this.checked);" type="checkbox">
+								<div class="switch_slider round">
+									<div id="switch_caption_<?=$goods["id"];?>" class="switch_caption">
+										<font color="<?=v(($goods["is_displayed"])?"#2196F3":"red");?>">
+											<?=v(($goods["is_displayed"])?"displayed":"not_displayed");?>
+										</font>
+									</div>
+								</div>
+							</label>
 							<?="<center><b>".$goods["name"]."</b> (".(($goods["is_new"] == 1)?v("new"):v("second_hand")).")<br><br>".
 							"".$img_goods_photo."</center><br>".
 							"<b>Rp. ".format_amount(get_goods_price($goods["id"])["display_price"])."</b><br>".

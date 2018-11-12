@@ -16,7 +16,7 @@
 				$category_ids .= "category_ids like '%|".$category["id"]."|%' OR ";
 			}
 			$category_ids = substr($category_ids,0,-3).")";
-			$whereclause = "";
+			$whereclause = " AND is_displayed = '1' ";
 			if($_GET["province_id"] > 0){
 				if($_GET["city_id"] > 0) $location_ids = get_location_childest_ids($_GET["city_id"]);
 				else $location_ids = get_location_childest_ids($_GET["province_id"]);

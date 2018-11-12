@@ -53,7 +53,7 @@
 				<?php 
 					$limit = 8;
 					if(isMobile()) $limit = 20;
-					$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY RAND() LIMIT $limit");
+					$products = $db->fetch_all_data("goods",[],"is_displayed = '1' ORDER BY RAND() LIMIT $limit");
 					foreach($products as$key => $product){
 						$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 						if(!file_exists("goods/".$img)) $img = "no_goods.png";
@@ -108,7 +108,7 @@
 			}
 			$limit = 5;
 			if(isMobile()) $limit = 20;
-			$products = $db->fetch_all_data("goods",[],"1=1 ORDER BY created_at DESC LIMIT $limit");
+			$products = $db->fetch_all_data("goods",[],"is_displayed = '1' ORDER BY created_at DESC LIMIT $limit");
 			foreach($products as$key => $product){
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 				if(!file_exists("goods/".$img)) $img = "no_goods.png";

@@ -173,7 +173,7 @@
 				</div>
 				<div class="form-group col-md-6">
 					<label><b><?=v("qty");?></b></label>
-					<?=$f->input("qty","1","type='number'","form-control");?>
+					<?=$f->input("qty",$_GET["goods_qty"]*1,"type='number'","form-control");?>
 				</div>
 				<div class="form-group col-md-6">
 					<label><b><?=v("price");?></b></label>

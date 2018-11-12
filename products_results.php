@@ -19,7 +19,7 @@
 	<table width="100%">
 		<tr>
 		<?php 
-			$whereclause = "";
+			$whereclause = "is_displayed = '1' ";
 			if($_GET["c"] || $_GET["category_id"]){
 				if($_GET["category_id"] == "") $_GET["category_id"] = $_GET["c"];
 				if($_GET["c"] == "") $_GET["c"] = $_GET["category_id"];
@@ -30,7 +30,7 @@
 				}
 				$category_ids = substr($category_ids,0,-3).") AND ";
 			}
-			if($_GET["s"] != "") $whereclause .= " (name LIKE '%".str_replace(" ","%",$_GET["s"])."%' OR description LIKE '%".$_GET["s"]."%')";
+			if($_GET["s"] != "") $whereclause .= " AND (name LIKE '%".str_replace(" ","%",$_GET["s"])."%' OR description LIKE '%".$_GET["s"]."%')";
 			if($_GET["province_id"] > 0){
 				if($_GET["city_id"] > 0) $location_ids = get_location_childest_ids($_GET["city_id"]);
 				else $location_ids = get_location_childest_ids($_GET["province_id"]);

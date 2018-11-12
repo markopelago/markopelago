@@ -210,6 +210,7 @@ class Vocabulary{
 		$arr[$l]["confirm_delete"]								= "Are You sure want to delete this data";
 		$arr[$l]["confirm_delete_transaction"]					= "Are You sure want to delete this goods from cart";
 		$arr[$l]["profile_my_store"]							= "Profile My Store";
+		$arr[$l]["seller_profile"]								= "Seller Profile";
 		$arr[$l]["my_goods"]									= "My Products";
 		$arr[$l]["goods"]										= "Goods";
 		$arr[$l]["goods_list"]									= "Goods List";
@@ -299,6 +300,15 @@ class Vocabulary{
 		$arr[$l]["newest"]										= "Newest";
 		$arr[$l]["highest_price"]								= "Highest Price";
 		$arr[$l]["lowest_price"]								= "Lowest Price";
+		$arr[$l]["displayed"]									= "Displayed";
+		$arr[$l]["not_displayed"]								= "Not Displayed";
+		$arr[$l]["colors"]										= "Colors";
+		$arr[$l]["color_choice"]								= "Color choice";
+		$arr[$l]["goods_qty"]									= "Goods Qty";
+		$arr[$l]["liked"]										= "Liked";
+		$arr[$l]["viewed"]										= "Viewed";
+		$arr[$l]["sent"]										= "Sent";
+		$arr[$l]["min_buy"]										= "Min.Buy";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -496,6 +506,7 @@ class Vocabulary{
 		$arr[$l]["confirm_delete"]								= "Anda yakin akan menghapus data tersebut";
 		$arr[$l]["confirm_delete_transaction"]					= "Anda yakin akan menghapus barang ini dari keranjang belanja";
 		$arr[$l]["profile_my_store"]							= "Profil Toko Saya";
+		$arr[$l]["seller_profile"]								= "Profil Penjual";
 		$arr[$l]["my_goods"]									= "Daftar Produk Saya";
 		$arr[$l]["goods"]										= "Produk";
 		$arr[$l]["goods_list"]									= "Daftar Produk";
@@ -585,6 +596,15 @@ class Vocabulary{
 		$arr[$l]["newest"]										= "Terbaru";
 		$arr[$l]["highest_price"]								= "Harga Tertinggi";
 		$arr[$l]["lowest_price"]								= "Harga Terendah";
+		$arr[$l]["displayed"]									= "Tampilkan";
+		$arr[$l]["not_displayed"]								= "Tidak Tampil";
+		$arr[$l]["colors"]										= "Warna";
+		$arr[$l]["color_choice"]								= "Pilihan warna";
+		$arr[$l]["goods_qty"]									= "Jumlah barang";
+		$arr[$l]["liked"]										= "Disukai";
+		$arr[$l]["viewed"]										= "Dilihat";
+		$arr[$l]["sent"]										= "Terkirim";
+		$arr[$l]["min_buy"]										= "Min.Beli";
 		
 		return $arr[$this->locale][$index];
 	}

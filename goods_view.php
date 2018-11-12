@@ -12,11 +12,22 @@
 	$goods["height"] = trim($dimension[2]);
 	
 	$category_ids = pipetoarray($goods["category_ids"]);
+	$color_ids = pipetoarray($goods["color_ids"]);
 	$forwarder_ids = pipetoarray($goods["forwarder_ids"]);
 	
 	$goods_categories = "";
 	foreach($category_ids as $category_id){ $goods_categories .= $db->fetch_single_data("categories","name_".$__locale,["id" => $category_id]).", "; }
 	$goods_categories = substr($goods_categories,0,-2);
+	
+	$goods_colors = "";
+	foreach($color_ids as $color_id){
+		$color_name = $db->fetch_single_data("colors","name_".$__locale,["id" => $color_id]);
+		$color_code = $db->fetch_single_data("colors","code",["id" => $color_id]);
+		$goods_colors .= "<div class='color_pick' style='background-color:#".$color_code.";'>";
+		$goods_colors .= "	<div class='color_pick_caption'>".$color_name."</div>";
+		$goods_colors .= "</div>"; 
+	}
+	$goods_colors = substr($goods_colors,0,-2);
 	
 	$goods_forwarders = "";
 	foreach($forwarder_ids as $forwarder_id){ $goods_forwarders .= $db->fetch_single_data("forwarders","name",["id" => $forwarder_id]).", "; }
@@ -61,6 +72,12 @@
 				<td>
 					<div class="col-md-3"><b><?=v("categories");?></b></div>
 					<div class="col-md-9"><?=$goods_categories;?></div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="col-md-3"><b><?=v("colors");?></b></div>
+					<div class="col-md-9"><?=$goods_colors;?></div>
 				</td>
 			</tr>
 			<tr>
