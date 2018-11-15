@@ -183,7 +183,7 @@
 			<div class="col-md-6">
 				<div class="form-group col-md-12">
 					<label><b><?=v("notes_for_seller");?></b></label>
-					<?=$f->textarea("notes","","style='width:100% !important;height:auto !important;'","form-control");?>
+					<?=$f->textarea("notes",$_GET["notes_for_seller"],"style='width:100% !important;height:auto !important;'","form-control");?>
 				</div>
 			</div>
 		</div>

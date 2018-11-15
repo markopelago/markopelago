@@ -1721,6 +1721,31 @@ input:checked + .switch_slider:before {
 	text-align:right;
 }
 
+.common_title{
+	margin-top:30px;
+	margin-bottom:30px;
+	padding-left:20px;
+	padding-bottom:0px;
+	font-size:1.4em;
+	font-weight:bolder;
+	color:#800000;
+	border-bottom:5px solid #EE9634;
+}
+
+.notes_for_seller{
+	width: 255px;
+    height: 44px;
+    border-top-left-radius: 18px;
+    border-bottom-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
+    border: 1px solid #800000;
+	padding:0px 5px 0px 5px;
+}
+.notes_for_seller:focus{
+	outline: none;
+}
+
 @media screen and (max-width: 995px) {
 	.header-start{ height:110px; }
 	.carousel-inner-main{

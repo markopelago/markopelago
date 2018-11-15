@@ -15,7 +15,7 @@
 	$onclickBuy = $onclickSendMessage;
 	if($__isloggedin){
 		$onclickSendMessage = "onclick=\"newMessage('".$seller["user_id"]."','".$goods["id"]."','buyer','seller');\"";
-		$onclickBuy = "onclick=\"window.location='transaction.php?id=".$_GET["id"]."&goods_qty='+goods_qty.value;\"";
+		$onclickBuy = "onclick=\"window.location='transaction.php?id=".$_GET["id"]."&goods_qty='+goods_qty.value+'&notes_for_seller='+notes_for_seller.value;\"";
 	}
 	$stock = $db->fetch_single_data("goods_histories","concat(sum(qty))",["goods_id" => $_GET["id"],"in_out" => "in"]);
 	$stock -= $db->fetch_single_data("goods_histories","concat(sum(qty))",["goods_id" => $_GET["id"],"in_out" => "out"]);
@@ -85,6 +85,12 @@
 					<a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
 					<a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
 				</div>
+				<div style="height:20px;"></div>
+				<?php if(!isMobile()){
+					echo "<div style='font-size:1em;font-weight:bolder;'>".v("notes_for_seller")."</div>";
+					echo "<div style=\"height:10px;\"></div>";
+					echo $f->input("notes_for_seller","","placeholder=\"".v("placeholder_notes_for_seller")."\"","notes_for_seller");
+				} ?>
 			</div>
 			<div style="height:20px;" class="hidden-md hidden-lg"></div>
             <div class="col-md-7">
@@ -132,6 +138,10 @@
 										<div class="center_text"><?=$f->input("goods_qty","1","type='number' min='1' step='1'");?></div>
 										<div class="right_caption" onclick="goods_qty.stepUp(1);">+</div>
 									</div>
+									<?php if(isMobile()){
+										echo "<br><div style='font-size:1em;font-weight:bolder;'>".v("notes_for_seller")."</div>";
+										echo $f->input("notes_for_seller","","placeholder=\"".v("placeholder_notes_for_seller")."\"","notes_for_seller");
+									} ?>
 									<?php if(!isMobile()){ echo $goods_like;} ?>
 								</td>
 							</tr>

@@ -309,6 +309,8 @@ class Vocabulary{
 		$arr[$l]["viewed"]										= "Viewed";
 		$arr[$l]["sent"]										= "Sent";
 		$arr[$l]["min_buy"]										= "Min.Buy";
+		$arr[$l]["order"]										= "Order";
+		$arr[$l]["placeholder_notes_for_seller"]				= "example : I want blue, etc";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -605,6 +607,8 @@ class Vocabulary{
 		$arr[$l]["viewed"]										= "Dilihat";
 		$arr[$l]["sent"]										= "Terkirim";
 		$arr[$l]["min_buy"]										= "Min.Beli";
+		$arr[$l]["order"]										= "Pesan";
+		$arr[$l]["placeholder_notes_for_seller"]				= "contoh : saya ingin warna biru, dll";
 		
 		return $arr[$this->locale][$index];
 	}
