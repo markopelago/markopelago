@@ -1,7 +1,7 @@
 <?php include_once "homepage_header.php"; ?>
 <div style="height:20px;"></div>
 <div class="container">
-	<table width="100%" cellpadding="0" cellspacing="0">
+	<table <?=$__tblDesign100;?>>
 		<tr>
 			<?php if(!isMobile()){ ?>
 			<td valign="top" style="width:225px;">

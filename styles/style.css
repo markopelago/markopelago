@@ -1654,7 +1654,7 @@ input:checked + .switch_slider:before {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     border: 1px solid black;
-	padding:0px 5px 0px 5px;
+	padding:1px 5px 1px 5px;
 }
 .oval_border .left_caption{
 	height:100%;
@@ -1670,10 +1670,13 @@ input:checked + .switch_slider:before {
 .oval_border .center_text input[type=number] {
 	border:0px;
 	position:relative;
-	height:23px;
+	height:21px;
 	width:77%;
 	float:left;
 	text-align:center;
+}
+.oval_border .center_text input[type=number]:focus{
+	outline: none;
 }
 .oval_border .right_caption{
 	height:100%;
@@ -1744,6 +1747,14 @@ input:checked + .switch_slider:before {
 }
 .notes_for_seller:focus{
 	outline: none;
+}
+
+.border_orange{
+	border: 1px solid #D6A266;
+	padding: 10px 5px 10px 20px;
+	box-shadow:0 10px 20px rgba(0,0,0,0.19),0 6px 6px rgba(0,0,0,0.23);
+	min-height:30px;
+	width:100%;
 }
 
 @media screen and (max-width: 995px) {

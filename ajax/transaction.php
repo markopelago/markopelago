@@ -128,4 +128,102 @@
 		echo "</div>|||";
 		echo "<button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\">".v("close")."</button>";
 	}
+	
+	if($mode == "add_to_cart"){
+		$goods_id = $_GET["goods_id"];
+		$qty = $_GET["goods_qty"];
+		if($qty < 0) $qty = 1;
+		$notes = $_GET["notes_for_seller"];
+		
+		$cart_group = $db->fetch_single_data("transactions","cart_group",["buyer_user_id" => $__user_id,"status" => 0]);
+		if($cart_group == "") $cart_group = date("Ymdhis").numberpad($__user_id,6);
+		
+		$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
+		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
+		
+		$db->addtable("transactions");
+		$db->addfield("cart_group");		$db->addvalue($cart_group);
+		$db->addfield("seller_user_id");	$db->addvalue($seller_user_id);
+		$db->addfield("buyer_user_id");		$db->addvalue($__user_id);
+		$db->addfield("transaction_at");	$db->addvalue($__now);
+		$db->addfield("status");			$db->addvalue(0);
+		$inserting = $db->insert();
+		if($inserting["affected_rows"] > 0){
+			$transaction_id = $inserting["insert_id"];
+			$unit_id = $db->fetch_single_data("goods","unit_id",["id" => $goods_id]);
+			$goods_price = get_goods_price($goods_id,$qty);
+			$gross = $goods_price["price"];
+			$commission = $goods_price["commission"];
+			$price = $goods_price["display_price"];
+			$weight = $db->fetch_single_data("goods","weight",["id" => $goods_id]);
+			$total = $price * $qty;
+			
+			$db->addtable("transaction_details");
+			$db->addfield("transaction_id");		$db->addvalue($transaction_id);
+			$db->addfield("goods_id");				$db->addvalue($goods_id);
+			$db->addfield("qty");					$db->addvalue($qty);
+			$db->addfield("unit_id");				$db->addvalue($unit_id);
+			$db->addfield("gross");					$db->addvalue($gross);
+			$db->addfield("commission");			$db->addvalue($commission);
+			$db->addfield("price");					$db->addvalue($price);
+			$db->addfield("total");					$db->addvalue($total);
+			$db->addfield("weight");				$db->addvalue($weight);
+			$db->addfield("notes");					$db->addvalue($notes);
+			$inserting_transaction_details = $db->insert();
+			
+			if($inserting_transaction_details["affected_rows"] > 0){
+				$_SESSION["message"] = v("success_add_to_cart");
+			} else {
+				$db->addtable("transactions"); $db->where("id",$transaction_id);$db->delete_();
+				$db->addtable("transaction_details"); $db->where("transaction_id",$transaction_id);$db->delete_();
+				$db->addtable("transaction_forwarder"); $db->where("transaction_id",$transaction_id);$db->delete_();
+				$_SESSION["errormessage"] = v("failed_transaction");
+			}
+		} else {
+			$_SESSION["errormessage"] = v("failed_transaction");
+		}
+		echo "done";
+	}
+	
+	if($mode == "cart_calculate"){
+		$cart_group = $db->fetch_single_data("transactions","cart_group",["buyer_user_id"=>$__user_id,"status" => "0"]);
+		$goods_id = $_GET["goods_id"];
+		$qty = $_GET["qty"];
+		if($qty < 0) $qty = 1;
+		$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$cart_group."' AND id IN (SELECT transaction_id FROM transaction_details WHERE goods_id='".$goods_id."')");
+		$transaction_id1 = $transactions[0]["id"];
+		$transaction_id2 = $transactions[count($transactions)-1]["id"];
+		$notes = $db->fetch_single_data("transaction_details","notes",["transaction_id" => $transaction_id2]);
+		$transaction_ids = "";
+		foreach($transactions as $key => $transaction){ if($transaction["id"] != $transaction_id1) $transaction_ids .= $transaction["id"].","; }
+		$transaction_ids = substr($transaction_ids,0,-1);
+		
+		$unit_id = $db->fetch_single_data("goods","unit_id",["id" => $goods_id]);
+		$goods_price = get_goods_price($goods_id,$qty);
+		$gross = $goods_price["price"];
+		$commission = $goods_price["commission"];
+		$price = $goods_price["display_price"];
+		$weight = $db->fetch_single_data("goods","weight",["id" => $goods_id]);
+		$total = $price * $qty;
+		
+		$db->addtable("transaction_details");	$db->where("transaction_id",$transaction_id1);
+		$db->addfield("qty");					$db->addvalue($qty);
+		$db->addfield("unit_id");				$db->addvalue($unit_id);
+		$db->addfield("gross");					$db->addvalue($gross);
+		$db->addfield("commission");			$db->addvalue($commission);
+		$db->addfield("price");					$db->addvalue($price);
+		$db->addfield("total");					$db->addvalue($total);
+		$db->addfield("weight");				$db->addvalue($weight);
+		$db->addfield("notes");					$db->addvalue($notes);
+		$updating = $db->update();
+		if($updating["affected_rows"] > 0){
+			if($transaction_ids != ""){
+				$db->addtable("transaction_details"); $db->where("transaction_id",$transaction_ids,"s","IN"); $db->delete_();
+				$db->addtable("transactions"); $db->where("id",$transaction_ids,"s","IN"); $db->delete_();
+			}
+		}
+		$trx = $db->fetch_all_data("transaction_details",[],"transaction_id = '".$transaction_id1."'")[0];
+		$total = $db->fetch_single_data("transaction_details","concat(sum(total))",["transaction_id" => "(SELECT id FROM transactions WHERE cart_group='".$cart_group."'):IN"]);
+		echo "Rp. ".format_amount($trx["price"])."|||Rp. ".format_amount($trx["total"])."|||".$trx["weight"]."g|||".$trx["notes"]."|||Rp. ".format_amount($total)."|||";
+	}
 ?>

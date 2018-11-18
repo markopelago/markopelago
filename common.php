@@ -55,6 +55,8 @@
 	if($__user_id == 1) $__isBackofficer = "1";
 	$__showXSonly 	= "class='hidden-sm hidden-md hidden-lg'";
 	
+	$__tblDesign100 = "width='100%' cellpadding='0' cellspacing='0'";
+	
 	function v($index){
 		global $vocabulary;
 		if($vocabulary->w($index)) return $vocabulary->w($index);

@@ -311,6 +311,10 @@ class Vocabulary{
 		$arr[$l]["min_buy"]										= "Min.Buy";
 		$arr[$l]["order"]										= "Order";
 		$arr[$l]["placeholder_notes_for_seller"]				= "example : I want blue, etc";
+		$arr[$l]["shopping_summary"]							= "Shopping Summary";
+		$arr[$l]["total_price"]									= "Total Price";
+		$arr[$l]["confirm_delete_cart_item"]					= "Are You sure to delete item(s) in the cart";
+		$arr[$l]["delete_cart_item_success"]					= "Successfully deleted items in the cart";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -609,6 +613,10 @@ class Vocabulary{
 		$arr[$l]["min_buy"]										= "Min.Beli";
 		$arr[$l]["order"]										= "Pesan";
 		$arr[$l]["placeholder_notes_for_seller"]				= "contoh : saya ingin warna biru, dll";
+		$arr[$l]["shopping_summary"]							= "Ringkasan Belanja";
+		$arr[$l]["total_price"]									= "Total Harga";
+		$arr[$l]["confirm_delete_cart_item"]					= "Anda yakin akan menghapus item pada keranjang";
+		$arr[$l]["delete_cart_item_success"]					= "Berhasil menghapus item pada keranjang";
 		
 		return $arr[$this->locale][$index];
 	}

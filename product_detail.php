@@ -15,7 +15,8 @@
 	$onclickBuy = $onclickSendMessage;
 	if($__isloggedin){
 		$onclickSendMessage = "onclick=\"newMessage('".$seller["user_id"]."','".$goods["id"]."','buyer','seller');\"";
-		$onclickBuy = "onclick=\"window.location='transaction.php?id=".$_GET["id"]."&goods_qty='+goods_qty.value+'&notes_for_seller='+notes_for_seller.value;\"";
+		// $onclickBuy = "onclick=\"window.location='transaction.php?id=".$_GET["id"]."&goods_qty='+goods_qty.value+'&notes_for_seller='+notes_for_seller.value;\"";
+		$onclickBuy = "onclick=\"add_to_cart();\"";
 	}
 	$stock = $db->fetch_single_data("goods_histories","concat(sum(qty))",["goods_id" => $_GET["id"],"in_out" => "in"]);
 	$stock -= $db->fetch_single_data("goods_histories","concat(sum(qty))",["goods_id" => $_GET["id"],"in_out" => "out"]);
@@ -47,6 +48,14 @@
 					$("#goods_isliked").attr("class", "goods_like goods_unliked");
 				}
 			});
+		});
+	}
+	function add_to_cart(){
+		var btnArea = document.getElementById("buy_button").parentElement;
+		var btnElement = btnArea.innerHTML;
+		btnArea.innerHTML = "<img src='images/fancybox_loading.gif'>";
+		$.get("ajax/transaction.php?mode=add_to_cart&goods_id=<?=$_GET["id"];?>&goods_qty="+goods_qty.value+"&notes_for_seller="+notes_for_seller.value, function(returnval){
+			window.location = "?id=<?=$_GET["id"];?>";
 		});
 	}
 </script>
@@ -107,11 +116,11 @@
 								}else if(get_goods_price($_GET["id"])["display_price"] <= 0){
 									$buy_button = "<button class=\"btn\" style=\"width:200px;\"><span class=\"glyphicon glyphicon-shopping-cart\"></span>&nbsp;".v("buy")."</button>";
 								} else {
-									$buy_button = "<button ".$onclickBuy." class=\"btn btn-primary btn-blue\" style=\"width:200px;\"><span class=\"glyphicon glyphicon-shopping-cart\"></span>&nbsp;".v("buy")."</button>";
+									$buy_button = "<button id=\"buy_button\" ".$onclickBuy." class=\"btn btn-primary btn-blue\" style=\"width:200px;\"><span class=\"glyphicon glyphicon-shopping-cart\"></span>&nbsp;".v("buy")."</button>";
 								}
 							}
 						?>
-						<table width="100%" cellpadding="0" cellspacing="0">
+						<table <?=$__tblDesign100;?>>
 							<tr>
 								<td valign="top" width="60%" height="1">
 									<table style="height:100%;" cellpadding="0" cellspacing="0">
@@ -160,7 +169,7 @@
 							</tr>
 						</table>
 						<br>
-						<table width="100%" cellpadding="0" cellspacing="0">
+						<table <?=$__tblDesign100;?>>
 							<tr>
 								<td rowspan="2" valign="middle" width="50"><img src="assets/viewed.png" width="40"></td>
 								<td><?=v("viewed");?></td>
