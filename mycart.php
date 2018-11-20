@@ -22,6 +22,47 @@
 		javascript("window.location='mycart.php';");
 		exit();
 	}
+	
+	if(isset($_POST["order"])){
+		foreach($_POST["notes"] as $goods_id => $notes){
+			$transaction_id = $db->fetch_single_data("transaction_details","transaction_id",["transaction_id" => $_transaction_ids.":IN","goods_id" => $goods_id]);
+			$db->addtable("transaction_details");	$db->where("transaction_id",$transaction_id);
+			$db->addfield("notes");					$db->addvalue($notes);
+			$db->update();
+		}
+		$user_addresses = $db->fetch_single_data("user_addresses","id",["user_id" => $__user_id]);
+		if($user_addresses <= 0){
+			$need_add_address = true;
+		} else {
+			javascript("window.location='order.php';");
+			exit();
+		}
+	}
+	
+	if(isset($_POST["addaddress"]) && isset($_POST["save_address"])){
+		
+		$user_addresses_id = $db->fetch_single_data("user_addresses","id",["user_id" => $__user_id]);
+		$db->addtable("user_addresses");
+		$db->addfield("user_id");			$db->addvalue($__user_id);
+		$db->addfield("name");				$db->addvalue($_POST["name"]);
+		$db->addfield("pic");				$db->addvalue($_POST["pic"]);
+		$db->addfield("phone");				$db->addvalue($_POST["phone"]);
+		$db->addfield("address");			$db->addvalue($_POST["address"]);
+		$db->addfield("location_id");		$db->addvalue($_POST["subdistrict_id"]);
+		if($user_addresses_id <= 0){
+			$db->addfield("default_buyer");		$db->addvalue("1");
+			$db->addfield("default_seller");	$db->addvalue("1");
+			$db->addfield("default_forwarder");	$db->addvalue("1");
+		}
+		$inserting = $db->insert();
+		if($inserting["affected_rows"] > 0){
+			$_SESSION["message"] = v("address_saved_successfully");
+			javascript("window.location='order.php';");
+			exit();
+		} else {
+			$_SESSION["error_message"] = v("failed_saving_address");
+		}
+	}
 ?>
 <script>
     function toggle_button(){
@@ -85,7 +126,9 @@
 											<table <?=$__tblDesign100;?>>
 												<tr style="height:20px;">
 													<td width="25"><?=$f->input("","1","type='checkbox' onclick=\"toogle_check(this,".$seller_user_id.")\"");?></td>
-													<td style="font-size:1em;font-weight:bolder;"><?=v("seller");?> : <?=$seller["name"];?></td>
+													<td style="font-size:1em;font-weight:bolder;">
+														<a href="seller_detail.php?id=<?=$seller["id"];?>"><?=v("seller");?> : <?=$seller["name"];?></a>
+													</td>
 													<td width="30"><img style="cursor:pointer;" width="30" src="assets/delete_cart.png" onclick="deleteitem();"></td>
 												</tr>
 											</table>
@@ -110,14 +153,16 @@
 														<td>
 															<table <?=$__tblDesign100;?>>
 																<tr>
-																	<td width="120"><img src="goods/<?=$goods_photos["filename"];?>" width="100"></td>
+																	<td width="120"><img src="goods/<?=$goods_photos["filename"];?>" width="100" style="cursor:pointer;" onclick="window.location='product_detail.php?id=<?=$goods_id;?>';"></td>
 																	<td valign="top">
 																		<table <?=$__tblDesign100;?>>
 																			<tr>
 																				<td style="font-size:0.8em;font-weight:bolder;"><?=v("seller");?> : <?=$seller["name"];?></td>
 																				<td id="subtotal[<?=$goods_id;?>]" style="font-size:1em;font-weight:bolder;color:#800000" rowspan="2" valign="middle" align="right" nowrap></td>
 																			</tr>
-																			<tr><td style="font-size:0.8em;font-weight:bolder;"><?=$goods["name"];?></td></tr>
+																			<tr><td style="font-size:0.8em;font-weight:bolder;">
+																				<a href="product_detail.php?id=<?=$goods_id;?>"><?=$goods["name"];?></a>
+																			</td></tr>
 																			<?=(isMobile())?"</tr><tr><td style='height:5px;'></td></tr><tr>":"<tr><td>&nbsp;</td></tr>";?>
 																			<tr>
 																				<td colspan="2">
@@ -195,5 +240,17 @@
 	</div>
 </form>
 <div style="height:40px;"></div>
+<?php if($need_add_address){ ?>
+	<script>
+		$.get( "ajax/profiles.php?mode=addaddress", function(modalBody) {
+			modalFooter = "<button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\">Close</button>";
+			$('#modalTitle').html("");
+			$('#modalTitle').parent().css( "display", "none" );
+			$('#modalBody').html(modalBody);
+			$('#modalFooter').html(modalFooter);
+			$('#myModal').modal('show');
+		});
+	</script>
+<?php } ?>
 <?php include_once "categories_footer.php"; ?>
 <?php include_once "footer.php"; ?>

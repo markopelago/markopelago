@@ -315,6 +315,8 @@ class Vocabulary{
 		$arr[$l]["total_price"]									= "Total Price";
 		$arr[$l]["confirm_delete_cart_item"]					= "Are You sure to delete item(s) in the cart";
 		$arr[$l]["delete_cart_item_success"]					= "Successfully deleted items in the cart";
+		$arr[$l]["address_saved_successfully"]					= "Address saved successfully";
+		$arr[$l]["failed_saving_address"]						= "Failed saving address";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -617,6 +619,8 @@ class Vocabulary{
 		$arr[$l]["total_price"]									= "Total Harga";
 		$arr[$l]["confirm_delete_cart_item"]					= "Anda yakin akan menghapus item pada keranjang";
 		$arr[$l]["delete_cart_item_success"]					= "Berhasil menghapus item pada keranjang";
+		$arr[$l]["address_saved_successfully"]					= "Penyimpanan alamat berhasil";
+		$arr[$l]["failed_saving_address"]						= "Gagal menyimpan alamat";
 		
 		return $arr[$this->locale][$index];
 	}
