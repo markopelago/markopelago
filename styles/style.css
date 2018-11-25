@@ -1757,10 +1757,6 @@ input:checked + .switch_slider:before {
 	width:100%;
 }
 
-.style_ila{
-	text-color:#800000;
-}
-
 @media screen and (max-width: 995px) {
 	.header-start{ height:110px; }
 	.carousel-inner-main{
