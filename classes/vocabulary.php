@@ -181,7 +181,9 @@ class Vocabulary{
 		$arr[$l]["choose_another_address"]						= "Choose another address";
 		$arr[$l]["delivery_courier"]							= "Delivery Courier";
 		$arr[$l]["courier_service"]								= "Courier Service";
+		$arr[$l]["courier_detail"]								= "Courier's Detail";
 		$arr[$l]["shipping_charges"]							= "Shipping Charges";
+		$arr[$l]["total_shipping_charges"]						= "Total Shipping Charges";
 		$arr[$l]["addresses"]									= "Addresses";
 		$arr[$l]["register_shipping_address_first"]				= "Please register your shipping address first";
 		$arr[$l]["banks"]										= "Banks";
@@ -485,7 +487,9 @@ class Vocabulary{
 		$arr[$l]["choose_another_address"]						= "Pilih alamat lain";
 		$arr[$l]["delivery_courier"]							= "Kurir Pengiriman";
 		$arr[$l]["courier_service"]								= "Servis Kurir";
+		$arr[$l]["courier_detail"]								= "Detail Kurir";
 		$arr[$l]["shipping_charges"]							= "Ongkos Kirim";
+		$arr[$l]["total_shipping_charges"]						= "Total Ongkos Kirim";
 		$arr[$l]["addresses"]									= "Alamat";
 		$arr[$l]["register_shipping_address_first"]				= "Harap daftarkan alamat pengiriman terlebih dahulu";
 		$arr[$l]["banks"]										= "Bank";

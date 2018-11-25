@@ -79,7 +79,7 @@
 			document.getElementById("subtotal["+goods_id+"]").innerHTML = values[1];
 			document.getElementById("weight["+goods_id+"]").innerHTML = values[2];
 			document.getElementById("notes["+goods_id+"]").value = values[3];
-			document.getElementById("total_price").innerHTML = values[4];
+			try{document.getElementById("total_price").innerHTML = values[4];} catch(e){}
 			
 		});
 	}
@@ -214,7 +214,7 @@
 					</td>
 					<?php
 						$shopping_summary = "
-							<div style=\"font-size:1em;font-weight:bolder;margin-bottom:18px;padding-top:10px; text-align:center;\">".v("shopping_summary")."</div>
+							<div style=\"font-size:1.2em;font-weight:bolder;margin-bottom:18px;padding-top:10px; text-align:center;\">".v("shopping_summary")."</div>
 							<div class=\"border_orange\">
 								<table width=\"100%\"><tr>
 									<td style=\"font-size:1em;font-weight:bolder;\">".v("total_price")."</td>
@@ -235,6 +235,9 @@
 						<td valign="top" width="28%"><?=$shopping_summary;?></td>
 					<?php } ?>
 				</tr>
+				<?php if(isMobile()){ ?>
+					<tr><td valign="top"><?=$shopping_summary;?></td></tr>
+				<?php } ?>
 			</table>
 		</div>
 	</div>

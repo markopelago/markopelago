@@ -16,7 +16,6 @@
 	<meta name="subject" content="online store"/>
 	<meta name="revisit-after" content="7 days"/>
 	<meta name="robots" content="index, follow"/>
-	<link rel="Shortcut Icon" href="../favicon.ico">
 	<title id="titleid"><?=$__title_project;?></title>
 		
 	<link rel="canonical" href="<?=$__canonical;?>">

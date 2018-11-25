@@ -41,7 +41,12 @@
 			foreach($ro_cost["results"][0]["costs"] as $cost){
 				$courier_services[$cost["service"]] = $cost["description"]." (".$cost["service"].")";
 			}
-			echo $f->select("courier_service",$courier_services,"","onchange = 'load_calculation();'","form-control");			
+			echo $f->select("courier_service_".$goods_id,$courier_services,"","","form-control");
+			echo "<script>";
+			echo "	$(\"#courier_service_".$goods_id."\").change(function(){";
+			echo "		load_shipping_charges(".$goods_id.",$(\"#user_address\").val(),$(\"#delivery_courier_".$goods_id."\").val(),$(\"#courier_service_".$goods_id."\").val(),$(\"#hide_qty_".$goods_id."\").val());";
+			echo "	});";
+			echo "</script>";
 		}
 	}
 	

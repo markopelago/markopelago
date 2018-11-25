@@ -18,7 +18,7 @@
 				</div>
 				<div class="form-group">
 					<?php $provinces = $db->fetch_select_data("locations","id","name_".$__locale,["parent_id" => 0],["name_".$__locale],"",true); ?>
-					<label><?=v("province");?></label> <?=$f->select("province_id",$provinces,$province_id,"required","form-control");?>
+					<label><?=v("province");?></label> <?=$f->select("province_id",$provinces,$province_id,"required onchange=\"loadCities(this.value);\"","form-control");?>
 				</div>
 				<div class="form-group" id="div_select_cities" style="display:none;">
 					<label><?=v("city");?></label><div id="div_cities"></div>
