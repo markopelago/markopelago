@@ -1757,6 +1757,11 @@ input:checked + .switch_slider:before {
 	width:100%;
 }
 
+.center {
+    margin: auto;
+    width: 50%;
+}
+
 @media screen and (max-width: 995px) {
 	.header-start{ height:110px; }
 	.carousel-inner-main{

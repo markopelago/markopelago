@@ -46,6 +46,12 @@
 			$body = str_replace($arr1,$arr2,$body);
 			sendingmail("Markopelago.com -- Payment Confirmation ".$buyer_name,"finance@markopelago.com",$body,"system@markopelago.com|Markopelago System");
 			
+			$message = "Terima kasih, Anda telah melakukan konfirmasi pembayaran atas Invoice: ".$invoice_nos;
+			$db->addtable("notifications");
+			$db->addfield("user_id");		$db->addvalue($__user_id);
+			$db->addfield("message");		$db->addvalue($message);
+			$inserting = $db->insert();
+			
             $_SESSION["message"] = v("payment_confirmation_success");
             javascript("window.location='dashboard.php?tabActive=purchase_list';");
 			exit();
@@ -72,74 +78,73 @@
 		});
 	}
 </script>
-<div class="container">
-    <div class="row">
-		<h4 class="well"><b><span class="glyphicon glyphicon-barcode" style="color:#800000;"></span> &nbsp;<?=v("payment");?></b></h4>
-	</div>
-</div>
-<form role="form" method="POST" autocomplete="off">	
+<form method="POST" action="?cart_group=<?=$_GET["cart_group"];?>" role="form" method="POST" autocomplete="off">
 	<div class="container">
 		<div class="row">
-			<div class="well">
-				<u>Detail Invoice:</u><br>
-					<b>Invoice No : <?=$invoice_nos;?></b><br><br>
-					<table width="200">
-						<tr><td colspan="3" nowrap>Dengan nilai :</td><tr>
-						<tr><td style="width:35px;"></td><td>Rp. </td><td align="right"><?=format_amount($transaction_payments["total"],2);?></td></tr>
-						<tr><td colspan="3" nowrap>Kode Unik <span style="color:red;">*</span> :</td><tr>
-						<tr><td style="width:35px;"></td><td>Rp. </td><td align="right"><?=format_amount($transaction_payments["uniqcode"],2);?></td></tr>
-						<tr><td colspan="3" nowrap><b>Total:</b></td><tr>
-						<tr><td style="width:35px;"></td><td><b>Rp. </b></td><td align="right"><b><?=format_amount($total_all,2);?></b></td></tr>
-					</table>
-					<br>
-					<p><i>*) Kode Unik adalah 3 digit angka yang kami tambahkan di belakang nominal total biaya transaksi Anda. Tujuannya adalah untuk mempermudah bagian keuangan Kami dalam melakukan verifikasi atas pembayaran yang sudah Anda lakukan.</i></p>
-					
-					<form method="POST" action="?cart_group=<?=$_GET["cart_group"];?>">
+			<div class="common_title"><span class="glyphicon glyphicon-barcode" style="color:#800000;"></span> &nbsp;<?=v("payment");?></div>
+			<div class="border_orange">
+				<center>
+					<?=(!isMobile())?"<h4><b>".v("make_a_payment_before")."</b></h4>":"<h5><b>".v("make_a_payment_before")."</b></h5>";?>
+					<div class="well" style="margin-right:15px;padding:10px;font-weight:bolder;"><?=$invoice_nos;?></div>
+				</center>
+				<br>
+				<div <?=(!isMobile())?"class='center'":"";?>>
+					<table width="100%">
+						<tr>
+							<td nowrap><?=v("amount_to_be_paid");?></td>
+							<?php if(!isMobile()){ ?> <td nowrap>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td> <?php } else { ?> </tr><tr> <?php } ?>
+							<td nowrap align="right"><b>Rp. <?=format_amount($transaction_payments["total"],2);?></b></td>
+						</tr>
+						<tr>
+							<td nowrap><?=v("unique_code");?></td>
+							<?php if(!isMobile()){ ?> <td nowrap>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td> <?php } else { ?> </tr><tr> <?php } ?>
+							<td nowrap align="right"><b>Rp. <?=format_amount($transaction_payments["uniqcode"],2);?></b></td>
+						</tr>
+						<tr><td <?=(!isMobile())?"colspan='3'":"";?>><hr style="border-width: 2px;"></td></tr>
+						<tr>
+							<td nowrap><b>Total</b></td>
+							<?php if(!isMobile()){ ?> <td nowrap>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td> <?php } else { ?> </tr><tr> <?php } ?>
+							<td nowrap align="right"><b>Rp. <?=format_amount($total_all,2);?></b></td>
+						</tr>
+						<tr><td <?=(!isMobile())?"colspan='3'":"";?>><br></td></tr>
+						<tr><td <?=(!isMobile())?"colspan='3'":"";?> nowrap>* <?=v("unique_code_reason");?></td></tr>
+						<tr><td <?=(!isMobile())?"colspan='3'":"";?> nowrap>* <?=v("pay_precise_last_3_digits");?></td></tr>
+						<tr><td <?=(!isMobile())?"colspan='3'":"";?>><br></td></tr>
 						<?php 
 							if($invoice["status"] != "1"){
 								$bank_accounts = $db->fetch_select_data("bank_accounts","id","concat((SELECT name FROM banks WHERE id=bank_id),':',account_no)");
-								echo v("the_destination_bank")." :<br>".$f->select("bank_account_id",$bank_accounts,$transaction_payments["bank_account_id"],"onchange=\"load_bank_info(this.value);\"","form-control");
-						?>
-							<br>
-							<u>Harap dibayarkan ke :</u><br>
-							<div id="bank_info"></div>
-							<br>
-							<u>Data Pembayaran :</u><br>
-							<p>Jika Anda sudah melakukan pembayaran, silakan isi form berikut untuk mengkonfirmasi pembayaran Anda.</p>
-							<?php
 								$user_banks = $db->fetch_select_data("user_banks","id","concat(name,' -- ',(SELECT name FROM banks WHERE id=bank_id),':',account_no)",["user_id" => $__user_id],[],"",true);
-								echo "Bank :<br>".$f->select("user_bank_id",$user_banks,$transaction_payments["user_bank_id"],"onchange=\"load_user_banks(this.value);\"","form-control");
-							?>
-							<div class="row">
-								<div class="form-group">
-									<div class="col-md-3"><label>Nama Pemilik Rekening</label></div>
-									<div class="col-md-8"><?=$f->input("bank_an","".$transaction_payments["account_name"]."","placeholder='Nama Pemilik Rekening...'","form-control");?></div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group">
-									<div class="col-md-3"><label>No Rekening Bank Pengirim</label></div>
-									<div class="col-md-8"><?=$f->input("account","".$transaction_payments["account_no"]."","placeholder='No Rekening Bank Pengirim...'","form-control");?></div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group">
-									<div class="col-md-3"><label>Nama Bank Pengirim</label></div>
-									<div class="col-md-8"><?=$f->select("bank_id",$db->fetch_select_data("banks","id","name",[],["name"],"",true),$transaction_payments["bank_id"],"required placeholder='".v("bank_name")."...'","form-control");?></div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group">
-									<div class="col-md-3"><label>Tanggal Transfer</label></div>
-									<div class="col-md-8"><?=$f->input("transfer_at",$transaction_payments["transfer_at"],"type='date'","form-control");?></div>
-								</div>
-							</div>
-							<br>
-							<?=$f->input("payment","Konfirmasi","type='submit' style='width:100%;'","btn btn-lg btn-info");?>
-							<br>
+						?>
+							<tr><td <?=(!isMobile())?"colspan='3'":"";?> align="center"><img src="images/logo.png" height="30"></td></tr>
+							<tr><td <?=(!isMobile())?"colspan='3'":"";?> align="center" style="padding-top:10px;padding-bottom:10px;"><?=v("payment_to_account");?> : </td></tr>
+							<tr><td <?=(!isMobile())?"colspan='3'":"";?> align="center"><?=$f->select("bank_account_id",$bank_accounts,$transaction_payments["bank_account_id"],"onchange=\"load_bank_info(this.value);\"","form-control");?></td></tr>
+							<tr><td <?=(!isMobile())?"colspan='3'":"";?>><br></td></tr>
+							<tr><td <?=(!isMobile())?"colspan='3'":"";?> id="bank_info"></td></tr>
+							<tr><td <?=(!isMobile())?"colspan='3'":"";?>><br></td></tr>
+							<tr><td <?=(!isMobile())?"colspan='3'":"";?> style="padding-top:10px;padding-bottom:10px;"><?=v("fill_the_confirmation_form");?> </td></tr>
+							
+							<tr><td <?=(!isMobile())?"colspan='3'":"";?> style="padding-bottom:10px;"><?=$f->select("user_bank_id",$user_banks,$transaction_payments["user_bank_id"],"onchange=\"load_user_banks(this.value);\"","form-control");?></td></tr>
+							<tr>
+								<td nowrap><?=v("account_name");?></td><?=(!isMobile())?"":"</tr><tr>";?>
+								<td <?=(!isMobile())?"colspan='2'":"";?> nowrap style="padding-bottom:10px;"><?=$f->input("bank_an","".$transaction_payments["account_name"]."","placeholder='".v("account_name")."...'","form-control");?></td>
+							</tr>
+							<tr>
+								<td nowrap><?=v("sending_bank_account_no");?></td><?=(!isMobile())?"":"</tr><tr>";?>
+								<td <?=(!isMobile())?"colspan='2'":"";?> nowrap style="padding-bottom:10px;"><?=$f->input("account","".$transaction_payments["account_no"]."","placeholder='".v("sending_bank_account_no")."...'","form-control");?></td>
+							</tr>
+							<tr>
+								<td nowrap><?=v("sending_bank_name");?></td><?=(!isMobile())?"":"</tr><tr>";?>
+								<td <?=(!isMobile())?"colspan='2'":"";?> nowrap style="padding-bottom:10px;"><?=$f->select("bank_id",$db->fetch_select_data("banks","id","name",[],["name"],"",true),$transaction_payments["bank_id"],"required placeholder='".v("bank_name")."...'","form-control");?></td>
+							</tr>
+							<tr>
+								<td nowrap><?=v("transfer_at");?></td><?=(!isMobile())?"":"</tr><tr>";?>
+								<td <?=(!isMobile())?"colspan='2'":"";?> nowrap style="padding-bottom:10px;"><?=$f->input("transfer_at",$transaction_payments["transfer_at"],"type='date'","form-control");?></td>
+							</tr>
+							<tr><td <?=(!isMobile())?"colspan='3'":"";?>><br></td></tr>
+							<tr><td <?=(!isMobile())?"colspan='3'":"";?> align="center"><?=$f->input("payment","Konfirmasi","type='submit' style='width:100%;'","btn btn-lg btn-info");?></td></tr>
 						<?php } ?>
-					</form>
-				<br>				
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -147,6 +152,5 @@
 <script>
 	load_bank_info(document.getElementById("bank_account_id").value);
 </script>
-
-
+<br>
 <?php include_once "footer.php"; ?>
