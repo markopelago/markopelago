@@ -113,42 +113,51 @@ function getParams(script_name) {
   return {};
 }
 
-function loadCities(parent_id){
-	$("#div_select_district").css({ "display": "none" });
-	$("#div_select_subdistrict").css({ "display": "none" });
+function loadCities(parent_id,suffix){
+	suffix = suffix || "";
+	var divsuffix = "";
+	if(suffix != "") divsuffix = "_"+suffix;
+	$("#div_select_district"+divsuffix).css({ "display": "none" });
+	$("#div_select_subdistrict"+divsuffix).css({ "display": "none" });
 	if(parent_id > 0){
-		$("#div_select_cities").css({ "display": "block" });
-		$("#div_cities").html("<img src='images/fancybox_loading.gif'>");
-		$.get("ajax/locations.php?mode=loadCities&parent_id="+parent_id, function(returnval){
-			$("#div_cities").html(returnval);
+		$("#div_select_cities"+divsuffix).css({ "display": "block" });
+		$("#div_cities"+divsuffix).html("<img src='images/fancybox_loading.gif'>");
+		$.get("ajax/locations.php?mode=loadCities&parent_id="+parent_id+"&suffix="+suffix, function(returnval){
+			$("#div_cities"+divsuffix).html(returnval);
 		});
 	} else{
-		$("#div_select_cities").css({ "display": "none" });
+		$("#div_select_cities"+divsuffix).css({ "display": "none" });
 	}
 }
 
-function loadDistricts(parent_id){
-	$("#div_select_subdistrict").css({ "display": "none" });
+function loadDistricts(parent_id,suffix){
+	suffix = suffix || "";
+	var divsuffix = "";
+	if(suffix != "") divsuffix = "_"+suffix;
+	$("#div_select_subdistrict"+divsuffix).css({ "display": "none" });
 	if(parent_id > 0){
-		$("#div_select_district").css({ "display": "block" });
-		$("#div_districts").html("<img src='images/fancybox_loading.gif'>");
-		$.get("ajax/locations.php?mode=loadDistricts&parent_id="+parent_id, function(returnval){
-			$("#div_districts").html(returnval);
+		$("#div_select_district"+divsuffix).css({ "display": "block" });
+		$("#div_districts"+divsuffix).html("<img src='images/fancybox_loading.gif'>");
+		$.get("ajax/locations.php?mode=loadDistricts&parent_id="+parent_id+"&suffix="+suffix, function(returnval){
+			$("#div_districts"+divsuffix).html(returnval);
 		});
 	} else{
-		$("#div_select_district").css({ "display": "none" });
+		$("#div_select_district"+divsuffix).css({ "display": "none" });
 	}
 }
 
-function loadSubDistricts(parent_id){
+function loadSubDistricts(parent_id,suffix){
+	suffix = suffix || "";
+	var divsuffix = "";
+	if(suffix != "") divsuffix = "_"+suffix;
 	if(parent_id > 0){
-		$("#div_select_subdistrict").css({ "display": "block" });
-		$("#div_subdistricts").html("<img src='images/fancybox_loading.gif'>");
-		$.get("ajax/locations.php?mode=loadSubDistricts&parent_id="+parent_id, function(returnval){
-			$("#div_subdistricts").html(returnval);
+		$("#div_select_subdistrict"+divsuffix).css({ "display": "block" });
+		$("#div_subdistricts"+divsuffix).html("<img src='images/fancybox_loading.gif'>");
+		$.get("ajax/locations.php?mode=loadSubDistricts&parent_id="+parent_id+"&suffix="+suffix, function(returnval){
+			$("#div_subdistricts"+divsuffix).html(returnval);
 		});
 	} else{
-		$("#div_select_subdistrict").css({ "display": "none" });
+		$("#div_select_subdistrict"+divsuffix).css({ "display": "none" });
 	}
 }
 

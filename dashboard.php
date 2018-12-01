@@ -5,6 +5,11 @@
 		exit();
 	}
 ?>
+	<style>
+		.panel-heading{
+			cursor:pointer;
+		}
+	</style>
 	<script>
 		function focusto(tab_id){
 			setTimeout(function(){ 
@@ -18,10 +23,8 @@
 	</script>
 	<div class="container">
 		<div class="row">
-			<h4 class="well"><a class="btn btn-default" href="index.php"><span class="glyphicon glyphicon-chevron-left"></span></a> <b><?=strtoupper(v("dashboard"));?></b></h4>
+			<div class="common_title"><a style="color:#EE9634;" href="index.php"><span class="glyphicon glyphicon-chevron-left"></span></a> &nbsp;<?=v("dashboard");?></div>
 		</div>
-	</div>
-	<div class="container">
 		<div class="panel-group" id="dashboard">
 			<div id="panel_profile" class="panel panel-default">
 				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#profile" onclick="changeState('profile');">
@@ -44,6 +47,33 @@
 					<?php include_once "dashboard_seller.php";?>
 				</div></div>
 			</div><br>
+			<?php if($__forwarder_id <= 0){ ?>
+			<div id="panel_markoantar" class="panel panel-default">
+				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#markoantar" onclick="changeState('markoantar');">
+					<h3 class="panel-title"><img src="assets/sent.png" height="20"> <b>Marko Antar</b></h3>
+				</div>
+				<div id="markoantar" class="panel-collapse collapse <?=($_GET["tabActive"] == "markoantar")?"in":"";?>"><div class="panel-body">
+					<?php include_once "dashboard_markoantar.php";?>
+				</div></div>
+			</div><br>
+			<?php } else { ?>
+			<div id="panel_vehicles" class="panel panel-default">
+				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#vehicles" onclick="changeState('vehicles');">
+					<h3 class="panel-title"><img src="assets/sent.png" height="20"> <b><?=v("markoantar_vehicles");?></b></h3>
+				</div>
+				<div id="vehicles" class="panel-collapse collapse <?=($_GET["tabActive"] == "vehicles")?"in":"";?>"><div class="panel-body">
+					<?php include_once "dashboard_vehicles.php";?>
+				</div></div>
+			</div><br>
+			<div id="panel_markoantar_rates" class="panel panel-default">
+				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#markoantar_rates" onclick="changeState('markoantar_rates');">
+					<h3 class="panel-title"><span class="glyphicon glyphicon-list-alt"></span> <b><?=v("markoantar_rates");?></b></h3>
+				</div>
+				<div id="markoantar_rates" class="panel-collapse collapse <?=($_GET["tabActive"] == "markoantar_rates")?"in":"";?>"><div class="panel-body">
+					<?php include_once "dashboard_markoantar_rates.php";?>
+				</div></div>
+			</div><br>
+			<?php } ?>
 			<div id="panel_addresses" class="panel panel-default">
 				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#addresses" onclick="changeState('addresses');">
 					<h3 class="panel-title"><span class="glyphicon glyphicon-map-marker"></span> <b><?=v("addresses");?></b></h3>

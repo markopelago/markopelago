@@ -212,12 +212,16 @@ class Vocabulary{
 		$arr[$l]["confirm_delete"]								= "Are You sure want to delete this data";
 		$arr[$l]["confirm_delete_transaction"]					= "Are You sure want to delete this goods from cart";
 		$arr[$l]["profile_my_store"]							= "Profile My Store";
+		$arr[$l]["profile_my_markoantar"]						= "Marko Antar Profile";
 		$arr[$l]["seller_profile"]								= "Seller Profile";
 		$arr[$l]["my_goods"]									= "My Products";
 		$arr[$l]["goods"]										= "Goods";
 		$arr[$l]["goods_list"]									= "Goods List";
 		$arr[$l]["you_not_yet_seller"]							= "You are not yet registered as a seller";
 		$arr[$l]["register_as_seller_now"]						= "Want to register as a seller now";
+		$arr[$l]["you_not_yet_markoantar"]						= "You are not yet registered as a Marko Antar";
+		$arr[$l]["register_as_markoantar_now"]					= "Want to register as a Marko antar now";
+		$arr[$l]["register_as_markoantar_confirmation"]			= "By clicking the \"agree\" button, then you will be registered as a Marko Antar user. Do You agree?";
 		$arr[$l]["add_goods"]									= "Add Goods";
 		$arr[$l]["add_goods_photo"]								= "Add Goods Photo";
 		$arr[$l]["edit_goods_photo"]							= "Edit Goods Photo";
@@ -304,6 +308,8 @@ class Vocabulary{
 		$arr[$l]["lowest_price"]								= "Lowest Price";
 		$arr[$l]["displayed"]									= "Displayed";
 		$arr[$l]["not_displayed"]								= "Not Displayed";
+		$arr[$l]["active"]										= "Active";
+		$arr[$l]["not_active"]									= "Not Active";
 		$arr[$l]["colors"]										= "Colors";
 		$arr[$l]["color_choice"]								= "Color choice";
 		$arr[$l]["goods_qty"]									= "Goods Qty";
@@ -329,6 +335,20 @@ class Vocabulary{
 		$arr[$l]["sending_bank_account_no"]						= "Sending Bank Account No.";
 		$arr[$l]["sending_bank_name"]							= "Name of Sending Bank";
 		$arr[$l]["transfer_at"]									= "Transfer Date";
+		$arr[$l]["markoantar_short_description"]				= "markoantar short description";
+		$arr[$l]["agree"]										= "Agree";
+		$arr[$l]["markoantar_vehicles"]							= "Marko Antar Vehicles";
+		$arr[$l]["markoantar_rates"]							= "Rates Marko Antar";
+		$arr[$l]["add_vehicle"]									= "Add Vehicles";
+		$arr[$l]["vehicle_type"]								= "Vehicle Type";
+		$arr[$l]["vehicle_brand"]								= "Vehicles Brand";
+		$arr[$l]["max_load"]									= "Max Load";
+		$arr[$l]["vehicle_plat_number"]							= "Vehicles Plat Number";
+		$arr[$l]["add_markoantar_rate"]							= "Tambah Tarif Marko Antar";
+		$arr[$l]["vehicle"]										= "Vehicle";
+		$arr[$l]["source_location"]								= "Origin location";
+		$arr[$l]["destination_location"]						= "Destionation location";
+		$arr[$l]["load_type"]									= "Load Type";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -528,12 +548,16 @@ class Vocabulary{
 		$arr[$l]["confirm_delete"]								= "Anda yakin akan menghapus data tersebut";
 		$arr[$l]["confirm_delete_transaction"]					= "Anda yakin akan menghapus barang ini dari keranjang belanja";
 		$arr[$l]["profile_my_store"]							= "Profil Toko Saya";
+		$arr[$l]["profile_my_markoantar"]						= "Profil Marko Antar";
 		$arr[$l]["seller_profile"]								= "Profil Penjual";
 		$arr[$l]["my_goods"]									= "Daftar Produk Saya";
 		$arr[$l]["goods"]										= "Produk";
 		$arr[$l]["goods_list"]									= "Daftar Produk";
 		$arr[$l]["you_not_yet_seller"]							= "Anda belum terdaftar sebagai penjual";
 		$arr[$l]["register_as_seller_now"]						= "Ingin mendaftar sebagai penjual sekarang";
+		$arr[$l]["you_not_yet_markoantar"]						= "Anda belum terdaftar sebagai user Marko Antar";
+		$arr[$l]["register_as_markoantar_now"]					= "Ingin mendaftar sebagai Marko Antar sekarang";
+		$arr[$l]["register_as_markoantar_confirmation"]			= "Dengan mengklik tombol \"Setuju\", maka Anda akan ter daftar sebagai user Marko Antar. Apakah Anda Setuju?";
 		$arr[$l]["add_goods"]									= "Tambah Produk";
 		$arr[$l]["add_goods_photo"]								= "Tambah Foto Produk";
 		$arr[$l]["edit_goods_photo"]							= "Ubah Foto Produk";
@@ -620,6 +644,8 @@ class Vocabulary{
 		$arr[$l]["lowest_price"]								= "Harga Terendah";
 		$arr[$l]["displayed"]									= "Tampilkan";
 		$arr[$l]["not_displayed"]								= "Tidak Tampil";
+		$arr[$l]["active"]										= "Aktif";
+		$arr[$l]["not_active"]									= "Tidak Aktif";
 		$arr[$l]["colors"]										= "Warna";
 		$arr[$l]["color_choice"]								= "Pilihan warna";
 		$arr[$l]["goods_qty"]									= "Jumlah barang";
@@ -645,6 +671,21 @@ class Vocabulary{
 		$arr[$l]["sending_bank_account_no"]						= "No Rekening Bank Pengirim";
 		$arr[$l]["sending_bank_name"]							= "Nama Bank Pengirim";
 		$arr[$l]["transfer_at"]									= "Tanggal Transfer";
+		$arr[$l]["markoantar_short_description"]				= "Tentang Marko Antar";
+		$arr[$l]["agree"]										= "Setuju";
+		$arr[$l]["markoantar_vehicles"]							= "Armada Marko Antar";
+		$arr[$l]["markoantar_rates"]							= "Tarif Marko Antar";
+		$arr[$l]["add_vehicle"]									= "Tambah Armada";
+		$arr[$l]["vehicle_type"]								= "Tipe Armada";
+		$arr[$l]["vehicle_brand"]								= "Merek Armada";
+		$arr[$l]["max_load"]									= "Daya Angkut Maksimal";
+		$arr[$l]["vehicle_plat_number"]							= "Nomor Plat Kendaraan";
+		$arr[$l]["add_markoantar_rate"]							= "Tambah Tarif Marko Antar";
+		$arr[$l]["vehicle"]										= "Armada";
+		$arr[$l]["source_location"]								= "Lokasi Asal";
+		$arr[$l]["destination_location"]						= "Lokasi Tujuan";
+		$arr[$l]["load_type"]									= "Tipe Muatan";
+		
 		
 		return $arr[$this->locale][$index];
 	}
