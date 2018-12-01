@@ -8,6 +8,7 @@
 			$db->addfield("vehicle_id");				$db->addvalue($_POST["vehicle_id"]);
 			$db->addfield("source_location_id");		$db->addvalue($_POST["subdistrict_id"]);
 			$db->addfield("destination_location_id");	$db->addvalue($_POST["subdistrict_id_destination"]);
+			$db->addfield("estimated_days");			$db->addvalue($_POST["estimated_days"]);
 			$db->addfield("price");						$db->addvalue($_POST["price"]);
 			$db->addfield("load_type_id");				$db->addvalue($_POST["load_type_id"]);
 			$inserting = $db->update();
@@ -101,6 +102,9 @@
 					</div>
 				</div>
 				
+				<div class="form-group">
+					<label><?=v("estimated_days");?> (<?=v("days");?>)</label> <?=$f->input("estimated_days",$_POST["estimated_days"],"required placeholder='".v("estimated_days")." (3 - 4)...'","form-control");?>
+				</div>
 				<div class="form-group">
 					<label><?=v("price");?> (Rp.)</label><?=$f->input("price",$_POST["price"],"type='number' required placeholder='".v("price")."...'","form-control");?>
 				</div>

@@ -1,3 +1,5 @@
+ALTER TABLE `forwarder_routes` ADD `estimated_days` VARCHAR(30) NOT NULL AFTER `destination_location_id`;
+
 rfo
 	id
 	user_id

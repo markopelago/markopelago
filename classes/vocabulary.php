@@ -349,6 +349,7 @@ class Vocabulary{
 		$arr[$l]["source_location"]								= "Origin location";
 		$arr[$l]["destination_location"]						= "Destionation location";
 		$arr[$l]["load_type"]									= "Load Type";
+		$arr[$l]["estimated_days"]								= "Estimated Days";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -685,6 +686,7 @@ class Vocabulary{
 		$arr[$l]["source_location"]								= "Lokasi Asal";
 		$arr[$l]["destination_location"]						= "Lokasi Tujuan";
 		$arr[$l]["load_type"]									= "Tipe Muatan";
+		$arr[$l]["estimated_days"]								= "Perkiraan Hari";
 		
 		
 		return $arr[$this->locale][$index];

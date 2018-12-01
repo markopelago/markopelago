@@ -32,6 +32,8 @@
 				$source_location = get_location($forwarder_route["source_location_id"])[3]["name"]." ,".get_location($forwarder_route["source_location_id"])[1]["name"];
 				$destination_location = get_location($forwarder_route["destination_location_id"])[3]["name"]." ,".get_location($forwarder_route["destination_location_id"])[1]["name"];
 				$load_type = $db->fetch_single_data("load_types","name",["id" => $forwarder_route["load_type_id"]]);
+				if($forwarder_route["estimated_days"]) $estimated_days = "<br>".$forwarder_route["estimated_days"]." ".v("days");
+				else $estimated_days = "";
 				?>
 					<div class="row">
 						<div class="well col-md-11">
@@ -47,7 +49,7 @@
 							</label>
 							<div class="row">
 								<div class="col-md-2"><b><?=$vehicle["nopol"];?></b><br><?=$vehicle_type;?> - <?=$vehicle_brand;?></div>
-								<div class="col-md-3"><?=$source_location;?><br><?=$destination_location;?></div>
+								<div class="col-md-3"><?=$source_location;?><br><?=$destination_location;?><?=$estimated_days;?></div>
 								<div class="col-md-3"><b><?=v("load_type");?></b><br><?=$load_type;?></div>
 								<div class="col-md-4"><b><?=v("price");?></b><br>Rp. <?=format_amount($forwarder_route["price"]);?></div>
 							</div>
