@@ -1,5 +1,3 @@
-ALTER TABLE `goods` ADD `self_pickup` SMALLINT NOT NULL AFTER `forwarder_ids`, ADD `pickup_location_id` INT NOT NULL AFTER `self_pickup`, ADD INDEX (`self_pickup`), ADD INDEX (`pickup_location_id`);
-
 rfo
 	id
 	user_id
