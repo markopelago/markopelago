@@ -350,6 +350,8 @@ class Vocabulary{
 		$arr[$l]["destination_location"]						= "Destionation location";
 		$arr[$l]["load_type"]									= "Load Type";
 		$arr[$l]["estimated_days"]								= "Estimated Days";
+		$arr[$l]["self_pickup"]									= "Self Pickup";
+		$arr[$l]["pickup_location"]								= "Pickup Location";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -687,6 +689,8 @@ class Vocabulary{
 		$arr[$l]["destination_location"]						= "Lokasi Tujuan";
 		$arr[$l]["load_type"]									= "Tipe Muatan";
 		$arr[$l]["estimated_days"]								= "Perkiraan Hari";
+		$arr[$l]["self_pickup"]									= "Ambil Sendiri";
+		$arr[$l]["pickup_location"]								= "Lokasi Pengambilan";
 		
 		
 		return $arr[$this->locale][$index];

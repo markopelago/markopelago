@@ -144,6 +144,18 @@
 					<div class="col-md-9"><?=$goods_forwarders;?></div>
 				</td>
 			</tr>
+			<tr>
+				<td>
+					<div class="col-md-3"><b><?=v("self_pickup");?></b></div>
+					<div class="col-md-9"><?=($goods["self_pickup"] == "1")?v("yes"):v("no");?></div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="col-md-3"><b><?=v("pickup_location");?></b></div>
+					<div class="col-md-9"><?=get_location($goods["pickup_location_id"])[3]["name"]." ,".get_location($goods["pickup_location_id"])[1]["name"];;?></div>
+				</td>
+			</tr>
 		</table>
 	</div>
 	<br>
