@@ -247,7 +247,7 @@ class Vocabulary{
 		$arr[$l]["days"]										= "Day(s)";
 		$arr[$l]["rupiahs"]										= "Rupiahs";
 		$arr[$l]["please_select_categories"]					= "Please select categories";
-		$arr[$l]["please_select_couriers"]						= "Please select couriers";
+		$arr[$l]["please_select_couriers"]						= "Please select couriers or Marko Antar";
 		$arr[$l]["l_w_h"]										= "Length (cm) x Width (cm) x Height (cm)";
 		$arr[$l]["l_w_h2"]										= "L (cm) x W (cm) x H (cm)";
 		$arr[$l]["length"]										= "Length";
@@ -583,7 +583,7 @@ class Vocabulary{
 		$arr[$l]["days"]										= "Hari";
 		$arr[$l]["rupiahs"]										= "Rupiah";
 		$arr[$l]["please_select_categories"]					= "Silakan pilih kategori";
-		$arr[$l]["please_select_couriers"]						= "Silakan pilih kurir";
+		$arr[$l]["please_select_couriers"]						= "Silakan pilih kurir atau Marko Antar";
 		$arr[$l]["l_w_h"]										= "Panjang (cm) x Lebar (cm) x Tinggi (cm)";
 		$arr[$l]["l_w_h2"]										= "P (cm) x L (cm) x T (cm)";
 		$arr[$l]["length"]										= "Panjang";

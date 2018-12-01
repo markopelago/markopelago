@@ -1,6 +1,12 @@
 <?php
 	include_once "header.php";
 	if(isset($_POST["save_goods"])){
+		if($_POST["markoantar_ids"]!=""){
+			$markoantar_ids = explode(",",$_POST["markoantar_ids"]);
+			foreach($markoantar_ids as $markoantar_id){ 
+				if($markoantar_id > 0) $_POST["forwarder_ids"][] = $markoantar_id;
+			}
+		}
 		if(count($_POST["forwarder_ids"]) <= 0)	$_SESSION["errormessage"] = v("please_select_couriers");
 		if(count($_POST["category_ids"]) <= 0)	$_SESSION["errormessage"] = v("please_select_categories");
 		
@@ -34,6 +40,8 @@
 	$category_ids = str_replace("||",",",sel_to_pipe($_POST["category_ids"])); $category_ids = str_replace("|","",$category_ids);
 	$forwarder_ids = str_replace("||",",",sel_to_pipe($_POST["forwarder_ids"])); $forwarder_ids = str_replace("|","",$forwarder_ids);
 ?>
+<link rel="stylesheet" href="styles/jquery.magicsearch.css">
+<script src="scripts/jquery.magicsearch.min.js"></script>
 <script>
 	$(document).ready(function() {
 		$('#categories').multiselect({
@@ -51,6 +59,10 @@
 		$("#couriers").multiselect("refresh");
 		
 	});
+	function saving_goods(){
+		$("#markoantar_ids").val($("#markoantar_ids").attr("data-id"));
+		btn_save_goods.click();
+	}
 </script>
 <div class="container">
 	<div class="row">	
@@ -114,14 +126,31 @@
 				</div>
 				<div class="form-group">
 					<label><?=v("delivery_courier");?></label> 
-					<?=$f->select("couriers",$db->fetch_select_data("forwarders","id","name",[],["id"]),"","multiple=\"multiple\"","form-control");?>
+					<?=$f->select("couriers",$db->fetch_select_data("forwarders","id","name",["user_id"=>"0"],["id"]),"","multiple=\"multiple\"","form-control");?>
+				</div>
+				<div class="form-group">
+					<label>Marko Antar</label><?=$f->input("markoantar_ids","","data-id='".$_POST["markoantar_ids"]."' placeholder='Marko Antar...'","form-control magicsearch");?>
 				</div>
 				<div class="form-group">
 					<button class="btn btn-warning" onclick="window.location='dashboard.php?tabActive=goods';"><span class="glyphicon glyphicon-arrow-left"></span> <?=v("back");?></button>
-					<button style="float:right;" class="btn btn-primary" onclick="btn_save_goods.click();"><?=v("next");?> <span class="glyphicon glyphicon-arrow-right"></span></button>
+					<button style="float:right;" class="btn btn-primary" onclick="saving_goods();"><?=v("next");?> <span class="glyphicon glyphicon-arrow-right"></span></button>
 				</div>
 			</div>
 		</form>
 	</div>
 </div>
+<script>
+	<?php $markoantars = $db->fetch_select_data("forwarders","id","name",["user_id" => "0:>"],["name"]);?>
+	var markoantars = [ <?php foreach($markoantars as $id => $name){ echo "{id: ".$id.", name: '".$name."'},";} ?> ];
+	$('#markoantar_ids').magicsearch({
+		dataSource: markoantars,
+		fields: ['name'],
+		id: 'id',
+		format: '%name%',
+		multiple: true,
+		focusShow: true,
+		multiField: 'name',
+		multiStyle:{width: 150}
+	});
+</script>
 <?php include_once "footer.php"; ?>
