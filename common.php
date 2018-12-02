@@ -48,7 +48,7 @@
 	$__seller 		= $db->fetch_all_data("sellers",[],"user_id = '".$__user_id."'")[0];
 	$__buyer 		= $db->fetch_all_data("buyers",[],"user_id = '".$__user_id."'")[0];
 	$__forwarder 	= $db->fetch_all_data("forwarders",[],"user_id = '".$__user_id."'")[0];
-	$__marko_id = $__user["marko_id"];
+	$__marko_id 	= $__user["marko_id"];
 	$__seller_id 	= $__seller["id"];
 	$__buyer_id		= $__buyer["id"];
 	$__forwarder_id = $__forwarder["id"];

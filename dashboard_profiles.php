@@ -58,6 +58,9 @@
 		<br><br>
 	</center>
 	<div class="form-group">
+		<label>Marko ID</label><?=$__marko_id;?>
+	</div>
+	<div class="form-group">
 		<label><?=v("name");?></label><?=$f->input("name",$__user["name"],"required placeholder='".v("name")."...'","form-control");?>
 	</div>
 	<div class="form-group">
