@@ -20,60 +20,101 @@
 	}
 	
 	if($mode == "loadCourierServices"){
+		$is_markoantar = false;
 		$goods_id = $_GET["goods_id"];
 		$buyer_address_id = $_GET["buyer_address_id"];
 		$courier = $_GET["courier"];
+		$forwarder_id = $db->fetch_single_data("forwarders","id",["rajaongkir_code" => $courier]);
+		if($forwarder_id <= 0){
+			$forwarder_id = $db->fetch_single_data("forwarders","id",["user_id" => $courier]);
+			if($forwarder_id > 0) $is_markoantar = true;
+		}
 		$qty = $_GET["qty"];
 		$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
 		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
 		$seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]));
-		$origin = $ro->location_id($seller_locations[0]["name"],$seller_locations[1]["name"],$seller_locations[2]["name"]);
 		
 		$buyer_locations = get_location($db->fetch_single_data("user_addresses","location_id",["id" => $buyer_address_id,"user_id" => $__user_id]));
-		$destination = $ro->location_id($buyer_locations[0]["name"],$buyer_locations[1]["name"],$buyer_locations[2]["name"]);
 		$weight = $db->fetch_single_data("goods","weight",["id" => $goods_id]);
 		$courier_services = array();
-		$ro_cost = $ro->cost($origin,$destination,($weight*$qty),$courier);
 		
-		if($ro_cost["status"]["code"] == "400"){
-			echo $ro_cost["status"]["description"];
-		} else {
-			foreach($ro_cost["results"][0]["costs"] as $cost){
-				$courier_services[$cost["service"]] = $cost["description"]." (".$cost["service"].")";
+		if(!$is_markoantar){
+			$origin = $ro->location_id($seller_locations[0]["name"],$seller_locations[1]["name"],$seller_locations[2]["name"]);
+			$destination = $ro->location_id($buyer_locations[0]["name"],$buyer_locations[1]["name"],$buyer_locations[2]["name"]);
+			$ro_cost = $ro->cost($origin,$destination,($weight*$qty),$courier);
+			if($ro_cost["status"]["code"] == "400"){
+				echo "<font color='red'>".$ro_cost["status"]["description"]."</font>";exit();
+			} else {
+				foreach($ro_cost["results"][0]["costs"] as $cost){
+					$courier_services[$cost["service"]] = $cost["description"]." (".$cost["service"].")";
+				}
 			}
-			echo $f->select("courier_service_".$goods_id,$courier_services,"","","form-control");
-			echo "<script>";
-			echo "	$(\"#courier_service_".$goods_id."\").change(function(){";
-			echo "		load_shipping_charges(".$goods_id.",$(\"#user_address\").val(),$(\"#delivery_courier_".$goods_id."\").val(),$(\"#courier_service_".$goods_id."\").val(),$(\"#hide_qty_".$goods_id."\").val());";
-			echo "	});";
-			echo "</script>";
+		} else {
+			$courier_services = [];
+			$forwarder_vehicles = $db->fetch_all_data("forwarder_vehicles",[],"user_id='".$courier."' AND max_load >= '".($weight*$qty/1000)."' AND is_active='1' AND is_available='1'");
+			if(count($forwarder_vehicles)>0){
+				foreach($forwarder_vehicles as $forwarder_vehicle){
+					$vehicle_type = $db->fetch_single_data("vehicle_types","name",["id" => $forwarder_vehicle["vehicle_type_id"]]);
+					$vehicle_brand = $db->fetch_single_data("vehicle_brands","name",["id" => $forwarder_vehicle["vehicle_brand_id"]]);
+					$courier_services[$forwarder_vehicle["id"]] = $vehicle_type." ".$vehicle_brand." [".$forwarder_vehicle["nopol"]."] ( ".$forwarder_vehicle["max_load"]." Kg)";
+				}
+			} else{
+				echo "<font color='red'>".v("no_courier_service_available")."</font>";exit();
+			}
 		}
+		echo $f->select("courier_service_".$goods_id,$courier_services,"","","form-control");
+		echo "<script>";
+		echo "	$(\"#courier_service_".$goods_id."\").change(function(){";
+		echo "		load_shipping_charges(".$goods_id.",$(\"#user_address\").val(),$(\"#delivery_courier_".$goods_id."\").val(),$(\"#courier_service_".$goods_id."\").val(),$(\"#hide_qty_".$goods_id."\").val());";
+		echo "	});";
+		echo "</script>";
 	}
 	
 	if($mode == "loadShippingCharges"){
+		$is_markoantar = false;
 		$goods_id = $_GET["goods_id"];
 		$buyer_address_id = $_GET["buyer_address_id"];
 		$courier = $_GET["courier"];
+		$forwarder_id = $db->fetch_single_data("forwarders","id",["rajaongkir_code" => $courier]);
+		if($forwarder_id <= 0){
+			$forwarder_id = $db->fetch_single_data("forwarders","id",["user_id" => $courier]);
+			if($forwarder_id > 0) $is_markoantar = true;
+		}
+		
 		$courier_service = $_GET["courier_service"];
 		$qty = $_GET["qty"];
 		$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
 		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
-		$seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id]));
-		$origin = $ro->location_id($seller_locations[0]["name"],$seller_locations[1]["name"],$seller_locations[2]["name"]);
 		
-		$buyer_locations = get_location($db->fetch_single_data("user_addresses","location_id",["id" => $buyer_address_id,"user_id" => $__user_id]));
-		$destination = $ro->location_id($buyer_locations[0]["name"],$buyer_locations[1]["name"],$buyer_locations[2]["name"]);
+		
+		$pickup_location_id = $db->fetch_single_data("goods","pickup_location_id",["id" => $goods_id]);
+		if($pickup_location_id <= 0) $pickup_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id]);
+		$buyer_location_id = $db->fetch_single_data("user_addresses","location_id",["id" => $buyer_address_id,"user_id" => $__user_id]);
+		$seller_locations = get_location($pickup_location_id);
+		$buyer_locations = get_location($buyer_location_id);
 		$weight = $db->fetch_single_data("goods","weight",["id" => $goods_id]);
-		foreach($ro->cost($origin,$destination,($weight*$qty),$courier)["results"][0]["costs"] as $cost){
-			if(strtolower($cost["service"]) == strtolower($courier_service)){
-				$shippingcharges = $cost["cost"][0]["value"];
-				break;
+		
+		if(!$is_markoantar){
+			$origin = $ro->location_id($seller_locations[0]["name"],$seller_locations[1]["name"],$seller_locations[2]["name"]);
+			$destination = $ro->location_id($buyer_locations[0]["name"],$buyer_locations[1]["name"],$buyer_locations[2]["name"]);
+			foreach($ro->cost($origin,$destination,($weight*$qty),$courier)["results"][0]["costs"] as $cost){
+				if(strtolower($cost["service"]) == strtolower($courier_service)){
+					$shippingcharges = $cost["cost"][0]["value"];
+					break;
+				}
 			}
+		} else {
+			$shippingcharges = $db->fetch_single_data("forwarder_routes","price",["user_id" => $courier,"vehicle_id" => $courier_service,"source_location_id" => $pickup_location_id,"destination_location_id" => $buyer_location_id]);
 		}
+		
 		$price = get_goods_price($goods_id,$qty)["display_price"];
 		$subtotal = $price * $qty;
 		$total = $subtotal + $shippingcharges;
-		echo " x Rp. ".format_amount($price)." = Rp. ".format_amount($subtotal)."|||Rp. ".format_amount($shippingcharges)."|||Rp. ".format_amount($total)."|||".$shippingcharges."|||".$total;
+		if($shippingcharges > 0){
+			echo " x Rp. ".format_amount($price)." = Rp. ".format_amount($subtotal)."|||Rp. ".format_amount($shippingcharges)."|||Rp. ".format_amount($total)."|||".$shippingcharges."|||".$total;
+		} else {
+			echo " x Rp. ".format_amount($price)." = Rp. ".format_amount($subtotal)."|||<p style='font-size:0.8em;'>".v("no_shippingcharges_desc")."</p>|||Rp. ".format_amount($total)."|||0|||".$total;
+		}
 	}
 	
 	if($mode == "loadBankAccounts"){

@@ -38,8 +38,14 @@
 			$qty 						= $db->fetch_single_data("transaction_details","qty",["transaction_id" => $transaction_id]);
 			$weight 					= $db->fetch_single_data("goods","weight",["id" => $goods_id]);
 			$forwarder_id 				= $db->fetch_single_data("forwarders","id",["rajaongkir_code" => $_POST["delivery_courier_".$goods_id]]);
-			$forwarder_user_id 			= $db->fetch_single_data("forwarders","user_id",["rajaongkir_code" => $_POST["delivery_courier_".$goods_id]]);
-			$name 						= $db->fetch_single_data("forwarders","name",["rajaongkir_code" => $_POST["delivery_courier_".$goods_id]]);
+			if($forwarder_id > 0){
+				$forwarder_user_id 			= $db->fetch_single_data("forwarders","user_id",["rajaongkir_code" => $_POST["delivery_courier_".$goods_id]]);
+				$name 						= $db->fetch_single_data("forwarders","name",["rajaongkir_code" => $_POST["delivery_courier_".$goods_id]]);
+			} else {
+				$forwarder_id 				= $db->fetch_single_data("forwarders","id",["user_id" => $_POST["delivery_courier_".$goods_id]]);
+				$forwarder_user_id 			= $_POST["delivery_courier_".$goods_id];
+				$name 						= $db->fetch_single_data("forwarders","name",["user_id" => $_POST["delivery_courier_".$goods_id]]);
+			}
 			$price 						= $_POST["hide_shipping_charges_".$goods_id];
 			$total 						= $price;
 			$user_address_id 			= $_POST["user_address"];
@@ -50,6 +56,8 @@
 			$user_address 				= $_user_address["address"];
 			$user_address_location_id 	= $_user_address["location_id"];
 			$user_address_coordinate 	= $_user_address["coordinate"];
+			$pickup_location_id = $db->fetch_single_data("goods","pickup_location_id",["id" => $goods_id]);
+			if($pickup_location_id <= 0) $pickup_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $transaction["seller_user_id"]]);
 			
 			$db->addtable("transaction_forwarder");
 			$db->addfield("transaction_id");		$db->addvalue($transaction_id);
@@ -57,6 +65,7 @@
 			$db->addfield("forwarder_user_id");		$db->addvalue($forwarder_user_id);
 			$db->addfield("name");					$db->addvalue($name);
 			$db->addfield("courier_service");		$db->addvalue($_POST["courier_service_".$goods_id]);
+			$db->addfield("pickup_location_id");	$db->addvalue($pickup_location_id);
 			$db->addfield("user_address_id");		$db->addvalue($user_address_id);
 			$db->addfield("user_address_name");		$db->addvalue($user_address_name);
 			$db->addfield("user_address_pic");		$db->addvalue($user_address_pic);
@@ -233,6 +242,7 @@
 	var total_shipping_charges = 0;
 	var goods_ids = "";
 	var last_goods_id = "";
+	var numbers_is_valid = true;
 	
 	function change_address(user_address_id){
 		$("#total_bill").html("<img src='images/fancybox_loading.gif'>");
@@ -268,6 +278,7 @@
 		var total_shipping_charges = 0;
 		var arr_goods_id = goods_ids.split(",");
 		var all_loaded = true;
+		numbers_is_valid = true;
 		for(xx=0;xx<arr_goods_id.length;xx++){
 			goods__id = arr_goods_id[xx];
 			if($("#hide_sub_total_"+goods__id).val() <= 0) {all_loaded = false;}
@@ -280,6 +291,9 @@
 				total_bill += ($("#hide_sub_total_"+goods__id).val() * 1);
 				
 			}
+			if(total_bill <= 0) numbers_is_valid = false;
+			if(total_price <= 0) numbers_is_valid = false;
+			if(total_shipping_charges <= 0) numbers_is_valid = false;
 			$("#total_bill").html("&nbsp;&nbsp;&nbsp;"+new Intl.NumberFormat('id-ID').format(total_bill));
 			$("#total_price").html("&nbsp;&nbsp;&nbsp;"+new Intl.NumberFormat('id-ID').format(total_price));
 			$("#total_shipping_charges").html("&nbsp;&nbsp;&nbsp;"+new Intl.NumberFormat('id-ID').format(total_shipping_charges));
@@ -310,7 +324,7 @@
 		});
 	}
 </script>
-<form id="cart_form" role="form" method="POST" autocomplete="off">	
+<form id="cart_form" role="form" method="POST" autocomplete="off" onsubmit="return numbers_is_valid;">	
 	<input type="hidden" id="action_mode" name="action_mode">
 	<div class="container">
 		<div class="row">
@@ -357,7 +371,7 @@
 									$total_price += $subtotal;
 									
 									$forwarder_ids = str_replace(["||","|"],[",",""],$db->fetch_single_data("goods","forwarder_ids",["id" => $goods_id]));
-									$forwarders = $db->fetch_select_data("forwarders","rajaongkir_code","concat(name,' (',upper(rajaongkir_code),')')",["id" => $forwarder_ids.":IN"]);
+									$forwarders = $db->fetch_select_data("forwarders","concat(IF(rajaongkir_code <> '', rajaongkir_code, user_id)) as rajaongkir_id","concat(IF(rajaongkir_code <> '', concat(name,' (',upper(rajaongkir_code),')'), concat('Marko Antar (',name,')')))",["id" => $forwarder_ids.":IN"],["user_id DESC,id"]);
 									$delivery_courier_area = "
 											<div>
 												<label>".v("delivery_courier")."</label>

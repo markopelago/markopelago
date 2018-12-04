@@ -352,6 +352,8 @@ class Vocabulary{
 		$arr[$l]["estimated_days"]								= "Estimated Days";
 		$arr[$l]["self_pickup"]									= "Self Pickup";
 		$arr[$l]["pickup_location"]								= "Pickup Location";
+		$arr[$l]["no_courier_service_available"]				= "Courier service is not available, Please choose another Delivery Courier.";
+		$arr[$l]["no_shippingcharges_desc"]						= "The route is not available, please select Shipping Courier or other courier service";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -691,6 +693,8 @@ class Vocabulary{
 		$arr[$l]["estimated_days"]								= "Perkiraan Hari";
 		$arr[$l]["self_pickup"]									= "Ambil Sendiri";
 		$arr[$l]["pickup_location"]								= "Lokasi Pengambilan";
+		$arr[$l]["no_courier_service_available"]				= "Servis kurir tidak tersedia, Silakan pilih Kurir Pengiriman yang lain.";
+		$arr[$l]["no_shippingcharges_desc"]						= "Rute tersebut tidak tersedia, Silakan pilih Kurir Pengiriman atau Servis kurir yang lain";
 		
 		
 		return $arr[$this->locale][$index];
