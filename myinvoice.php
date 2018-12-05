@@ -37,7 +37,7 @@
 
 <div class="container">
     <div class="row">
-		<h4 class="well"><b><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> &nbsp;Invoice</b></h4>
+		<div class="common_title"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> &nbsp;Invoice</div>
 	</div>
 </div>
 <div class="container">
@@ -101,7 +101,16 @@
 				</tr>
 				<tr>
 					<td colspan="3" width="70%"> 
-						<u><?=v("courier_service");?> :</u><br> <?=$transaction_forwarder["name"];?> -- <?=explode(" (",$transaction_forwarder["courier_service"])[0];?>
+						<?php
+							if($transaction_forwarder["forwarder_user_id"] > 0){
+								$vehicle_id = $db->fetch_single_data("forwarder_routes","vehicle_id",["user_id" => $transaction_forwarder["forwarder_user_id"],"id" => $transaction_forwarder["courier_service"]]);
+								$forwarder_vehicle = $db->fetch_all_data("forwarder_vehicles",[],"user_id = '".$transaction_forwarder["forwarder_user_id"]."' AND id = '".$vehicle_id."'")[0];
+								$vehicle_type = $db->fetch_single_data("vehicle_types","name",["id" => $forwarder_vehicle["vehicle_type_id"]]);
+								$vehicle_brand = $db->fetch_single_data("vehicle_brands","name",["id" => $forwarder_vehicle["vehicle_brand_id"]]);
+								$transaction_forwarder["courier_service"] = $vehicle_type." ".$vehicle_brand;
+							}
+						?>
+						<u><?=v("courier_service");?> :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar ":"";?><?=$transaction_forwarder["name"];?> -- <?=explode(" (",$transaction_forwarder["courier_service"])[0];?>
 					<?php
 						if($transaction["status"] >= 5 && $transaction_forwarder["receipt_at"] != "0000-00-00 00:00:00") {
 							echo "<br><b>".v("delivered_at").": ".format_tanggal($transaction_forwarder["receipt_at"]);
