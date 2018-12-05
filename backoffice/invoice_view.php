@@ -97,7 +97,16 @@
 				</tr>
 				<tr>
 					<td colspan="3" width="70%"> 
-						<u>Courier Service :</u><br> <?=$transaction_forwarder["name"];?> -- <?=explode(" (",$transaction_forwarder["courier_service"])[0];?>
+						<?php
+							if($transaction_forwarder["forwarder_user_id"] > 0){
+								$vehicle_id = $db->fetch_single_data("forwarder_routes","vehicle_id",["user_id" => $transaction_forwarder["forwarder_user_id"],"id" => $transaction_forwarder["courier_service"]]);
+								$forwarder_vehicle = $db->fetch_all_data("forwarder_vehicles",[],"user_id = '".$transaction_forwarder["forwarder_user_id"]."' AND id = '".$vehicle_id."'")[0];
+								$vehicle_type = $db->fetch_single_data("vehicle_types","name",["id" => $forwarder_vehicle["vehicle_type_id"]]);
+								$vehicle_brand = $db->fetch_single_data("vehicle_brands","name",["id" => $forwarder_vehicle["vehicle_brand_id"]]);
+								$transaction_forwarder["courier_service"] = $vehicle_type." ".$vehicle_brand;
+							}
+						?>
+						<u>Courier Service :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar ":"";?><?=$transaction_forwarder["name"];?> -- <?=explode(" (",$transaction_forwarder["courier_service"])[0];?>
 					</td>
 					<td nowrap width="15%" align="right">
 						Weight<br> <?=($transaction_forwarder["weight"]*$transaction_forwarder["qty"]/1000);?> Kg

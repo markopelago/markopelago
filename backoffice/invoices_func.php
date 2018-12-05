@@ -12,6 +12,7 @@
 	}
 	function sendMailPaymentVerified($cart_group){
 		global $db;
+		$goods_names = "";
 		$emails = array();
 		$po_s = array();
 		$invoice_nos = "";
@@ -26,6 +27,8 @@
 			$po_s[$transaction["po_no"]]["seller_name"] = $seller_name;
 			foreach($transaction_details as $transaction_detail){
 				$goods_name = $db->fetch_single_data("goods","name",["id" => $transaction_detail["goods_id"]]);
+				$goods_names .= $goods_name.", ";
+				$po_s[$transaction["po_no"]]["goods_names"] .= $goods_name.", ";
 				$notes = "";
 				if($transaction_detail["notes"]!="") $notes = "<br><i>notes: ".$transaction_detail["notes"]."</i>";
 				$unit = $db->fetch_single_data("units","name_".$__locale,["id" => $transaction_detail["unit_id"]]);
@@ -103,6 +106,12 @@
 		$buyer_email = $db->fetch_single_data("a_users","email",["id" => $buyer_user_id]);
 		sendingmail("Markopelago.com -- Pembayaran Berhasil ".$invoice_nos,$buyer_email,$body,"system@markopelago.com|Markopelago System");
 		
+		$message = "Terimakasih untuk pembayaran atas pembelian ".substr($goods_names,0,-2).". Sekarang penjual sedang memproses pembelian anda. Setiap pembelian anda memberikan manfaat untuk pelaku usaha Indonesia. Salam Markopelago dan selamat beraktivitas";
+		$db->addtable("notifications");
+		$db->addfield("user_id");		$db->addvalue($buyer_user_id);
+		$db->addfield("message");		$db->addvalue($message);
+		$inserting = $db->insert();
+		
 		$order_detail = "";
 		$shoppingTotal = 0;
 		foreach($po_s as $po_no => $po){
@@ -140,6 +149,12 @@
 			$body = read_file("../html/email_purchase_order_id.html");
 			$body = str_replace($arr1,$arr2,$body);
 			sendingmail("Markopelago.com -- Purchase Order ".$po_no,$po["seller_email"],$body,"system@markopelago.com|Markopelago System");
+			
+			$message = "Yesss, seseorang telah membeli ".substr($po["goods_names"],0,-2)." di akun anda. Silakan cek dan proses pengiriman barang/jasa tersebut. Semoga berkah dan makin laris! Salam Markopelago untuk Indonesia.";
+			$db->addtable("notifications");
+			$db->addfield("user_id");		$db->addvalue($po["seller_user_id"]);
+			$db->addfield("message");		$db->addvalue($message);
+			$inserting = $db->insert();
 		}
 	}
 ?>
