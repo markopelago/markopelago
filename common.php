@@ -430,6 +430,26 @@
 		return 1;
 	}
 	
+	function markoantar_status($id){
+		global $__locale;
+		$arr = array();
+		if($__locale == "id"){
+			$arr[0] = "Menjemput barang";
+			$arr[1] = "Barang diantar";
+			$arr[2] = "Barang sampai tujuan";
+			$arr[3] = "Menuju ke pool armada";
+			$arr[4] = "Sampai di pool armada";
+		}
+		if($__locale == "en"){
+			$arr[0] = "Goods pickup";
+			$arr[1] = "Delivering goods";
+			$arr[2] = "Goods arrived";
+			$arr[3] = "Heading to vehicle's homebase";
+			$arr[4] = "Arrived at vehicle's homebase";
+		}
+		return $arr[$id];
+	}
+	
 	function transactionList($id){
 		global $__locale;
 		$arr = array();

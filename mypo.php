@@ -83,7 +83,7 @@
 
 <div class="container">
     <div class="row">
-		<h4 class="well"><b><span class="glyphicon glyphicon-list-alt" style="color:#800000;"></span> &nbsp;Purchase Order</b></h4>
+		<div class="common_title"><span class="glyphicon glyphicon-list-alt" style="color:#800000;"></span> &nbsp;Purchase Order</div>
 	</div>
 </div>
 <div class="container">
@@ -113,7 +113,8 @@
 						<?=v("weight_per_unit");?> : <?=($goods["weight"]/1000);?> Kg<br>
 						<?php if($status == "5") echo "<div style='width:220px;padding-top:5px;padding-bottom:5px;margin-bottom:10px;font-size:14px;text-align:center;' class='alert alert-success'><span class='glyphicon glyphicon-send '></span> ".v("goods_was_delivered")."</div>"; ?>
 						<?php if($status == "5") echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','".$transaction_forwarder["receipt_no"]."');\">".v("edit_receipt_no")."</button>"; ?>
-						<?php if($status == "4") echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."');\">".v("update_goods_was_delivered")."</button>"; ?>
+						<?php if($status == "4" && $transaction_forwarder["forwarder_user_id"] <= 0) echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."');\">".v("update_goods_was_delivered")."</button>"; ?>
+						<?php if($status == "4" && $transaction_forwarder["forwarder_user_id"] > 0) echo "<div class='alert alert-warning'>".v("wait_for_pickup")."</div>"; ?>
 					</div>
 				</td>
 				<td colspan="2" align="right" nowrap>
@@ -136,8 +137,22 @@
 			</tr>
 			<tr>
 				<td colspan="3" width="70%"> 
-					<u><?=v("courier_service");?> :</u><br> <?=$transaction_forwarder["name"];?> -- <?=explode(" (",$transaction_forwarder["courier_service"])[0];?>
 					<?php
+						if($transaction_forwarder["forwarder_user_id"] > 0){
+							$vehicle_id = $db->fetch_single_data("forwarder_routes","vehicle_id",["user_id" => $transaction_forwarder["forwarder_user_id"],"id" => $transaction_forwarder["courier_service"]]);
+							$forwarder_vehicle = $db->fetch_all_data("forwarder_vehicles",[],"user_id = '".$transaction_forwarder["forwarder_user_id"]."' AND id = '".$vehicle_id."'")[0];
+							$vehicle_type = $db->fetch_single_data("vehicle_types","name",["id" => $forwarder_vehicle["vehicle_type_id"]]);
+							$vehicle_brand = $db->fetch_single_data("vehicle_brands","name",["id" => $forwarder_vehicle["vehicle_brand_id"]]);
+							$transaction_forwarder["courier_service"] = $vehicle_type." ".$vehicle_brand;
+							$onclickSendMessage = "onclick=\"newMessage('".$transaction_forwarder["forwarder_user_id"]."','0','seller','markoantar');\"";
+							if($status == "4") $wait_for_pickup = "<div class='alert alert-warning'>".v("wait_for_pickup")."</div>";
+							$btn_chat = "<div><button class='btn btn-primary btn-blue' ".$onclickSendMessage."><span class='glyphicon glyphicon-envelope'></span>&nbsp;".v("send_message_to_markoantar")."</button></div>";
+						}
+					?>
+					<u><?=v("courier_service");?> :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar ":"";?><?=$transaction_forwarder["name"];?> -- <?=explode(" (",$transaction_forwarder["courier_service"])[0];?>
+					<?php
+						// echo $wait_for_pickup;
+						echo $btn_chat;
 						if($status >= "5" && $transaction_forwarder["receipt_at"] != "0000-00-00 00:00:00") {
 							echo "<br><b>".v("delivered_at").": ".format_tanggal($transaction_forwarder["receipt_at"]);
 							echo "<br>".v("shipping_receipt_number").": ".$transaction_forwarder["receipt_no"]."</b>";

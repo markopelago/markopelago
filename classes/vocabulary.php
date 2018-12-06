@@ -84,6 +84,7 @@ class Vocabulary{
 		$arr[$l]["contact"]										= "Contact";
 		$arr[$l]["message"]										= "Message";
 		$arr[$l]["send_message_to_seller"]						= "Send message to seller";
+		$arr[$l]["send_message_to_markoantar"]					= "Send message to Marko Antar";
 		$arr[$l]["register_as"]									= "Register as";
 		$arr[$l]["register"]									= "Register";
 		$arr[$l]["seller"]										= "Seller";
@@ -354,6 +355,7 @@ class Vocabulary{
 		$arr[$l]["pickup_location"]								= "Pickup Location";
 		$arr[$l]["no_courier_service_available"]				= "Courier service is not available, Please choose another Delivery Courier.";
 		$arr[$l]["no_shippingcharges_desc"]						= "The route is not available, please select Shipping Courier or other courier service";
+		$arr[$l]["wait_for_pickup"]								= "Waiting for the Marko Antar to pick up";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -425,6 +427,7 @@ class Vocabulary{
 		$arr[$l]["contact"]										= "Hubungi";
 		$arr[$l]["message"]										= "Pesan";
 		$arr[$l]["send_message_to_seller"]						= "Kirim pesan ke penjual";
+		$arr[$l]["send_message_to_markoantar"]					= "Kirim pesan ke Marko Antar";
 		$arr[$l]["register_as"]									= "Daftar sebagai";
 		$arr[$l]["register"]									= "Daftar";
 		$arr[$l]["seller"]										= "Penjual";
@@ -695,6 +698,7 @@ class Vocabulary{
 		$arr[$l]["pickup_location"]								= "Lokasi Pengambilan";
 		$arr[$l]["no_courier_service_available"]				= "Servis kurir tidak tersedia, Silakan pilih Kurir Pengiriman yang lain.";
 		$arr[$l]["no_shippingcharges_desc"]						= "Rute tersebut tidak tersedia, Silakan pilih Kurir Pengiriman atau Servis kurir yang lain";
+		$arr[$l]["wait_for_pickup"]								= "Menunggu dijemput Marko Antar";
 		
 		
 		return $arr[$this->locale][$index];

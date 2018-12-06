@@ -19,6 +19,14 @@
 			if(!file_exists("../users_images/".$img)) $img = "nologo.jpg";
 			$photo = "users_images/".$img;
 		}
+		if($sender_as == "markoantar"){
+			$sender = $db->fetch_single_data("forwarders","name",["user_id"=>$sender_id]);
+			$img = $db->fetch_single_data("sellers","logo",["user_id"=>$sender_id]);
+			if($img == "") $img = $db->fetch_single_data("sellers","logo",["user_id"=>$sender_id]);
+			if($img == "") $img = "nophoto.png";
+			if(!file_exists("../users_images/".$img)) $img = "nophoto.png";
+			$photo = "users_images/".$img;
+		}
 		$arrreturn["name"] = $sender;
 		$arrreturn["photopath"] = $photo;
 		return $arrreturn;
@@ -52,6 +60,12 @@
 			$db->addfield("message");	$db->addvalue($message);
 			$db->addfield("status");	$db->addvalue(0);
 			$inserting = $db->insert();
+
+			$message = $db->fetch_single_data("a_users","name",["id" => $__user_id])." ingin `ngobrol` dengan Anda, Silakan cek di menu Pesan";
+			$db->addtable("notifications");
+			$db->addfield("user_id");		$db->addvalue($sender_id);
+			$db->addfield("message");		$db->addvalue($message);
+			$inserting = $db->insert();
 			
 			if($send_mail){
 				$seller_name = $db->fetch_single_data("sellers","concat(pic,' - ',name)",["user_id" => $sender_id]);
@@ -62,6 +76,7 @@
 				$body = read_file("../html/email_inbox_notification_id.html");
 				$body = str_replace($arr1,$arr2,$body);
 				sendingmail("Markopelago.com -- Ada yang ingin `ngobrol` dengan Anda",$seller_email,$body,"system@markopelago.com|Markopelago System");
+				
 			}
 			
 			$_GET["id"] = $inserting["insert_id"];
@@ -194,8 +209,9 @@
 		if($user_id_as == "undefined") $user_id_as= "";
 		$user_id2_as = $_GET["user_id2_as"];
 		if($user_id2_as == "undefined") $user_id2_as= "";
-		$message = v("goods")." ".$db->fetch_single_data("goods","name",["id" => $goods_id])." : ";
-		echo v("send_message_to_seller")."|||";
+		if($goods_id > 0){ $message = v("goods")." ".$db->fetch_single_data("goods","name",["id" => $goods_id])." : "; }
+		if($user_id2_as == "seller") echo v("send_message_to_seller")."|||";
+		if($user_id2_as == "markoantar") echo v("send_message_to_markoantar")."|||";
 		echo "<div class=\"form-group\">";
 		echo $f->textarea("message",$message,"style=\"height:100px !important;width:100% !important;\" required placeholder='".v("message")."...'","form-control");
 		echo "</div>|||";
