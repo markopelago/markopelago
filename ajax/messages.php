@@ -61,7 +61,7 @@
 			$db->addfield("status");	$db->addvalue(0);
 			$inserting = $db->insert();
 
-			$message = $db->fetch_single_data("a_users","name",["id" => $__user_id])." ingin `ngobrol` dengan Anda, Silakan cek di menu Pesan";
+			$message = $db->fetch_single_data("a_users","name",["id" => $__user_id]).": ".$message;
 			$db->addtable("notifications");
 			$db->addfield("user_id");		$db->addvalue($sender_id);
 			$db->addfield("message");		$db->addvalue($message);
@@ -210,6 +210,7 @@
 		$user_id2_as = $_GET["user_id2_as"];
 		if($user_id2_as == "undefined") $user_id2_as= "";
 		if($goods_id > 0){ $message = v("goods")." ".$db->fetch_single_data("goods","name",["id" => $goods_id])." : "; }
+		if($user_id2_as == "buyer") echo v("send_message_to_buyer")."|||";
 		if($user_id2_as == "seller") echo v("send_message_to_seller")."|||";
 		if($user_id2_as == "markoantar") echo v("send_message_to_markoantar")."|||";
 		echo "<div class=\"form-group\">";

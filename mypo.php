@@ -37,13 +37,20 @@
 		javascript("window.location='?po_no=".$po_no."';");
 		exit();
 	}
-	if($_GET["changeStatus"] == 4){
+	if($_GET["changeStatus"] == 4 || $_GET["changeStatus"] == 5){
 		$db->addtable("transactions");	$db->where("po_no",$po_no); $db->where("seller_user_id",$__user_id);
 		$db->addfield("process_at");	$db->addvalue($__now);
-		$db->addfield("status");		$db->addvalue(4);
+		$db->addfield("status");		$db->addvalue($_GET["changeStatus"]);
 		$updating = $db->update();
 		if($updating["affected_rows"] > 0){
-			$_SESSION["message"] = v("this_po_has_been_processed");
+			if($_GET["changeStatus"] == 4) $_SESSION["message"] = v("this_po_has_been_processed");
+			if($_GET["changeStatus"] == 5) {
+				$db->addtable("transaction_forwarder");	$db->where("transaction_id",$_GET["transaction_id"]);
+				$db->addfield("markoantar_status");		$db->addvalue(1);
+				$db->addfield("markoantar_status_at");	$db->addvalue($__now);
+				$updating = $db->update();
+				$_SESSION["message"] = v("goods_ready_for_pickup_by_markoantar");
+			}
 			javascript("window.location='?po_no=".$po_no."';");
 			exit();
 		} else {
@@ -52,9 +59,10 @@
 	}
 ?>
 <script>
-	function changeStatus(status,transaction_id,receipt_no){
+	function changeStatus(status,transaction_id,receipt_no,markoantar){
 		transaction_id = transaction_id || "";
 		receipt_no = receipt_no || "";
+		markoantar = markoantar || "";
 		var txtConfirm = "";
 		if(status == 4){
 			if(confirm("<?=v("are_you_sure_to_process_this_po");?> ? ")){
@@ -62,21 +70,27 @@
 			}
 		} 
 		if(status == 5){
-			modalTitle 	= "	<?=v("goods_was_delivered");?> ";
-			modalBody	= "<form id=\"frmPoDelivered\" method='POST' action='?po_no=<?=$po_no;?>'>";
-			modalBody	+= "	<input type='hidden' name='savingPoDelivered' value='1'>";
-			modalBody 	+= "	<div class='form-group'>";
-			modalBody 	+= "		<label><?=v("please_enter_the_shipping_receipt_number");?> :</label>";
-			modalBody 	+= "		<input name='receipt_no' value='"+receipt_no+"' class='form-control' placeholder='<?=v("shipping_receipt_number");?>' required>";
-			modalBody 	+= "		<input name='transaction_id' type='hidden' value='"+transaction_id+"'>";
-			modalBody 	+= "	</div>";
-			modalBody 	+= "</form>";
-			modalFooter = "<button type=\"button\" class=\"btn btn-primary\" onclick=\"frmPoDelivered.submit();\"><?=v("save");?></button>";
-			modalFooter += "<button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\"><?=v("cancel");?></button>";
-			$('#modalTitle').html(modalTitle);
-			$('#modalBody').html(modalBody);
-			$('#modalFooter').html(modalFooter);
-			$('#myModal').modal('show');
+			if(markoantar == "markoantar"){
+				if(confirm("<?=v("are_you_sure_goods_ready_pickup");?> ? ")){
+					window.location = "?po_no=<?=$po_no;?>&changeStatus="+status+"&transaction_id="+transaction_id;
+				}	
+			} else {
+				modalTitle 	= "	<?=v("goods_was_delivered");?> ";
+				modalBody	= "<form id=\"frmPoDelivered\" method='POST' action='?po_no=<?=$po_no;?>'>";
+				modalBody	+= "	<input type='hidden' name='savingPoDelivered' value='1'>";
+				modalBody 	+= "	<div class='form-group'>";
+				modalBody 	+= "		<label><?=v("please_enter_the_shipping_receipt_number");?> :</label>";
+				modalBody 	+= "		<input name='receipt_no' value='"+receipt_no+"' class='form-control' placeholder='<?=v("shipping_receipt_number");?>' required>";
+				modalBody 	+= "		<input name='transaction_id' type='hidden' value='"+transaction_id+"'>";
+				modalBody 	+= "	</div>";
+				modalBody 	+= "</form>";
+				modalFooter = "<button type=\"button\" class=\"btn btn-primary\" onclick=\"frmPoDelivered.submit();\"><?=v("save");?></button>";
+				modalFooter += "<button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\"><?=v("cancel");?></button>";
+				$('#modalTitle').html(modalTitle);
+				$('#modalBody').html(modalBody);
+				$('#modalFooter').html(modalFooter);
+				$('#myModal').modal('show');
+			}
 		}
 	}
 </script>
@@ -111,10 +125,12 @@
 						<b><?=$goods["name"]?></b><br>
 						<?=$transaction_details["qty"]?> <?=$units["name_".$__locale]?> x Rp <?=format_amount($transaction_details["price"])?><br>
 						<?=v("weight_per_unit");?> : <?=($goods["weight"]/1000);?> Kg<br>
-						<?php if($status == "5") echo "<div style='width:220px;padding-top:5px;padding-bottom:5px;margin-bottom:10px;font-size:14px;text-align:center;' class='alert alert-success'><span class='glyphicon glyphicon-send '></span> ".v("goods_was_delivered")."</div>"; ?>
-						<?php if($status == "5") echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','".$transaction_forwarder["receipt_no"]."');\">".v("edit_receipt_no")."</button>"; ?>
+						<?php if($status == "5" && $transaction_forwarder["forwarder_user_id"] <= 0) echo "<div style='width:220px;padding-top:5px;padding-bottom:5px;margin-bottom:10px;font-size:14px;text-align:center;' class='alert alert-success'><span class='glyphicon glyphicon-send '></span> ".v("goods_was_delivered")."</div>"; ?>
+						<?php if($status == "5" && $transaction_forwarder["forwarder_user_id"] <= 0) echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','".$transaction_forwarder["receipt_no"]."');\">".v("edit_receipt_no")."</button>"; ?>
 						<?php if($status == "4" && $transaction_forwarder["forwarder_user_id"] <= 0) echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."');\">".v("update_goods_was_delivered")."</button>"; ?>
-						<?php if($status == "4" && $transaction_forwarder["forwarder_user_id"] > 0) echo "<div class='alert alert-warning'>".v("wait_for_pickup")."</div>"; ?>
+						<?php if($status == "4" && $transaction_forwarder["forwarder_user_id"] > 0) echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','','markoantar');\">".v("goods_ready_for_pickup_by_markoantar")."</button>"; ?>
+						<?php if($status == "5" && $transaction_forwarder["forwarder_user_id"] > 0 && $transaction_forwarder["markoantar_status"] > 0) 
+								echo "<div class='alert alert-warning'>".$db->fetch_single_data("markoantar_statuses","name_".$__locale,["id" => $transaction_forwarder["markoantar_status"]])."</div>"; ?>
 					</div>
 				</td>
 				<td colspan="2" align="right" nowrap>
@@ -131,8 +147,12 @@
 						$locations = get_location($transaction_forwarder["user_address_location_id"]);
 						echo $locations[3]["name"].", ".$locations[2]["name"]."<br>";
 						echo $locations[1]["name"].", ".$locations[0]["name"],", ".$locations[3]["zipcode"]."<br>";
+						
+						$onclickSendMessage = "onclick=\"newMessage('".$transaction["buyer_user_id"]."',".$goods["id"].",'seller','buyer');\"";
+						$btn_chat = "<div><button class='btn btn-primary btn-blue' ".$onclickSendMessage."><span class='glyphicon glyphicon-envelope'></span>&nbsp;".v("send_message_to_buyer")."</button></div>";
 					?>
-					<?=$transaction_forwarder["user_address_phone"];?>                                    
+					<?=$transaction_forwarder["user_address_phone"];?>
+					<?=$btn_chat;?>
 				</td>
 			</tr>
 			<tr>
@@ -145,8 +165,8 @@
 							$vehicle_brand = $db->fetch_single_data("vehicle_brands","name",["id" => $forwarder_vehicle["vehicle_brand_id"]]);
 							$transaction_forwarder["courier_service"] = $vehicle_type." ".$vehicle_brand;
 							$onclickSendMessage = "onclick=\"newMessage('".$transaction_forwarder["forwarder_user_id"]."','0','seller','markoantar');\"";
-							if($status == "4") $wait_for_pickup = "<div class='alert alert-warning'>".v("wait_for_pickup")."</div>";
 							$btn_chat = "<div><button class='btn btn-primary btn-blue' ".$onclickSendMessage."><span class='glyphicon glyphicon-envelope'></span>&nbsp;".v("send_message_to_markoantar")."</button></div>";
+							if($status == "4") $wait_for_pickup = "<div class='alert alert-warning'>".v("wait_for_pickup")."</div>";
 						}
 					?>
 					<u><?=v("courier_service");?> :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar ":"";?><?=$transaction_forwarder["name"];?> -- <?=explode(" (",$transaction_forwarder["courier_service"])[0];?>

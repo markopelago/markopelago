@@ -83,6 +83,7 @@ class Vocabulary{
 		$arr[$l]["about"]										= "About";
 		$arr[$l]["contact"]										= "Contact";
 		$arr[$l]["message"]										= "Message";
+		$arr[$l]["send_message_to_buyer"]						= "Send message to buyer";
 		$arr[$l]["send_message_to_seller"]						= "Send message to seller";
 		$arr[$l]["send_message_to_markoantar"]					= "Send message to Marko Antar";
 		$arr[$l]["register_as"]									= "Register as";
@@ -273,6 +274,7 @@ class Vocabulary{
 		$arr[$l]["edit_receipt_no"]								= "Edit Receipt Number";
 		$arr[$l]["delivered_at"]								= "Delivered At";
 		$arr[$l]["are_you_sure_to_process_this_po"]				= "Are You sure to process this PO";
+		$arr[$l]["are_you_sure_goods_ready_pickup"]				= "Are you sure the goods are ready to be picked up";
 		$arr[$l]["please_enter_the_shipping_receipt_number"]	= "Please enter the shipping receipt number";
 		$arr[$l]["shipping_receipt_number"]						= "Shipping receipt number";
 		$arr[$l]["receipt_number"]								= "Receipt number";
@@ -355,6 +357,7 @@ class Vocabulary{
 		$arr[$l]["pickup_location"]								= "Pickup Location";
 		$arr[$l]["no_courier_service_available"]				= "Courier service is not available, Please choose another Delivery Courier.";
 		$arr[$l]["no_shippingcharges_desc"]						= "The route is not available, please select Shipping Courier or other courier service";
+		$arr[$l]["goods_ready_for_pickup_by_markoantar"]		= "Goods ready for pick up by Marko Antar";
 		$arr[$l]["wait_for_pickup"]								= "Waiting for the Marko Antar to pick up";
 		
 		/*==================================================================================================================================*/
@@ -426,6 +429,7 @@ class Vocabulary{
 		$arr[$l]["about"]										= "Tentang Kami";
 		$arr[$l]["contact"]										= "Hubungi";
 		$arr[$l]["message"]										= "Pesan";
+		$arr[$l]["send_message_to_buyer"]						= "Kirim pesan ke pembeli";
 		$arr[$l]["send_message_to_seller"]						= "Kirim pesan ke penjual";
 		$arr[$l]["send_message_to_markoantar"]					= "Kirim pesan ke Marko Antar";
 		$arr[$l]["register_as"]									= "Daftar sebagai";
@@ -616,6 +620,7 @@ class Vocabulary{
 		$arr[$l]["edit_receipt_no"]								= "Ubah nomor Resi";
 		$arr[$l]["delivered_at"]								= "Terkirim pada";
 		$arr[$l]["are_you_sure_to_process_this_po"]				= "Anda yakin akan memproses PO ini";
+		$arr[$l]["are_you_sure_goods_ready_pickup"]				= "Anda yakin barang sudah siap untuk dijemput";
 		$arr[$l]["please_enter_the_shipping_receipt_number"]	= "Harap masukkan nomor resi pengiriman";
 		$arr[$l]["shipping_receipt_number"]						= "Nomor resi pengiriman";
 		$arr[$l]["receipt_number"]								= "Nomor resi";
@@ -698,6 +703,7 @@ class Vocabulary{
 		$arr[$l]["pickup_location"]								= "Lokasi Pengambilan";
 		$arr[$l]["no_courier_service_available"]				= "Servis kurir tidak tersedia, Silakan pilih Kurir Pengiriman yang lain.";
 		$arr[$l]["no_shippingcharges_desc"]						= "Rute tersebut tidak tersedia, Silakan pilih Kurir Pengiriman atau Servis kurir yang lain";
+		$arr[$l]["goods_ready_for_pickup_by_markoantar"]		= "Barang siap dijemput oleh Marko Antar";
 		$arr[$l]["wait_for_pickup"]								= "Menunggu dijemput Marko Antar";
 		
 		
