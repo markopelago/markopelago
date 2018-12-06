@@ -359,6 +359,7 @@ class Vocabulary{
 		$arr[$l]["no_shippingcharges_desc"]						= "The route is not available, please select Shipping Courier or other courier service";
 		$arr[$l]["goods_ready_for_pickup_by_markoantar"]		= "Goods ready for pick up by Marko Antar";
 		$arr[$l]["wait_for_pickup"]								= "Waiting for the Marko Antar to pick up";
+		$arr[$l]["list_of_delivering_goods"]					= "List od delivering goods";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -705,6 +706,7 @@ class Vocabulary{
 		$arr[$l]["no_shippingcharges_desc"]						= "Rute tersebut tidak tersedia, Silakan pilih Kurir Pengiriman atau Servis kurir yang lain";
 		$arr[$l]["goods_ready_for_pickup_by_markoantar"]		= "Barang siap dijemput oleh Marko Antar";
 		$arr[$l]["wait_for_pickup"]								= "Menunggu dijemput Marko Antar";
+		$arr[$l]["list_of_delivering_goods"]					= "Daftar pengiriman barang";
 		
 		
 		return $arr[$this->locale][$index];

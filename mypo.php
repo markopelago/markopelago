@@ -49,6 +49,14 @@
 				$db->addfield("markoantar_status");		$db->addvalue(1);
 				$db->addfield("markoantar_status_at");	$db->addvalue($__now);
 				$updating = $db->update();
+				
+				$forwarder_user_id = $db->fetch_single_data("transaction_forwarder","forwarder_user_id",["transaction_id" => $_GET["transaction_id"]]);
+				$message = "Barang dari ".$db->fetch_single_data("sellers","name",["user_id" => $__user_id])." atas PO: ".$po_no." sudah siap di antar, silakan lihat pada menu ".v("list_of_delivering_goods").". Terima Kasih!";
+				$db->addtable("notifications");
+				$db->addfield("user_id");		$db->addvalue($forwarder_user_id);
+				$db->addfield("message");		$db->addvalue($message);
+				$inserting = $db->insert();
+				
 				$_SESSION["message"] = v("goods_ready_for_pickup_by_markoantar");
 			}
 			javascript("window.location='?po_no=".$po_no."';");
