@@ -502,6 +502,15 @@
 		return $invoice_no;
 	}
 	
+	function generate_markoantar_receipt_no(){
+		global $db;
+		$receipt_no = "MarkoAntar".date("Ymd");
+		$seqno = $db->fetch_single_data("transaction_forwarder","receipt_no",["receipt_no" => $receipt_no."%:LIKE"],["receipt_no DESC"]);
+		$seqno = (str_replace($receipt_no,"",$seqno) * 1) + 1;
+		$receipt_no = "MarkoAntar".date("Ymd").numberpad($seqno,7);
+		return $receipt_no;
+	}
+	
 	function get_goods_price($goods_id,$qty = 0){
 		global $db;
 		if($qty == 0) $qty = 1;

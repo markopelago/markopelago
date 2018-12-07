@@ -111,7 +111,7 @@
 			<?php if($__forwarder_id > 0){ ?>
 			<div id="panel_list_of_delivering_goods" class="panel panel-default">
 				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#list_of_delivering_goods" onclick="changeState('list_of_delivering_goods');">
-					<h3 class="panel-title"><span class="glyphicon glyphicon-list-alt"></span> <b><?=v("list_of_delivering_goods");?></b><span class="notification-counter" style="visibility:hidden;" id="notifStoreSalesListTabCount"></span></h3>
+					<h3 class="panel-title"><img src="assets/sent.png" height="20"> <b><?=v("list_of_delivering_goods");?></b><span class="notification-counter" style="visibility:hidden;" id="notifStoreSalesListTabCount"></span></h3>
 				</div>
 				<div id="list_of_delivering_goods" class="panel-collapse collapse <?=($_GET["tabActive"] == "list_of_delivering_goods")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_list_of_delivering_goods.php";?></div></div>
 			</div><br>
