@@ -18,6 +18,7 @@
 							<?=$f->input("po_at2",$_GET["po_at2"],"type='date'","form-control");?>
 						</div>
 					</div>
+					<?php if(!isMobile()) echo "<br><br>";?>
 					<div class="form-group">
 						<label>Status</label>
 						<?=$f->select("status_store_sales_list",transactionstatuses(),$_GET["status_store_sales_list"],"style='display: inline !important;width:auto !important;'","form-control");?>

@@ -47,7 +47,7 @@
 			if($_GET["changeStatus"] == 5) {
 				$db->addtable("transaction_forwarder");	$db->where("transaction_id",$_GET["transaction_id"]);
 				$db->addfield("markoantar_status");		$db->addvalue(1);
-				$db->addfield("markoantar_status_at");	$db->addvalue($__now);
+				$db->addfield("markoantar_status1_at");	$db->addvalue($__now);
 				$updating = $db->update();
 				
 				$forwarder_user_id = $db->fetch_single_data("transaction_forwarder","forwarder_user_id",["transaction_id" => $_GET["transaction_id"]]);

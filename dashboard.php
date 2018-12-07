@@ -100,12 +100,20 @@
 				</div>
 				<div id="purchase_list" class="panel-collapse collapse <?=($_GET["tabActive"] == "purchase_list")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_purchase_list.php";?></div></div>
 			</div><br>
-			<?php if($__seller_id > 0 || $__forwarder_id > 0){ ?>
+			<?php if($__seller_id > 0){ ?>
 			<div id="panel_store_sales_list" class="panel panel-default">
 				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#store_sales_list" onclick="changeState('store_sales_list');">
 					<h3 class="panel-title"><span class="glyphicon glyphicon-list-alt"></span> <b><?=v("store_sales_list");?></b><span class="notification-counter" style="visibility:hidden;" id="notifStoreSalesListTabCount"></span></h3>
 				</div>
 				<div id="store_sales_list" class="panel-collapse collapse <?=($_GET["tabActive"] == "store_sales_list")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_store_sales_list.php";?></div></div>
+			</div><br>
+			<?php } ?>
+			<?php if($__forwarder_id > 0){ ?>
+			<div id="panel_list_of_delivering_goods" class="panel panel-default">
+				<div class="panel-heading" data-toggle="collapse" data-parent="#dashboard" href="#list_of_delivering_goods" onclick="changeState('list_of_delivering_goods');">
+					<h3 class="panel-title"><span class="glyphicon glyphicon-list-alt"></span> <b><?=v("list_of_delivering_goods");?></b><span class="notification-counter" style="visibility:hidden;" id="notifStoreSalesListTabCount"></span></h3>
+				</div>
+				<div id="list_of_delivering_goods" class="panel-collapse collapse <?=($_GET["tabActive"] == "list_of_delivering_goods")?"in":"";?>"><div class="panel-body"><?php include_once "dashboard_list_of_delivering_goods.php";?></div></div>
 			</div><br>
 			<?php } ?>
 			<div id="panel_message" class="panel panel-default">

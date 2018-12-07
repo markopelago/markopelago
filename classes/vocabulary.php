@@ -360,6 +360,7 @@ class Vocabulary{
 		$arr[$l]["goods_ready_for_pickup_by_markoantar"]		= "Goods ready for pick up by Marko Antar";
 		$arr[$l]["wait_for_pickup"]								= "Waiting for the Marko Antar to pick up";
 		$arr[$l]["list_of_delivering_goods"]					= "List od delivering goods";
+		$arr[$l]["pickup_at"]									= "Pick Up Date";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -707,6 +708,7 @@ class Vocabulary{
 		$arr[$l]["goods_ready_for_pickup_by_markoantar"]		= "Barang siap dijemput oleh Marko Antar";
 		$arr[$l]["wait_for_pickup"]								= "Menunggu dijemput Marko Antar";
 		$arr[$l]["list_of_delivering_goods"]					= "Daftar pengiriman barang";
+		$arr[$l]["pickup_at"]									= "Tanggal penjemputan";
 		
 		
 		return $arr[$this->locale][$index];

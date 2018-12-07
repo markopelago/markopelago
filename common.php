@@ -431,25 +431,8 @@
 	}
 	
 	function markoantar_status($id){
-		global $__locale;
-		$arr = array();
-		if($__locale == "id"){
-			$arr[1] = "Barang siap di jemput";
-			$arr[2] = "Menjemput barang";
-			$arr[3] = "Barang diantar";
-			$arr[4] = "Barang sampai tujuan";
-			$arr[5] = "Menuju ke pool armada";
-			$arr[6] = "Sampai di pool armada";
-		}
-		if($__locale == "en"){
-			$arr[1] = "Goods ready to pick up";
-			$arr[2] = "Picking up goods";
-			$arr[3] = "Delivering goods";
-			$arr[4] = "Goods arrived";
-			$arr[5] = "Heading to vehicle's homebase";
-			$arr[6] = "Arrived at vehicle's homebase";
-		}
-		return $arr[$id];
+		global $__locale,$db;
+		return $db->fetch_single_data("markoantar_statuses","name_".$__locale,["id" => $id]);
 	}
 	
 	function transactionList($id){
