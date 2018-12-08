@@ -32,7 +32,7 @@
 <br>
 <div class="row scrolling-wrapper">
 	<table class="table table-striped table-hover">
-		<thead> <?=$t->header(["",v("po_at"),v("po_no"),v("buyer"),v("goods"),"Total (Rp)","Status",""]);?> </thead>
+		<thead> <?=$t->header(["",v("po_at"),v("po_no"),v("buyer"),v("goods"),"Total (Rp)","Status"]);?> </thead>
 		<tbody>
 			<?php
 				$whereclause = "status > 2 AND seller_user_id='".$__user_id."'";
@@ -60,6 +60,7 @@
 							$total += $transaction_forwarder["total"];
 						}
 						$viewUrl = "mypo.php?po_no=".$transaction["po_no"];
+						$status = transactionList($transaction["status"]);
 						?>
 						<tr>
 							<td class="nowrap"><a href="<?=$viewUrl;?>" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></a></td>
@@ -68,7 +69,7 @@
 							<td class="nowrap"><?=$buyer;?></td>
 							<td class="nowrap"><?=$goods_names;?></td>
 							<td class="nowrap" align="right"><?=format_amount($total);?></td>
-							<td class="nowrap"><?=transactionList($transaction["status"]);?></td>
+							<td class="nowrap"><?=$status;?></td>
 						</tr>
 						<?php
 					}

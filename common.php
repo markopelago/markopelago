@@ -535,6 +535,15 @@
 		return $invoice_no;
 	}
 	
+	function generate_self_pickup_receipt_no(){
+		global $db;
+		$receipt_no = "SPU".date("Ymd");
+		$seqno = $db->fetch_single_data("transaction_forwarder","receipt_no",["receipt_no" => $receipt_no."%:LIKE"],["receipt_no DESC"]);
+		$seqno = (str_replace($receipt_no,"",$seqno) * 1) + 1;
+		$receipt_no = "SPU".date("Ymd").numberpad($seqno,7);
+		return $receipt_no;
+	}
+	
 	function generate_markoantar_receipt_no(){
 		global $db;
 		$receipt_no = "MarkoAntar".date("Ymd");

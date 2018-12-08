@@ -164,8 +164,9 @@
 			foreach($receipts as $receipt_no => $receipt_at){
 				if($receipts_forwarder_user_id[$receipt_no] == 0){
 					$trackers = $ro->waybill($receipts_courier[$receipt_no],$receipt_no);
-					$return .= "&nbsp;&nbsp;&nbsp;".v("receipt_number")." <b>".$receipt_no."</b>";
+					$return .= "<div>&nbsp;&nbsp;&nbsp;".v("receipt_number")." <b>".$receipt_no."</b>";
 					if(count($trackers["result"]["manifest"]) <= 0) $return .= " : ".format_tanggal($receipt_at,"dMY",true);
+					$return .= "</div>";
 					if(count($trackers["result"]["manifest"]) > 0){
 						$return .= "</div>";
 						$return .= "<div class='panel-body'><b>TRACK SHIPMENT:</b>";

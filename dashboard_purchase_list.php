@@ -31,7 +31,7 @@
 <br>
 <div class="row scrolling-wrapper">
 	<table class="table table-striped table-hover">
-		<thead> <?=$t->header(["",v("invoice_at"),v("invoice_no"),v("store_name"),v("goods"),"Total (Rp)","Status",""]);?> </thead>
+		<thead> <?=$t->header(["",v("invoice_at"),v("invoice_no"),v("store_name"),v("goods"),"Total (Rp)","Status"]);?> </thead>
 		<tbody>
 			<?php
 				$whereclause = "status >= 1 AND buyer_user_id='".$__user_id."'";
@@ -60,6 +60,7 @@
 						}
 						$viewUrl = "myinvoice.php?cart_group=".$transaction["cart_group"];
 						if($transaction["status"] > 3) $viewUrl = "myinvoice.php?invoice_no=".$transaction["invoice_no"];
+						$status = transactionList($transaction["status"]);
 						?>
 						<tr onclick="loadShopping_progress('<?=$transaction["id"];?>');">
 							<td class="nowrap"><a href="<?=$viewUrl;?>" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></a></td>
@@ -68,7 +69,7 @@
 							<td class="nowrap"><?=$seller["name"];?></td>
 							<td class="nowrap"><?=$goods_names;?></td>
 							<td class="nowrap" align="right"><?=format_amount($total);?></td>
-							<td class="nowrap"><?=transactionList($transaction["status"]);?></td>
+							<td class="nowrap"><?=$status;?></td>
 						</tr>
 						<?php
 					}

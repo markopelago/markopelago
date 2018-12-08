@@ -364,6 +364,12 @@ class Vocabulary{
 		$arr[$l]["delivery_of_goods"]							= "Delivery of Goods";
 		$arr[$l]["administration_fee"]							= "Administration Fee";
 		$arr[$l]["goods_pickup_distance_estimation"]			= "Goods pickup distance estimation";
+		$arr[$l]["goods_not_ready_for_pickup"]					= "Goods not yet ready for pickup";
+		$arr[$l]["goods_ready_for_pickup"]						= "Goods were ready for pickup";
+		$arr[$l]["goods_pickup_address"]						= "Goods Pickup Address";
+		$arr[$l]["please_select_goods_pickup_address"]			= "Please select goods pickup address";
+		$arr[$l]["are_yout_sure_goods_received"]				= "Are you sure goods has been received";
+		$arr[$l]["goods_received"]								= "Goods are received";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -715,6 +721,12 @@ class Vocabulary{
 		$arr[$l]["delivery_of_goods"]							= "Pengantaran Barang";
 		$arr[$l]["administration_fee"]							= "Biaya Administrasi";
 		$arr[$l]["goods_pickup_distance_estimation"]			= "Estimasi jarak pengambilan barang";
+		$arr[$l]["goods_not_ready_for_pickup"]					= "Barang belum siap di ambil";
+		$arr[$l]["goods_ready_for_pickup"]						= "Barang sudah siap di ambil";
+		$arr[$l]["goods_pickup_address"]						= "Alamat Pengambilan Barang";
+		$arr[$l]["please_select_goods_pickup_address"]			= "Silakan pilih alamat penjemputan barang";
+		$arr[$l]["are_yout_sure_goods_received"]				= "Anda yakin barang sudah diterima";
+		$arr[$l]["goods_received"]								= "Barang sudah diterima";
 		
 		
 		return $arr[$this->locale][$index];

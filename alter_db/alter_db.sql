@@ -1,3 +1,6 @@
+ALTER TABLE `transaction_forwarder` ADD `pickup_address_id` INT NOT NULL AFTER `pickup_location_id`;
+
+
 rfo
 	id
 	user_id

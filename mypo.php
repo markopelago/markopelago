@@ -7,37 +7,78 @@
 		exit();
 	}
 	if(isset($_POST["savingPoDelivered"]) && $_POST["savingPoDelivered"] == 1){
-		if($_POST["receipt_no"] != ""){
-			$transaction = $db->fetch_all_data("transactions",[],"id = '".$_POST["transaction_id"]."' AND seller_user_id = '".$__user_id."'")[0];
-			$transaction_forwarder_receipt_no = $db->fetch_single_data("transaction_forwarder","receipt_no",["transaction_id" => $transaction["id"]]);
-			$db->addtable("transaction_forwarder");	$db->where("transaction_id",$transaction["id"]);
-			$db->addfield("receipt_no");	$db->addvalue($_POST["receipt_no"]);
-			if($transaction_forwarder_receipt_no == ""){
-				$db->addfield("receipt_at");	$db->addvalue($__now);
+		$is_self_pickup = $db->fetch_single_data("transaction_forwarder","id",["transaction_id" => $_POST["transaction_id"],"name" => "self_pickup"]);
+		$transaction = $db->fetch_all_data("transactions",[],"id = '".$_POST["transaction_id"]."' AND seller_user_id = '".$__user_id."'")[0];
+		if($is_self_pickup <= 0){
+			if($_POST["receipt_no"] != ""){
+				$transaction_forwarder_receipt_no = $db->fetch_single_data("transaction_forwarder","receipt_no",["transaction_id" => $transaction["id"]]);
+				$db->addtable("transaction_forwarder");	$db->where("transaction_id",$transaction["id"]);
+				$db->addfield("receipt_no");	$db->addvalue($_POST["receipt_no"]);
+				if($transaction_forwarder_receipt_no == ""){
+					$db->addfield("receipt_at");	$db->addvalue($__now);
+				}
+				$updating = $db->update();
+				
+				$buyer_email = $db->fetch_single_data("a_users","email",["id" => $transaction["buyer_user_id"]]);
+				$forwarder_name = $db->fetch_single_data("transaction_forwarder","concat(name,'(',courier_service,')')",["transaction_id" => $transaction["id"]]);
+				
+				$arr1 = ["{invoice_no}","{forwarder_name}","{forwarder_receipt_no}","{forwarder_receipt_at}"];
+				$arr2 = [$transaction["invoice_no"],$forwarder_name,$_POST["receipt_no"],format_tanggal(substr($__now,0,10),"dMY")];
+				$body = read_file("html/email_shipping_process_id.html");
+				$body = str_replace($arr1,$arr2,$body);
+				sendingmail("Markopelago.com -- Pengiriman Pesanan ".$invoice_no,$buyer_email,$body,"system@markopelago.com|Markopelago System");
+				
+				$db->addtable("transactions");	$db->where("id",$transaction["id"]); $db->where("seller_user_id",$__user_id);
+				$db->addfield("sent_at");		$db->addvalue($__now);
+				$db->addfield("status");		$db->addvalue(5);
+				$updating = $db->update();
+				$_SESSION["message"] = v("goods_was_delivered");
+			} else {
+				$_SESSION["errormessage"] = v("please_enter_the_shipping_receipt_number");
 			}
-			$updating = $db->update();
-			
-			$buyer_email = $db->fetch_single_data("a_users","email",["id" => $transaction["buyer_user_id"]]);
-			$forwarder_name = $db->fetch_single_data("transaction_forwarder","concat(name,'(',courier_service,')')",["transaction_id" => $transaction["id"]]);
-			
-			$arr1 = ["{invoice_no}","{forwarder_name}","{forwarder_receipt_no}","{forwarder_receipt_at}"];
-			$arr2 = [$transaction["invoice_no"],$forwarder_name,$_POST["receipt_no"],format_tanggal(substr($__now,0,10),"dMY")];
-			$body = read_file("html/email_shipping_process_id.html");
-			$body = str_replace($arr1,$arr2,$body);
-			sendingmail("Markopelago.com -- Pengiriman Pesanan ".$invoice_no,$buyer_email,$body,"system@markopelago.com|Markopelago System");
-			
-			$db->addtable("transactions");	$db->where("id",$transaction["id"]); $db->where("seller_user_id",$__user_id);
-			$db->addfield("sent_at");		$db->addvalue($__now);
-			$db->addfield("status");		$db->addvalue(5);
-			$updating = $db->update();
-			$_SESSION["message"] = v("goods_was_delivered");
 		} else {
-			$_SESSION["errormessage"] = v("please_enter_the_shipping_receipt_number");
+			if($_POST["user_address"] != ""){
+				$receipt_no = generate_self_pickup_receipt_no();
+				$db->addtable("transaction_forwarder");	$db->where("transaction_id",$transaction["id"]);
+				$db->addfield("pickup_address_id");		$db->addvalue($_POST["user_address"]);
+				$db->addfield("receipt_no");			$db->addvalue($receipt_no);
+				$db->addfield("receipt_at");			$db->addvalue($__now);
+				$db->addfield("markoantar_status");		$db->addvalue(1);
+				$db->addfield("markoantar_status1_at");	$db->addvalue($__now);
+				$updating = $db->update();
+				
+				$buyer_email = $db->fetch_single_data("a_users","email",["id" => $transaction["buyer_user_id"]]);
+				$forwarder_name = $db->fetch_single_data("transaction_forwarder","concat(name,'(',courier_service,')')",["transaction_id" => $transaction["id"]]);
+				$user_address = $db->fetch_all_data("user_addresses",[],"id = '".$_POST["user_address"]."' AND user_id = '".$transaction["seller_user_id"]."'")[0];
+				$locations = get_location($user_address["location_id"]);
+				$seller_pic = $user_address["pic"];
+				$pickup_address = $user_address["address"]."<br>".$locations[3]["name"].", ".$locations[2]["name"]."<br>".$locations[1]["name"].", ".$locations[0]["name"].", ".$locations[3]["zipcode"];
+				
+				$arr1 = ["{invoice_no}","{receipt_no}","{seller_pic}","{pickup_address}"];
+				$arr2 = [$transaction["invoice_no"],$receipt_no,$seller_pic,$pickup_address];
+				$body = read_file("html/email_goods_ready_to_pickup_id.html");
+				$body = str_replace($arr1,$arr2,$body);
+				sendingmail("Markopelago.com -- Pengambilan Pesanan ".$invoice_no,$buyer_email,$body,"system@markopelago.com|Markopelago System");
+				
+				$message = "Pesanan Anda dengan nomor Invoice: ".$transaction["invoice_no"]." sudah dapat di Ambil. Silakan cek pada menu Daftar Pembelian";
+				$db->addtable("notifications");
+				$db->addfield("user_id");		$db->addvalue($transaction["buyer_user_id"]);
+				$db->addfield("message");		$db->addvalue($message);
+				$inserting = $db->insert();
+				
+				$db->addtable("transactions");	$db->where("id",$transaction["id"]); $db->where("seller_user_id",$__user_id);
+				$db->addfield("sent_at");		$db->addvalue($__now);
+				$db->addfield("status");		$db->addvalue(5);
+				$updating = $db->update();
+				$_SESSION["message"] = markoantar_status(1);
+			} else {
+				$_SESSION["errormessage"] = v("please_select_goods_pickup_address");
+			}
 		}
 		javascript("window.location='?po_no=".$po_no."';");
 		exit();
 	}
-	if($_GET["changeStatus"] == 4 || $_GET["changeStatus"] == 5){
+	if($_GET["changeStatus"] == 4 || $_GET["changeStatus"] == 5 || $_GET["changeStatus"] == 6){
 		$db->addtable("transactions");	$db->where("po_no",$po_no); $db->where("seller_user_id",$__user_id);
 		$db->addfield("process_at");	$db->addvalue($__now);
 		$db->addfield("status");		$db->addvalue($_GET["changeStatus"]);
@@ -59,18 +100,34 @@
 				
 				$_SESSION["message"] = v("goods_ready_for_pickup_by_markoantar");
 			}
+			if($_GET["changeStatus"] == 6){
+				$transaction = $db->fetch_all_data("transactions",[],"id = '".$_GET["transaction_id"]."' AND seller_user_id = '".$__user_id."'")[0];
+				
+				$db->addtable("transaction_forwarder");	$db->where("transaction_id",$_GET["transaction_id"]);
+				$db->addfield("markoantar_status");		$db->addvalue(4);
+				$db->addfield("markoantar_status4_at");	$db->addvalue($__now);
+				$updating = $db->update();
+				
+				$message = "Pesanan Anda dengan nomor Invoice: ".$transaction["invoice_no"]." sudah di Ambil, Terima Kasih";
+				$db->addtable("notifications");
+				$db->addfield("user_id");		$db->addvalue($transaction["buyer_user_id"]);
+				$db->addfield("message");		$db->addvalue($message);
+				$inserting = $db->insert();
+			}
 			javascript("window.location='?po_no=".$po_no."';");
 			exit();
 		} else {
 			$_SESSION["errormessage"] = v("failed_saving_data");
 		}
 	}
+	$user_addresses = $db->fetch_select_data("user_addresses","id","name",["user_id " => $__user_id]);
+	$user_address_default = $db->fetch_single_data("user_addresses","id",["user_id" => $__user_id, "default_seller" => "1"]);
 ?>
 <script>
-	function changeStatus(status,transaction_id,receipt_no,markoantar){
+	function changeStatus(status,transaction_id,receipt_no,mode){
 		transaction_id = transaction_id || "";
 		receipt_no = receipt_no || "";
-		markoantar = markoantar || "";
+		mode = mode || "";
 		var txtConfirm = "";
 		if(status == 4){
 			if(confirm("<?=v("are_you_sure_to_process_this_po");?> ? ")){
@@ -78,10 +135,26 @@
 			}
 		} 
 		if(status == 5){
-			if(markoantar == "markoantar"){
+			if(mode == "markoantar"){
 				if(confirm("<?=v("are_you_sure_goods_ready_pickup");?> ? ")){
 					window.location = "?po_no=<?=$po_no;?>&changeStatus="+status+"&transaction_id="+transaction_id;
 				}	
+			} else if(mode == "self_pickup"){
+				modalTitle 	= "	<?=markoantar_status(1);?> ";
+				modalBody	= "<form id=\"frmPoDelivered\" method='POST' action='?po_no=<?=$po_no;?>'>";
+				modalBody	+= "	<input type='hidden' name='savingPoDelivered' value='1'>";
+				modalBody 	+= "	<div class='form-group'>";
+				modalBody 	+= "		<label><?=v("goods_pickup_address");?> :</label>";
+				modalBody 	+= "		<?=str_replace('"','\"',$f->select("user_address",$user_addresses,$user_address_default,"","form-control"));?> ";
+				modalBody 	+= "		<input name='transaction_id' type='hidden' value='"+transaction_id+"'>";
+				modalBody 	+= "	</div>";
+				modalBody 	+= "</form>";
+				modalFooter = "<button type=\"button\" class=\"btn btn-primary\" onclick=\"frmPoDelivered.submit();\"><?=v("save");?></button>";
+				modalFooter += "<button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\"><?=v("cancel");?></button>";
+				$('#modalTitle').html(modalTitle);
+				$('#modalBody').html(modalBody);
+				$('#modalFooter').html(modalFooter);
+				$('#myModal').modal('show');
 			} else {
 				modalTitle 	= "	<?=v("goods_was_delivered");?> ";
 				modalBody	= "<form id=\"frmPoDelivered\" method='POST' action='?po_no=<?=$po_no;?>'>";
@@ -100,6 +173,11 @@
 				$('#myModal').modal('show');
 			}
 		}
+		if(status == 6){
+			if(confirm("<?=v("are_yout_sure_goods_received");?> ? ")){
+				window.location = "?po_no=<?=$po_no;?>&changeStatus="+status+"&transaction_id="+transaction_id;
+			}
+		} 
 	}
 </script>
 
@@ -133,9 +211,26 @@
 						<b><?=$goods["name"]?></b><br>
 						<?=$transaction_details["qty"]?> <?=$units["name_".$__locale]?> x Rp <?=format_amount($transaction_details["price"])?><br>
 						<?=v("weight_per_unit");?> : <?=($goods["weight"]/1000);?> Kg<br>
-						<?php if($status == "5" && $transaction_forwarder["forwarder_user_id"] <= 0) echo "<div style='width:220px;padding-top:5px;padding-bottom:5px;margin-bottom:10px;font-size:14px;text-align:center;' class='alert alert-success'><span class='glyphicon glyphicon-send '></span> ".v("goods_was_delivered")."</div>"; ?>
-						<?php if($status == "5" && $transaction_forwarder["forwarder_user_id"] <= 0) echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','".$transaction_forwarder["receipt_no"]."');\">".v("edit_receipt_no")."</button>"; ?>
-						<?php if($status == "4" && $transaction_forwarder["forwarder_user_id"] <= 0) echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."');\">".v("update_goods_was_delivered")."</button>"; ?>
+						<?php 
+							if($status == "5" && $transaction_forwarder["forwarder_user_id"] <= 0 && $transaction_forwarder["name"] != "self_pickup"){
+								echo "<div style='width:220px;padding-top:5px;padding-bottom:5px;margin-bottom:10px;font-size:14px;text-align:center;' class='alert alert-success'><span class='glyphicon glyphicon-send '></span> ".v("goods_was_delivered")."</div>"; 
+								echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','".$transaction_forwarder["receipt_no"]."');\">".v("edit_receipt_no")."</button>"; 
+							}
+							if($status == "5" && $transaction_forwarder["name"] == "self_pickup"){
+								echo "<div class='alert alert-success'>".v("goods_ready_for_pickup")."</div>";
+								echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(6,'".$transaction["id"]."');\">".transactionList(6)."</button>"; 
+							}
+							if($status == "6" && $transaction_forwarder["name"] == "self_pickup"){
+								echo "<div class='alert alert-success'>".v("goods_received")."</div>";
+							}
+							if($status == "4" && $transaction_forwarder["forwarder_user_id"] <= 0) {
+								if($transaction_forwarder["name"] == "self_pickup"){
+									echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','','self_pickup');\">".markoantar_status(1)."</button>";
+								} else {
+									echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."');\">".v("update_goods_was_delivered")."</button>";
+								}
+							}
+						?>
 						<?php if($status == "4" && $transaction_forwarder["forwarder_user_id"] > 0) echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','','markoantar');\">".v("goods_ready_for_pickup_by_markoantar")."</button>"; ?>
 						<?php if($status == "5" && $transaction_forwarder["forwarder_user_id"] > 0 && $transaction_forwarder["markoantar_status"] > 0) 
 								echo "<div class='alert alert-warning'>".$db->fetch_single_data("markoantar_statuses","name_".$__locale,["id" => $transaction_forwarder["markoantar_status"]])."</div>"; ?>
@@ -166,6 +261,7 @@
 			<tr>
 				<td colspan="3" width="70%"> 
 					<?php
+						$btn_chat = "";
 						if($transaction_forwarder["forwarder_user_id"] > 0){
 							$vehicle_id = $db->fetch_single_data("forwarder_routes","vehicle_id",["user_id" => $transaction_forwarder["forwarder_user_id"],"id" => $transaction_forwarder["courier_service"]]);
 							$forwarder_vehicle = $db->fetch_all_data("forwarder_vehicles",[],"user_id = '".$transaction_forwarder["forwarder_user_id"]."' AND id = '".$vehicle_id."'")[0];
@@ -176,8 +272,12 @@
 							$btn_chat = "<div><button class='btn btn-primary btn-blue' ".$onclickSendMessage."><span class='glyphicon glyphicon-envelope'></span>&nbsp;".v("send_message_to_markoantar")."</button></div>";
 							if($status == "4") $wait_for_pickup = "<div class='alert alert-warning'>".v("wait_for_pickup")."</div>";
 						}
+						$courier_service = $transaction_forwarder["name"]." -- ".explode(" (",$transaction_forwarder["courier_service"])[0];
+						if($transaction_forwarder["name"] == "self_pickup"){
+							$courier_service = v("self_pickup");
+						}
 					?>
-					<u><?=v("courier_service");?> :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar ":"";?><?=$transaction_forwarder["name"];?> -- <?=explode(" (",$transaction_forwarder["courier_service"])[0];?>
+					<u><?=v("courier_service");?> :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar ":"";?><?=$courier_service;?>
 					<?php
 						// echo $wait_for_pickup;
 						echo $btn_chat;
@@ -191,7 +291,7 @@
 					<?=v("weight");?><br> <?=($transaction_forwarder["weight"]*$transaction_forwarder["qty"]/1000);?> Kg
 				</td> 
 				<td nowrap width="15%" align="right">
-					<?=v("shipping_charges");?><br> Rp <?=format_amount($transaction_forwarder["total"])?>
+					<?=v(($transaction_forwarder["name"] == "self_pickup")?"administration_fee":"shipping_charges");?><br> Rp <?=format_amount($transaction_forwarder["total"])?>
 				</td>
 			</tr>
 			<tr>

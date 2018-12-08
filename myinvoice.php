@@ -52,6 +52,10 @@
 					<td colspan="4">
 						<b><?=$seller["name"];?></b><br>
 						<span class="glyphicon glyphicon-map-marker"></span> <?=$seller_locations[2]["name"];?>, <?=$seller_locations[1]["name"];?>, <?=$seller_locations[0]["name"];?><br>
+						<?php
+							$onclickSendMessage = "onclick=\"newMessage('".$seller["user_id"]."',0,'buyer','seller');\"";
+							echo "<div><button class='btn btn-primary btn-blue' ".$onclickSendMessage."><span class='glyphicon glyphicon-envelope'></span>&nbsp;".v("send_message_to_seller")."</button></div>";
+						?>
 					</td>
 					<td colspan="2">
 						<button class="btn btn-info" onclick="loadShopping_progress('<?=$transactions[0]["id"];?>');"><span class="glyphicon glyphicon glyphicon-th-list"></span> <?=v("show_shopping_progress");?></button>
@@ -115,12 +119,30 @@
 							}
 						?>
 						<u><?=v("courier_service");?> :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar ":"";?><?=$courier_service;?>
-					<?php
-						if($transaction["status"] >= 5 && $transaction_forwarder["receipt_at"] != "0000-00-00 00:00:00") {
-							echo "<br><b>".v("delivered_at").": ".format_tanggal($transaction_forwarder["receipt_at"]);
-							echo "<br>".v("shipping_receipt_number").": ".$transaction_forwarder["receipt_no"]."</b>";
-						}
-					?>
+						<?php 
+							if($transaction_forwarder["name"] == "self_pickup"){
+								if($transaction_forwarder["pickup_address_id"] > 0){
+									$user_address = $db->fetch_all_data("user_addresses",[],"id = '".$transaction_forwarder["pickup_address_id"]."' AND user_id = '".$transaction["seller_user_id"]."'")[0];
+									$locations = get_location($user_address["location_id"]);
+									
+									echo "<br><br><u>".v("goods_pickup_address")."</u><br>";
+									echo "<b>".$user_address["pic"]."</b><br>";
+									echo $user_address["address"]."<br>";
+									echo $locations[3]["name"].", ".$locations[2]["name"]."<br>";
+									echo $locations[1]["name"].", ".$locations[0]["name"].", ".$locations[3]["zipcode"]."<br>";
+									echo $user_address["phone"];
+								}
+								
+								if($transaction["status"] >= 3 && $transaction_forwarder["markoantar_status"] == 0) echo "<div class='alert alert-warning'>".v("goods_not_ready_for_pickup")."</div>";
+								if($transaction_forwarder["markoantar_status"] == 1) echo "<div class='alert alert-success'>".markoantar_status(1)."</div>";
+								if($transaction_forwarder["receipt_no"] != "") echo "<div><b>".v("receipt_number").": ".$transaction_forwarder["receipt_no"]."</b></div>";
+							} else {
+								if($transaction["status"] >= 5 && $transaction_forwarder["receipt_at"] != "0000-00-00 00:00:00") {
+									echo "<br><b>".v("delivered_at").": ".format_tanggal($transaction_forwarder["receipt_at"]);
+									echo "<br>".v("shipping_receipt_number").": ".$transaction_forwarder["receipt_no"]."</b>";
+								}
+							}
+						?>
 					</td>
 					<td nowrap width="15%" align="right">
 						<?=v("weight");?><br> <?=($transaction_forwarder["weight"]*$transaction_forwarder["qty"]/1000);?> Kg
