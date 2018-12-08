@@ -32,7 +32,9 @@
 		$qty = $_GET["qty"];
 		$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
 		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
-		$seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]));
+		$pickup_location_id = $db->fetch_single_data("goods","pickup_location_id",["id" => $goods_id]);
+		if($pickup_location_id <= 0) $pickup_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]);
+		$seller_locations = get_location($pickup_location_id);
 		
 		$buyer_locations = get_location($db->fetch_single_data("user_addresses","location_id",["id" => $buyer_address_id,"user_id" => $__user_id]));
 		$weight = $db->fetch_single_data("goods","weight",["id" => $goods_id]);
@@ -292,5 +294,19 @@
 		$trx = $db->fetch_all_data("transaction_details",[],"transaction_id = '".$transaction_id1."'")[0];
 		$total = $db->fetch_single_data("transaction_details","concat(sum(total))",["transaction_id" => "(SELECT id FROM transactions WHERE cart_group='".$cart_group."'):IN"]);
 		echo "Rp. ".format_amount($trx["price"])."|||Rp. ".format_amount($trx["total"])."|||".$trx["weight"]."g|||".$trx["notes"]."|||Rp. ".format_amount($total)."|||";
+	}
+	
+	if($mode == "distance_estimation"){
+		$goods_id = $_GET["goods_id"];
+		$buyer_address_id = $_GET["buyer_address_id"];
+		$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
+		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
+		$pickup_location_id = $db->fetch_single_data("goods","pickup_location_id",["id" => $goods_id]);
+		if($pickup_location_id <= 0) $pickup_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]);
+		$seller_locations = get_location($pickup_location_id);
+		$buyer_locations = get_location($db->fetch_single_data("user_addresses","location_id",["id" => $buyer_address_id]));
+		$origins = $seller_locations[0]["name"].", ".$seller_locations[1]["name"].", ".$seller_locations[2]["name"].", ".$seller_locations[3]["name"];
+		$destinations = $buyer_locations[0]["name"].", ".$buyer_locations[1]["name"].", ".$buyer_locations[2]["name"].", ".$buyer_locations[3]["name"];
+		echo $goods_id."|||".round(google_distancematrix($origins,$destinations)[0]["elements"][0]["distance"]["value"]/1000,2)." Km";
 	}
 ?>

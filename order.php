@@ -20,6 +20,7 @@
 		$_transaction_ids .= $transaction["id"].",";
 	} $_transaction_ids = substr($_transaction_ids,0,-1);
 	
+	
 	if(isset($_POST["pay"])){
 		$failedUpdatingTransactions = false;
 		foreach($transactions as $transaction){
@@ -46,8 +47,7 @@
 				$forwarder_user_id 			= $_POST["delivery_courier_".$goods_id];
 				$name 						= $db->fetch_single_data("forwarders","name",["user_id" => $_POST["delivery_courier_".$goods_id]]);
 			}
-			$price 						= $_POST["hide_shipping_charges_".$goods_id];
-			$total 						= $price;
+			
 			$user_address_id 			= $_POST["user_address"];
 			$_user_address				= $db->fetch_all_data("user_addresses",[],"id='".$user_address_id."' AND user_id='".$__user_id."'")[0];
 			$user_address_name 			= $_user_address["name"];
@@ -58,6 +58,25 @@
 			$user_address_coordinate 	= $_user_address["coordinate"];
 			$pickup_location_id = $db->fetch_single_data("goods","pickup_location_id",["id" => $goods_id]);
 			if($pickup_location_id <= 0) $pickup_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $transaction["seller_user_id"]]);
+			
+			if($_POST["self_pickup_".$goods_id] > 0){
+				$price 						= $__self_pickup_fee;
+				$name						= "self_pickup";
+				$_POST["courier_service_".$goods_id] = "self_pickup";
+			} else {
+				$seller_locations = get_location($pickup_location_id);
+				$buyer_locations = get_location($user_address_location_id);
+				$origin = $ro->location_id($seller_locations[0]["name"],$seller_locations[1]["name"],$seller_locations[2]["name"]);
+				$destination = $ro->location_id($buyer_locations[0]["name"],$buyer_locations[1]["name"],$buyer_locations[2]["name"]);				
+				
+				foreach($ro->cost($origin,$destination,($weight*$qty),$_POST["delivery_courier_".$goods_id])["results"][0]["costs"] as $cost){
+					if(strtolower($cost["service"]) == strtolower($_POST["courier_service_".$goods_id])){
+						$price 				= $cost["cost"][0]["value"];
+						break;
+					}
+				}
+			}
+			$total 						= $price;
 			
 			$db->addtable("transaction_forwarder");
 			$db->addfield("transaction_id");		$db->addvalue($transaction_id);
@@ -276,6 +295,7 @@
 		var total_bill = 0;
 		var total_price = 0;
 		var total_shipping_charges = 0;
+		var shipping_charges = "";
 		var arr_goods_id = goods_ids.split(",");
 		var all_loaded = true;
 		numbers_is_valid = true;
@@ -286,10 +306,23 @@
 		if(all_loaded){
 			for(xx=0;xx<arr_goods_id.length;xx++){
 				goods__id = arr_goods_id[xx];
+				if(document.getElementById("self_pickup_"+goods__id).checked){
+					$("#hide_shipping_charges_"+goods__id).val("<?=$__self_pickup_fee;?>");
+					$("#hide_sub_total_"+goods__id).val(($("#hide_subtotal_"+goods__id).val() * 1) + <?=$__self_pickup_fee;?>);
+					$("#div_goods_pickup_distance_estimation_"+goods__id).html("<img src='images/fancybox_loading.gif'>");
+					$.get("ajax/transaction.php?mode=distance_estimation&goods_id="+goods__id+"&buyer_address_id="+$("#user_address").val(), function(returnval){
+						returnval = returnval.split("|||");
+						$("#div_goods_pickup_distance_estimation_"+returnval[0]).html(returnval[1]);
+					});
+				} else {
+					shipping_charges = $("#div_shipping_charges_"+goods__id).html().replace("Rp. ","").replace(".","") * 1;
+					$("#hide_shipping_charges_"+goods__id).val(shipping_charges); 
+					$("#hide_sub_total_"+goods__id).val(($("#hide_subtotal_"+goods__id).val() * 1) + shipping_charges);
+				}
 				total_shipping_charges += ($("#hide_shipping_charges_"+goods__id).val() * 1);
-				total_price += ($("#hide_sub_total_"+goods__id).val() * 1) - ($("#hide_shipping_charges_"+goods__id).val() * 1);
+				total_price += $("#hide_subtotal_"+goods__id).val() * 1;
 				total_bill += ($("#hide_sub_total_"+goods__id).val() * 1);
-				
+				$("#div_sub_total_"+goods__id).html("&nbsp;&nbsp;&nbsp;"+new Intl.NumberFormat('id-ID').format(($("#hide_subtotal_"+goods__id).val() * 1) + ($("#hide_shipping_charges_"+goods__id).val() * 1)));
 			}
 			if(total_bill <= 0) numbers_is_valid = false;
 			if(total_price <= 0) numbers_is_valid = false;
@@ -322,6 +355,19 @@
 			$("#hide_sub_total_"+goods_id).val(returnval[4]);
 			load_calculation();
 		});
+	}
+	
+	function self_pickup_change(elm,goods_id){
+		if(elm.checked){
+			$("#div_courier_area_"+goods_id).hide();
+			$("#td_shipping_charges_"+goods_id).hide();
+			$("#div_administration_fee_"+goods_id).show();
+		} else {
+			$("#div_courier_area_"+goods_id).show();
+			$("#td_shipping_charges_"+goods_id).show();
+			$("#div_administration_fee_"+goods_id).hide();
+		}
+		load_calculation();
 	}
 </script>
 <form id="cart_form" role="form" method="POST" autocomplete="off" onsubmit="return numbers_is_valid;">	
@@ -373,13 +419,19 @@
 									$forwarder_ids = str_replace(["||","|"],[",",""],$db->fetch_single_data("goods","forwarder_ids",["id" => $goods_id]));
 									$forwarders = $db->fetch_select_data("forwarders","concat(IF(rajaongkir_code <> '', rajaongkir_code, user_id)) as rajaongkir_id","concat(IF(rajaongkir_code <> '', concat(name,' (',upper(rajaongkir_code),')'), concat('Marko Antar (',name,')')))",["id" => $forwarder_ids.":IN"],["user_id DESC,id"]);
 									$delivery_courier_area = "
-											<div>
-												<label>".v("delivery_courier")."</label>
-												".$f->select("delivery_courier_".$goods_id,$forwarders,"","","form-control")."
+											<div id=\"div_courier_area_".$goods_id."\">
+												<div>
+													<label>".v("delivery_courier")."</label>
+													".$f->select("delivery_courier_".$goods_id,$forwarders,"","","form-control")."
+												</div>
+												<div>
+													<label>".v("courier_service")."</label>
+													<div id=\"div_courier_services_".$goods_id."\"></div>
+												</div>
+												<br>
 											</div>
 											<div>
-												<label>".v("courier_service")."</label>
-												<div id=\"div_courier_services_".$goods_id."\"></div>
+												<label>".v("self_pickup")."</label>&nbsp;&nbsp;".$f->input("self_pickup_".$goods_id,1,"type='checkbox' onchange=\"self_pickup_change(this,".$goods_id.");\"")."
 											</div>
 											<script> 
 												setTimeout(function(){ 
@@ -388,6 +440,7 @@
 											</script>";
 						?>
 							<?=$f->input("hide_shipping_charges_".$goods_id,"0","type='hidden'");?>
+							<?=$f->input("hide_subtotal_".$goods_id,$subtotal,"type='hidden'");?>
 							<?=$f->input("hide_sub_total_".$goods_id,"0","type='hidden'");?>
 							<?=$f->input("hide_qty_".$goods_id,$qty,"type='hidden'");?>
 							<div class="border_orange" style="box-shadow:none;">
@@ -400,7 +453,7 @@
 													<td valign="top">
 														<div style="font-size:1em;font-weight:bolder;text-decoration:underline;text-decoration-color:#D6A266;"><?=v("seller");?> : <?=$seller["name"];?></div>
 														<div style="font-size:1em;"><?=$goods["name"];?></div>
-														<div style="font-size:1.4em;color:#800000;font-weight:bolder;margin-top:10px;">Rp. <?=format_amount($subtotal);?></div>
+														<div style="font-size:1.4em;color:#800000;font-weight:bolder;margin-top:10px;" id="div_subtotal_<?=$goods_id;?>">Rp. <?=format_amount($subtotal);?></div>
 													</td>
 												</tr>
 												<tr>
@@ -414,9 +467,15 @@
 													<tr><td colspan="2" style="padding-top:20px;"><?=$delivery_courier_area;?></td></tr>
 												<?php } ?>
 												<tr>
-													<td colspan="2" style="padding-top:20px;" nowrap>
+													<td colspan="2" style="padding-top:20px;" nowrap id="td_shipping_charges_<?=$goods_id;?>">
 														<img src="assets/sent.png" width="40">&nbsp;&nbsp;&nbsp;<?=v("shipping_charges");?>	&nbsp;&nbsp;&nbsp;
 														<a style="font-size:1.4em;color:#800000;font-weight:bolder;" id="div_shipping_charges_<?=$goods_id;?>"></a>
+													</td>
+													<td colspan="2" style="padding-top:20px;display:none;" nowrap id="div_administration_fee_<?=$goods_id;?>">
+														<?=v("administration_fee");?>	&nbsp;&nbsp;&nbsp;
+														<a style="font-size:1.4em;color:#800000;font-weight:bolder;" id="div_shipping_charges_<?=$goods_id;?>">Rp. 2.000</a><br>
+														<?=v("goods_pickup_distance_estimation");?>	&nbsp;&nbsp;&nbsp;
+														<a style="font-size:1.4em;color:#800000;font-weight:bolder;" id="div_goods_pickup_distance_estimation_<?=$goods_id;?>"></a>
 													</td>
 												</tr>
 											</table>

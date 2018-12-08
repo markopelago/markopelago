@@ -362,6 +362,8 @@ class Vocabulary{
 		$arr[$l]["list_of_delivering_goods"]					= "List od delivering goods";
 		$arr[$l]["pickup_at"]									= "Pick Up Date";
 		$arr[$l]["delivery_of_goods"]							= "Delivery of Goods";
+		$arr[$l]["administration_fee"]							= "Administration Fee";
+		$arr[$l]["goods_pickup_distance_estimation"]			= "Goods pickup distance estimation";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -711,6 +713,8 @@ class Vocabulary{
 		$arr[$l]["list_of_delivering_goods"]					= "Daftar pengiriman barang";
 		$arr[$l]["pickup_at"]									= "Tanggal penjemputan";
 		$arr[$l]["delivery_of_goods"]							= "Pengantaran Barang";
+		$arr[$l]["administration_fee"]							= "Biaya Administrasi";
+		$arr[$l]["goods_pickup_distance_estimation"]			= "Estimasi jarak pengambilan barang";
 		
 		
 		return $arr[$this->locale][$index];

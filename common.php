@@ -20,6 +20,7 @@
 	$__errormessage				= @$_SESSION["errormessage"];
 	$__phpself 					= basename($_SERVER["PHP_SELF"]);
 	$__now						= date("Y-m-d H:i:s");
+	$__self_pickup_fee			= 2000;
 	
 	if(isset($_GET["locale"])) { setcookie("locale",$_GET["locale"]);$_COOKIE["locale"]=$_GET["locale"]; }
 	if(!isset($_COOKIE["locale"])) { setcookie("locale","id");$_COOKIE["locale"]="id"; }
@@ -485,6 +486,38 @@
 			$arr[7] = "Transaction Done";
 		}
 		return $arr;
+	}
+	
+	function google_distancematrix($origins,$destinations){
+		if($origins == "" || $destinations == "") return "ERROR";
+		$key = "AIzaSyDpYxVL8UY41nLeN2S4xNHfLAF_4_mxGHw";
+		$url = "https://maps.googleapis.com/maps/api/distancematrix/json?";
+		$getValues = [
+			"origins" => $origins,
+			"destinations" => $destinations,
+			"key" => $key
+		];
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt_array($curl, 
+			[
+				CURLOPT_URL => $url.http_build_query($getValues),
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => "",
+				CURLOPT_MAXREDIRS => 10,
+				CURLOPT_TIMEOUT => 30,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				CURLOPT_CUSTOMREQUEST => "GET"
+			]
+		);
+		$response = curl_exec($curl);
+		$err = curl_error($curl);
+		curl_close($curl);
+		if ($err) {
+			return json_decode($err, true);
+		} else {
+			return json_decode($response, true)["rows"];
+		}
 	}
 	
 	function generate_uniqcode(){
