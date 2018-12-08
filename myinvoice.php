@@ -109,8 +109,12 @@
 								$vehicle_brand = $db->fetch_single_data("vehicle_brands","name",["id" => $forwarder_vehicle["vehicle_brand_id"]]);
 								$transaction_forwarder["courier_service"] = $vehicle_type." ".$vehicle_brand;
 							}
+							$courier_service = $transaction_forwarder["name"]." -- ".explode(" (",$transaction_forwarder["courier_service"])[0];
+							if($transaction_forwarder["name"] == "self_pickup"){
+								$courier_service = v("self_pickup");
+							}
 						?>
-						<u><?=v("courier_service");?> :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar ":"";?><?=$transaction_forwarder["name"];?> -- <?=explode(" (",$transaction_forwarder["courier_service"])[0];?>
+						<u><?=v("courier_service");?> :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar ":"";?><?=$courier_service;?>
 					<?php
 						if($transaction["status"] >= 5 && $transaction_forwarder["receipt_at"] != "0000-00-00 00:00:00") {
 							echo "<br><b>".v("delivered_at").": ".format_tanggal($transaction_forwarder["receipt_at"]);
@@ -122,7 +126,7 @@
 						<?=v("weight");?><br> <?=($transaction_forwarder["weight"]*$transaction_forwarder["qty"]/1000);?> Kg
 					</td> 
 					<td nowrap width="15%" align="right">
-						<?=v("shipping_charges");?><br> Rp <?=format_amount($transaction_forwarder["total"])?>
+						<?=v(($transaction_forwarder["name"] == "self_pickup")?"administration_fee":"shipping_charges");?><br> Rp <?=format_amount($transaction_forwarder["total"])?>
 					</td>
 				</tr>
 				<tr><td colspan="6" align="right"><b> Total : Rp <?=format_amount($total)?></b></td></tr>
