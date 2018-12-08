@@ -143,24 +143,45 @@
 		if($transaction["sent_at"] != "0000-00-00 00:00:00") {
 			$receipt_no = $db->fetch_single_data("transaction_forwarder","receipt_no",["transaction_id" => $transaction_id]);
 			$return .= "<div class='panel panel-info'><div class='panel-heading'>".transactionList(5).":<br>";
-			$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"id IN (SELECT id FROM transactions WHERE invoice_no='".$transaction["invoice_no"]."')");
+			$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"transaction_id IN (SELECT id FROM transactions WHERE invoice_no='".$transaction["invoice_no"]."')");
+
 			$receipts = array();
+			$receipts_forwarder_user_id = array();
+			$receipts_transaction_forwarder_id = array();
+			$receipts_courier = array();
 			foreach($transaction_forwarders as $transaction_forwarder){
 				if($transaction_forwarder["receipt_no"] != ""){
 					$receipts[$transaction_forwarder["receipt_no"]] = $transaction_forwarder["receipt_at"];
-					$receipts_courier[$transaction_forwarder["receipt_no"]] = $db->fetch_single_data("forwarders","rajaongkir_code",["id" => $transaction_forwarder["forwarder_id"]]);
+					$receipts_forwarder_user_id[$transaction_forwarder["receipt_no"]] = $transaction_forwarder["forwarder_user_id"];
+					$receipts_transaction_forwarder_id[$transaction_forwarder["receipt_no"]] = $transaction_forwarder["id"];
+					if($transaction_forwarder["forwarder_user_id"] == 0)
+						$receipts_courier[$transaction_forwarder["receipt_no"]] = $db->fetch_single_data("forwarders","rajaongkir_code",["id" => $transaction_forwarder["forwarder_id"]]);
+					
 				}
 			}
 			foreach($receipts as $receipt_no => $receipt_at){
-				$trackers = $ro->waybill($receipts_courier[$receipt_no],$receipt_no);
-				$return .= "&nbsp;&nbsp;&nbsp;".v("receipt_number")." <b>".$receipt_no."</b>";
-				if(count($trackers["result"]["manifest"]) <= 0) $return .= " : ".format_tanggal($receipt_at,"dMY",true);
-				if(count($trackers["result"]["manifest"]) > 0){
+				if($receipts_forwarder_user_id[$receipt_no] == 0){
+					$trackers = $ro->waybill($receipts_courier[$receipt_no],$receipt_no);
+					$return .= "&nbsp;&nbsp;&nbsp;".v("receipt_number")." <b>".$receipt_no."</b>";
+					if(count($trackers["result"]["manifest"]) <= 0) $return .= " : ".format_tanggal($receipt_at,"dMY",true);
+					if(count($trackers["result"]["manifest"]) > 0){
+						$return .= "</div>";
+						$return .= "<div class='panel-body'><b>TRACK SHIPMENT:</b>";
+						foreach($trackers["result"]["manifest"] as $manifest){
+							$return .= "<br><br>".$manifest["manifest_description"];
+							$return .= "<br>&nbsp;&nbsp;&nbsp;".format_tanggal($manifest["manifest_date"]." ".$manifest["manifest_time"] ,"dMY",true);
+						}
+					}
+				} else {
+					$return .= "&nbsp;&nbsp;&nbsp;".v("receipt_number")." <b>".$receipt_no."</b>";
 					$return .= "</div>";
 					$return .= "<div class='panel-body'><b>TRACK SHIPMENT:</b>";
-					foreach($trackers["result"]["manifest"] as $manifest){
-						$return .= "<br><br>".$manifest["manifest_description"];
-						$return .= "<br>&nbsp;&nbsp;&nbsp;".format_tanggal($manifest["manifest_date"]." ".$manifest["manifest_time"] ,"dMY",true);
+					$transaction_forwarder = $db->fetch_all_data("transaction_forwarder",[],"id = '".$receipts_transaction_forwarder_id[$receipt_no]."'")[0];
+					for($xx=1;$xx < 5;$xx++){
+						if($transaction_forwarder["markoantar_status".$xx."_at"] != "0000-00-00 00:00:00") {
+							$return .= "<br><br>".markoantar_status($xx);
+							$return .= "<br>&nbsp;&nbsp;&nbsp;".format_tanggal($transaction_forwarder["markoantar_status".$xx."_at"] ,"dMY",true);
+						}
 					}
 				}
 			}
