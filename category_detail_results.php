@@ -1,3 +1,17 @@
+<script>
+	function add_to_cart(goods_id,qty){
+		var btnCartArea = document.getElementById("add_to_cart_"+goods_id);
+		btnCartArea.innerHTML = "<div><img src='images/fancybox_loading.gif' style=\"width:15px;height:15px;\"></div>";
+		$.get("ajax/transaction.php?mode=add_to_cart&goods_id="+goods_id+"&goods_qty="+qty+"&notes_for_seller=", function(returnval){
+			toastr.success("<?=v("success_add_to_cart");?>","",toastroptions);
+			$.get("ajax/transaction.php?mode=cartcount", function(returnval){
+				try{document.getElementById("val_cartcount1").innerHTML = returnval; } catch(e){}
+				try{document.getElementById("val_cartcount2").innerHTML = returnval; } catch(e){}
+				btnCartArea.innerHTML = "";
+			});
+		});
+	}
+</script>
 <div class="frame_common">
 	<div class="frame_body">
 		<?php $img = "category_".$_GET["category_id"].".png";?>
@@ -25,8 +39,10 @@
 			if($_GET["price_min"] > 0) $whereclause .= " AND (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) >= '".$_GET["price_min"]."'";
 			if($_GET["price_max"] > 0) $whereclause .= " AND (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) <= '".$_GET["price_max"]."'";
 			
-			$products = $db->fetch_all_data("goods",[],$category_ids." ".$whereclause." ORDER BY RAND()");
+			$products = $db->fetch_all_data("goods",[],$category_ids." ".$whereclause);
 			foreach($products as $key => $product){
+				$is_pasar = false;
+				if(strpos(" ".$product["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 				if(!file_exists("goods/".$img)) $img = "no_goods.png";
 				if($img == "") $img = "no_goods.png";
@@ -37,13 +53,32 @@
 				} else {
 					if($key%5 == 0) echo "</tr><tr>";
 				}
+				$goods_id = $product["id"];
+				$minqty = 1;
 		?>
-			<td align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';">
+			<td align="center" <?=(!$is_pasar)?"onclick=\"window.location='product_detail.php?id=".$product["id"]."';\"":"";?>>
 				<div class="goods_list_thumbnail">
 					<img class="img-responsive" src="goods/<?=$img;?>">
 					<div class="caption"><p><?=substr($product["name"],0,20);?></p></div>
 					<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> / <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?></p></div>
 					<div class="seller"><?=$db->fetch_single_data("sellers","name",["id"=>$product["seller_id"]]);?></div>
+					<?php if($is_pasar){ ?>
+						<div class="direct_cart">
+							<div style="position:relative;float:left;">
+								<div class="oval_border2">
+									<div class="left_caption" onclick="document.getElementById('qty[<?=$goods_id;?>]').stepDown(1);">-</div>
+									<div class="center_text"><?=$f->input("qty[".$goods_id."]",$minqty,"type='number' min='1' step='1'");?></div>
+									<div class="right_caption" onclick="document.getElementById('qty[<?=$goods_id;?>]').stepUp(1);">+</div>
+								</div>
+							</div>
+							<div style="position:relative;float:left;margin-left:10px;">
+								<span class="glyphicon glyphicon-shopping-cart" style="color:#800000;font-size:1.5em;cursor:pointer;" onclick="add_to_cart('<?=$goods_id;?>',document.getElementById('qty[<?=$goods_id;?>]').value);" id="add_to_cart_<?=$goods_id;?>"></span>
+							</div>
+							<div style="position:relative;float:left;margin-left:10px;">
+								<span class="glyphicon glyphicon-search" style="color:#29A9E1;font-size:1.5em;cursor:pointer;" onclick="window.location='product_detail.php?id=<?=$goods_id;?>';"></span>
+							</div>
+						</div>
+					<?php } ?>
 				</div>
 			</td>
 		<?php } ?>

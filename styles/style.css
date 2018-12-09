@@ -1432,7 +1432,7 @@ textarea{
 }
 .goods_list .seller{
 	font-size:0.8em;
-	height:20px;
+	height:40px;
 }
 .goods_list img{
 	width:140px;
@@ -1465,6 +1465,10 @@ textarea{
 	margin-left:5px;
 	font-weight:bolder;
 	font-size:0.9em;
+}
+.goods_list .direct_cart{
+	height:30px;
+	margin-left:10px;
 }
 
 .register_page_background{
@@ -1696,6 +1700,57 @@ input:checked + .switch_slider:before {
 	color:#F7931E
 }
 
+.oval_border2{
+    width: 90px;
+    height: 20px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border: 1px solid black;
+	padding:1px 3px 1px 3px;
+}
+.oval_border2 .left_caption{
+	height:100%;
+	position:relative;
+	float:left;
+	top:-7px;
+	font-size:1.5em;
+	font-weight:bolder;
+	margin-right:5px;
+	color:#29A9E1;
+	cursor:pointer;
+}
+.oval_border2 .center_text input[type=number] {
+	border:0px;
+	position:relative;
+	height:17px;
+	width:66%;
+	float:left;
+	text-align:right;
+	padding:1px 2px 1px 2px;
+}
+.oval_border2 .center_text input[type=number]:focus{
+	outline: none;
+}
+.oval_border2 .right_caption{
+	height:100%;
+	position:relative;
+	float:right;
+	top:-5px;
+	font-size:1.5em;
+	font-weight:bolder;
+	margin-left:5px;
+	color:#29A9E1;
+	cursor:pointer;
+}
+.oval_border2 .left_caption:hover{
+	color:#F7931E
+}
+.oval_border2 .right_caption:hover{
+	color:#F7931E
+}
+
 .goods_like{
 	margin-top:10px;
 	width:90%;
@@ -1864,5 +1919,8 @@ input:checked + .switch_slider:before {
 	}
 	.table_categories_head .caption{
 		font-size:0.8em;
+	}
+	.oval_border2 .center_text input[type=number] {
+		text-align:center;
 	}
 }

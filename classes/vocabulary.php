@@ -356,7 +356,7 @@ class Vocabulary{
 		$arr[$l]["self_pickup"]									= "Self Pickup";
 		$arr[$l]["pickup_location"]								= "Pickup Location";
 		$arr[$l]["no_courier_service_available"]				= "Courier service is not available, Please choose another Delivery Courier.";
-		$arr[$l]["no_shippingcharges_desc"]						= "The route is not available, please select Shipping Courier or other courier service";
+		$arr[$l]["no_shippingcharges_desc"]						= "The route is not available, please select<br>Shipping Courier or other courier service";
 		$arr[$l]["goods_ready_for_pickup_by_markoantar"]		= "Goods ready for pick up by Marko Antar";
 		$arr[$l]["wait_for_pickup"]								= "Waiting for the Marko Antar to pick up";
 		$arr[$l]["list_of_delivering_goods"]					= "List od delivering goods";
@@ -713,7 +713,7 @@ class Vocabulary{
 		$arr[$l]["self_pickup"]									= "Ambil Sendiri";
 		$arr[$l]["pickup_location"]								= "Lokasi Pengambilan";
 		$arr[$l]["no_courier_service_available"]				= "Servis kurir tidak tersedia, Silakan pilih Kurir Pengiriman yang lain.";
-		$arr[$l]["no_shippingcharges_desc"]						= "Rute tersebut tidak tersedia, Silakan pilih Kurir Pengiriman atau Servis kurir yang lain";
+		$arr[$l]["no_shippingcharges_desc"]						= "Rute tersebut tidak tersedia, Silakan pilih<br>Kurir Pengiriman atau Servis kurir yang lain";
 		$arr[$l]["goods_ready_for_pickup_by_markoantar"]		= "Barang siap dijemput oleh Marko Antar";
 		$arr[$l]["wait_for_pickup"]								= "Menunggu dijemput Marko Antar";
 		$arr[$l]["list_of_delivering_goods"]					= "Daftar pengiriman barang";

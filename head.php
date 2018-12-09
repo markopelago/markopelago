@@ -20,7 +20,7 @@
 		
 	<link rel="canonical" href="<?=$__canonical;?>">
 	<link rel="shortcut icon" type="image/x-icon" href="images/icon.png">
-	<link rel="stylesheet" href="styles/style.css?v=v30">
+	<link rel="stylesheet" href="styles/style.css?v=v31">
 	<link rel="stylesheet" href="styles/bootstrap.min.css">
 	<link rel="stylesheet" href="styles/bootstrap-slider.css">
 	<link rel="stylesheet" href="styles/animate.css">
@@ -153,7 +153,7 @@
 			<b><?=v("hello");?>, <?=$__fullname;?></b><br><img width="50" class="profile-img-card" src="users_images/<?=$userImage;?>">
 			<div style="height:10px;"></div>
 			<div class="navbar-collapse">
-			<div class="header-cart" id="cartcount2"><a href="mycart.php"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <?=$cartcount;?></a></div><br>
+			<div class="header-cart" id="cartcount2"><a href="mycart.php"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <span id="val_cartcount2"><?=$cartcount;?></a></a></div><br>
 			<div style="height:10px;"></div>
 				<ul class="nav navbar-nav navbar-right">
 					<?=$mainMenu_xs;?>
@@ -250,7 +250,7 @@
 						<li class="dropdown">
 							<div>
 								<div class="header-cart" id="cartcount1">
-									<a href="mycart.php"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <?=$cartcount;?></a>
+									<a href="mycart.php"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <span id="val_cartcount1"><?=$cartcount;?></span></a>
 								</div>
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 									<img height="30" class="profile-img-card" src="users_images/<?=$userImage;?>">&nbsp;<?=v("hello");?>, <?=$__fullname;?>

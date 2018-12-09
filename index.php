@@ -44,7 +44,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-5">
-			<img class="img-responsive" src="banners/banner_01.png">
+			<a href="category_detail.php?category_id=49"><img class="img-responsive" src="assets/banner_pasar.png"></a>
 		</div>
 		<div class="col-md-7 home_recommended_goods">
 			<?php if(isMobile()) echo "<div class='view-all-text' style='font-weight:bolder;font-size:1em;margin-top:15px;margin-right:10px;'><a href='products.php?s=+'>".v("view_all")."</a></div>";?>

@@ -316,9 +316,11 @@
 					});
 				} else {
 					shipping_charges = $("#div_shipping_charges_"+goods__id).html().replace("Rp. ","").replace(".","") * 1;
+					if(isNaN(shipping_charges)) shipping_charges = 0;
 					$("#hide_shipping_charges_"+goods__id).val(shipping_charges); 
 					$("#hide_sub_total_"+goods__id).val(($("#hide_subtotal_"+goods__id).val() * 1) + shipping_charges);
 				}
+				if(isNaN($("#hide_shipping_charges_"+goods__id).val() * 1)) $("#hide_shipping_charges_"+goods__id).val(0);
 				total_shipping_charges += ($("#hide_shipping_charges_"+goods__id).val() * 1);
 				total_price += $("#hide_subtotal_"+goods__id).val() * 1;
 				total_bill += ($("#hide_sub_total_"+goods__id).val() * 1);
@@ -393,6 +395,7 @@
 						<div style="font-size:1.2em;font-weight:bolder;margin-bottom:10px;padding-top:10px;"><?=v("courier_detail");?></div>
 						<?php
 							$goods_ids = "";
+							$is_only_pasar = true;
 							foreach($_trxBySeller as $seller_user_id => $transactions){
 								$seller = $db->fetch_all_data("sellers",[],"user_id = '".$seller_user_id."'")[0];
 								$seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]));
@@ -408,6 +411,7 @@
 									$goods_ids .= $goods_id.",";
 									$transaction_ids = substr($_trx_ids[$goods_id],0,-1);
 									$goods  = $db->fetch_all_data("goods",[],"id = '".$goods_id."'")[0];
+									if(strpos(" ".$goods["category_ids"],"|".$__pasar."|") <= 0) $is_only_pasar = false;
 									$goods_photos  = $db->fetch_all_data("goods_photos",[],"goods_id = '".$goods_id."'","seqno")[0];
 									if(!file_exists("goods/".$goods_photos["filename"])) $goods_photos["filename"] = "no_goods.png";
 									$unit = $db->fetch_single_data("units","name_".$__locale,["id" => $transaction_details["unit_id"]]);
@@ -500,6 +504,8 @@
 						?>
 					</td>
 					<?php
+						$btn_cod = "";
+						if($is_only_pasar) $btn_cod = "<div style=\"margin-top:10px;\">".$f->input("cod","COD","type='submit' style=\"width:165px;font-weight:bolder;\"","btn btn-success")."</div>";
 						$shopping_summary = "
 							<div style=\"font-size:1.2em;font-weight:bolder;margin-bottom:18px;padding-top:10px; text-align:center;\">".v("shopping_summary")."</div>
 							<div class=\"border_orange\">
@@ -524,7 +530,7 @@
 								<table width=\"100%\"><tr>
 									<td align=\"center\">
 										<div style=\"height:10px;\"></div>
-										".$f->input("pay",v("pay"),"type='submit' style=\"width:165px;font-weight:bolder;\"","btn btn-primary")."
+										".$f->input("pay",v("pay"),"type='submit' style=\"width:165px;font-weight:bolder;\"","btn btn-primary").$btn_cod."
 									</td>
 								</tr></table>
 							</div>";

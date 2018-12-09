@@ -21,7 +21,8 @@
 	$__phpself 					= basename($_SERVER["PHP_SELF"]);
 	$__now						= date("Y-m-d H:i:s");
 	$__self_pickup_fee			= 2000;
-	
+	$__pasar					= 50;
+	$__marko_cod				= 15000;
 	if(isset($_GET["locale"])) { setcookie("locale",$_GET["locale"]);$_COOKIE["locale"]=$_GET["locale"]; }
 	if(!isset($_COOKIE["locale"])) { setcookie("locale","id");$_COOKIE["locale"]="id"; }
 	$__locale = $_COOKIE["locale"];
