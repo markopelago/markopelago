@@ -368,8 +368,9 @@ class Vocabulary{
 		$arr[$l]["goods_ready_for_pickup"]						= "Goods were ready for pickup";
 		$arr[$l]["goods_pickup_address"]						= "Goods Pickup Address";
 		$arr[$l]["please_select_goods_pickup_address"]			= "Please select goods pickup address";
-		$arr[$l]["are_yout_sure_goods_received"]				= "Are you sure goods has been received";
+		$arr[$l]["are_you_sure_goods_received"]					= "Are you sure goods has been received";
 		$arr[$l]["goods_received"]								= "Goods are received";
+		$arr[$l]["out_of_delivery_range"]						= "Sorry, the distance of delivery of goods has exceeded {cod_max_km} Km";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -725,8 +726,9 @@ class Vocabulary{
 		$arr[$l]["goods_ready_for_pickup"]						= "Barang sudah siap di ambil";
 		$arr[$l]["goods_pickup_address"]						= "Alamat Pengambilan Barang";
 		$arr[$l]["please_select_goods_pickup_address"]			= "Silakan pilih alamat penjemputan barang";
-		$arr[$l]["are_yout_sure_goods_received"]				= "Anda yakin barang sudah diterima";
-		$arr[$l]["goods_received"]								= "Barang sudah diterima";
+		$arr[$l]["are_you_sure_goods_received"]					= "Anda yakin barang sudah diterima";
+		$arr[$l]["goods_received"]								= "Barang telah diterima";
+		$arr[$l]["out_of_delivery_range"]						= "Maaf, jarak pengiriman barang sudah melebihi {cod_max_km} Km";
 		
 		
 		return $arr[$this->locale][$index];

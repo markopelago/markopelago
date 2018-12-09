@@ -308,7 +308,8 @@
 		$buyer_locations = get_location($db->fetch_single_data("user_addresses","location_id",["id" => $buyer_address_id]));
 		$origins = $seller_locations[0]["name"].", ".$seller_locations[1]["name"].", ".$seller_locations[2]["name"].", ".$seller_locations[3]["name"];
 		$destinations = $buyer_locations[0]["name"].", ".$buyer_locations[1]["name"].", ".$buyer_locations[2]["name"].", ".$buyer_locations[3]["name"];
-		echo $goods_id."|||".round(google_distancematrix($origins,$destinations)[0]["elements"][0]["distance"]["value"]/1000,2)." Km";
+		$distance = google_distancematrix($origins,$destinations)[0]["elements"][0]["distance"]["value"];
+		echo $goods_id."|||".round($distance/1000,2)." Km|||".$distance;
 	}
 	
 	if($mode == "cartcount"){

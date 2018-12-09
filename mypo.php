@@ -174,7 +174,7 @@
 			}
 		}
 		if(status == 6){
-			if(confirm("<?=v("are_yout_sure_goods_received");?> ? ")){
+			if(confirm("<?=v("are_you_sure_goods_received");?> ? ")){
 				window.location = "?po_no=<?=$po_no;?>&changeStatus="+status+"&transaction_id="+transaction_id;
 			}
 		} 

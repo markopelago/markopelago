@@ -262,6 +262,7 @@
 	var goods_ids = "";
 	var last_goods_id = "";
 	var numbers_is_valid = true;
+	var is_cod_coverage = true;
 	
 	function change_address(user_address_id){
 		$("#total_bill").html("<img src='images/fancybox_loading.gif'>");
@@ -332,6 +333,18 @@
 			$("#total_bill").html("&nbsp;&nbsp;&nbsp;"+new Intl.NumberFormat('id-ID').format(total_bill));
 			$("#total_price").html("&nbsp;&nbsp;&nbsp;"+new Intl.NumberFormat('id-ID').format(total_price));
 			$("#total_shipping_charges").html("&nbsp;&nbsp;&nbsp;"+new Intl.NumberFormat('id-ID').format(total_shipping_charges));
+			
+			is_cod_coverage = true;
+			for(xx=0;xx<arr_goods_id.length;xx++){
+				goods__id = arr_goods_id[xx];
+				$.get("ajax/transaction.php?mode=distance_estimation&goods_id="+goods__id+"&buyer_address_id="+$("#user_address").val(), function(returnval){
+					returnval = returnval.split("|||");
+					if((returnval[2] * 1 / 1000) > <?=$__cod_max_km;?>){
+						is_cod_coverage = false;
+						xx = arr_goods_id.length + 1;
+					}
+				});
+			}
 		}
 	}
 	
@@ -370,6 +383,14 @@
 			$("#div_administration_fee_"+goods_id).hide();
 		}
 		load_calculation();
+	}
+	
+	function btn_cod_click(){
+		if(is_cod_coverage == false){
+			toastr.warning("<?=str_replace("{cod_max_km}",$__cod_max_km,v("out_of_delivery_range"));?>","",toastroptions);
+		} else {
+			
+		}
 	}
 </script>
 <form id="cart_form" role="form" method="POST" autocomplete="off" onsubmit="return numbers_is_valid;">	
@@ -505,7 +526,7 @@
 					</td>
 					<?php
 						$btn_cod = "";
-						if($is_only_pasar) $btn_cod = "<div style=\"margin-top:10px;\">".$f->input("cod","COD","type='submit' style=\"width:165px;font-weight:bolder;\"","btn btn-success")."</div>";
+						if($is_only_pasar) $btn_cod = "<div style=\"margin-top:10px;\">".$f->input("cod","COD","type='button' onclick='btn_cod_click();' style=\"width:165px;font-weight:bolder;\"","btn btn-success")."</div>";
 						$shopping_summary = "
 							<div style=\"font-size:1.2em;font-weight:bolder;margin-bottom:18px;padding-top:10px; text-align:center;\">".v("shopping_summary")."</div>
 							<div class=\"border_orange\">
