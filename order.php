@@ -20,8 +20,11 @@
 		$_transaction_ids .= $transaction["id"].",";
 	} $_transaction_ids = substr($_transaction_ids,0,-1);
 	
-	
-	if(isset($_POST["pay"])){
+	// echo "<pre>";
+	// print_r($_POST);
+	// echo "</pre>";
+	// if(false){
+	if(isset($_POST["pay"]) || $_POST["action_mode"] == "cod"){
 		$failedUpdatingTransactions = false;
 		foreach($transactions as $transaction){
 			$invoice_no = generate_invoice_no();
@@ -67,13 +70,23 @@
 				$seller_locations = get_location($pickup_location_id);
 				$buyer_locations = get_location($user_address_location_id);
 				$origin = $ro->location_id($seller_locations[0]["name"],$seller_locations[1]["name"],$seller_locations[2]["name"]);
-				$destination = $ro->location_id($buyer_locations[0]["name"],$buyer_locations[1]["name"],$buyer_locations[2]["name"]);				
+				$destination = $ro->location_id($buyer_locations[0]["name"],$buyer_locations[1]["name"],$buyer_locations[2]["name"]);
 				
-				foreach($ro->cost($origin,$destination,($weight*$qty),$_POST["delivery_courier_".$goods_id])["results"][0]["costs"] as $cost){
-					if(strtolower($cost["service"]) == strtolower($_POST["courier_service_".$goods_id])){
-						$price 				= $cost["cost"][0]["value"];
-						break;
+				$is_markoantar = false;
+				$forwarder_id = $db->fetch_single_data("forwarders","id",["rajaongkir_code" => $_POST["delivery_courier_".$goods_id]]);
+				if($forwarder_id <= 0){
+					$forwarder_id = $db->fetch_single_data("forwarders","id",["user_id" => $_POST["delivery_courier_".$goods_id]]);
+					if($forwarder_id > 0) $is_markoantar = true;
+				}
+				if(!$is_markoantar){
+					foreach($ro->cost($origin,$destination,($weight*$qty),$_POST["delivery_courier_".$goods_id])["results"][0]["costs"] as $cost){
+						if(strtolower($cost["service"]) == strtolower($_POST["courier_service_".$goods_id])){
+							$price 				= $cost["cost"][0]["value"];
+							break;
+						}
 					}
+				} else {
+					$price = $db->fetch_single_data("forwarder_routes","price",["user_id" => $_POST["delivery_courier_".$goods_id],"vehicle_id" => $_POST["courier_service_".$goods_id],"source_location_id" => $pickup_location_id,"destination_location_id" => $user_address_location_id]);
 				}
 			}
 			$total 						= $price;
@@ -263,6 +276,10 @@
 	var last_goods_id = "";
 	var numbers_is_valid = true;
 	var is_cod_coverage = true;
+	var is_markoantar = false;
+	var is_only_pasar = false;
+	var total_weight = 0;
+	var flat_rates_markoantar = 0;
 	
 	function change_address(user_address_id){
 		$("#total_bill").html("<img src='images/fancybox_loading.gif'>");
@@ -329,7 +346,14 @@
 			}
 			if(total_bill <= 0) numbers_is_valid = false;
 			if(total_price <= 0) numbers_is_valid = false;
-			if(total_shipping_charges <= 0) numbers_is_valid = false;
+			if(total_shipping_charges <= 0){
+				if(is_only_pasar && is_markoantar){
+					total_shipping_charges = flat_rates_markoantar;
+					total_bill = (total_price * 1) + (flat_rates_markoantar * 1);
+				} else {
+					numbers_is_valid = false;
+				}
+			}
 			$("#total_bill").html("&nbsp;&nbsp;&nbsp;"+new Intl.NumberFormat('id-ID').format(total_bill));
 			$("#total_price").html("&nbsp;&nbsp;&nbsp;"+new Intl.NumberFormat('id-ID').format(total_price));
 			$("#total_shipping_charges").html("&nbsp;&nbsp;&nbsp;"+new Intl.NumberFormat('id-ID').format(total_shipping_charges));
@@ -369,6 +393,7 @@
 			$("#hide_shipping_charges_"+goods_id).val(returnval[3]);
 			$("#hide_sub_total_"+goods_id).val(returnval[4]);
 			load_calculation();
+			if(returnval[5] == "flat_rates_markoantar") is_markoantar=true;
 		});
 	}
 	
@@ -389,7 +414,8 @@
 		if(is_cod_coverage == false){
 			toastr.warning("<?=str_replace("{cod_max_km}",$__cod_max_km,v("out_of_delivery_range"));?>","",toastroptions);
 		} else {
-			
+			document.getElementById("action_mode").value="cod";
+			cart_form.submit();
 		}
 	}
 </script>
@@ -417,6 +443,7 @@
 						<?php
 							$goods_ids = "";
 							$is_only_pasar = true;
+							$TOTAL_WEIGHT = 0;
 							foreach($_trxBySeller as $seller_user_id => $transactions){
 								$seller = $db->fetch_all_data("sellers",[],"user_id = '".$seller_user_id."'")[0];
 								$seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]));
@@ -440,6 +467,7 @@
 									$price = $transaction_details["gross"] + ($transaction_details["gross"] * $transaction_details["commission"] / 100);
 									$subtotal = $price * $qty;
 									$total_price += $subtotal;
+									$TOTAL_WEIGHT += ($qty * $transaction_details["weight"]);
 									
 									$forwarder_ids = str_replace(["||","|"],[",",""],$db->fetch_single_data("goods","forwarder_ids",["id" => $goods_id]));
 									$forwarders = $db->fetch_select_data("forwarders","concat(IF(rajaongkir_code <> '', rajaongkir_code, user_id)) as rajaongkir_id","concat(IF(rajaongkir_code <> '', concat(name,' (',upper(rajaongkir_code),')'), concat('Marko Antar (',name,')')))",["id" => $forwarder_ids.":IN"],["user_id DESC,id"]);
@@ -521,7 +549,11 @@
 								}
 							}
 							$goods_ids = substr($goods_ids,0,-1);
+							$flat_rates_markoantar = $__marko_cod * ceil($TOTAL_WEIGHT/$__cod_max_gram);
+							?><script> is_only_pasar = "<?=$is_only_pasar;?>";</script><?php
 							?><script> goods_ids = "<?=$goods_ids;?>";</script><?php
+							?><script> total_weight = "<?=$TOTAL_WEIGHT;?>";</script><?php
+							?><script> flat_rates_markoantar = "<?=$flat_rates_markoantar;?>";</script><?php
 						?>
 					</td>
 					<?php

@@ -22,6 +22,9 @@
 	if($mode == "loadCourierServices"){
 		$is_markoantar = false;
 		$goods_id = $_GET["goods_id"];
+		$goods  = $db->fetch_all_data("goods",[],"id = '".$goods_id."'")[0];
+		$is_pasar = false;
+		if(strpos(" ".$goods["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
 		$buyer_address_id = $_GET["buyer_address_id"];
 		$courier = $_GET["courier"];
 		$forwarder_id = $db->fetch_single_data("forwarders","id",["rajaongkir_code" => $courier]);
@@ -61,7 +64,9 @@
 					$courier_services[$forwarder_vehicle["id"]] = $vehicle_type." ".$vehicle_brand." [".$forwarder_vehicle["nopol"]."] ( ".$forwarder_vehicle["max_load"]." Kg)";
 				}
 			} else{
-				echo "<font color='red'>".v("no_courier_service_available")."</font>";exit();
+				if(!$is_pasar) echo "<font color='red'>".v("no_courier_service_available")."</font>";
+				else echo "<font color='green'>".str_replace(["{marko_cod}","{cod_max_gram}"],[format_amount($__marko_cod),$__cod_max_gram/1000],v("flat_rates_markoantar"))."</font>";
+				exit();
 			}
 		}
 		echo $f->select("courier_service_".$goods_id,$courier_services,"","","form-control");
@@ -75,6 +80,9 @@
 	if($mode == "loadShippingCharges"){
 		$is_markoantar = false;
 		$goods_id = $_GET["goods_id"];
+		$goods  = $db->fetch_all_data("goods",[],"id = '".$goods_id."'")[0];
+		$is_pasar = false;
+		if(strpos(" ".$goods["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
 		$buyer_address_id = $_GET["buyer_address_id"];
 		$courier = $_GET["courier"];
 		$forwarder_id = $db->fetch_single_data("forwarders","id",["rajaongkir_code" => $courier]);
@@ -115,7 +123,12 @@
 		if($shippingcharges > 0){
 			echo " x Rp. ".format_amount($price)." = Rp. ".format_amount($subtotal)."|||Rp. ".format_amount($shippingcharges)."|||Rp. ".format_amount($total)."|||".$shippingcharges."|||".$total;
 		} else {
-			echo " x Rp. ".format_amount($price)." = Rp. ".format_amount($subtotal)."|||<p style='font-size:0.8em;'>".v("no_shippingcharges_desc")."</p>|||Rp. ".format_amount($total)."|||0|||".$total;
+			$no_shippingcharges_desc = v("no_shippingcharges_desc");
+			if($is_pasar && $is_markoantar){
+				$no_shippingcharges_desc = str_replace(["{marko_cod}","{cod_max_gram}"],[format_amount($__marko_cod),$__cod_max_gram/1000],v("flat_rates_markoantar"));
+				$flat_rates_markoantar = "flat_rates_markoantar";
+			}
+			echo " x Rp. ".format_amount($price)." = Rp. ".format_amount($subtotal)."|||<p style='font-size:0.8em;'>".$no_shippingcharges_desc."</p>|||Rp. ".format_amount($total)."|||0|||".$total."|||".$flat_rates_markoantar;
 		}
 	}
 	
