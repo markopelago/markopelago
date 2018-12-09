@@ -1675,7 +1675,7 @@ input:checked + .switch_slider:before {
 	border:0px;
 	position:relative;
 	height:21px;
-	width:77%;
+	width:70%;
 	float:left;
 	text-align:center;
 }

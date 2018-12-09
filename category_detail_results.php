@@ -60,7 +60,7 @@
 				<div class="goods_list_thumbnail">
 					<img class="img-responsive" src="goods/<?=$img;?>">
 					<div class="caption"><p><?=substr($product["name"],0,20);?></p></div>
-					<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> / <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?></p></div>
+					<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> <?php if(!$is_pasar){?>/ <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?><?php } ?></p></div>
 					<div class="seller"><?=$db->fetch_single_data("sellers","name",["id"=>$product["seller_id"]]);?></div>
 					<?php if($is_pasar){ ?>
 						<div class="direct_cart">

@@ -137,6 +137,8 @@
 											foreach($_trxByGoods as $goods_id => $transaction_details){
 												$transaction_ids = substr($_trx_ids[$goods_id],0,-1);
 												$goods  = $db->fetch_all_data("goods",[],"id = '".$goods_id."'")[0];
+												$is_pasar = false;
+												if(strpos(" ".$goods["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
 												$goods_photos  = $db->fetch_all_data("goods_photos",[],"goods_id = '".$goods_id."'","seqno")[0];
 												if(!file_exists("goods/".$goods_photos["filename"])) $goods_photos["filename"] = "no_goods.png";
 												$unit = $db->fetch_single_data("units","name_".$__locale,["id" => $transaction_details["unit_id"]]);
@@ -184,7 +186,7 @@
 																							<td width="2%"></td>
 																							<?=(isMobile())?"</tr><tr><td style='height:5px;'></td></tr><tr>":"";?>
 																							<td style="font-size:0.8em;font-weight:bolder;" align="center" nowrap>
-																								<?=v("price");?> / <?=$unit;?><br>
+																								<?=v("price");?> <?php if(!$is_pasar){?>/ <?=$unit;?><?php } ?><br>
 																								<div id="price[<?=$goods_id;?>]" style="border:1px solid #5F98AB;padding-right:5px;" align="right">Rp. <?=format_amount($price);?></div>
 																							</td>
 																						</tr>

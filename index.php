@@ -18,7 +18,7 @@
 					$categories_td_width = "width='12%'";
 					if(isMobile()) $categories_td_width = "style='width:70px !important;'";
 					unset($categories);
-					$categories = $db->fetch_all_data("categories",[],"id IN (1,2,3,4,5,6,8,9)","id");
+					$categories = $db->fetch_all_data("categories",[],"id IN (1,2,3,4,5,6,8,9,49)","id=49 desc, id");
 					foreach($categories as $key => $category){
 						$img = "category_".$category["id"].".png";
 				?>
@@ -55,6 +55,8 @@
 					if(isMobile()) $limit = 20;
 					$products = $db->fetch_all_data("goods",[],"is_displayed = '1' ORDER BY RAND() LIMIT $limit");
 					foreach($products as$key => $product){
+						$is_pasar = false;
+						if(strpos(" ".$product["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
 						$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 						if(!file_exists("goods/".$img)) $img = "no_goods.png";
 						if($img == "") $img = "no_goods.png";
@@ -68,7 +70,7 @@
 							<div class="home_recommended_goods_thumbnail">
 								<img class="img-responsive" src="goods/<?=$img;?>">
 								<div class="caption"><p><?=substr($product["name"],0,20);?></p></div>
-								<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> / <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?></p></div>
+								<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> <?php if(!$is_pasar){?>/ <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?> <?php } ?></p></div>
 							</div>
 						</td>
 				<?php } ?>
@@ -110,6 +112,8 @@
 			if(isMobile()) $limit = 20;
 			$products = $db->fetch_all_data("goods",[],"is_displayed = '1' ORDER BY created_at DESC LIMIT $limit");
 			foreach($products as$key => $product){
+				$is_pasar = false;
+				if(strpos(" ".$product["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 				if(!file_exists("goods/".$img)) $img = "no_goods.png";
 				if($img == "") $img = "no_goods.png";
@@ -118,7 +122,7 @@
 				<div class="home_recommended_goods_thumbnail" style="padding:10px;<?=$newest_goods_div_width;?>">
 					<img class="img-responsive" src="goods/<?=$img;?>">
 					<div class="caption"><p><?=substr($product["name"],0,20);?></p></div>
-					<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> / <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?></p></div>
+					<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> <?php if(!$is_pasar){?>/ <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?><?php } ?></p></div>
 				</div>
 			</td>
 			<td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>

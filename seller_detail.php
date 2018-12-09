@@ -31,6 +31,8 @@
 	<?php
 		$products = $db->fetch_all_data("goods",[],"seller_id = '".$seller["id"]."'");
 		foreach($products as $product){
+			$is_pasar = false;
+			if(strpos(" ".$product["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
 			$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 			if(!file_exists("goods/".$img)) $img = "no_goods.png";
 			if($img == "") $img = "no_goods.png";
@@ -41,7 +43,7 @@
 			<a href="product_detail.php?id=<?=$product["id"];?>">
 				<img src="goods/<?=$img;?>" alt="#">
 				<div class="caption"><p><?=substr($product["name"],0,50);?></p></div>
-				<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> / <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?></p></div>
+				<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> <?php if(!$is_pasar){?>/ <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?><?php } ?></p></div>
 				<button class="btn btn-primary btn-sm" style="width:100%"><?=v("buy");?></button>
 				<div class="seller-info">
 					<?=$db->fetch_single_data("sellers","name",["id"=>$product["seller_id"]]);?><br>
