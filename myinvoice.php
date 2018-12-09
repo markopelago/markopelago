@@ -170,7 +170,8 @@
 				if($db->fetch_single_data("transactions","id",["cart_group" => $cart_group,"status" => "2:<="]) > 0){
 					echo $f->input("pay",v("pay"),"style=\"position:relative;float:right;\" onclick='window.location=\"payment.php?cart_group=".$cart_group."\";'","btn btn-success");
 				} else {
-					echo "<div style='width:100%;font-size:20px;text-align:center;' class='alert alert-success'><span class='glyphicon glyphicon-ok '> ".v("paid")."</span></div>";
+					$is_cod = $db->fetch_single_data("transaction_payments","id",["cart_group" => $cart_group,"payment_type_id" => "-1"]);
+					if(!$is_cod) echo "<div style='width:100%;font-size:20px;text-align:center;' class='alert alert-success'><span class='glyphicon glyphicon-ok '> ".v("paid")."</span></div>";
 				}
 			} else {
 				if($transaction["status"] < 7){

@@ -1,16 +1,20 @@
 <?php 
-	function updateStatus3($cart_group,$seller_user_id,$po_no){
+	function updateStatus3($cart_group,$seller_user_id,$po_no,$is_cod = false){
 		global $db,$__now;
 		$db->addtable("transactions");  
 		$db->where("cart_group",$cart_group);
 		$db->where("seller_user_id",$seller_user_id);
-		$db->where("status","2");
+		if($is_cod){
+			$db->where("status","1");	
+		} else {
+			$db->where("status","2");
+		}
 		$db->addfield("po_no");			$db->addvalue($po_no);
 		$db->addfield("po_at");			$db->addvalue($__now);
 		$db->addfield("status");        $db->addvalue("3");
 		$updating = $db->update();
 	}
-	function sendMailPaymentVerified($cart_group){
+	function sendMailPaymentVerified($cart_group,$is_cod = false){
 		global $db;
 		$goods_names = "";
 		$emails = array();
@@ -104,13 +108,15 @@
 		$body = str_replace($arr1,$arr2,$body);
 		$buyer_user_id = $db->fetch_single_data("transactions","buyer_user_id",["cart_group" => $cart_group]);
 		$buyer_email = $db->fetch_single_data("a_users","email",["id" => $buyer_user_id]);
-		sendingmail("Markopelago.com -- Pembayaran Berhasil ".$invoice_nos,$buyer_email,$body,"system@markopelago.com|Markopelago System");
-		
-		$message = "Terimakasih untuk pembayaran atas pembelian ".substr($goods_names,0,-2).". Sekarang penjual sedang memproses pembelian anda. Setiap pembelian anda memberikan manfaat untuk pelaku usaha Indonesia. Salam Markopelago dan selamat beraktivitas";
-		$db->addtable("notifications");
-		$db->addfield("user_id");		$db->addvalue($buyer_user_id);
-		$db->addfield("message");		$db->addvalue($message);
-		$inserting = $db->insert();
+		if(!$is_cod){
+			sendingmail("Markopelago.com -- Pembayaran Berhasil ".$invoice_nos,$buyer_email,$body,"system@markopelago.com|Markopelago System");
+			
+			$message = "Terimakasih untuk pembayaran atas pembelian ".substr($goods_names,0,-2).". Sekarang penjual sedang memproses pembelian anda. Setiap pembelian anda memberikan manfaat untuk pelaku usaha Indonesia. Salam Markopelago dan selamat beraktivitas";
+			$db->addtable("notifications");
+			$db->addfield("user_id");		$db->addvalue($buyer_user_id);
+			$db->addfield("message");		$db->addvalue($message);
+			$inserting = $db->insert();
+		}
 		
 		$order_detail = "";
 		$shoppingTotal = 0;
@@ -147,6 +153,7 @@
 			$arr1 = ["{seller_name}","{buyer_name}","{order_detail}"];
 			$arr2 = [$po["seller_name"],$buyer_name,$order_detail];
 			$body = read_file("../html/email_purchase_order_id.html");
+			if($body == "") $body = read_file("html/email_purchase_order_id.html");
 			$body = str_replace($arr1,$arr2,$body);
 			sendingmail("Markopelago.com -- Purchase Order ".$po_no,$po["seller_email"],$body,"system@markopelago.com|Markopelago System");
 			

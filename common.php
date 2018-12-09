@@ -538,6 +538,15 @@
 		return $invoice_no;
 	}
 	
+	function generate_po_no(){
+		global $db;
+		$po_no = "PO/".date("Ymd")."/";
+		$seqno = $db->fetch_single_data("transactions","po_no",["po_no" => $po_no."%:LIKE"],["po_no DESC"]);
+		$seqno = (str_replace($po_no,"",$seqno) * 1) + 1;
+		$po_no = "PO/".date("Ymd")."/".numberpad($seqno,7);
+		return $po_no;
+	}
+	
 	function generate_self_pickup_receipt_no(){
 		global $db;
 		$receipt_no = "SPU".date("Ymd");

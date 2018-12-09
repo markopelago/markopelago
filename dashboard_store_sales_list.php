@@ -61,6 +61,8 @@
 						}
 						$viewUrl = "mypo.php?po_no=".$transaction["po_no"];
 						$status = transactionList($transaction["status"]);
+						$is_cod = $db->fetch_single_data("transaction_payments","id",["cart_group" => $transaction["cart_group"],"payment_type_id" => "-1"]);
+						if($is_cod && $transaction["status"] == "3") $status = v("wait_for_process_from_seller");
 						?>
 						<tr>
 							<td class="nowrap"><a href="<?=$viewUrl;?>" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></a></td>

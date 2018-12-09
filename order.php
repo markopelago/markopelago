@@ -1,4 +1,5 @@
 <?php include_once "header.php"; ?>
+<?php include_once "backoffice/invoices_func.php"; ?>
 <?php
 	$user_address_default = $db->fetch_single_data("user_addresses","id",["user_id" => $__user_id, "default_buyer" => "1"]);
 	if($user_address_default <= 0){
@@ -39,6 +40,8 @@
 			
 			$transaction_id 			= $transaction["id"];
 			$goods_id 					= $db->fetch_single_data("transaction_details","goods_id",["transaction_id" => $transaction_id]);
+			$goods_category_ids 		= $db->fetch_single_data("goods","category_ids",["id" => $goods_id]);
+			$is_pasar = false; if(strpos(" ".$goods_category_ids,"|".$__pasar."|") > 0) $is_pasar = true;
 			$qty 						= $db->fetch_single_data("transaction_details","qty",["transaction_id" => $transaction_id]);
 			$weight 					= $db->fetch_single_data("goods","weight",["id" => $goods_id]);
 			$forwarder_id 				= $db->fetch_single_data("forwarders","id",["rajaongkir_code" => $_POST["delivery_courier_".$goods_id]]);
@@ -86,7 +89,16 @@
 						}
 					}
 				} else {
-					$price = $db->fetch_single_data("forwarder_routes","price",["user_id" => $_POST["delivery_courier_".$goods_id],"vehicle_id" => $_POST["courier_service_".$goods_id],"source_location_id" => $pickup_location_id,"destination_location_id" => $user_address_location_id]);
+					if($is_pasar) {
+						if(!$already_flat_markoantar){
+							$already_flat_markoantar = true;
+							$price = $__marko_cod;
+						} else {
+							$price = 0;
+						}
+					} else {
+						$price = $db->fetch_single_data("forwarder_routes","price",["user_id" => $_POST["delivery_courier_".$goods_id],"vehicle_id" => $_POST["courier_service_".$goods_id],"source_location_id" => $pickup_location_id,"destination_location_id" => $user_address_location_id]);
+					}
 				}
 			}
 			$total 						= $price;
@@ -125,10 +137,15 @@
 			
 			$db->addtable("transaction_payments");
 			$db->addfield("cart_group");		$db->addvalue($cart_group);
-			$db->addfield("payment_type_id");	$db->addvalue("2");
-			$db->addfield("name");          	$db->addvalue("Transfer Bank");
+			if($_POST["action_mode"] == "cod"){
+				$db->addfield("payment_type_id");	$db->addvalue("-1");
+				$db->addfield("name");          	$db->addvalue("COD");
+			} else {
+				$db->addfield("payment_type_id");	$db->addvalue("2");
+				$db->addfield("name");          	$db->addvalue("Transfer Bank");
+				$db->addfield("uniqcode");		    $db->addvalue($uniqcode);
+			}
 			$db->addfield("total");		        $db->addvalue($total_tagihan);
-			$db->addfield("uniqcode");		    $db->addvalue($uniqcode);
 			$inserting = $db->insert();
 			
 			$emails = array();
@@ -224,18 +241,44 @@
 			$payment_info .= "<tr><td><b>Total Pembayaran</b></td><td><b>Rp. </b></td><td align='right'><b>".format_amount($GrandTotal)."</b></td></tr></table>";
 			$arr1 = ["{last_transfer_day}","{last_transfer_at}","{order_detail}","{payment_info}"];
 			$arr2 = [$email["last_transfer_day"],$email["last_transfer_at"],$order_detail,$payment_info];
-			$body = read_file("html/email_wait_payment_verification_id.html");
-			$body = str_replace($arr1,$arr2,$body);
-			sendingmail("Markopelago.com -- Menunggu Pembayaran ".$transaction["invoice_no"],$__user["email"],$body,"system@markopelago.com|Markopelago System");
-			sendingmail("Markopelago.com -- Menunggu Pembayaran ".$transaction["invoice_no"],"finance@markopelago.com",$body,"system@markopelago.com|Markopelago System");
 			
-			$message = "Selamat! Anda sudah selesai melakukan pesanan dengan nomor invoice ".$transaction["invoice_no"].". Mohon segera melakukan pembayaran sesuai dengan metode pilihan transaksi anda. Terimakasih dan selamat beraktivitas. Salam Markopelago untuk Indonesia!";
-			$db->addtable("notifications");
-			$db->addfield("user_id");		$db->addvalue($__user_id);
-			$db->addfield("message");		$db->addvalue($message);
-			$inserting = $db->insert();
+			if($_POST["action_mode"] != "cod"){
+				$body = read_file("html/email_wait_payment_verification_id.html");
+				$body = str_replace($arr1,$arr2,$body);
+				sendingmail("Markopelago.com -- Menunggu Pembayaran ".$transaction["invoice_no"],$__user["email"],$body,"system@markopelago.com|Markopelago System");
+				sendingmail("Markopelago.com -- Menunggu Pembayaran ".$transaction["invoice_no"],"finance@markopelago.com",$body,"system@markopelago.com|Markopelago System");
+				
+				$message = "Selamat! Anda sudah selesai melakukan pesanan dengan nomor invoice ".$transaction["invoice_no"].". Mohon segera melakukan pembayaran sesuai dengan metode pilihan transaksi anda. Terimakasih dan selamat beraktivitas. Salam Markopelago untuk Indonesia!";
+				$db->addtable("notifications");
+				$db->addfield("user_id");		$db->addvalue($__user_id);
+				$db->addfield("message");		$db->addvalue($message);
+				$inserting = $db->insert();
 			
-            javascript("window.location='payment.php?cart_group=".$cart_group."';");
+				javascript("window.location='payment.php?cart_group=".$cart_group."';");
+			} else {
+				$body = read_file("html/email_cod_checkout_id.html");
+				$body = str_replace($arr1,$arr2,$body);
+				sendingmail("Markopelago.com -- COD | Invoice: ".$transaction["invoice_no"],$__user["email"],$body,"system@markopelago.com|Markopelago System");
+				sendingmail("Markopelago.com -- COD | Invoice: ".$transaction["invoice_no"],"finance@markopelago.com",$body,"system@markopelago.com|Markopelago System");
+				
+				$message = "Selamat! Anda sudah selesai melakukan pesanan dengan nomor invoice ".$transaction["invoice_no"].". Mohon tunggu pengantaran barang ke tempat anda. Terimakasih dan selamat beraktivitas. Salam Markopelago untuk Indonesia!";
+				$db->addtable("notifications");
+				$db->addfield("user_id");		$db->addvalue($__user_id);
+				$db->addfield("message");		$db->addvalue($message);
+				$inserting = $db->insert();
+				
+				$failedUpdatingTransactions = false;
+				$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$cart_group."'");
+				foreach($transactions as $transaction){
+					$po_no = generate_po_no();
+					updateStatus3($cart_group,$transaction["seller_user_id"],$po_no,true);
+				}
+				if(!$failedUpdatingTransactions){
+					sendMailPaymentVerified($cart_group,true);
+					$_SESSION["message"] = "Anda sudah selesai melakukan pesanan, Mohon tunggu pengantaran barang ke tempat anda.";
+				}
+				javascript("window.location='index.php';");
+			}
             exit();
         } else {
 			$db->addtable("transactions");  
@@ -414,8 +457,10 @@
 		if(is_cod_coverage == false){
 			toastr.warning("<?=str_replace("{cod_max_km}",$__cod_max_km,v("out_of_delivery_range"));?>","",toastroptions);
 		} else {
-			document.getElementById("action_mode").value="cod";
-			cart_form.submit();
+			if(confirm("<?=v("are_you_sure_pay_with_cod");?>")){
+				document.getElementById("action_mode").value="cod";
+				cart_form.submit();
+			}
 		}
 	}
 </script>

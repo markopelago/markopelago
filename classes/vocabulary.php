@@ -372,6 +372,8 @@ class Vocabulary{
 		$arr[$l]["goods_received"]								= "Goods are received";
 		$arr[$l]["out_of_delivery_range"]						= "Sorry, the distance of delivery of goods has exceeded {cod_max_km} Km";
 		$arr[$l]["flat_rates_markoantar"]						= "Marko Antar flat rates Rp. {marko_cod} every multiple of {cod_max_gram} Kg";
+		$arr[$l]["are_you_sure_pay_with_cod"]					= "Are you sure to pay in cash when the goods arrives?";
+		$arr[$l]["wait_for_process_from_seller"]				= "Wait for process from seller";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -732,6 +734,8 @@ class Vocabulary{
 		$arr[$l]["out_of_delivery_range"]						= "Maaf, jarak pengiriman barang sudah melebihi {cod_max_km} Km";
 		// $arr[$l]["flat_rates_markoantar"]						= "Tarif flat Marko Antar Rp. {marko_cod} setiap kelipatan {cod_max_gram} Kg";
 		$arr[$l]["flat_rates_markoantar"]						= "Tarif flat Marko Antar Rp. {marko_cod}";
+		$arr[$l]["are_you_sure_pay_with_cod"]					= "Anda yakin akan membayar dengan tunai pada saat barang sampai?";
+		$arr[$l]["wait_for_process_from_seller"]				= "Menunggu proses dari penjual";
 		
 		
 		return $arr[$this->locale][$index];
