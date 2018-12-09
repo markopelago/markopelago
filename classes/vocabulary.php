@@ -730,7 +730,8 @@ class Vocabulary{
 		$arr[$l]["are_you_sure_goods_received"]					= "Anda yakin barang sudah diterima";
 		$arr[$l]["goods_received"]								= "Barang telah diterima";
 		$arr[$l]["out_of_delivery_range"]						= "Maaf, jarak pengiriman barang sudah melebihi {cod_max_km} Km";
-		$arr[$l]["flat_rates_markoantar"]						= "Tarif flat Marko Antar Rp. {marko_cod} setiap kelipatan {cod_max_gram} Kg";
+		// $arr[$l]["flat_rates_markoantar"]						= "Tarif flat Marko Antar Rp. {marko_cod} setiap kelipatan {cod_max_gram} Kg";
+		$arr[$l]["flat_rates_markoantar"]						= "Tarif flat Marko Antar Rp. {marko_cod}";
 		
 		
 		return $arr[$this->locale][$index];

@@ -1420,7 +1420,7 @@ textarea{
 }
 .goods_list .caption{
 	margin-top:10px;
-	height:20px;
+	min-height:20px;
 }
 .goods_list .caption:hover{
 	border-bottom:1px dashed grey;
