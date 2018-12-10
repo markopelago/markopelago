@@ -63,9 +63,14 @@
 						$status = transactionList($transaction["status"]);
 						$is_cod = $db->fetch_single_data("transaction_payments","id",["cart_group" => $transaction["cart_group"],"payment_type_id" => "-1"]);
 						if($is_cod && $transaction["status"] == "3") $status = v("wait_for_process_from_seller");
+						$btn_delete = "";
+						if($transaction["status"] <= 1){
+							$deleteUrl = "javascript:delete_purchase_list('".$transaction["invoice_no"]."')";
+							$btn_delete = "&nbsp;<a href=\"".$deleteUrl."\" class=\"btn btn-warning\" title=\"".v("delete")."\"><span class=\"glyphicon glyphicon-remove\"></span></a>";
+						}
 						?>
 						<tr onclick="loadShopping_progress('<?=$transaction["id"];?>');">
-							<td class="nowrap"><a href="<?=$viewUrl;?>" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></a></td>
+							<td class="nowrap"><a href="<?=$viewUrl;?>" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></a><?=$btn_delete;?></td>
 							<td class="nowrap"><?=format_tanggal($transaction["invoice_at"]);?></td>
 							<td class="nowrap"><?=$transaction["invoice_no"];?></td>
 							<td class="nowrap"><?=$seller["name"];?></td>

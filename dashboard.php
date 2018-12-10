@@ -4,6 +4,14 @@
 		?> <script> window.location = "index.php"; </script> <?php
 		exit();
 	}
+	if($_GET["delete_purchase_list"] == 1 && $_GET["invoice_no"] != ""){
+		$invoice_no = $_GET["invoice_no"];
+		$db->addtable("transaction_details");	$db->where("transaction_id","(SELECT id FROM transactions WHERE invoice_no='".$invoice_no."' AND buyer_user_id='".$__user_id."')","s","IN");	$db->delete_();
+		$db->addtable("transactions");			$db->where("invoice_no",$invoice_no);	$db->where("buyer_user_id",$__user_id);	$db->delete_();
+		$_SESSION["message"] = v("delete_transaction_by_invoice_no_success");
+		?> <script> window.location = "?tabActive=purchase_list"; </script> <?php
+		exit();
+	}
 ?>
 	<style>
 		.panel-heading{
@@ -19,6 +27,11 @@
 		function changeState(tab_id){ 
 			window.history.pushState("","","?tabActive="+tab_id); 
 			focusto(tab_id);
+		}
+		function delete_purchase_list(invoice_no){
+			if(confirm("<?=v("confirm_delete_transaction_by_invoiceno");?>?".replace("{invoice_no}",invoice_no))){
+				window.location="?delete_purchase_list=1&invoice_no="+invoice_no;
+			}
 		}
 	</script>
 	<div class="container">

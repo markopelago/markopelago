@@ -215,6 +215,7 @@ class Vocabulary{
 		$arr[$l]["edit_bank"]									= "Edit Bank";
 		$arr[$l]["confirm_delete"]								= "Are You sure want to delete this data";
 		$arr[$l]["confirm_delete_transaction"]					= "Are You sure want to delete this goods from cart";
+		$arr[$l]["confirm_delete_transaction_by_invoiceno"]		= "Are You sure want to detele transaction with invoice no: {invoice_no}";
 		$arr[$l]["profile_my_store"]							= "Profile My Store";
 		$arr[$l]["profile_my_markoantar"]						= "Marko Antar Profile";
 		$arr[$l]["seller_profile"]								= "Seller Profile";
@@ -328,6 +329,7 @@ class Vocabulary{
 		$arr[$l]["total_price"]									= "Total Price";
 		$arr[$l]["confirm_delete_cart_item"]					= "Are You sure to delete item(s) in the cart";
 		$arr[$l]["delete_cart_item_success"]					= "Successfully deleted items in the cart";
+		$arr[$l]["delete_transaction_by_invoice_no_success"]	= "Successfully deleted transaction";
 		$arr[$l]["address_saved_successfully"]					= "Address saved successfully";
 		$arr[$l]["failed_saving_address"]						= "Failed saving address";
 		$arr[$l]["make_a_payment_before"]						= "Make a payment before it runs out of stock";
@@ -578,6 +580,7 @@ class Vocabulary{
 		$arr[$l]["edit_bank"]									= "Ubah Bank";
 		$arr[$l]["confirm_delete"]								= "Anda yakin akan menghapus data tersebut";
 		$arr[$l]["confirm_delete_transaction"]					= "Anda yakin akan menghapus barang ini dari keranjang belanja";
+		$arr[$l]["confirm_delete_transaction_by_invoiceno"]		= "Anda yakin akan menghapus transaksi dengan no invoice: {invoice_no}";
 		$arr[$l]["profile_my_store"]							= "Profil Toko Saya";
 		$arr[$l]["profile_my_markoantar"]						= "Profil Marko Antar";
 		$arr[$l]["seller_profile"]								= "Profil Penjual";
@@ -691,6 +694,7 @@ class Vocabulary{
 		$arr[$l]["total_price"]									= "Total Harga";
 		$arr[$l]["confirm_delete_cart_item"]					= "Anda yakin akan menghapus item pada keranjang";
 		$arr[$l]["delete_cart_item_success"]					= "Berhasil menghapus item pada keranjang";
+		$arr[$l]["delete_transaction_by_invoice_no_success"]	= "Berhasil menghapus transaksi";
 		$arr[$l]["address_saved_successfully"]					= "Penyimpanan alamat berhasil";
 		$arr[$l]["failed_saving_address"]						= "Gagal menyimpan alamat";
 		$arr[$l]["make_a_payment_before"]						= "Lakukan pembayaran sebelum kehabisan stok";
