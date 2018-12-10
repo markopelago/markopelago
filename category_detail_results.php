@@ -58,7 +58,7 @@
 		?>
 			<td align="center" <?=(!$is_pasar)?"onclick=\"window.location='product_detail.php?id=".$product["id"]."';\"":"";?>>
 				<div class="goods_list_thumbnail">
-					<img class="img-responsive" src="goods/<?=$img;?>">
+					<img onclick="window.location='product_detail.php?id=<?=$goods_id;?>';" class="img-responsive" src="goods/<?=$img;?>" style="cursor:pointer;">
 					<div class="caption"><p><?=$product["name"];?></p></div>
 					<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> <?php if(!$is_pasar){?>/ <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?><?php } ?></p></div>
 					<div class="seller"><?=$db->fetch_single_data("sellers","name",["id"=>$product["seller_id"]]);?></div>
@@ -77,7 +77,7 @@
 										<span class="glyphicon glyphicon-shopping-cart" style="color:#800000;font-size:<?=(!isMobile())?"1.5":"1.2";?>em;cursor:pointer;" onclick="add_to_cart('<?=$goods_id;?>',document.getElementById('qty[<?=$goods_id;?>]').value);" id="add_to_cart_<?=$goods_id;?>"></span>
 									</td>
 									<td style="position:relative;float:left;margin-left:10px;">
-										<span class="glyphicon glyphicon-search" style="color:#29A9E1;font-size:<?=(!isMobile())?"1.5":"1.2";?>em;cursor:pointer;" onclick="window.location='product_detail.php?id=<?=$goods_id;?>';"></span>
+										<span class="glyphicon glyphicon-zoom-in" style="color:#29A9E1;font-size:<?=(!isMobile())?"1.5":"1.2";?>em;cursor:pointer;" onclick="window.location='product_detail.php?id=<?=$goods_id;?>';"></span>
 									</td>
 								</tr>
 							</table>
