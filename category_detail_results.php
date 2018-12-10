@@ -74,10 +74,10 @@
 											</div>
 									</td>
 									<td style="position:relative;float:left;margin-left:10px;">
-										<span class="glyphicon glyphicon-shopping-cart" style="color:#800000;font-size:1.5em;cursor:pointer;" onclick="add_to_cart('<?=$goods_id;?>',document.getElementById('qty[<?=$goods_id;?>]').value);" id="add_to_cart_<?=$goods_id;?>"></span>
+										<span class="glyphicon glyphicon-shopping-cart" style="color:#800000;font-size:<?=(!isMobile())?"1.5":"1.2";?>em;cursor:pointer;" onclick="add_to_cart('<?=$goods_id;?>',document.getElementById('qty[<?=$goods_id;?>]').value);" id="add_to_cart_<?=$goods_id;?>"></span>
 									</td>
 									<td style="position:relative;float:left;margin-left:10px;">
-										<span class="glyphicon glyphicon-search" style="color:#29A9E1;font-size:1.5em;cursor:pointer;" onclick="window.location='product_detail.php?id=<?=$goods_id;?>';"></span>
+										<span class="glyphicon glyphicon-search" style="color:#29A9E1;font-size:<?=(!isMobile())?"1.5":"1.2";?>em;cursor:pointer;" onclick="window.location='product_detail.php?id=<?=$goods_id;?>';"></span>
 									</td>
 								</tr>
 							</table>
