@@ -1921,7 +1921,7 @@ input:checked + .switch_slider:before {
 		font-size:0.8em;
 	}
 	.oval_border2{
-		width: 80px;
+		width: 77px;
 	}
 	.oval_border2 .center_text input[type=number] {
 		text-align:center;
