@@ -406,7 +406,7 @@
 				goods__id = arr_goods_id[xx];
 				$.get("ajax/transaction.php?mode=distance_estimation&goods_id="+goods__id+"&buyer_address_id="+$("#user_address").val(), function(returnval){
 					returnval = returnval.split("|||");
-					if((returnval[2] * 1 / 1000) > <?=$__cod_max_km;?>){
+					if((returnval[2] * 1 / 1000) > <?=($__cod_max_km + $__cod_tolerance_km);?>){
 						is_cod_coverage = false;
 						xx = arr_goods_id.length + 1;
 					}
@@ -603,7 +603,7 @@
 					</td>
 					<?php
 						$btn_cod = "";
-						if($is_only_pasar) $btn_cod = "<div style=\"margin-top:10px;\">".$f->input("cod","COD","type='button' onclick='btn_cod_click();' style=\"width:165px;font-weight:bolder;\"","btn btn-success")."</div>";
+						if($is_only_pasar) $btn_cod = "<div style=\"margin-top:10px;\">".$f->input("cod",v("cod"),"type='button' onclick='btn_cod_click();' style=\"width:165px;font-weight:bolder;\"","btn btn-success")."</div>";
 						$shopping_summary = "
 							<div style=\"font-size:1.2em;font-weight:bolder;margin-bottom:18px;padding-top:10px; text-align:center;\">".v("shopping_summary")."</div>
 							<div class=\"border_orange\">
@@ -628,7 +628,7 @@
 								<table width=\"100%\"><tr>
 									<td align=\"center\">
 										<div style=\"height:10px;\"></div>
-										".$f->input("pay",v("pay"),"type='submit' style=\"width:165px;font-weight:bolder;\"","btn btn-primary").$btn_cod."
+										".$f->input("pay",v("bank_transfer"),"type='submit' style=\"width:165px;font-weight:bolder;\"","btn btn-primary").$btn_cod."
 									</td>
 								</tr></table>
 							</div>";

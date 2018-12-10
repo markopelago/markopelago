@@ -24,6 +24,7 @@
 	$__pasar					= 50;
 	$__marko_cod				= 15000;
 	$__cod_max_km				= 10;
+	$__cod_tolerance_km			= 5;
 	$__cod_max_gram				= 99999999999999999;
 	if(isset($_GET["locale"])) { setcookie("locale",$_GET["locale"]);$_COOKIE["locale"]=$_GET["locale"]; }
 	if(!isset($_COOKIE["locale"])) { setcookie("locale","id");$_COOKIE["locale"]="id"; }

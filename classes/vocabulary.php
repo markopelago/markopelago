@@ -175,6 +175,8 @@ class Vocabulary{
 		$arr[$l]["success_add_to_cart"]							= "Product successfully added to the cart";
 		$arr[$l]["more_shopping"]								= "More Shopping";
 		$arr[$l]["pay"]											= "Pay";
+		$arr[$l]["bank_transfer"]								= "Bank Transfer";
+		$arr[$l]["cod"]											= "COD";
 		$arr[$l]["paid"]										= "Paid";
 		$arr[$l]["finalization_of_purchases"]					= "Finalization of Purchases";
 		$arr[$l]["finalization_of_purchases_failed"]			= "Finalization of Purchases Failed";
@@ -536,6 +538,8 @@ class Vocabulary{
 		$arr[$l]["success_add_to_cart"]							= "Produk berhasil ditambahkan ke keranjang";
 		$arr[$l]["more_shopping"]								= "Lanjut Belanja";
 		$arr[$l]["pay"]											= "Bayar";
+		$arr[$l]["bank_transfer"]								= "Transfer Bank";
+		$arr[$l]["cod"]											= "Bayar di Tempat";
 		$arr[$l]["paid"]										= "Lunas";
 		$arr[$l]["finalization_of_purchases"]					= "Finalisasi Pembelian";
 		$arr[$l]["finalization_of_purchases_failed"]			= "Finalisasi Pembelian Gagal";
