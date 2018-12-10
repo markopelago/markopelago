@@ -1701,7 +1701,7 @@ input:checked + .switch_slider:before {
 }
 
 .oval_border2{
-    width: 90px;
+    width: 85px;
     height: 20px;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
@@ -1725,7 +1725,7 @@ input:checked + .switch_slider:before {
 	border:0px;
 	position:relative;
 	height:17px;
-	width:66%;
+	width:63%;
 	float:left;
 	text-align:right;
 	padding:1px 2px 1px 2px;
