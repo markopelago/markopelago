@@ -225,7 +225,7 @@
 								<br>
 								<table width=\"100%\"><tr>
 									<td align=\"center\">
-										".$f->input("order","Order","type='submit' style=\"width:165px;\"","btn btn-info")."
+										".$f->input("order",v("buy"),"type='submit' style=\"width:165px;\"","btn btn-info")."
 										<div style=\"height:10px;\"></div>
 										".$f->input("order",v("more_shopping"),"type='button' onclick=\"window.location='index.php'\" style=\"width:165px;\"","btn btn-danger")."
 									</td>
