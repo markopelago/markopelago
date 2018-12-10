@@ -64,19 +64,23 @@
 					<div class="seller"><?=$db->fetch_single_data("sellers","name",["id"=>$product["seller_id"]]);?></div>
 					<?php if($is_pasar){ ?>
 						<div class="direct_cart">
-							<div style="position:relative;float:left;">
-								<div class="oval_border2">
-									<div class="left_caption" onclick="document.getElementById('qty[<?=$goods_id;?>]').stepDown(1);">-</div>
-									<div class="center_text"><?=$f->input("qty[".$goods_id."]",$minqty,"type='number' min='1' step='1'");?></div>
-									<div class="right_caption" onclick="document.getElementById('qty[<?=$goods_id;?>]').stepUp(1);">+</div>
-								</div>
-							</div>
-							<div style="position:relative;float:left;margin-left:10px;">
-								<span class="glyphicon glyphicon-shopping-cart" style="color:#800000;font-size:1.5em;cursor:pointer;" onclick="add_to_cart('<?=$goods_id;?>',document.getElementById('qty[<?=$goods_id;?>]').value);" id="add_to_cart_<?=$goods_id;?>"></span>
-							</div>
-							<div style="position:relative;float:left;margin-left:10px;">
-								<span class="glyphicon glyphicon-search" style="color:#29A9E1;font-size:1.5em;cursor:pointer;" onclick="window.location='product_detail.php?id=<?=$goods_id;?>';"></span>
-							</div>
+							<table>
+								<tr>
+									<td style="position:relative;float:left;">
+											<div class="oval_border2">
+												<div class="left_caption" onclick="document.getElementById('qty[<?=$goods_id;?>]').stepDown(1);">-</div>
+												<div class="center_text"><?=$f->input("qty[".$goods_id."]",$minqty,"type='number' min='1' step='1'");?></div>
+												<div class="right_caption" onclick="document.getElementById('qty[<?=$goods_id;?>]').stepUp(1);">+</div>
+											</div>
+									</td>
+									<td style="position:relative;float:left;margin-left:10px;">
+										<span class="glyphicon glyphicon-shopping-cart" style="color:#800000;font-size:1.5em;cursor:pointer;" onclick="add_to_cart('<?=$goods_id;?>',document.getElementById('qty[<?=$goods_id;?>]').value);" id="add_to_cart_<?=$goods_id;?>"></span>
+									</td>
+									<td style="position:relative;float:left;margin-left:10px;">
+										<span class="glyphicon glyphicon-search" style="color:#29A9E1;font-size:1.5em;cursor:pointer;" onclick="window.location='product_detail.php?id=<?=$goods_id;?>';"></span>
+									</td>
+								</tr>
+							</table>
 						</div>
 					<?php } ?>
 				</div>
