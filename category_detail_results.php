@@ -64,7 +64,7 @@
 					<div class="seller"><?=$db->fetch_single_data("sellers","name",["id"=>$product["seller_id"]]);?></div>
 					<?php if($is_pasar){ ?>
 						<div class="direct_cart">
-							<table>
+							<table <?=$__tblDesign100;?>>
 								<tr>
 									<td style="position:relative;float:left;">
 											<div class="oval_border2">
