@@ -1920,7 +1920,11 @@ input:checked + .switch_slider:before {
 	.table_categories_head .caption{
 		font-size:0.8em;
 	}
+	.oval_border2{
+		width: 80px;
+	}
 	.oval_border2 .center_text input[type=number] {
 		text-align:center;
+		width:60%;
 	}
 }
