@@ -13,7 +13,6 @@
 		}
 		
 	?>
-	<div class="search_result"><?=v("search_result");?> <div class="search_result_value">"<?=$_GET["s"];?>"</div></div><br>
 	<?php if($location != ""){ ?> <div class="location"><?=v("location");?></div> <div class="location_value">: <?=$location;?></div> <?php } ?>
 	<?php if($pricerange != ""){ ?> <div class="location"><?=v("price");?></div> <div class="location_value">: <?=$pricerange;?></div> <?php } ?>
 	<table width="100%">

@@ -1438,14 +1438,14 @@ textarea{
 	width:140px;
 	height:165px;
 }
-.goods_list .search_result{
+.goods_list_search_result{
 	position:relative;
 	left:20px;
 	float:left;
 	font-weight:bolder;
 	font-size:0.8em;
 }
-.goods_list .search_result_value{
+.goods_list_search_result .search_result_value{
 	position:relative;
 	top:-3px;
 	float:right;
@@ -1815,6 +1815,32 @@ input:checked + .switch_slider:before {
 .center {
     margin: auto;
     width: 50%;
+}
+
+.searchpage_img_tab{
+	cursor:pointer;
+}
+.searchpage_span_tab{
+	font-weight:bolder;
+	position:relative;
+	padding-top:15px;
+	cursor:pointer;
+}
+.searchpage_tab_area .active{
+	color:#800000;
+}
+.searchpage_tab_area .inactive{
+	color:#000;
+}
+
+.searchpage_tab_area .inactive:hover{
+	color:#800000;
+}
+
+.searchpage_underline_tab{
+	margin-top:5px;
+	border-bottom:2px solid #D6A266;
+	width:250px;
 }
 
 @media screen and (max-width: 995px) {
