@@ -3,10 +3,10 @@
 	ini_set("session.gc_maxlifetime", 60 * 60 * 24 * 100);
 	set_time_limit(0);
 	
-	if($_COOKIE["kanari_access"] != "ok" && $_COOKIE["android_apps"] != 1){
+	/* if($_COOKIE["kanari_access"] != "ok" && $_COOKIE["android_apps"] != 1){
 		?> <img src="http://bluefish.co.id/images/under_maintenance.jpg"> <?php
 		exit();
-	}
+	} */
 	
 	session_start();
 	$__title_project			= "Markopelago [Beta]";
