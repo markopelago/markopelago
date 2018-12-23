@@ -1418,10 +1418,20 @@ textarea{
 .goods_list_thumbnail:hover{
 	box-shadow:0 10px 20px rgba(0,0,0,0.19),0 6px 6px rgba(0,0,0,0.23);
 }
+
+/*
 .goods_list .caption{
 	margin-top:10px;
 	min-height:20px;
 }
+*/
+.goods_list .caption{
+	margin-top:10px;
+	min-height:20px;
+	height: 20px;
+	overflow: hidden;
+}
+
 .goods_list .caption:hover{
 	border-bottom:1px dashed grey;
 }
