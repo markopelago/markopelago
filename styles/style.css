@@ -422,7 +422,7 @@ footer {
 
 .navigation {
 	width:700px;
-	float:right:
+	float:right;
 }
 
 .greencard_hover :hover{
@@ -1425,6 +1425,7 @@ textarea{
 	min-height:20px;
 }
 */
+
 .goods_list .caption{
 	margin-top:10px;
 	min-height:20px;
