@@ -1868,6 +1868,12 @@ input:checked + .switch_slider:before {
 	}
 }
 
+@media screen and (max-width: 320px){
+	.oval_border2 .right_caption{
+		top:-23px;
+	}
+}
+
 @media screen and (max-width: 767px) {
 	.category_title{
 		font-size:1em;
@@ -1965,4 +1971,24 @@ input:checked + .switch_slider:before {
 		text-align:center;
 		width:60%;
 	}
+}
+
+.calculator {
+   position: fixed;
+   right: 0;
+   bottom: 0;
+   width: 30%;
+   background-color: orange;
+   color: white;
+   text-align: left;
+}
+
+.calculator_mobile {
+   position: fixed;
+   right: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: orange;
+   color: white;
+   text-align: left;
 }
