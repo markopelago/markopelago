@@ -20,7 +20,7 @@
 					if($key%5 == 0) echo "</tr><tr>";
 				}
 		?>
-			<td align="center" onclick="window.location='seller_detail.php?id=<?=$seller["id"];?>';">
+			<td width="<?=(!isMobile())?"20":"50";?>%" align="center" onclick="window.location='seller_detail.php?id=<?=$seller["id"];?>';">
 				<div class="goods_list_thumbnail">
 					<img class="img-responsive" src="users_images/<?=$img;?>">
 					<div class="caption"><p><?=$seller["name"];?></p></div>

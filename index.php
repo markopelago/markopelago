@@ -66,10 +66,10 @@
 							if($key%4 == 0) echo "</tr><tr>";
 						}
 				?>
-						<td align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';">
+						<td width="<?=(!isMobile())?"25":"50";?>%" align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';">
 							<div class="home_recommended_goods_thumbnail">
 								<img class="img-responsive" src="goods/<?=$img;?>">
-								<div class="caption"><p><?=substr($product["name"],0,20);?></p></div>
+								<div class="caption"><p><?=$product["name"];?></p></div>
 								<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> <?php if(!$is_pasar){?>/ <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?> <?php } ?></p></div>
 							</div>
 						</td>
@@ -118,7 +118,7 @@
 				if(!file_exists("goods/".$img)) $img = "no_goods.png";
 				if($img == "") $img = "no_goods.png";
 		?>
-			<td <?=$newest_goods_td_width;?> align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';">
+			<td width="<?=(!isMobile())?"20%":"200";?>" <?=$newest_goods_td_width;?> align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';">
 				<div class="home_recommended_goods_thumbnail" style="padding:10px;<?=$newest_goods_div_width;?>">
 					<img class="img-responsive" src="goods/<?=$img;?>">
 					<div class="caption"><p><?=substr($product["name"],0,20);?></p></div>
