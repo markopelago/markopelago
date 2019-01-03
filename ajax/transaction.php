@@ -312,6 +312,21 @@
 		$total = $db->fetch_single_data("transaction_details","concat(sum(total))",["transaction_id" => "(SELECT id FROM transactions WHERE cart_group='".$cart_group."'):IN"]);
 		echo "Rp. ".format_amount($trx["price"])."|||Rp. ".format_amount($trx["total"])."|||".$trx["weight"]."g|||".$trx["notes"]."|||Rp. ".format_amount($total)."|||";
 	}
+
+    if($mode == "calculate"){
+		$goods_id = $_GET["goods_id"];
+		$qty = $_GET["qty"];
+		if($qty < 0) $qty = 1;
+		
+        $goods_price = get_goods_price($goods_id,$qty);
+		$gross = $goods_price["price"];
+		$commission = $goods_price["commission"];
+		$price = $goods_price["display_price"];
+		$weight = $db->fetch_single_data("goods","weight",["id" => $goods_id]);
+		$total = $price * $qty;
+		
+		echo "Rp. ".format_amount($total)."|||";
+	}
 	
 	if($mode == "distance_estimation"){
 		$goods_id = $_GET["goods_id"];
