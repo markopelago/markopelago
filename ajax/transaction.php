@@ -57,7 +57,10 @@
 		} else {
 			$courier_services = [];
 			$forwarder_vehicles = $db->fetch_all_data("forwarder_vehicles",[],"user_id='".$courier."' AND max_load >= '".($weight*$qty/1000)."' AND is_active='1' AND is_available='1'");
-			if(count($forwarder_vehicles)>0){
+			if($is_pasar){
+				echo "<font color='green'>".str_replace(["{marko_cod}","{cod_max_gram}"],[format_amount($__marko_cod),$__cod_max_gram/1000],v("flat_rates_markoantar"))."</font>";
+				exit();
+			}else if(count($forwarder_vehicles)>0){
 				foreach($forwarder_vehicles as $forwarder_vehicle){
 					$vehicle_type = $db->fetch_single_data("vehicle_types","name",["id" => $forwarder_vehicle["vehicle_type_id"]]);
 					$vehicle_brand = $db->fetch_single_data("vehicle_brands","name",["id" => $forwarder_vehicle["vehicle_brand_id"]]);

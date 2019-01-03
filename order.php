@@ -515,7 +515,20 @@
 									$TOTAL_WEIGHT += ($qty * $transaction_details["weight"]);
 									
 									$forwarder_ids = str_replace(["||","|"],[",",""],$db->fetch_single_data("goods","forwarder_ids",["id" => $goods_id]));
-									$forwarders = $db->fetch_select_data("forwarders","concat(IF(rajaongkir_code <> '', rajaongkir_code, user_id)) as rajaongkir_id","concat(IF(rajaongkir_code <> '', concat(name,' (',upper(rajaongkir_code),')'), concat('Marko Antar (',name,')')))",["id" => $forwarder_ids.":IN"],["user_id DESC,id"]);
+									$forwarders = [];
+									$_forwarders = $db->fetch_all_data("forwarders",[],"id IN ($forwarder_ids)","user_id DESC,id");
+									$_marko_antar_exist = false;
+									foreach($_forwarders as $_forwarder){
+										if($_forwarder["user_id"]){
+											if(!$_marko_antar_exist){
+												$forwarders[$_forwarder["user_id"]] = "Marko Antar";
+												$_marko_antar_exist = true;
+											}
+										} else{
+											$forwarders[$_forwarder["rajaongkir_code"]] = $_forwarder["name"]." (".strtoupper($_forwarder["rajaongkir_code"]).")";
+										}
+									}
+									// $forwarders = $db->fetch_select_data("forwarders","concat(IF(rajaongkir_code <> '', rajaongkir_code, user_id)) as rajaongkir_id","concat(IF(rajaongkir_code <> '', concat(name,' (',upper(rajaongkir_code),')'), concat('Marko Antar (',name,')')))",["id" => $forwarder_ids.":IN"],["user_id DESC,id"]);
 									$delivery_courier_area = "
 											<div id=\"div_courier_area_".$goods_id."\">
 												<div>
