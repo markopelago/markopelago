@@ -1972,3 +1972,23 @@ input:checked + .switch_slider:before {
 		width:60%;
 	}
 }
+
+.calculator {
+   position: fixed;
+   right: 0;
+   bottom: 0;
+   width: 30%;
+   background-color: orange;
+   color: white;
+   text-align: left;
+}
+
+.calculator_mobile {
+   position: fixed;
+   right: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: orange;
+   color: white;
+   text-align: left;
+}
