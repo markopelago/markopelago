@@ -20,7 +20,7 @@
 		
 	<link rel="canonical" href="<?=$__canonical;?>">
 	<link rel="shortcut icon" type="image/x-icon" href="images/icon.png">
-	<link rel="stylesheet" href="styles/style.css?v=v39">
+	<link rel="stylesheet" href="styles/style.css?v=v40">
 	<link rel="stylesheet" href="styles/bootstrap.min.css">
 	<link rel="stylesheet" href="styles/bootstrap-slider.css">
 	<link rel="stylesheet" href="styles/animate.css">
