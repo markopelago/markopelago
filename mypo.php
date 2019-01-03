@@ -277,10 +277,11 @@
 							$courier_service = v("self_pickup");
 						}
 					?>
-					<u><?=v("courier_service");?> :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar ":"";?><?=$courier_service;?>
+					<!--<u><?=v("courier_service");?> :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar ":"";?><?=$courier_service;?>-->
+					<u><?=v("courier_service");?> :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar":$courier_service;?>
 					<?php
 						// echo $wait_for_pickup;
-						echo $btn_chat;
+						// echo $btn_chat;
 						if($status >= "5" && $transaction_forwarder["receipt_at"] != "0000-00-00 00:00:00") {
 							echo "<br><b>".v("delivered_at").": ".format_tanggal($transaction_forwarder["receipt_at"]);
 							echo "<br>".v("shipping_receipt_number").": ".$transaction_forwarder["receipt_no"]."</b>";
