@@ -1570,6 +1570,7 @@ textarea{
 }
 
 .footer_tray{
+	z-index:1;
 	padding-top:10px;
 	overflow: hidden;
 	background-color: #f4f4f4;
