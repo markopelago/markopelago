@@ -28,6 +28,11 @@
 					$category_ids .= "category_ids like '%|".$category["id"]."|%' OR ";
 				}
 				$category_ids = substr($category_ids,0,-3).") AND ";
+			} else {
+				$whereclause .= " AND (category_ids NOT LIKE '%|49|%'";
+				$pasar_ids = $db->fetch_all_data("categories",["id"],"parent_id = 49");
+				foreach($pasar_ids as $pasar_id){ $whereclause .= " AND category_ids NOT LIKE '%|".$pasar_id["id"]."|%'"; }
+				$whereclause .=")";
 			}
 			if($_GET["s"] != "") $whereclause .= " AND (name LIKE '%".str_replace(" ","%",$_GET["s"])."%' OR description LIKE '%".$_GET["s"]."%')";
 			if($_GET["province_id"] > 0){

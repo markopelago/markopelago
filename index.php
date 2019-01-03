@@ -53,7 +53,12 @@
 				<?php 
 					$limit = 8;
 					if(isMobile()) $limit = 20;
-					$products = $db->fetch_all_data("goods",[],"is_displayed = '1' ORDER BY RAND() LIMIT $limit");
+					$no_pasar_cat = "AND (category_ids NOT LIKE '%|49|%' ";
+					$pasar_ids = $db->fetch_all_data("categories",["id"],"parent_id = 49");
+					foreach($pasar_ids as $pasar_id){ $no_pasar_cat .= "AND category_ids NOT LIKE '%|".$pasar_id["id"]."|%'"; }
+					$no_pasar_cat .=")";
+					
+					$products = $db->fetch_all_data("goods",[],"is_displayed = '1' ".$no_pasar_cat." ORDER BY RAND() LIMIT $limit");
 					foreach($products as$key => $product){
 						$is_pasar = false;
 						if(strpos(" ".$product["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
