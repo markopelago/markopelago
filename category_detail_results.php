@@ -56,7 +56,7 @@
 				$goods_id = $product["id"];
 				$minqty = 1;
 		?>
-			<td align="center" <?=(!$is_pasar)?"onclick=\"window.location='product_detail.php?id=".$product["id"]."';\"":"";?>>
+			<td width="<?=(!isMobile())?"20":"50";?>%" align="center" <?=(!$is_pasar)?"onclick=\"window.location='product_detail.php?id=".$product["id"]."';\"":"";?>>
 				<div class="goods_list_thumbnail">
 					<img onclick="window.location='product_detail.php?id=<?=$goods_id;?>';" class="img-responsive" src="goods/<?=$img;?>" style="cursor:pointer;">
 					<div class="caption"><p><?=$product["name"];?></p></div>
