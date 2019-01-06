@@ -49,6 +49,8 @@
 			if($_GET["sort_id"] == "lowest_price") $order_by = " ORDER BY (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1)";
 			
 			$products = $db->fetch_all_data("goods",[],$category_ids.$whereclause.$order_by);
+			if(count($products) <= 0 && $_GET["c"] == "" && $_GET["category_id"] == ""){ javascript("window.location='?s=".$_GET["s"]."&c=49';"); }//try category pasar
+			
 			foreach($products as $key => $product){
 				$is_pasar = false;
 				if(strpos(" ".$product["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
