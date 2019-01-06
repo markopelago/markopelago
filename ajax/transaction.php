@@ -346,4 +346,35 @@
 	if($mode == "cartcount"){
 		echo count($db->fetch_all_data("transactions",[],"buyer_user_id='".$__user_id."' AND status=0"));
 	}
+
+	if($mode == "pick_markoantar_form"){
+		$forwarder_ids = "|27||30||31||32|";
+		$transaction_id = $_GET["transaction_id"];
+		$po_no = $db->fetch_single_data("transactions","po_no",["id" => $transaction_id]);
+		$transaction_details = $db->fetch_all_data("transaction_details",["goods_id"],"transaction_id = '".$transaction_id."'");
+		foreach($transaction_details as $transaction_detail){
+			$goods_id = $transaction_detail["goods_id"];
+			$forwarder_ids .= $db->fetch_single_data("goods","forwarder_ids",["id" => $goods_id]);
+		}
+		$forwarder_ids = array_unique(pipetoarray($forwarder_ids));
+		$forwarders = [];
+		foreach($forwarder_ids as $forwarder_id){ $forwarders[$forwarder_id] = $db->fetch_single_data("forwarders","name",["id" => $forwarder_id]); }
+		$forwarders = array_filter($forwarders);
+		echo "<form method='GET'>";
+		echo "	".$f->input("po_no",$po_no,"type='hidden'");
+		echo "	".$f->input("changeStatus","5","type='hidden'");
+		echo "	".$f->input("transaction_id",$transaction_id,"type='hidden'");
+		echo "	<div class='panel panel-info'>";
+		echo "		<div class='panel-heading'>".v("please_select_markoantar").":</div>";
+		echo "		<div class='panel-body'>";
+		echo "			<div class='form-group'>";
+		echo "				".$f->select("forwarder_id",$forwarders,"","","form-control");
+		echo "			</div>";
+		echo "			<div class='form-group'>";
+		echo "				".$f->input("save",v("save"),"type='submit'","btn btn-primary");
+		echo "			</div>";
+		echo "		</div>";
+		echo "	</div>";
+		echo "</form>";
+	}
 ?>

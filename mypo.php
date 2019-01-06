@@ -78,28 +78,44 @@
 		javascript("window.location='?po_no=".$po_no."';");
 		exit();
 	}
-	if($_GET["changeStatus"] == 4 || $_GET["changeStatus"] == 5 || $_GET["changeStatus"] == 6){
+	
+	if($_GET["changeStatus"] == 5) {
+		$transaction_id = $_GET["transaction_id"];
+		$forwarder_id = $_GET["forwarder_id"];
+		$db->addtable("transactions");	$db->where("id",$transaction_id); $db->where("seller_user_id",$__user_id);
+		$db->addfield("process_at");	$db->addvalue($__now);
+		$db->addfield("status");		$db->addvalue("5");
+		$updating = $db->update();
+		if($updating["affected_rows"] > 0){
+			$forwarder_user_id = $db->fetch_single_data("forwarders","user_id",["id" => $forwarder_id]);
+			$forwarder_name = $db->fetch_single_data("forwarders","name",["id" => $forwarder_id]);
+			$db->addtable("transaction_forwarder");	$db->where("transaction_id",$transaction_id);
+			$db->addfield("forwarder_id");			$db->addvalue($forwarder_id);
+			$db->addfield("forwarder_user_id");		$db->addvalue($forwarder_user_id);
+			$db->addfield("name");					$db->addvalue($forwarder_name);
+			$db->addfield("markoantar_status");		$db->addvalue(1);
+			$db->addfield("markoantar_status1_at");	$db->addvalue($__now);
+			$updating = $db->update();
+			
+			$message = "Barang dari ".$db->fetch_single_data("sellers","name",["user_id" => $__user_id])." atas PO: ".$po_no." sudah siap di antar, silakan lihat pada menu ".v("list_of_delivering_goods").". Terima Kasih!";
+			$db->addtable("notifications");
+			$db->addfield("user_id");		$db->addvalue($forwarder_user_id);
+			$db->addfield("message");		$db->addvalue($message);
+			$inserting = $db->insert();
+			
+			$_SESSION["message"] = v("goods_ready_for_pickup_by_markoantar");
+		}
+		javascript("window.location='?po_no=".$po_no."';");
+		exit();
+	}
+	
+	if($_GET["changeStatus"] == 4 || $_GET["changeStatus"] == 6){
 		$db->addtable("transactions");	$db->where("po_no",$po_no); $db->where("seller_user_id",$__user_id);
 		$db->addfield("process_at");	$db->addvalue($__now);
 		$db->addfield("status");		$db->addvalue($_GET["changeStatus"]);
 		$updating = $db->update();
 		if($updating["affected_rows"] > 0){
 			if($_GET["changeStatus"] == 4) $_SESSION["message"] = v("this_po_has_been_processed");
-			if($_GET["changeStatus"] == 5) {
-				$db->addtable("transaction_forwarder");	$db->where("transaction_id",$_GET["transaction_id"]);
-				$db->addfield("markoantar_status");		$db->addvalue(1);
-				$db->addfield("markoantar_status1_at");	$db->addvalue($__now);
-				$updating = $db->update();
-				
-				$forwarder_user_id = $db->fetch_single_data("transaction_forwarder","forwarder_user_id",["transaction_id" => $_GET["transaction_id"]]);
-				$message = "Barang dari ".$db->fetch_single_data("sellers","name",["user_id" => $__user_id])." atas PO: ".$po_no." sudah siap di antar, silakan lihat pada menu ".v("list_of_delivering_goods").". Terima Kasih!";
-				$db->addtable("notifications");
-				$db->addfield("user_id");		$db->addvalue($forwarder_user_id);
-				$db->addfield("message");		$db->addvalue($message);
-				$inserting = $db->insert();
-				
-				$_SESSION["message"] = v("goods_ready_for_pickup_by_markoantar");
-			}
 			if($_GET["changeStatus"] == 6){
 				$transaction = $db->fetch_all_data("transactions",[],"id = '".$_GET["transaction_id"]."' AND seller_user_id = '".$__user_id."'")[0];
 				
@@ -136,9 +152,9 @@
 		} 
 		if(status == 5){
 			if(mode == "markoantar"){
-				if(confirm("<?=v("are_you_sure_goods_ready_pickup");?> ? ")){
-					window.location = "?po_no=<?=$po_no;?>&changeStatus="+status+"&transaction_id="+transaction_id;
-				}	
+				$.get("ajax/transaction.php?mode=pick_markoantar_form&transaction_id="+transaction_id, function(returnval){
+					document.getElementById("div_pick_markoantar_"+transaction_id).innerHTML = returnval;					
+				});
 			} else if(mode == "self_pickup"){
 				modalTitle 	= "	<?=markoantar_status(1);?> ";
 				modalBody	= "<form id=\"frmPoDelivered\" method='POST' action='?po_no=<?=$po_no;?>'>";
@@ -231,7 +247,7 @@
 								}
 							}
 						?>
-						<?php if($status == "4" && $transaction_forwarder["forwarder_user_id"] > 0) echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','','markoantar');\">".v("goods_ready_for_pickup_by_markoantar")."</button>"; ?>
+						<?php if($status == "4" && $transaction_forwarder["forwarder_user_id"] > 0) echo "<div id='div_pick_markoantar_".$transaction["id"]."'><button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','','markoantar');\">".v("goods_ready_for_pickup_by_markoantar")."</button></div>"; ?>
 						<?php if($status == "5" && $transaction_forwarder["forwarder_user_id"] > 0 && $transaction_forwarder["markoantar_status"] > 0) 
 								echo "<div class='alert alert-warning'>".$db->fetch_single_data("markoantar_statuses","name_".$__locale,["id" => $transaction_forwarder["markoantar_status"]])."</div>"; ?>
 					</div>
@@ -277,11 +293,11 @@
 							$courier_service = v("self_pickup");
 						}
 					?>
-					<!--<u><?=v("courier_service");?> :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar ":"";?><?=$courier_service;?>-->
-					<u><?=v("courier_service");?> :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar":$courier_service;?>
+					<u><?=v("courier_service");?> :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar ":"";?><?=$courier_service;?>
+					<!--<u><?=v("courier_service");?> :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar":$courier_service;?>-->
 					<?php
 						// echo $wait_for_pickup;
-						// echo $btn_chat;
+						if($status >= "5") echo $btn_chat;
 						if($status >= "5" && $transaction_forwarder["receipt_at"] != "0000-00-00 00:00:00") {
 							echo "<br><b>".v("delivered_at").": ".format_tanggal($transaction_forwarder["receipt_at"]);
 							echo "<br>".v("shipping_receipt_number").": ".$transaction_forwarder["receipt_no"]."</b>";
