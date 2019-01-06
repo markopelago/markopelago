@@ -11,8 +11,7 @@
 			});
 		});
 	}
-</script>
-<script>
+
 	function calculate(goods_id,qty){
 		$.get("ajax/transaction.php?mode=calculate&goods_id="+goods_id+"&qty="+qty, function(returnval){
 			var values = returnval.split("|||");
@@ -20,28 +19,26 @@
 			
 		});
 	}
-</script>
-<script>
+
 	function cart_calculate(goods_id,qty){
 		$.get("ajax/transaction.php?mode=cart_calculate&goods_id="+goods_id+"&qty="+qty, function(returnval){
 			var values = returnval.split("|||");
             var val = values[4].replace("Rp. ", "");
 			try{document.getElementById("total_buy").innerHTML = val;} catch(e){}
             
-            var budget = document.getElementById("budget").value;
-            var total_buy = document.getElementById("total_buy").textContent;
-            var tot_buy = total_buy.replace("Rp. ", "");
-            var tot_buy = tot_buy.replace(".", "");
+            try{
+				var budget = document.getElementById("budget").value;
+				var total_buy = document.getElementById("total_buy").textContent;
+				var tot_buy = total_buy.replace("Rp. ", "");
+				var tot_buy = tot_buy.replace(".", "");
 
-
-            var total = budget - tot_buy;
-            var total = total.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")
-            document.getElementById("total").innerHTML = total;
-
-            });
+				var total = budget - tot_buy;
+				var total = total.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+				document.getElementById("total").innerHTML = total;
+			} catch(e){}
+		});
 	}
-</script>
-<script>
+
 	function price_calculation(){
         var budget = document.getElementById("budget").value;
         var total_buy = document.getElementById("total_buy").textContent;
@@ -53,8 +50,9 @@
         var total = total.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")
         document.getElementById("total").innerHTML = total;
 	}
+	
+	cart_calculate(0,0);
 </script>
-<script> cart_calculate(0,0); </script>
 <div class="frame_common">
 	<div class="frame_body">
 		<?php $img = "category_".$_GET["category_id"].".png";?>
@@ -118,9 +116,9 @@
 								<tr>
 									<td style="position:relative;float:left;">
 											<div class="oval_border2">
-												<div class="left_caption" onclick="document.getElementById('qty[<?=$goods_id;?>]').stepDown(1);calculate('<?=$goods_id;?>',document.getElementById('qty[<?=$goods_id;?>]').value);calculator('<?=$goods_id;?>');">-</div>
+												<div class="left_caption" onclick="document.getElementById('qty[<?=$goods_id;?>]').stepDown(1);calculate('<?=$goods_id;?>',document.getElementById('qty[<?=$goods_id;?>]').value);">-</div>
 												<div class="center_text"><?=$f->input("qty[".$goods_id."]",$minqty,"type='number' min='1' step='1' onchange=\"calculate('".$goods_id."',this.value);\"");?></div>
-												<div class="right_caption" onclick="document.getElementById('qty[<?=$goods_id;?>]').stepUp(1);calculate('<?=$goods_id;?>',document.getElementById('qty[<?=$goods_id;?>]').value);calculator('<?=$goods_id;?>');">+</div>
+												<div class="right_caption" onclick="document.getElementById('qty[<?=$goods_id;?>]').stepUp(1);calculate('<?=$goods_id;?>',document.getElementById('qty[<?=$goods_id;?>]').value);">+</div>
 											</div>
 									</td>
 									<td style="position:relative;float:left;margin-left:10px;">
@@ -145,7 +143,7 @@ if($is_pasar){
     $calculator=(!isMobile())?"calculator":"calculator_mobile";
     
 ?>
-    <div class="<?=$calculator;?>">
+    <div class="<?=$calculator;?>" style="display:none;">
         <br>
         <table width="100%">
             <tr>
