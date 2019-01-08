@@ -60,6 +60,7 @@ class Vocabulary{
 		$arr[$l]["password_error"]								= "Password Invalid";
 		$arr[$l]["email_invalid"]								= "Email Invalid";
 		$arr[$l]["email_already_in_use"]						= "Email is already in use. please choose another one";
+        $arr[$l]["phone_already_in_use"]						= "Phone is already in use. please choose another one";
 		$arr[$l]["range_characters"]							= "6-8 characters";
 		$arr[$l]["by_signing_up_i_agree_to"]					= "By Signing Up, I agree to markopelago's";
 		$arr[$l]["terms_and_conditions"]						= "Terms and Conditions";
@@ -426,6 +427,7 @@ class Vocabulary{
 		$arr[$l]["password_error"]								= "Kesalahan pada Kata Sandi";
 		$arr[$l]["email_invalid"]								= "Kesalahan pada email";
 		$arr[$l]["email_already_in_use"]						= "Email sudah digunakan, silakan gunakan email yang lain";
+        $arr[$l]["phone_already_in_use"]						= "Nomor Telepon sudah digunakan, silakan gunakan nomor telepon yang lain";
 		$arr[$l]["range_characters"]							= "6-8 Karakter";
 		$arr[$l]["by_signing_up_i_agree_to"]					= "Dengan mendaftar berarti Saya telah menyetujui";
 		$arr[$l]["terms_and_conditions"]						= "Syarat dan Ketentuan";
