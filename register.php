@@ -26,12 +26,24 @@
 			$haserrors= true;
 			$errors["email"] = v("email_already_in_use");
 		}
+        if($db->fetch_single_data("a_users","id",["phone" => $_POST["phone"]]) > 0){
+			$haserrors= true;
+			$errors["phone"] = v("phone_already_in_use");
+		}
+        if($_POST["email"] == ''){
+            $email = ''.$_POST["marko_id"].'@markopelago.com';
+            $send_email = false;
+        }else{
+            $email = $_POST["email"];
+            $send_email = true;
+        }
+        
 		
 		if(!$haserrors){
 			$db->addtable("a_users");
 			$db->addfield("marko_id");			$db->addvalue(strtolower($_POST["marko_id"]));
 			$db->addfield("group_id");			$db->addvalue("-1");
-			$db->addfield("email");				$db->addvalue($_POST["email"]);
+			$db->addfield("email");				$db->addvalue($email);
 			$db->addfield("password");			$db->addvalue(base64_encode($_POST["password"]));
 			$db->addfield("name");				$db->addvalue($_POST["name"]);
 			$db->addfield("is_backofficer");	$db->addvalue(0);
@@ -41,23 +53,24 @@
 			$inserting = $db->insert();
 			if($inserting["affected_rows"] > 0){
 				$user_id = $inserting["insert_id"];
-				if(login_action($_POST["email"],$_POST["password"])){
+				if(login_action($email,$_POST["password"])){
 					$db->addtable("buyers");
 					$db->addfield("user_id");		$db->addvalue($user_id);
 					$db->addfield("birthdate");		$db->addvalue($_POST["birthdate"]);
 					$db->addfield("birthplace_id");	$db->addvalue($_POST["birthplace_id"]);
 					$db->addfield("gender_id");		$db->addvalue($_POST["gender_id"]);
 					$inserting = $db->insert();
-					
-					$token = randtoken(15).base64_encode("_signup_".$_POST["email"]);
-					$db->addtable("a_users");	$db->where("id",$user_id);
-					$db->addfield("token");		$db->addvalue($token);
-					$db->update();
-					$arr1 = ["{link}"];
-					$arr2 = ["https://www.markopelago.com/email_confirmation.php?token=".$token];
-					$body = read_file("html/email_signup_confirmation_id.html");
-					$body = str_replace($arr1,$arr2,$body);
-					sendingmail("Markopelago.com -- Email Konfirmasi",$_POST["email"],$body,"system@markopelago.com|Markopelago System");
+					if($send_email == true){
+                        $token = randtoken(15).base64_encode("_signup_".$_POST["email"]);
+                        $db->addtable("a_users");	$db->where("id",$user_id);
+                        $db->addfield("token");		$db->addvalue($token);
+                        $db->update();
+                        $arr1 = ["{link}"];
+                        $arr2 = ["https://www.markopelago.com/email_confirmation.php?token=".$token];
+                        $body = read_file("html/email_signup_confirmation_id.html");
+                        $body = str_replace($arr1,$arr2,$body);
+                        sendingmail("Markopelago.com -- Email Konfirmasi",$_POST["email"],$body,"system@markopelago.com|Markopelago System");
+                    }
 					
 					$_SESSION["message"] = v("signup_success");
 					javascript("window.location='index.php';");
@@ -109,9 +122,15 @@
 										}
 									?>
 									<label><?=v("email");?></label>
-									<?=$f->input("email",$data["email"],$email_style." autocomplete='off' type='email' required placeholder='".v("email")."...'","form-control");?>
+									<?=$f->input("email",$data["email"],$email_style." autocomplete='off' type='email' placeholder='".v("email")."...'","form-control");?>
 								</div>
 								<div class="form-group">
+                                    <?php 
+										if($errors["phone"]){
+											echo "<div class='callout top-left' style='margin-left:50px;'>".$errors["phone"]."</div>";
+											$email_style = "style=\"background-color:rgba(248,166,168,0.8);\"";
+										}
+									?>
 									<label><?=v("phone");?></label><?=$f->input("phone",$data["phone"],"required autocomplete='off' placeholder='".v("phone")."...'","form-control");?>
 								</div>
 								<div class="form-group">
