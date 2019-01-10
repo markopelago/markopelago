@@ -17,8 +17,7 @@ function sendingmail($subject,$address,$body,$replyto = "cs@markopelago.com|Cust
 	$_server = 1;
 
 	$config[1]["secure"] 	= "ssl";
-	// $config[1]["host"] 		= "mail.markopelago.com";
-	$config[1]["host"] 		= "103.253.212.62";
+	$config[1]["host"] 		= "mail.markopelago.com";
 	$config[1]["port"] 		= 465;
 	$config[1]["username"] 	= "system@markopelago.com";
 	$config[1]["password"] 	= "bWFya29wZWxhZ28=";
