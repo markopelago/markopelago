@@ -12,6 +12,14 @@
 		?> <script> window.location = "?tabActive=purchase_list"; </script> <?php
 		exit();
 	}
+	if($_GET["delete_store_sales_list"] == 1 && $_GET["po_no"] != ""){
+		$po_no = $_GET["po_no"];
+		$db->addtable("transaction_details");	$db->where("transaction_id","(SELECT id FROM transactions WHERE po_no='".$po_no."' AND seller_user_id='".$__user_id."')","s","IN");	$db->delete_();
+		$db->addtable("transactions");			$db->where("po_no",$po_no);	$db->where("seller_user_id",$__user_id);	$db->delete_();
+		$_SESSION["message"] = v("delete_transaction_by_po_no_success");
+		?> <script> window.location = "?tabActive=store_sales_list"; </script> <?php
+		exit();
+	}
 ?>
 	<style>
 		.panel-heading{
@@ -31,6 +39,11 @@
 		function delete_purchase_list(invoice_no){
 			if(confirm("<?=v("confirm_delete_transaction_by_invoiceno");?>?".replace("{invoice_no}",invoice_no))){
 				window.location="?delete_purchase_list=1&invoice_no="+invoice_no;
+			}
+		}
+		function delete_po(po_no){
+			if(confirm("<?=v("confirm_delete_transaction_by_pono");?>?".replace("{po_no}",po_no))){
+				window.location="?delete_store_sales_list=1&po_no="+po_no;
 			}
 		}
 	</script>
