@@ -18,7 +18,7 @@
 			$haserrors= true;
 			$errors["marko_id"] = v("marko_id_exist");
 		}
-		if($_POST["password"] != $_POST["repassword"] || strlen($_POST["password"]) < 6 || strlen($_POST["password"]) > 8){
+		if($_POST["password"] != $_POST["repassword"]){
 			$haserrors= true;
 			$errors["password"] = v("password_error");
 		}
@@ -83,6 +83,16 @@
 	}
 	$data = $_POST;
 ?>
+<script>
+    function suggestion_markoid(name){
+		$.get("ajax/suggest_markoid.php?mode=getMarkoID&name="+name, function(returnval){
+			//alert(returnval);
+			document.getElementById("marko_id").value = returnval;
+			
+		});
+	}
+</script>
+
 <div class="container">
 	<div class="row">
 		<table width="80%"><tr><td valign="top" align="center">
@@ -99,6 +109,9 @@
 						<div class="register_form_background">
 							<form method="POST" autocomplete="off">
 								<?=$f->input("save","1","type='hidden'");?>
+                                <div class="form-group">
+									<label><?=v("name");?></label><?=$f->input("name",$data["name"],"onchange=\"suggestion_markoid(this.value);\" required autocomplete='off' placeholder='".v("name")."...'","form-control");?>
+								</div>
 								<div class="form-group">
 									<?php 
 										if($errors["marko_id"]){
@@ -110,9 +123,6 @@
 									<?php
 										
 									?>
-								</div>
-								<div class="form-group">
-									<label><?=v("name");?></label><?=$f->input("name",$data["name"],"required autocomplete='off' placeholder='".v("name")."...'","form-control");?>
 								</div>
 								<div class="form-group">
 									<?php 
@@ -140,7 +150,7 @@
 											$password_style = "style=\"background-color:rgba(248,166,168,0.8);\"";
 										}
 									?>
-									<label><?=v("password");?></label><?=$f->input("password",$data["password"],$password_style." type='password' pattern='.{6,8}' required title='".v("range_characters")."' placeholder='".v("password")." (".v("range_characters").") ...'","form-control");?>
+									<label><?=v("password");?></label><?=$f->input("password",$data["password"],$password_style." type='password' required title='".v("range_characters")."' placeholder='".v("password")." ...'","form-control");?>
 								</div>
 								<div class="form-group">
 									<label><?=v("repassword");?></label><?=$f->input("repassword",$data["repassword"],"type='password' required placeholder='".v("repassword")." ...'","form-control");?>
