@@ -478,7 +478,7 @@ class Vocabulary{
 		$arr[$l]["applicants"]									= "Pelamar";
 		$arr[$l]["you_have_to_login_first"]						= "Anda harus login terlebih dahulu";
 		$arr[$l]["hot_products"]								= "Hot Products";
-		$arr[$l]["newest_goods"]								= "Produk yang baru masuk";
+		$arr[$l]["newest_goods"]								= "Produk Baru";
 		$arr[$l]["best_selling_goods"]							= "Produk Terlaris";
 		$arr[$l]["recommended_goods"]							= "Rekomendasi Produk";
 		$arr[$l]["recommended_sellers"]							= "Rekomendasi Penjual";

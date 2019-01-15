@@ -125,26 +125,24 @@
 		<div class="sub-title-text"><?=v("newest_goods");?><div class="view-all-text" style="font-size:0.7em;margin-top:15px;margin-right:10px;"><a href="products.php?s=+"><?=v("view_all");?></a></div></div>
 	</div>
 	<div class="home_recommended_goods <?=(isMobile())?"scrolling-wrapper":"";?>" style="padding-bottom:20px;">
-		<table width="100%" cellspacing="10">
+		<table width="100%"><tr>
 		<?php 
-			$newest_goods_td_width = "width='20%'";
-			$newest_goods_div_width = "";
-			if(isMobile()){
-				$newest_goods_td_width = "style='width:132px !important;'";
-				$newest_goods_div_width = "width:132px !important;";
-			}
 			$limit = 5;
 			if(isMobile()) $limit = 20;
-			$products = $db->fetch_all_data("goods",[],"is_displayed = '1' ORDER BY created_at DESC LIMIT $limit");
-			foreach($products as$key => $product){
+			$notpasar = "AND category_ids NOT LIKE '%|49|%' ";
+			$categories = $db->fetch_all_data("categories",["id"],"parent_id='49'");
+			foreach($categories as $category){ $notpasar .= "AND category_ids NOT LIKE '%|".$category["id"]."|%' "; }
+			$products = $db->fetch_all_data("goods",[],"is_displayed = '1' $notpasar ORDER BY created_at DESC LIMIT $limit");
+			foreach($products as $key => $product){
 				$is_pasar = false;
 				if(strpos(" ".$product["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 				if(!file_exists("goods/".$img)) $img = "no_goods.png";
 				if($img == "") $img = "no_goods.png";
-		?>
-			<td width="<?=(!isMobile())?"20%":"200";?>" <?=$newest_goods_td_width;?> align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';">
-				<div class="home_recommended_goods_thumbnail" style="padding:10px;<?=$newest_goods_div_width;?>">
+				if(isMobile()) $product["name"] = wordwrap($product["name"],20,"<br />");
+		?>	
+			<td style="width:<?=(!isMobile())?"20%":"140px";?>;" align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';" align="center">
+				<div class="home_recommended_goods_thumbnail" <?=(isMobile())?"style='width:140px;'":"";?>>
 					<img class="img-responsive" src="goods/<?=$img;?>">
 					<div class="caption"><p><?=$product["name"];?></p></div>
 					<div class="price"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> <?php if(!$is_pasar){?>/ <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?><?php } ?></p></div>
@@ -152,7 +150,7 @@
 			</td>
 			<td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<?php } ?>
-		</table>
+		</tr></table>
 	</div>
 </div>
 <div style="height:20px;"></div>

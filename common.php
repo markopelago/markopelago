@@ -597,5 +597,13 @@
 		}
 		return false;
 	}
+	
+	function pasar_category_ids(){
+		global $db;
+		$pasar_category_ids = "49";
+		$categories = $db->fetch_all_data("categories",["id"],"parent_id='49'");
+		foreach($categories as $category){ $pasar_category_ids .= ",".$category["id"]; }
+		return $pasar_category_ids;
+	}
 ?>
 <?php include_once "log_action.php"; ?>
