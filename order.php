@@ -41,7 +41,7 @@
 			$transaction_id 			= $transaction["id"];
 			$goods_id 					= $db->fetch_single_data("transaction_details","goods_id",["transaction_id" => $transaction_id]);
 			$goods_category_ids 		= $db->fetch_single_data("goods","category_ids",["id" => $goods_id]);
-			$is_pasar = false; if(strpos(" ".$goods_category_ids,"|".$__pasar."|") > 0) $is_pasar = true;
+			$is_pasar 					= is_pasar($goods_id);
 			$qty 						= $db->fetch_single_data("transaction_details","qty",["transaction_id" => $transaction_id]);
 			$weight 					= $db->fetch_single_data("goods","weight",["id" => $goods_id]);
 			$forwarder_id 				= $db->fetch_single_data("forwarders","id",["rajaongkir_code" => $_POST["delivery_courier_".$goods_id]]);

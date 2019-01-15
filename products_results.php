@@ -52,8 +52,7 @@
 			if(count($products) <= 0 && $_GET["c"] == "" && $_GET["category_id"] == ""){ javascript("window.location='?s=".$_GET["s"]."&c=49';"); }//try category pasar
 			
 			foreach($products as $key => $product){
-				$is_pasar = false;
-				if(strpos(" ".$product["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
+				$is_pasar = is_pasar($product["id"]);
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 				if(!file_exists("goods/".$img)) $img = "no_goods.png";
 				if($img == "") $img = "no_goods.png";

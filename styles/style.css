@@ -1297,6 +1297,12 @@ a:focus, a:hover {
 	position:relative;
 	top:10px;
 }
+.header-cart-mobile{
+	margin-right: 10px;
+}
+.header-cart-mobile span{
+	color:black;
+}
 
 .multiselect-container {
 	width: 400px !important;

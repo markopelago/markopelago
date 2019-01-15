@@ -20,7 +20,7 @@
 		
 	<link rel="canonical" href="<?=$__canonical;?>">
 	<link rel="shortcut icon" type="image/x-icon" href="images/icon.png">
-	<link rel="stylesheet" href="styles/style.css?v=v41">
+	<link rel="stylesheet" href="styles/style.css?v=v42">
 	<link rel="stylesheet" href="styles/bootstrap.min.css">
 	<link rel="stylesheet" href="styles/bootstrap-slider.css">
 	<link rel="stylesheet" href="styles/animate.css">
@@ -153,7 +153,6 @@
 			<b><?=v("hello");?>, <?=$__fullname;?></b><br><img width="50" class="profile-img-card" src="users_images/<?=$userImage;?>">
 			<div style="height:10px;"></div>
 			<div class="navbar-collapse">
-			<div class="header-cart" id="cartcount2"><a href="mycart.php"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <span id="val_cartcount2"><?=$cartcount;?></a></a></div><br>
 			<div style="height:10px;"></div>
 				<ul class="nav navbar-nav navbar-right">
 					<?=$mainMenu_xs;?>
@@ -184,12 +183,15 @@
 					<img src="images/logo.png" style="position:relative;top:-10px;height:40px;max-width: 200%;cursor:pointer;border:0px;" alt="<?=$__title_project;?>" title="<?=$__title_project;?>" onclick="window.location='index.php';">
 				</a>
 				<!-- Collapsed Hamburger -->
+				<div style="position:relative;float:right;">
+				<?php if(isMobile()){ ?> <div class="header-cart header-cart-mobile" id="cartcount2"><a href="mycart.php"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <span id="val_cartcount2"><?=$cartcount;?></a></a></div> <?php } ?>
 				<button type="button" class="navbar-toggle" onclick="openNav()">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="notification-counter" style="visibility:hidden;" id="notifNavCount"></span>
 				</button>
+				</div>
 				<div class="search-container" id="headerSearch">
 					<form action="products.php" class="navbar-form navbar-left">
 						<div class="input-group">

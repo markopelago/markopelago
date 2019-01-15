@@ -585,5 +585,17 @@
 		$arr[7] = "Minggu";
 		return $arr[$day];
 	}
+	
+	function is_pasar($goods_id){
+		global $db;
+		$pasar_category_id = 49;
+		$category_ids = $db->fetch_single_data("goods","category_ids",["id" => $goods_id]);
+		$category_ids = pipetoarray($category_ids);
+		foreach($category_ids as $category_id){
+			if($category_id == $pasar_category_id) return true;
+			if($db->fetch_single_data("categories","parent_id",["id" => $category_id]) == $pasar_category_id) return true;
+		}
+		return false;
+	}
 ?>
 <?php include_once "log_action.php"; ?>

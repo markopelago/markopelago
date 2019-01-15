@@ -240,22 +240,13 @@
 			<?php
 				$products = $db->fetch_all_data("goods",[],"seller_id = '".$seller["id"]."' AND id <> '".$_GET["id"]."'");
 				foreach($products as $product){
-					$is_pasar = false;
-					if(strpos(" ".$product["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
+					$is_pasar = is_pasar($product["id"]);
 					$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 					if($img == "") $img = "no_goods.png";
 					$seller_user_id = $db->fetch_single_data("sellers","user_id",["id"=> $product["seller_id"]]);
 					$seller_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]);
 			?>
-
-			<?php
-				if(isMobile()){
-					echo '<div class="img-thumbnail goods-thumbnail goods-thumbnail2" style="max-width:49%;">';
-				}
-				else{
-					echo '<div class="img-thumbnail goods-thumbnail goods-thumbnail2"';
-				}
-			?> 
+				<div class="img-thumbnail goods-thumbnail goods-thumbnail2" <?=(isMobile())?"style='max-width:49%;'":"";?>>
 					<a href="product_detail.php?id=<?=$product["id"];?>">
 						<img src="goods/<?=$img;?>" alt="#">
 						<div class="caption"><p><?=substr($product["name"],0,50);?></p></div>

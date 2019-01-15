@@ -137,8 +137,7 @@
 											foreach($_trxByGoods as $goods_id => $transaction_details){
 												$transaction_ids = substr($_trx_ids[$goods_id],0,-1);
 												$goods  = $db->fetch_all_data("goods",[],"id = '".$goods_id."'")[0];
-												$is_pasar = false;
-												if(strpos(" ".$goods["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
+												$is_pasar = is_pasar($goods_id);
 												$goods_photos  = $db->fetch_all_data("goods_photos",[],"goods_id = '".$goods_id."'","seqno")[0];
 												if(!file_exists("goods/".$goods_photos["filename"])) $goods_photos["filename"] = "no_goods.png";
 												$unit = $db->fetch_single_data("units","name_".$__locale,["id" => $transaction_details["unit_id"]]);

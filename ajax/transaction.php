@@ -23,8 +23,7 @@
 		$is_markoantar = false;
 		$goods_id = $_GET["goods_id"];
 		$goods  = $db->fetch_all_data("goods",[],"id = '".$goods_id."'")[0];
-		$is_pasar = false;
-		if(strpos(" ".$goods["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
+		$is_pasar = is_pasar($goods_id);
 		$buyer_address_id = $_GET["buyer_address_id"];
 		$courier = $_GET["courier"];
 		$forwarder_id = $db->fetch_single_data("forwarders","id",["rajaongkir_code" => $courier]);
@@ -84,8 +83,7 @@
 		$is_markoantar = false;
 		$goods_id = $_GET["goods_id"];
 		$goods  = $db->fetch_all_data("goods",[],"id = '".$goods_id."'")[0];
-		$is_pasar = false;
-		if(strpos(" ".$goods["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
+		$is_pasar = is_pasar($goods_id);
 		$buyer_address_id = $_GET["buyer_address_id"];
 		$courier = $_GET["courier"];
 		$forwarder_id = $db->fetch_single_data("forwarders","id",["rajaongkir_code" => $courier]);

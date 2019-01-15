@@ -82,8 +82,7 @@
 			
 			$products = $db->fetch_all_data("goods",[],$category_ids." ".$whereclause);
 			foreach($products as $key => $product){
-				$is_pasar = false;
-				if(strpos(" ".$product["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
+				$is_pasar = is_pasar($product["id"]);
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 				if(!file_exists("goods/".$img)) $img = "no_goods.png";
 				if($img == "") $img = "no_goods.png";
