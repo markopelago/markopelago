@@ -184,7 +184,7 @@
 				</a>
 				<!-- Collapsed Hamburger -->
 				<div style="position:relative;float:right;">
-				<?php if(isMobile()){ ?> <div class="header-cart header-cart-mobile" id="cartcount2"><a href="mycart.php"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <span id="val_cartcount2"><?=$cartcount;?></a></a></div> <?php } ?>
+				<?php if(isMobile() && $__buyer > 0){ ?> <div class="header-cart header-cart-mobile" id="cartcount2"><a href="mycart.php"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <span id="val_cartcount2"><?=$cartcount;?></a></a></div> <?php } ?>
 				<button type="button" class="navbar-toggle" onclick="openNav()">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
