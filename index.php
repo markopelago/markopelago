@@ -1,4 +1,11 @@
 <?php include_once "homepage_header.php"; ?>
+<script>
+	function loadmarketplace(){
+		setTimeout(function(){ 
+			$("html, body").animate({ scrollTop: <?=(isMobile())?"570":"500";?> }, 800); 
+		}, 500);
+	}
+</script>
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
 	<div class="carousel-inner">
 		<div class="item active">	<img class="img-responsive" src="assets/banner_header_1.png" style="object-fit:cover;width:100%;"></div>
@@ -39,15 +46,28 @@
 <div style="height:20px;"></div>
 <div class="container">
 	<div class="row">
-		<div class="sub-title-text"><?=v("recommended_goods");?></div>
-		<?php if(!isMobile()) echo "<div class='view-all-text'><a href='products.php?s=+'>".v("view_all")."</a></div>";?>
-	</div>
-	<div class="row">
 		<div class="col-md-5">
-			<a href="category_detail.php?category_id=49"><img class="img-responsive" src="assets/banner_pasar0<?=rand(1,2);?>.png"></a>
+			<table width="100%">
+				<tr>
+					<td align="center">
+						<table>
+							<tr>
+								<td>
+									<a style="position:relative;top:<?=(!isMobile())?"130":"70";?>px;" href="javascript:loadmarketplace();"><img class="img-responsive" src="assets/shortcut_marketplace.png" width="<?=(!isMobile())?"220":"150";?>"></a>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;</td>
+								<td>
+									<a style="position:relative;top:<?=(!isMobile())?"10":"0";?>px;" href="category_detail.php?category_id=49"><img class="img-responsive" src="assets/shortcut_pasar.png" width="<?=(!isMobile())?"220":"150";?>"></a>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
 		</div>
-		<div class="col-md-7 home_recommended_goods">
-			<?php if(isMobile()) echo "<div class='view-all-text' style='font-weight:bolder;font-size:1em;margin-top:15px;margin-right:10px;'><a href='products.php?s=+'>".v("view_all")."</a></div>";?>
+		<div class="col-md-7 home_recommended_goods" <?=(isMobile())?"style='margin-top:100px;'":"";?>>
+			<div class="sub-title-text" style=""><?=v("recommended_goods");?></div>
+			<?php if(isMobile() || true) echo "<div class='view-all-text' style='font-weight:bolder;font-size:1em;margin-right:10px;'><a href='products.php?s=+'>".v("view_all")."</a></div>";?>
 			<table width="100%">
 				<tr>
 				<?php 
