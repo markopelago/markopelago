@@ -66,7 +66,7 @@
 						$btn_delete = "";
 						if($transaction["status"] <= 1){
 							$deleteUrl = "javascript:delete_purchase_list('".$transaction["invoice_no"]."')";
-							$btn_delete = "&nbsp;<a href=\"".$deleteUrl."\" class=\"btn btn-warning\" title=\"".v("delete")."\"><span class=\"glyphicon glyphicon-remove\"></span></a>";
+							$btn_delete = "&nbsp;<a href=\"".$deleteUrl."\" class=\"btn btn-warning\" title=\"".v("delete")."\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
 						}
 						?>
 						<tr onclick="loadShopping_progress('<?=$transaction["id"];?>');">

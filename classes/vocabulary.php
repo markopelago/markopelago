@@ -333,6 +333,7 @@ class Vocabulary{
 		$arr[$l]["delete_cart_item_success"]					= "Successfully deleted items in the cart";
 		$arr[$l]["delete_transaction_by_invoice_no_success"]	= "Successfully deleted transaction";
 		$arr[$l]["delete_transaction_by_po_no_success"]			= "Successfully deleted transaction";
+		$arr[$l]["no_permission_delete_transaction"]			= "You can not delete this transaction";
 		$arr[$l]["address_saved_successfully"]					= "Address saved successfully";
 		$arr[$l]["failed_saving_address"]						= "Failed saving address";
 		$arr[$l]["make_a_payment_before"]						= "Make a payment before it runs out of stock";
@@ -702,6 +703,7 @@ class Vocabulary{
 		$arr[$l]["delete_cart_item_success"]					= "Berhasil menghapus item pada keranjang";
 		$arr[$l]["delete_transaction_by_invoice_no_success"]	= "Berhasil menghapus transaksi";
 		$arr[$l]["delete_transaction_by_po_no_success"]			= "Berhasil menghapus transaksi";
+		$arr[$l]["no_permission_delete_transaction"]			= "Anda tidak dapat menghapus transaksi tersebut";
 		$arr[$l]["address_saved_successfully"]					= "Penyimpanan alamat berhasil";
 		$arr[$l]["failed_saving_address"]						= "Gagal menyimpan alamat";
 		$arr[$l]["make_a_payment_before"]						= "Lakukan pembayaran sebelum kehabisan stok";

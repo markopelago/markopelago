@@ -63,11 +63,15 @@
 						$status = transactionList($transaction["status"]);
 						$is_cod = $db->fetch_single_data("transaction_payments","id",["cart_group" => $transaction["cart_group"],"payment_type_id" => "-1"]);
 						if($is_cod && $transaction["status"] == "3") $status = v("wait_for_process_from_seller");
+						$btn_delete = "";
+						if($transaction["status"] < 3){
+							$btn_delete = "&nbsp;<a href=\"javascript:delete_po('".$transaction["po_no"]."');\" class=\"btn btn-warning\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+						}
 						?>
 						<tr>
 							<td class="nowrap">
 								<a href="<?=$viewUrl;?>" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></a>
-								<a href="javascript:delete_po('<?=$transaction["po_no"];?>');" class="btn btn-warning"><span class="glyphicon glyphicon-trash"></span></a>
+								<?=$btn_delete;?>
 							</td>
 							<td class="nowrap"><?=format_tanggal($transaction["po_at"]);?></td>
 							<td class="nowrap"><?=$transaction["po_no"];?></td>

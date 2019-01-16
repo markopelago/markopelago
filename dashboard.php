@@ -6,17 +6,27 @@
 	}
 	if($_GET["delete_purchase_list"] == 1 && $_GET["invoice_no"] != ""){
 		$invoice_no = $_GET["invoice_no"];
-		$db->addtable("transaction_details");	$db->where("transaction_id","(SELECT id FROM transactions WHERE invoice_no='".$invoice_no."' AND buyer_user_id='".$__user_id."')","s","IN");	$db->delete_();
-		$db->addtable("transactions");			$db->where("invoice_no",$invoice_no);	$db->where("buyer_user_id",$__user_id);	$db->delete_();
-		$_SESSION["message"] = v("delete_transaction_by_invoice_no_success");
+		$transaction_status = $db->fetch_single_data("transactions","status",["invoice_no" => $invoice_no]);
+		if($transaction_status <= 1){
+			$db->addtable("transaction_details");	$db->where("transaction_id","(SELECT id FROM transactions WHERE invoice_no='".$invoice_no."' AND buyer_user_id='".$__user_id."')","s","IN");	$db->delete_();
+			$db->addtable("transactions");			$db->where("invoice_no",$invoice_no);	$db->where("buyer_user_id",$__user_id);	$db->delete_();
+			$_SESSION["message"] = v("delete_transaction_by_invoice_no_success");
+		} else {
+			$_SESSION["errormessage"] = v("no_permission_delete_transaction");
+		}
 		?> <script> window.location = "?tabActive=purchase_list"; </script> <?php
 		exit();
 	}
 	if($_GET["delete_store_sales_list"] == 1 && $_GET["po_no"] != ""){
 		$po_no = $_GET["po_no"];
-		$db->addtable("transaction_details");	$db->where("transaction_id","(SELECT id FROM transactions WHERE po_no='".$po_no."' AND seller_user_id='".$__user_id."')","s","IN");	$db->delete_();
-		$db->addtable("transactions");			$db->where("po_no",$po_no);	$db->where("seller_user_id",$__user_id);	$db->delete_();
-		$_SESSION["message"] = v("delete_transaction_by_po_no_success");
+		$transaction_status = $db->fetch_single_data("transactions","status",["po_no" => $po_no]);
+		if($transaction_status < 3){
+			$db->addtable("transaction_details");	$db->where("transaction_id","(SELECT id FROM transactions WHERE po_no='".$po_no."' AND seller_user_id='".$__user_id."')","s","IN");	$db->delete_();
+			$db->addtable("transactions");			$db->where("po_no",$po_no);	$db->where("seller_user_id",$__user_id);	$db->delete_();
+			$_SESSION["message"] = v("delete_transaction_by_po_no_success");
+		} else {
+			$_SESSION["errormessage"] = v("no_permission_delete_transaction");
+		}
 		?> <script> window.location = "?tabActive=store_sales_list"; </script> <?php
 		exit();
 	}
