@@ -35,6 +35,7 @@
 				$whereclause .=")";
 			}
 			if($_GET["s"] != "") $whereclause .= " AND (name LIKE '%".str_replace(" ","%",$_GET["s"])."%' OR description LIKE '%".$_GET["s"]."%')";
+			if($_GET["keyword"] != "") $whereclause .= " AND (name LIKE '%".str_replace(" ","%",$_GET["keyword"])."%' OR description LIKE '%".$_GET["keyword"]."%')";
 			if($_GET["province_id"] > 0){
 				if($_GET["city_id"] > 0) $location_ids = get_location_childest_ids($_GET["city_id"]);
 				else $location_ids = get_location_childest_ids($_GET["province_id"]);
@@ -42,6 +43,13 @@
 			}
 			if($_GET["price_min"] > 0) $whereclause .= " AND (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) >= '".$_GET["price_min"]."'";
 			if($_GET["price_max"] > 0) $whereclause .= " AND (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) <= '".$_GET["price_max"]."'";
+			if(count($_GET["subcategory_ids"]) > 0){
+				$whereclause .= " AND (";
+				foreach($_GET["subcategory_ids"] as $subcategory_id){
+					$whereclause .= "category_ids like '%|".$subcategory_id."|%' OR ";
+				}
+				$whereclause = substr($whereclause,0,-3).")";
+			}
 			
 			$order_by = "";
 			if($_GET["sort_id"] == "newest") $order_by = " ORDER BY id DESC";

@@ -1,4 +1,7 @@
 <?php if(isMobile()){ ?>
+	<?php 
+		$subcategory_ids = str_replace("||",",",sel_to_pipe($_GET["subcategory_ids"])); $subcategory_ids = str_replace("|","",$subcategory_ids);
+	?>
 	<script>
 		$(document).ready( function() {
 			window.addEventListener("scroll", function (event) {
@@ -10,6 +13,13 @@
 				}
 				this.oldScroll = this.scrollY;
 			});
+			
+			$('#subcategories').multiselect({
+				checkboxName: function(option){ return 'subcategory_ids[]'; },
+				nonSelectedText: '<?=v("choose_categories");?>'
+			});
+			$("#subcategories").val("<?=$subcategory_ids;?>".split(","));
+			$("#subcategories").multiselect("refresh");
 		});
 		function tray_sort_click(){
 			document.getElementById("tray_sort_body").style.width = "100%";
@@ -63,7 +73,19 @@
 				<?=$f->input("s",$_GET["s"],"type='hidden'");?>
 				<?=$f->input("c",$_GET["c"],"type='hidden'");?>
 				<?=$f->input("sort_id",$_GET["sort_id"],"type='hidden'");?>
-				<div class="frame_body">
+				<div class="frame_body">				
+					<div class="frame_subtitle"><?=v("keyword");?></div>
+					<?=$f->input("keyword",$_GET["keyword"],"placeholder='".v("keyword")."...'","form-control");?>
+					<br>
+					<?php 
+						$subcategories = $db->fetch_select_data("categories","id","name_".$__locale,["parent_id"=>$_GET["category_id"]],["id"]);
+						if(count($subcategories) > 0){
+					?>
+						<div class="frame_subtitle"><?=v("categories");?></div>
+						<?=$f->select("subcategories",$subcategories,"","multiple=\"multiple\"","form-control");?>
+						<br>
+					<?php } ?>
+					
 					<div class="frame_subtitle"><?=v("seller_location");?></div>
 					<?php $provinces = $db->fetch_select_data("locations","id","name_".$__locale,["parent_id" => 0],["name_".$__locale],"",true); ?>
 					<?=$f->select("province_id",$provinces,$_GET["province_id"],"","form-control");?>

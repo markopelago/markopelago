@@ -1,4 +1,10 @@
 <?php include_once "homepage_header.php"; ?>
+<script>
+	function change_sort(sort_id){
+		document.getElementById("sort_id").value = sort_id;
+		document.getElementById("narrow_result_form").submit();
+	}
+</script>
 <div style="height:20px;"></div>
 <div class="container">
 	<table <?=$__tblDesign100;?>>
