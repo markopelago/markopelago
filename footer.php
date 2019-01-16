@@ -60,11 +60,21 @@
 							totalDashboardcount = totalDashboardcount + (result*1);
 							try{ loadNotifCount("notifStoreSalesListTabCount",result); } catch(e){}
 							try{ loadNotifCount("notifStoreSalesListTabCount1",result); } catch(e){}
-							try{ loadNotifCount("notifNavCount",totalcount); } catch(e){}
-							try{ loadNotifCount("notifCount",totalcount); } catch(e){}
+							
+							$.ajax({url: "ajax/purchase_list.php?mode=checkDeliveringGoods", success: function(result){
+								totalcount = totalcount + (result*1);
+								totalDashboardcount = totalDashboardcount + (result*1);
+								try{ loadNotifCount("notifDeliveringGoodsTabCount",result); } catch(e){}
+								try{ loadNotifCount("notifDeliveringGoodsTabCount1",result); } catch(e){}
+								
+								try{ loadNotifCount("notifNavCount",totalcount); } catch(e){}
+								try{ loadNotifCount("notifCount",totalcount); } catch(e){}
+								try{ loadNotifCount("notifMyDashboardCount",totalDashboardcount); } catch(e){}
+								if(totalcount > 0){ document.getElementsByTagName('title')[0].innerHTML = "<?="(";?>"+totalcount+"<?=") ".$__title_project;?>"; }
+							}});
+							
 						}});
-						try{ loadNotifCount("notifMyDashboardCount",totalDashboardcount); } catch(e){}
-						if(totalcount > 0){ document.getElementsByTagName('title')[0].innerHTML = "<?="(";?>"+totalcount+"<?=") ".$__title_project;?>"; }
+						
 					}});
 				}});
 				setTimeout(function(){ checkCounter(); }, 2000); 

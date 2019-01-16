@@ -46,23 +46,27 @@
 					?> <tr class="danger"><td colspan="8" align="center"><b><?=v("data_not_found");?></b></td></tr> <?php
 				} else {
 					foreach($transaction_forwarders as $transaction_forwarder){
-						$po_no = $db->fetch_single_data("transactions","po_no",["id" => $transaction_forwarder["transaction_id"]]);
-						$seller_user_id = $db->fetch_single_data("transactions","seller_user_id",["id" => $transaction_forwarder["transaction_id"]]);
-						$seller = $db->fetch_single_data("sellers","name",["user_id" => $seller_user_id]);
-						$pickup_locations = get_location($transaction_forwarder["pickup_location_id"]);
-						$destination_locations = get_location($transaction_forwarder["user_address_location_id"]);
-						$viewUrl = "my_delivering_goods.php?deliver_id=".$transaction_forwarder["id"];
-						?>
-						<tr>
-							<td class="nowrap"><a href="<?=$viewUrl;?>" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></a></td>
-							<td class="nowrap"><?=format_tanggal($transaction_forwarder["markoantar_status1_at"]);?></td>
-							<td class="nowrap"><?=$po_no;?></td>
-							<td class="nowrap"><?=$seller;?></td>
-							<td class="nowrap"><?=$pickup_locations[3]["name"].", ".$pickup_locations[1]["name"];?></td>
-							<td class="nowrap"><?=$destination_locations[3]["name"].", ".$destination_locations[1]["name"];?></td>
-							<td class="nowrap"><?=markoantar_status($transaction_forwarder["markoantar_status"]);?></td>
-						</tr>
-						<?php
+						$cart_group = $db->fetch_single_data("transactions","cart_group",["id" => $transaction_forwarder["transaction_id"]]);
+						if(!$cart_groups[$cart_group]){
+							$cart_groups[$cart_group] = 1;
+							$po_no = $db->fetch_single_data("transactions","po_no",["id" => $transaction_forwarder["transaction_id"]]);
+							$seller_user_id = $db->fetch_single_data("transactions","seller_user_id",["id" => $transaction_forwarder["transaction_id"]]);
+							$seller = $db->fetch_single_data("sellers","name",["user_id" => $seller_user_id]);
+							$pickup_locations = get_location($transaction_forwarder["pickup_location_id"]);
+							$destination_locations = get_location($transaction_forwarder["user_address_location_id"]);
+							$viewUrl = "my_delivering_goods.php?deliver_id=".$transaction_forwarder["id"];
+							?>
+							<tr>
+								<td class="nowrap"><a href="<?=$viewUrl;?>" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></a></td>
+								<td class="nowrap"><?=format_tanggal($transaction_forwarder["markoantar_status1_at"]);?></td>
+								<td class="nowrap"><?=$po_no;?></td>
+								<td class="nowrap"><?=$seller;?></td>
+								<td class="nowrap"><?=$pickup_locations[3]["name"].", ".$pickup_locations[1]["name"];?></td>
+								<td class="nowrap"><?=$destination_locations[3]["name"].", ".$destination_locations[1]["name"];?></td>
+								<td class="nowrap"><?=markoantar_status($transaction_forwarder["markoantar_status"]);?></td>
+							</tr>
+							<?php
+						}
 					}
 				}
 			?>
