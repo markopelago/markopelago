@@ -150,7 +150,7 @@
 											$password_style = "style=\"background-color:rgba(248,166,168,0.8);\"";
 										}
 									?>
-									<label><?=v("password");?></label><?=$f->input("password",$data["password"],$password_style." type='password' required title='".v("range_characters")."' placeholder='".v("password")." ...'","form-control");?>
+									<label><?=v("password");?></label><?=$f->input("password",$data["password"],$password_style." type='password' required placeholder='".v("password")." ...'","form-control");?>
 								</div>
 								<div class="form-group">
 									<label><?=v("repassword");?></label><?=$f->input("repassword",$data["repassword"],"type='password' required placeholder='".v("repassword")." ...'","form-control");?>
