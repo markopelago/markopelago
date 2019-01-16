@@ -80,8 +80,7 @@
 					
 					$products = $db->fetch_all_data("goods",[],"is_displayed = '1' ".$no_pasar_cat." ORDER BY RAND() LIMIT $limit");
 					foreach($products as$key => $product){
-						$is_pasar = false;
-						if(strpos(" ".$product["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
+						$is_pasar = is_pasar($product["id"]);
 						$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 						if(!file_exists("goods/".$img)) $img = "no_goods.png";
 						if($img == "") $img = "no_goods.png";
@@ -134,8 +133,7 @@
 			foreach($categories as $category){ $notpasar .= "AND category_ids NOT LIKE '%|".$category["id"]."|%' "; }
 			$products = $db->fetch_all_data("goods",[],"is_displayed = '1' $notpasar ORDER BY created_at DESC LIMIT $limit");
 			foreach($products as $key => $product){
-				$is_pasar = false;
-				if(strpos(" ".$product["category_ids"],"|".$__pasar."|") > 0) $is_pasar = true;
+				$is_pasar = is_pasar($product["id"]);
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 				if(!file_exists("goods/".$img)) $img = "no_goods.png";
 				if($img == "") $img = "no_goods.png";

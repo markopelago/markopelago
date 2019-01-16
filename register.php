@@ -31,7 +31,7 @@
 			$errors["phone"] = v("phone_already_in_use");
 		}
         if($_POST["email"] == ''){
-            $email = ''.$_POST["marko_id"].'@markopelago.com';
+            $email = $_POST["marko_id"]."@markopelago.com";
             $send_email = false;
         }else{
             $email = $_POST["email"];

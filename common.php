@@ -21,7 +21,6 @@
 	$__phpself 					= basename($_SERVER["PHP_SELF"]);
 	$__now						= date("Y-m-d H:i:s");
 	$__self_pickup_fee			= 2000;
-	$__pasar					= 50;
 	$__marko_cod				= 7000;
 	$__cod_max_km				= 10;
 	$__cod_tolerance_km			= 5.5;
@@ -604,6 +603,14 @@
 		$categories = $db->fetch_all_data("categories",["id"],"parent_id='49'");
 		foreach($categories as $category){ $pasar_category_ids .= ",".$category["id"]; }
 		return $pasar_category_ids;
+	}
+	
+	function arr_pasar_category_ids(){
+		global $db;
+		$arr[] = 49;
+		$categories = $db->fetch_all_data("categories",["id"],"parent_id='49'");
+		foreach($categories as $category){ $arr[] = $category["id"]; }
+		return $arr;
 	}
 ?>
 <?php include_once "log_action.php"; ?>

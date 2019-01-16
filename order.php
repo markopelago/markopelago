@@ -489,6 +489,7 @@
 							$goods_ids = "";
 							$is_only_pasar = true;
 							$TOTAL_WEIGHT = 0;
+							$arr_pasar_category_ids = arr_pasar_category_ids();
 							foreach($_trxBySeller as $seller_user_id => $transactions){
 								$seller = $db->fetch_all_data("sellers",[],"user_id = '".$seller_user_id."'")[0];
 								$seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]));
@@ -504,7 +505,10 @@
 									$goods_ids .= $goods_id.",";
 									$transaction_ids = substr($_trx_ids[$goods_id],0,-1);
 									$goods  = $db->fetch_all_data("goods",[],"id = '".$goods_id."'")[0];
-									if(strpos(" ".$goods["category_ids"],"|".$__pasar."|") <= 0) $is_only_pasar = false;
+									$goods_category_ids = pipetoarray($goods["category_ids"]);
+									foreach($goods_category_ids as $goods_category_id){
+										if(!in_array($goods_category_id,$arr_pasar_category_ids)) $is_only_pasar = false;
+									}
 									$goods_photos  = $db->fetch_all_data("goods_photos",[],"goods_id = '".$goods_id."'","seqno")[0];
 									if(!file_exists("goods/".$goods_photos["filename"])) $goods_photos["filename"] = "no_goods.png";
 									$unit = $db->fetch_single_data("units","name_".$__locale,["id" => $transaction_details["unit_id"]]);
