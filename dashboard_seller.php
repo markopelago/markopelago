@@ -11,7 +11,10 @@
 		if($__seller_id > 0) $inserting = $db->update();
 		else $inserting = $db->insert();
 		if($inserting["affected_rows"] > 0){
-			if($__seller_id > 0){				
+			$db->addtable("a_users");	$db->where("id",$__user_id);
+			$db->addfield("npwp");		$db->addvalue($_POST["npwp"]);
+			$db->update();
+			if($__seller_id > 0){
 				$_SESSION["message"] = v("data_saved_successfully");
 				javascript("window.location='?tabActive=seller';"); 
 			} else {
@@ -54,7 +57,10 @@
 		</div>
 		<div class="form-group">
 			<label><?=v("pic");?></label><?=$f->input("pic",$seller["pic"],"required placeholder='".v("pic")."...'","form-control");?>
-		</div>	
+		</div>
+		<div class="form-group">
+			<label><?=v("npwp");?></label><?=$f->input("npwp",$__user["npwp"],"placeholder='".v("npwp")."...'","form-control");?>
+		</div>
 		
 		<div class="form-group">
 			<?=$f->input("save_seller",v("save"),"type='submit'","btn btn-primary");?>
