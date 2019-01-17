@@ -38,19 +38,6 @@
 	}
 	asort($locations);
 ?>
-<script>
-	function is_taxable_change(elmChecked){
-		if(elmChecked == true){
-			document.getElementById("is_taxable_area").style.display = "block";
-			document.getElementById("npwp").required = true;
-			document.getElementById("npwp_address").required = true;
-		} else {
-			document.getElementById("is_taxable_area").style.display = "none";
-			document.getElementById("npwp").required = false;
-			document.getElementById("npwp_address").required = false;
-		}
-	}
-</script>
 <form method="POST">
 	<center>
 		<div><img id="mainProfileImg" src="users_images/<?=($__buyer["avatar"] == "")?"nophoto.png":$__buyer["avatar"];?>"></div>
@@ -74,21 +61,6 @@
 	</div>
 	<div class="form-group">
 		<label><?=v("gender");?></label><?=$f->select("gender_id",$db->fetch_select_data("genders","id","name_".$__locale,"","","",true),$__buyer["gender_id"],"required ","form-control");?>
-	</div>
-	<div class="form-group">
-		<?php $checked = ($__user["is_taxable"] == "1") ? "checked":"";?>
-		<label><?=v("is_taxable");?></label><?=$f->input("is_taxable","1",$checked ." type='checkbox' onclick='is_taxable_change(this.checked);'","form-control");?> <?=v("yes");?>
-	</div>
-	<div id="is_taxable_area" style="display:<?=($__user["is_taxable"] == "1") ? "block":"none";?>">
-		<div class="form-group">
-			<label><?=v("npwp");?></label><?=$f->input("npwp",$__user["npwp"],"placeholder='".v("npwp")."...'","form-control");?>
-		</div>
-		<div class="form-group">
-			<label><?=v("nppkp");?></label><?=$f->input("nppkp",$__user["nppkp"],"placeholder='".v("nppkp")."...'","form-control");?>
-		</div>
-		<div class="form-group">
-			<label><?=v("npwp_address");?></label><?=$f->textarea("npwp_address",$__user["npwp_address"],"placeholder='".v("npwp_address")."...'","form-control");?>
-		</div>
 	</div>
 	<?=$f->input("save_profile",v("save"),"type='submit' width='75%'","btn btn-primary");?>
 </form>
