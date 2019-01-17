@@ -522,7 +522,7 @@ class Vocabulary{
 		$arr[$l]["description"]									= "Deskripsi";
 		$arr[$l]["store"]										= "Toko";
 		$arr[$l]["store_name"]									= "Nama Toko";
-		$arr[$l]["pic"]											= "PIC";
+		$arr[$l]["pic"]											= "Penanggung Jawab";
 		$arr[$l]["product_information"]							= "Info Produk";
 		$arr[$l]["weight"]										= "Berat";
 		$arr[$l]["dimension"]									= "Dimensi";
