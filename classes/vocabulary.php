@@ -383,6 +383,7 @@ class Vocabulary{
 		$arr[$l]["are_you_sure_pay_with_cod"]					= "Are you sure to pay in cash when the goods arrives?";
 		$arr[$l]["wait_for_process_from_seller"]				= "Wait for process from seller";
 		$arr[$l]["please_select_markoantar"]					= "Please select Marko Antar";
+		$arr[$l]["you_will_receive_notifications"]				= "You will receive notifications via SMS and email";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -753,7 +754,8 @@ class Vocabulary{
 		$arr[$l]["flat_rates_markoantar"]						= "Tarif flat Marko Antar Rp. {marko_cod}";
 		$arr[$l]["are_you_sure_pay_with_cod"]					= "Anda yakin akan membayar dengan tunai pada saat barang sampai?";
 		$arr[$l]["wait_for_process_from_seller"]				= "Menunggu proses dari penjual";
-		$arr[$l]["please_select_markoantar"]						= "Silakan pilih Marko Antar";
+		$arr[$l]["please_select_markoantar"]					= "Silakan pilih Marko Antar";
+		$arr[$l]["you_will_receive_notifications"]				= "Anda akan menerima notifikasi via sms dan email";
 		
 		
 		return $arr[$this->locale][$index];

@@ -159,6 +159,7 @@
 									<button class="btn btn-default" type="submit"><?=v("register");?></button>
 								</div>
 							</form>
+							<p style="font-size: 0.8em"><?=v("you_will_receive_notifications");?></p>
 						</div>
 					</td>
 				</tr>
