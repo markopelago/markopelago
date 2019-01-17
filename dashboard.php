@@ -32,6 +32,13 @@
 		?> <script> window.location = "?tabActive=store_sales_list"; </script> <?php
 		exit();
 	}
+	$expiredTransactions = $db->fetch_all_data("transactions",["id"],"buyer_user_id = '".$__user_id."' AND status < 2 AND HOUR(TIMEDIFF(NOW(), transaction_at)) > 24");
+	foreach($expiredTransactions as $expiredTransaction){
+		$delete_transaction_id = $expiredTransaction["id"];
+		$db->addtable("transaction_details");	$db->where("transaction_id",$delete_transaction_id);	$db->delete_();
+		$db->addtable("transaction_forwarder");	$db->where("transaction_id",$delete_transaction_id);	$db->delete_();
+		$db->addtable("transactions");			$db->where("id",$delete_transaction_id);				$db->delete_();
+	}
 ?>
 	<style>
 		.panel-heading{

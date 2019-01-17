@@ -211,6 +211,9 @@
 </div>
 <div class="container">
     <div class="row">
+	
+		<button class="btn btn-info" onclick="loadShopping_progress('<?=$transactions[0]["id"];?>');"><span class="glyphicon glyphicon glyphicon-th-list"></span> <?=v("show_shopping_progress");?></button>
+		<br><br>
 		<table class="table table-bordered" width="100%">
 			<?php 
 				foreach($transactions as $transaction){

@@ -68,7 +68,7 @@
 							$btn_delete = "&nbsp;<a href=\"javascript:delete_po('".$transaction["po_no"]."');\" class=\"btn btn-warning\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
 						}
 						?>
-						<tr>
+						<tr onclick="loadShopping_progress('<?=$transaction["id"];?>');">
 							<td class="nowrap">
 								<a href="<?=$viewUrl;?>" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></a>
 								<?=$btn_delete;?>
