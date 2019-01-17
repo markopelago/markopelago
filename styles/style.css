@@ -1862,6 +1862,8 @@ input:checked + .switch_slider:before {
 	width:250px;
 }
 
+.form-group.required .control-label:after {content:" *";color:red;}
+
 @media screen and (max-width: 995px) {
 	.header-start{ height:110px; }
 	.carousel-inner-main{

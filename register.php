@@ -109,17 +109,17 @@
 						<div class="register_form_background">
 							<form method="POST" autocomplete="off">
 								<?=$f->input("save","1","type='hidden'");?>
-                                <div class="form-group">
-									<label><?=v("name");?></label><?=$f->input("name",$data["name"],"onchange=\"suggestion_markoid(this.value);\" required autocomplete='off' placeholder='".v("name")."...'","form-control");?>
+                                <div class="form-group required">
+									<label class="control-label"><?=v("name");?></label><?=$f->input("name",$data["name"],"onchange=\"suggestion_markoid(this.value);\" required autocomplete='off' placeholder='".v("name")."...'","form-control");?>
 								</div>
-								<div class="form-group">
+								<div class="form-group required">
 									<?php 
 										if($errors["marko_id"]){
 											echo "<div class='callout top-left' style='margin-left:50px;'>".$errors["marko_id"]."</div>";
 											$marko_id_style = "style=\"background-color:rgba(248,166,168,0.8);\"";
 										}
 									?>
-									<label>Marko ID</label><?=$f->input("marko_id",$data["marko_id"],$marko_id_style." autocomplete='off' required placeholder='Marko ID...'","form-control");?>
+									<label class="control-label">Marko ID</label><?=$f->input("marko_id",$data["marko_id"],$marko_id_style." autocomplete='off' required placeholder='Marko ID...'","form-control");?>
 									<?php
 										
 									?>
@@ -134,26 +134,26 @@
 									<label><?=v("email");?></label>
 									<?=$f->input("email",$data["email"],$email_style." autocomplete='off' type='email' placeholder='".v("email")."...'","form-control");?>
 								</div>
-								<div class="form-group">
+								<div class="form-group required">
                                     <?php 
 										if($errors["phone"]){
 											echo "<div class='callout top-left' style='margin-left:50px;'>".$errors["phone"]."</div>";
 											$email_style = "style=\"background-color:rgba(248,166,168,0.8);\"";
 										}
 									?>
-									<label><?=v("phone");?></label><?=$f->input("phone",$data["phone"],"required autocomplete='off' placeholder='".v("phone")."...'","form-control");?>
+									<label class="control-label"><?=v("phone");?></label><?=$f->input("phone",$data["phone"],"required autocomplete='off' placeholder='".v("phone")."...'","form-control");?>
 								</div>
-								<div class="form-group">
+								<div class="form-group required">
 									<?php 
 										if($errors["password"]){
 											echo "<div class='callout top-left' style='margin-left:50px;'>".$errors["password"]."</div>";
 											$password_style = "style=\"background-color:rgba(248,166,168,0.8);\"";
 										}
 									?>
-									<label><?=v("password");?></label><?=$f->input("password",$data["password"],$password_style." type='password' required placeholder='".v("password")." ...'","form-control");?>
+									<label class="control-label"><?=v("password");?></label><?=$f->input("password",$data["password"],$password_style." type='password' required placeholder='".v("password")." ...'","form-control");?>
 								</div>
-								<div class="form-group">
-									<label><?=v("repassword");?></label><?=$f->input("repassword",$data["repassword"],"type='password' required placeholder='".v("repassword")." ...'","form-control");?>
+								<div class="form-group required">
+									<label class="control-label"><?=v("repassword");?></label><?=$f->input("repassword",$data["repassword"],"type='password' required placeholder='".v("repassword")." ...'","form-control");?>
 								</div>
 								<div class="form-group">
 									<button class="btn btn-default" type="submit"><?=v("register");?></button>
