@@ -38,6 +38,7 @@ class Vocabulary{
 		$arr[$l]["starts_here"] 								= "Your Journey Starts Here";
 		$arr[$l]["fullname"]	 								= "Full Name";
 		$arr[$l]["email"]	 									= "E-mail";
+		$arr[$l]["email_or_phone"]	 							= "E-mail or Mobile Number";
 		$arr[$l]["address"]										= "Address";
 		$arr[$l]["birth_at"]									= "Birth Date";
 		$arr[$l]["birth_place"]									= "Birth Place";
@@ -51,6 +52,9 @@ class Vocabulary{
 		$arr[$l]["email_confirmation_token_expired"]			= "This email confirmation link has expired, please contact cs@markopelago.com";
 		$arr[$l]["email_confirmation_failed"]					= "Email confirmation failed, please contact cs@markopelago.com";
 		$arr[$l]["email_confirmed"]								= "Thank You, Your email confirmation was success.";
+		$arr[$l]["phone_confirmation_token_expired"]			= "This confirmation link has expired, please contact cs@markopelago.com";
+		$arr[$l]["phone_confirmation_failed"]					= "Confirmation failed, please contact cs@markopelago.com";
+		$arr[$l]["phone_confirmed"]								= "Thank You, Your mobile number confirmation was success.";
 		$arr[$l]["your_email_not_exist"]						= "Your email address is not registered at markopelago.com";
 		$arr[$l]["please_relogin"]								= "Please re-login";
 		$arr[$l]["oldpassword"]									= "Old Password";
@@ -60,7 +64,7 @@ class Vocabulary{
 		$arr[$l]["password_error"]								= "Password Invalid";
 		$arr[$l]["email_invalid"]								= "Email Invalid";
 		$arr[$l]["email_already_in_use"]						= "Email is already in use. please choose another one";
-        $arr[$l]["phone_already_in_use"]						= "Phone is already in use. please choose another one";
+        $arr[$l]["phone_already_in_use"]						= "Phone is already in use.";
 		$arr[$l]["range_characters"]							= "6-8 characters";
 		$arr[$l]["by_signing_up_i_agree_to"]					= "By Signing Up, I agree to markopelago's";
 		$arr[$l]["terms_and_conditions"]						= "Terms and Conditions";
@@ -384,6 +388,7 @@ class Vocabulary{
 		$arr[$l]["wait_for_process_from_seller"]				= "Wait for process from seller";
 		$arr[$l]["please_select_markoantar"]					= "Please select Marko Antar";
 		$arr[$l]["you_will_receive_notifications"]				= "You will receive notifications via SMS and email";
+		$arr[$l]["sms_signup_confirmation"]						= "Markopelago.com -- Thank you for your registration at markopelago.com. Please click the following link to confirm your Mobile number: {link}";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -409,6 +414,7 @@ class Vocabulary{
 		$arr[$l]["starts_here"] 								= "Perjalanan Anda dimulai disini";
 		$arr[$l]["fullname"]	 								= "Nama Lengkap";
 		$arr[$l]["email"]	 									= "E-mail";
+		$arr[$l]["email_or_phone"]	 							= "E-mail atau No.Handphone";
 		$arr[$l]["address"]										= "Alamat";
 		$arr[$l]["birth_at"]									= "Tanggal Lahir";
 		$arr[$l]["birth_place"]									= "Tempat Lahir";
@@ -422,6 +428,9 @@ class Vocabulary{
 		$arr[$l]["email_confirmation_token_expired"]			= "Link konfirmasi email ini telah kedaluwarsa, silakan hubungi cs@markopelago.com";
 		$arr[$l]["email_confirmation_failed"]					= "Konfirmasi email gagal, silakan hubungi cs@markopelago.com";
 		$arr[$l]["email_confirmed"]								= "Terima Kasih, Konfirmasi email Anda telah berhasil.";
+		$arr[$l]["phone_confirmation_token_expired"]			= "Link konfirmasi ini telah kedaluwarsa, silakan hubungi cs@markopelago.com";
+		$arr[$l]["phone_confirmation_failed"]					= "Konfirmasi gagal, silakan hubungi cs@markopelago.com";
+		$arr[$l]["phone_confirmed"]								= "Terima Kasih, Konfirmasi nomor handphone Anda telah berhasil.";
 		$arr[$l]["your_email_not_exist"]						= "Alamat email Anda belum terdaftar di markopelago.com";
 		$arr[$l]["please_relogin"]								= "Silakan login ulang";
 		$arr[$l]["oldpassword"]									= "Kata Sandi Lama";
@@ -431,7 +440,7 @@ class Vocabulary{
 		$arr[$l]["password_error"]								= "Kesalahan pada Kata Sandi";
 		$arr[$l]["email_invalid"]								= "Kesalahan pada email";
 		$arr[$l]["email_already_in_use"]						= "Email sudah digunakan, silakan gunakan email yang lain";
-        $arr[$l]["phone_already_in_use"]						= "Nomor Telepon sudah digunakan, silakan gunakan nomor telepon yang lain";
+        $arr[$l]["phone_already_in_use"]						= "Nomor Telepon sudah digunakan";
 		$arr[$l]["range_characters"]							= "6-8 Karakter";
 		$arr[$l]["by_signing_up_i_agree_to"]					= "Dengan mendaftar berarti Saya telah menyetujui";
 		$arr[$l]["terms_and_conditions"]						= "Syarat dan Ketentuan";
@@ -756,6 +765,7 @@ class Vocabulary{
 		$arr[$l]["wait_for_process_from_seller"]				= "Menunggu proses dari penjual";
 		$arr[$l]["please_select_markoantar"]					= "Silakan pilih Marko Antar";
 		$arr[$l]["you_will_receive_notifications"]				= "Anda akan menerima notifikasi via sms dan email";
+		$arr[$l]["sms_signup_confirmation"]						= "Markopelago.com -- Terima Kasih atas registrasi Anda di markopelago.com. Silakan klik link berikut untuk konfirmasi nomor Handphone Anda: {link}";
 		
 		
 		return $arr[$this->locale][$index];

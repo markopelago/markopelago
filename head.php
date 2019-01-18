@@ -232,8 +232,8 @@
 											<div style="height:20px;"></div>
 											<?=$f->start();?>
 												<div class="form-group">
-													<?=v("email");?>
-													<input name="username" class="form-control" placeholder="<?=v("email");?>" autocomplete="off" required autofocus>
+													<?=v("email_or_phone");?>
+													<input name="username" class="form-control" placeholder="<?=v("email_or_phone");?>" autocomplete="off" required autofocus>
 												</div>
 												<div class="form-group">
 													<?=v("password");?>

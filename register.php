@@ -4,6 +4,7 @@
 	if(!$step) $step = 1;
 	if($__isloggedin && $step == 1){ javascript("window.location='index.php';"); exit(); }
 	if(isset($_POST["save"])){
+		if(substr($_POST["phone"],0,1) != "0") $_POST["phone"] = "0".$_POST["phone"];
 		$errors = array();
 		$haserrors= false;
 		if(!preg_match('/^[\w]+$/', $_POST["marko_id"])){
@@ -60,17 +61,25 @@
 					$db->addfield("birthplace_id");	$db->addvalue($_POST["birthplace_id"]);
 					$db->addfield("gender_id");		$db->addvalue($_POST["gender_id"]);
 					$inserting = $db->insert();
+					$token = randtoken(15).base64_encode("_signup_".$_POST["email"]);					
+					$db->addtable("a_users");	$db->where("id",$user_id);
+					$db->addfield("token");		$db->addvalue($token);
+					$db->update();
 					if($send_email == true){
-                        $token = randtoken(15).base64_encode("_signup_".$_POST["email"]);
-                        $db->addtable("a_users");	$db->where("id",$user_id);
-                        $db->addfield("token");		$db->addvalue($token);
-                        $db->update();
                         $arr1 = ["{link}"];
                         $arr2 = ["https://www.markopelago.com/email_confirmation.php?token=".$token];
                         $body = read_file("html/email_signup_confirmation_id.html");
                         $body = str_replace($arr1,$arr2,$body);
                         sendingmail("Markopelago.com -- Email Konfirmasi",$_POST["email"],$body,"system@markopelago.com|Markopelago System");
                     }
+					$arr1 = ["{link}"];
+					$arr2 = ["https://www.markopelago.com/phone_confirmation.php?token=".$token];
+					$message = v("sms_signup_confirmation");
+					$message = str_replace($arr1,$arr2,$message);
+					$db->addtable("sms_queue");
+					$db->addfield("msisdn");	$db->addvalue($_POST["phone"]);
+					$db->addfield("message");	$db->addvalue($message);
+					$db->insert();
 					
 					$_SESSION["message"] = v("signup_success");
 					javascript("window.location='index.php';");
@@ -110,7 +119,7 @@
 							<form method="POST" autocomplete="off">
 								<?=$f->input("save","1","type='hidden'");?>
                                 <div class="form-group required">
-									<label class="control-label"><?=v("name");?></label><?=$f->input("name",$data["name"],"onchange=\"suggestion_markoid(this.value);\" required autocomplete='off' placeholder='".v("name")."...'","form-control");?>
+									<label class="control-label"><?=v("name");?></label><?=$f->input("name",$data["name"],"onblur=\"suggestion_markoid(this.value);\" required autocomplete='off' placeholder='".v("name")."...'","form-control");?>
 								</div>
 								<div class="form-group required">
 									<?php 
@@ -138,10 +147,10 @@
                                     <?php 
 										if($errors["phone"]){
 											echo "<div class='callout top-left' style='margin-left:50px;'>".$errors["phone"]."</div>";
-											$email_style = "style=\"background-color:rgba(248,166,168,0.8);\"";
+											$phone_style = "style=\"background-color:rgba(248,166,168,0.8);\"";
 										}
 									?>
-									<label class="control-label"><?=v("phone");?></label><?=$f->input("phone",$data["phone"],"required autocomplete='off' placeholder='".v("phone")."...'","form-control");?>
+									<label class="control-label"><?=v("phone");?></label><?=$f->input("phone",$data["phone"],$phone_style." type='number' required autocomplete='off' placeholder='".v("phone")."...'","form-control");?>
 								</div>
 								<div class="form-group required">
 									<?php 
