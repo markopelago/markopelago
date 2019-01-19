@@ -1,4 +1,5 @@
 <?php include_once "header.php"; ?>
+<?php include_once "func.review.php"; ?>
 <?php
     $cart_group = $_GET["cart_group"];
     $invoice_no = $_GET["invoice_no"];
@@ -23,9 +24,16 @@
 			$_SESSION["errormessage"] = v("failed_saving_data");
 		}
 	}
+	$need_review_ids = "";
+	$has_review_ids = "";
 	foreach($transactions as $transaction){
 		$_trxBySeller[$transaction["seller_user_id"]][] = $transaction;
+		if($db->fetch_single_data("transaction_details","is_reviewed",["transaction_id" => $transaction["id"]]) == 0 && $transaction["status"] == 7) $need_review_ids .= $transaction["id"].",";
+		if($db->fetch_single_data("transaction_details","is_reviewed",["transaction_id" => $transaction["id"]]) == 1) $has_review_ids .= $transaction["id"].","; 
 	}
+	$need_review_ids = substr($need_review_ids,0,-1);
+	$has_review_ids = substr($has_review_ids,0,-1);
+	
 ?>
 <script>
 	function transactionDone(){
@@ -42,6 +50,10 @@
 </div>
 <div class="container">
     <div class="row">
+		<?php if($has_review_ids != ""){ ?>
+			<button class="btn btn-info" onclick="showReview('<?=$has_review_ids;?>');"><img src="assets/review.png" height="18"> <?=v("review");?></button>
+			<br><br>
+		<?php } ?>
 		<?php 
 			foreach($_trxBySeller as $seller_user_id => $transactions){
 				$seller = $db->fetch_all_data("sellers",[],"user_id = '".$seller_user_id."'")[0];
@@ -183,6 +195,6 @@
     </div>
 </div>
 <div style="height:40px;"></div>
-
+<?php if($need_review_ids != ""){ ?><script> loadReview("<?=$need_review_ids;?>"); </script><?php } ?>
 
 <?php include_once "footer.php"; ?>

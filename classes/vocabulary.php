@@ -389,6 +389,8 @@ class Vocabulary{
 		$arr[$l]["please_select_markoantar"]					= "Please select Marko Antar";
 		$arr[$l]["you_will_receive_notifications"]				= "You will receive notifications via SMS and email";
 		$arr[$l]["sms_signup_confirmation"]						= "Markopelago.com -- Thank you for your registration at markopelago.com. Please click the following link to confirm your Mobile number: {link}";
+		$arr[$l]["review"]										= "Review";
+		$arr[$l]["review_saved_successfully"]					= "Review saved successfully";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -766,6 +768,8 @@ class Vocabulary{
 		$arr[$l]["please_select_markoantar"]					= "Silakan pilih Marko Antar";
 		$arr[$l]["you_will_receive_notifications"]				= "Anda akan menerima notifikasi via sms dan email";
 		$arr[$l]["sms_signup_confirmation"]						= "Markopelago.com -- Terima Kasih atas registrasi Anda di markopelago.com. Silakan klik link berikut untuk konfirmasi nomor Handphone Anda: {link}";
+		$arr[$l]["review"]										= "Ulasan";
+		$arr[$l]["review_saved_successfully"]					= "Ulasan berhasil disimpan";
 		
 		
 		return $arr[$this->locale][$index];

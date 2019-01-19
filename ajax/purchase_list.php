@@ -2,10 +2,14 @@
 	include_once "../common.php";
 	$mode = $_GET["mode"];
 	if($mode == "checkPurchaseList"){
-		echo count($db->fetch_all_data("transactions",["id"],"buyer_user_id = '".$__user_id."' AND (status BETWEEN 1 AND 2 OR status BETWEEN 5 AND 6) GROUP BY invoice_no"));
+		$return = count($db->fetch_all_data("transactions",["id"],"buyer_user_id = '".$__user_id."' AND (status BETWEEN 1 AND 2 OR status BETWEEN 5 AND 6) GROUP BY invoice_no"));
+		$return += count($db->fetch_all_data("transactions",["id"],"buyer_user_id = '".$__user_id."' AND status = 7 AND id IN (SELECT transaction_id FROM transaction_details WHERE transaction_id = transactions.id AND is_reviewed=0) GROUP BY invoice_no"));
+		echo $return;
 	}
 	if($mode == "checkStoreSalesList"){
-		echo count($db->fetch_all_data("transactions",["id"],"seller_user_id = '".$__user_id."' AND status BETWEEN 3 AND 4 GROUP BY po_no"));
+		$return = count($db->fetch_all_data("transactions",["id"],"seller_user_id = '".$__user_id."' AND status BETWEEN 3 AND 4 GROUP BY po_no"));
+		$return += count($db->fetch_all_data("transactions",["id"],"seller_user_id = '".$__user_id."' AND id IN (SELECT transaction_id FROM transaction_details WHERE transaction_id = transactions.id AND is_reviewed=1 AND review_id_read=0) GROUP BY po_no"));
+		echo $return;
 	}
 	if($mode == "checkDeliveringGoods"){
 		$transaction_ids = "";

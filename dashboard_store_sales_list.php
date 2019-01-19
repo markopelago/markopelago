@@ -49,11 +49,14 @@
 						$buyer = $db->fetch_single_data("a_users","name",["id" => $transaction["buyer_user_id"]]);
 						$goods_names = "";
 						$total = 0;
+						$has_review_ids = "";
 						$transaction_details = $db->fetch_all_data("transaction_details",[],"transaction_id IN (SELECT id FROM transactions WHERE po_no = '".$transaction["po_no"]."')");
 						foreach($transaction_details as $transaction_detail){
 							$goods_names .= $db->fetch_single_data("goods","name",["id" => $transaction_detail["goods_id"]])."<br>";
 							$total += $transaction_detail["total"];
+							if($transaction_detail["review_id_read"] == 0 && $transaction_detail["is_reviewed"] == 1) $has_review_ids .= $transaction_detail["transaction_id"].",";
 						}
+						$has_review_ids = substr($has_review_ids,0,-1);
 						$goods_names = substr($goods_names,0,-4);
 						$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"transaction_id IN (SELECT id FROM transactions WHERE po_no = '".$transaction["po_no"]."')");
 						foreach($transaction_forwarders as $transaction_forwarder){
@@ -71,6 +74,9 @@
 						<tr onclick="loadShopping_progress('<?=$transaction["id"];?>');">
 							<td class="nowrap">
 								<a href="<?=$viewUrl;?>" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></a>
+								<?php if($has_review_ids != ""){ ?>
+									<a href="javascript:showReview('<?=$has_review_ids;?>');"><img src="assets/review.png" height="25"></a>
+								<?php } ?>
 								<?=$btn_delete;?>
 							</td>
 							<td class="nowrap"><?=format_tanggal($transaction["po_at"]);?></td>

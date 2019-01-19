@@ -1,4 +1,5 @@
 <?php include_once "header.php"; ?>
+<?php include_once "func.review.php"; ?>
 <?php
     $po_no = $_GET["po_no"];
 	$transactions = $db->fetch_all_data("transactions",[],"po_no = '".$po_no."' AND seller_user_id = '".$__user_id."'");
@@ -145,6 +146,11 @@
 	}
 	$user_addresses = $db->fetch_select_data("user_addresses","id","name",["user_id " => $__user_id]);
 	$user_address_default = $db->fetch_single_data("user_addresses","id",["user_id" => $__user_id, "default_seller" => "1"]);
+	$has_review_ids = "";
+	foreach($transactions as $transaction){
+		if($db->fetch_single_data("transaction_details","is_reviewed",["transaction_id" => $transaction["id"]]) == 1) $has_review_ids .= $transaction["id"].","; 
+	}
+	$has_review_ids = substr($has_review_ids,0,-1);
 ?>
 <script>
 	function changeStatus(status,transaction_id,receipt_no,mode){
@@ -213,6 +219,9 @@
     <div class="row">
 	
 		<button class="btn btn-info" onclick="loadShopping_progress('<?=$transactions[0]["id"];?>');"><span class="glyphicon glyphicon glyphicon-th-list"></span> <?=v("show_shopping_progress");?></button>
+		<?php if($has_review_ids != ""){ ?>
+			<button class="btn btn-info" onclick="showReview('<?=$has_review_ids;?>');"><img src="assets/review.png" height="18"> <?=v("review");?></button>
+		<?php } ?>
 		<br><br>
 		<table class="table table-bordered" width="100%">
 			<?php 

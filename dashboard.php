@@ -1,4 +1,5 @@
 <?php include_once "homepage_header.php"; ?>
+<?php include_once "func.review.php"; ?>
 <?php
 	if(!$__isloggedin){
 		?> <script> window.location = "index.php"; </script> <?php

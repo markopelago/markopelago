@@ -210,3 +210,7 @@ function loadShopping_progress(transaction_id){
 		$('#myModal').modal('show');
 	});
 }
+
+function encodeHTML(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+}

@@ -375,4 +375,95 @@
 		echo "	</div>";
 		echo "</form>";
 	}
+	
+	if($mode == "reviewForm"){
+		echo "
+			<script>
+				function change_star_level(transaction_id,level){
+					document.getElementById(\"review_level[\"+transaction_id+\"]\").value = level;
+					for(var ii = 1 ; ii <= 5 ; ii++){		document.getElementById(\"star_\"+transaction_id+\"_\"+ii+\"\").src = \"assets/unstar.png\"; }
+					for(var ii = 1 ; ii <= level ; ii++){ 	document.getElementById(\"star_\"+transaction_id+\"_\"+ii+\"\").src = \"assets/star.png\"; }
+				}
+			</script>
+		";
+		$transaction_ids = $_GET["transaction_ids"];
+		$transactions = $db->fetch_all_data("transactions",[],"id IN (".$transaction_ids.")");
+		$star_width = 20;
+		$goods_photos_width = 120;
+		if(isMobile()) $goods_photos_width = 70;
+		foreach($transactions as $transaction){
+			$_trxBySeller[$transaction["seller_user_id"]][] = $transaction;
+		}
+		echo "<form method=\"POST\" id=\"form_review\">";
+		echo $f->input("saving_review",1,"type='hidden'");
+		foreach($_trxBySeller as $seller_user_id => $transactions){
+			echo "<table class=\"table table-bordered\" width=\"100%\">";
+			foreach($transactions as $transaction){
+				if($transaction["buyer_user_id"] == $__user_id){
+					$transaction_details = $db->fetch_all_data("transaction_details",[],"id = '".$transaction["id"]."'")[0];
+					$goods  = $db->fetch_all_data("goods",[],"id = '".$transaction_details["goods_id"]."'")[0];
+					$goods_photos = $db->fetch_all_data("goods_photos",[],"goods_id = '".$goods["id"]."'","seqno")[0];
+					echo $f->input("review_level[".$transaction["id"]."]",$transaction_details["review_level"],"type='hidden'");
+					echo "<tr><td colspan='2'><b>".$goods["name"]."</b></td></tr>";
+					echo "<tr>";
+					echo "	<td width='1'><img src=\"goods/".$goods_photos["filename"]."\" style=\"width:".$goods_photos_width."px;\"></td>";
+					echo "	<td nowrap>";
+					for($ii = 0; $ii < 5 ;$ii++){
+						$level = $ii + 1;
+						if($level <= $transaction_details["review_level"]) $star_file_image = "star";
+						else $star_file_image = "unstar";
+						echo "<img id=\"star_".$transaction["id"]."_".$level."\" src=\"assets/".$star_file_image.".png\" onclick=\"change_star_level('".$transaction["id"]."','".$level."');\" style=\"width:".$star_width."px;\">&nbsp;&nbsp;";
+					}
+					echo "		<br><br>";
+					echo $f->textarea("review_description[".$transaction["id"]."]",$transaction_details["review_description"],"style=\"width:100%;height:80px !important;\"");
+					echo "	</td>";
+					echo "</tr>";
+				}
+			}
+			echo "</table>";
+		}
+		echo "</form>";
+	}
+	
+	if($mode == "showReview"){
+		$transaction_ids = $_GET["transaction_ids"];
+		$transactions = $db->fetch_all_data("transactions",[],"id IN (".$transaction_ids.")");
+		$star_width = 20;
+		$goods_photos_width = 120;
+		if(isMobile()) $goods_photos_width = 70;
+		foreach($transactions as $transaction){
+			$_trxBySeller[$transaction["seller_user_id"]][] = $transaction;
+		}
+		foreach($_trxBySeller as $seller_user_id => $transactions){
+			echo "<table class=\"table table-bordered\" width=\"100%\">";
+			foreach($transactions as $transaction){
+				if($transaction["seller_user_id"] == $__user_id || $transaction["buyer_user_id"] == $__user_id){
+					$transaction_details = $db->fetch_all_data("transaction_details",[],"id = '".$transaction["id"]."'")[0];
+					$goods  = $db->fetch_all_data("goods",[],"id = '".$transaction_details["goods_id"]."'")[0];
+					$goods_photos = $db->fetch_all_data("goods_photos",[],"goods_id = '".$goods["id"]."'","seqno")[0];
+					echo "<tr><td colspan='2'><b>".$goods["name"]."</b></td></tr>";
+					echo "<tr>";
+					echo "	<td width='1'><img src=\"goods/".$goods_photos["filename"]."\" style=\"width:".$goods_photos_width."px;\"></td>";
+					echo "	<td nowrap>";
+					for($ii = 0; $ii < 5 ;$ii++){
+						$level = $ii + 1;
+						if($level <= $transaction_details["review_level"]) $star_file_image = "star";
+						else $star_file_image = "unstar";
+						echo "<img id=\"star_".$transaction["id"]."_".$level."\" src=\"assets/".$star_file_image.".png\" style=\"width:".$star_width."px;\">&nbsp;&nbsp;";
+					}
+					echo "		<br><br>";
+					echo "<pre>".$transaction_details["review_description"]."</pre>";
+					echo "	</td>";
+					echo "</tr>";
+					if($transaction["seller_user_id"] == $__user_id){
+						$db->addtable("transaction_details");	$db->where("id",$transaction_details["id"]);
+						$db->addfield("review_id_read");		$db->addvalue("1");
+						$db->addfield("review_read_at");		$db->addvalue($__now);
+						$db->update();
+					}
+				}
+			}
+			echo "</table>";
+		}
+	}
 ?>
