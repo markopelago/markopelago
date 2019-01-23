@@ -8,12 +8,14 @@
 	}
 	$transaction_id = $transaction_forwarders[0]["transaction_id"];
 	$cart_group = $db->fetch_single_data("transactions","cart_group",["id" => $transaction_id]);
+	if(!$cart_group) $cart_group = $transaction_forwarders[0]["cart_group"];
 	$transaction_ids = "";
 	$transactions = $db->fetch_all_data("transactions",["id"],"cart_group = '".$cart_group."'");
-	foreach($transactions as $transaction){ 
+	foreach($transactions as $transaction){
 		if($db->fetch_single_data("transaction_forwarder","id",["transaction_id" => $transaction["id"],"forwarder_user_id" => $__user_id]) > 0) $transaction_ids .= $transaction["id"].","; 
 	}
 	$transaction_ids = substr($transaction_ids,0,-1);
+	if(!$transaction_ids) $transaction_ids = $transaction_forwarders[0]["transaction_ids"];
 	
 	
 	$transaction_forwarder = $transaction_forwarders[0];
@@ -21,7 +23,8 @@
 	if($_GET["changeStatus"] > 1 && $_GET["changeStatus"] <= 7){
 		$receipt_no = generate_markoantar_receipt_no();
 		$db->addtable("transaction_forwarder");	
-		$db->where("transaction_id",$transaction_ids,"s","IN");
+		$db->where("id",$transaction_forwarder_id);
+		$db->where("cart_group",$cart_group);
 		$db->where("forwarder_user_id",$__user_id);
 		$db->addfield("markoantar_status");								$db->addvalue($_GET["changeStatus"]);
 		$db->addfield("markoantar_status".$_GET["changeStatus"]."_at");	$db->addvalue($__now);
@@ -90,7 +93,6 @@
 					$goods_photos  = $db->fetch_all_data("goods_photos",[],"goods_id = '".$goods["id"]."'","seqno")[0];
 					if(!file_exists("goods/".$goods_photos["filename"])) $goods_photos["filename"] = "no_goods.png";
 					$units  = $db->fetch_all_data("units",[],"id = '".$transaction_details["unit_id"]."'")[0];
-					$transaction_forwarder = $db->fetch_all_data("transaction_forwarder",[],"transaction_id = '".$transaction["id"]."'")[0];					
 					$status = $db->fetch_single_data("transactions","status",["id" => $transaction["id"]]);
 			?>
 			<tr>
@@ -100,10 +102,8 @@
 					</div>
 					<div class="col-md-10">
 						<b><?=$goods["name"]?></b><br>
-						<?=$transaction_details["qty"]?> <?=$units["name_".$__locale]?> x Rp <?=format_amount($transaction_details["price"])?><br>
+						<?=$transaction_details["qty"]?> x Rp <?=format_amount($transaction_details["price"])?><br>
 						<?=v("weight_per_unit");?> : <?=($goods["weight"]/1000);?> Kg<br>
-						<?php if($status >= "5" && $transaction_forwarder["markoantar_status"] > 0 && $transaction_forwarder["markoantar_status"] < 6) 
-								echo "<div class='alert alert-warning'>".markoantar_status($transaction_forwarder["markoantar_status"])."</div>"; ?>
 					</div>
 				</td>
 			</tr>
@@ -117,7 +117,6 @@
 				$transaction = $transactions[0];
 				$transaction_details = $db->fetch_all_data("transaction_details",[],"id = '".$transaction["id"]."'")[0];
 				$goods  = $db->fetch_all_data("goods",[],"id = '".$transaction_details["goods_id"]."'")[0];
-				$transaction_forwarder = $db->fetch_all_data("transaction_forwarder",[],"transaction_id = '".$transaction["id"]."'")[0];
 				$status = $db->fetch_single_data("transactions","status",["id" => $transaction["id"]]);
 				$seller_name = $db->fetch_single_data("sellers","name",["user_id" => $transaction["seller_user_id"]]);
 				$seller_pic = $db->fetch_single_data("sellers","pic",["user_id" => $transaction["seller_user_id"]]);
@@ -175,13 +174,15 @@
 					?>
 				</td>
 				<td nowrap width="15%">
-					<?=v("weight");?><br><b><?=$total_weight;?> Kg</b>
+					<?=v("weight");?><br><b><?=$transaction_forwarder["weight"]/1000;?> Kg</b>
 					<br><br>
 					<?=v("shipping_charges");?><br><b>Rp <?=format_amount($transaction_forwarder["total"])?></b>
 				</td> 
 			</tr>
 		</table>
 		<?php 
+			if($transaction_forwarder["markoantar_status"] > 0 && $transaction_forwarder["markoantar_status"] < 6)
+				echo "<div class='alert alert-warning'>".markoantar_status($transaction_forwarder["markoantar_status"])."</div>";
 			if($transaction_forwarder["markoantar_status"] >= 1 && $transaction_forwarder["markoantar_status"] < 6) 
 				echo $f->input("update_status",markoantar_status($transaction_forwarder["markoantar_status"]+1),"style=\"width:100%;\" onclick=\"changeStatus(".($transaction_forwarder["markoantar_status"]+1).",'".markoantar_status($transaction_forwarder["markoantar_status"]+1)."');\"","btn btn-success");
 			if($transaction_forwarder["markoantar_status"] == 6) 

@@ -20,32 +20,40 @@
 	}
 	
 	if($mode == "loadCourierServices"){
-		$is_markoantar = false;
-		$goods_id = $_GET["goods_id"];
-		$goods  = $db->fetch_all_data("goods",[],"id = '".$goods_id."'")[0];
-		$is_pasar = is_pasar($goods_id);
+		$seller_id = $_GET["seller_id"];
 		$buyer_address_id = $_GET["buyer_address_id"];
 		$courier = $_GET["courier"];
+		$total_weight = 0;
+		$is_markoantar = false;
+		$cart_group = $db->fetch_single_data("transactions","cart_group",["buyer_user_id"=>$__user_id,"status" => "0"]);
+		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
+		$transaction_ids = "";
+		$transactions = $db->fetch_all_data("transactions",["id"],"cart_group = '".$cart_group."' AND seller_user_id='".$seller_user_id."'");
+		foreach($transactions as $transaction){ $transaction_ids .= $transaction["id"].","; }
+		$transaction_ids = substr($transaction_ids,0,-1);
+		$is_pasar = $db->fetch_single_data("seller_is_pasar","id",["seller_id" => $seller_id]);
 		$forwarder_id = $db->fetch_single_data("forwarders","id",["rajaongkir_code" => $courier]);
 		if($forwarder_id <= 0){
 			$forwarder_id = $db->fetch_single_data("forwarders","id",["user_id" => $courier]);
 			if($forwarder_id > 0) $is_markoantar = true;
 		}
-		$qty = $_GET["qty"];
-		$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
-		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
-		$pickup_location_id = $db->fetch_single_data("goods","pickup_location_id",["id" => $goods_id]);
-		if($pickup_location_id <= 0) $pickup_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]);
+		$transaction_details = $db->fetch_all_data("transaction_details",[],"transaction_id IN (".$transaction_ids.")");
+		foreach($transaction_details as $transaction_detail){ 
+			$goods_id = $transaction_detail["goods_id"];
+			$pickup_location_id = $db->fetch_single_data("goods","pickup_location_id",["id" => $goods_id]);
+			if($pickup_location_id > 0) $pickup_location_ids[$pickup_location_id] = 1;
+			$total_weight += ($db->fetch_single_data("goods","weight",["id" => $goods_id]) * $transaction_detail["qty"]);
+		}
+		if(count($pickup_location_ids) != 1 || $pickup_location_id <= 0) $pickup_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]);
 		$seller_locations = get_location($pickup_location_id);
 		
 		$buyer_locations = get_location($db->fetch_single_data("user_addresses","location_id",["id" => $buyer_address_id,"user_id" => $__user_id]));
-		$weight = $db->fetch_single_data("goods","weight",["id" => $goods_id]);
 		$courier_services = array();
 		
 		if(!$is_markoantar){
 			$origin = $ro->location_id($seller_locations[0]["name"],$seller_locations[1]["name"],$seller_locations[2]["name"]);
 			$destination = $ro->location_id($buyer_locations[0]["name"],$buyer_locations[1]["name"],$buyer_locations[2]["name"]);
-			$ro_cost = $ro->cost($origin,$destination,($weight*$qty),$courier);
+			$ro_cost = $ro->cost($origin,$destination,$total_weight,$courier);
 			if($ro_cost["status"]["code"] == "400"){
 				echo "<font color='red'>".$ro_cost["status"]["description"]."</font>";exit();
 			} else {
@@ -55,7 +63,7 @@
 			}
 		} else {
 			$courier_services = [];
-			$forwarder_vehicles = $db->fetch_all_data("forwarder_vehicles",[],"user_id='".$courier."' AND max_load >= '".($weight*$qty/1000)."' AND is_active='1' AND is_available='1'");
+			$forwarder_vehicles = $db->fetch_all_data("forwarder_vehicles",[],"user_id='".$courier."' AND max_load >= '".($total_weight/1000)."' AND is_active='1' AND is_available='1'");
 			if($is_pasar){
 				echo "<font color='green'>".str_replace(["{marko_cod}","{cod_max_gram}"],[format_amount($__marko_cod),$__cod_max_gram/1000],v("flat_rates_markoantar"))."</font>";
 				exit();
@@ -71,44 +79,50 @@
 				exit();
 			}
 		}
-		echo $f->select("courier_service_".$goods_id,$courier_services,"","","form-control");
+		echo $f->select("courier_service_".$seller_id,$courier_services,"","","form-control");
 		echo "<script>";
-		echo "	$(\"#courier_service_".$goods_id."\").change(function(){";
-		echo "		load_shipping_charges(".$goods_id.",$(\"#user_address\").val(),$(\"#delivery_courier_".$goods_id."\").val(),$(\"#courier_service_".$goods_id."\").val(),$(\"#hide_qty_".$goods_id."\").val());";
+		echo "	$(\"#courier_service_".$seller_id."\").change(function(){";
+		echo "		load_shipping_charges(".$seller_id.",$(\"#user_address\").val(),$(\"#delivery_courier_".$seller_id."\").val(),$(\"#courier_service_".$seller_id."\").val());";
 		echo "	});";
 		echo "</script>";
 	}
 	
 	if($mode == "loadShippingCharges"){
-		$is_markoantar = false;
-		$goods_id = $_GET["goods_id"];
-		$goods  = $db->fetch_all_data("goods",[],"id = '".$goods_id."'")[0];
-		$is_pasar = is_pasar($goods_id);
+		$seller_id = $_GET["seller_id"];
 		$buyer_address_id = $_GET["buyer_address_id"];
 		$courier = $_GET["courier"];
+		$courier_service = $_GET["courier_service"];
+		$is_markoantar = false;
+		$total_weight = 0;
+		$cart_group = $db->fetch_single_data("transactions","cart_group",["buyer_user_id"=>$__user_id,"status" => "0"]);
+		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
+		$transaction_ids = "";
+		$transactions = $db->fetch_all_data("transactions",["id"],"cart_group = '".$cart_group."' AND seller_user_id='".$seller_user_id."'");
+		foreach($transactions as $transaction){ $transaction_ids .= $transaction["id"].","; }
+		$transaction_ids = substr($transaction_ids,0,-1);
+		$is_pasar = $db->fetch_single_data("seller_is_pasar","id",["seller_id" => $seller_id]);
 		$forwarder_id = $db->fetch_single_data("forwarders","id",["rajaongkir_code" => $courier]);
 		if($forwarder_id <= 0){
 			$forwarder_id = $db->fetch_single_data("forwarders","id",["user_id" => $courier]);
 			if($forwarder_id > 0) $is_markoantar = true;
 		}
 		
-		$courier_service = $_GET["courier_service"];
-		$qty = $_GET["qty"];
-		$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
-		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
-		
-		
-		$pickup_location_id = $db->fetch_single_data("goods","pickup_location_id",["id" => $goods_id]);
-		if($pickup_location_id <= 0) $pickup_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id]);
+		$transaction_details = $db->fetch_all_data("transaction_details",[],"transaction_id IN (".$transaction_ids.")");
+		foreach($transaction_details as $transaction_detail){ 
+			$goods_id = $transaction_detail["goods_id"];
+			$pickup_location_id = $db->fetch_single_data("goods","pickup_location_id",["id" => $goods_id]);
+			if($pickup_location_id > 0) $pickup_location_ids[$pickup_location_id] = 1;
+			$total_weight += ($db->fetch_single_data("goods","weight",["id" => $goods_id]) * $transaction_detail["qty"]);
+		}
+		if(count($pickup_location_ids) != 1 || $pickup_location_id <= 0) $pickup_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]);
 		$buyer_location_id = $db->fetch_single_data("user_addresses","location_id",["id" => $buyer_address_id,"user_id" => $__user_id]);
 		$seller_locations = get_location($pickup_location_id);
 		$buyer_locations = get_location($buyer_location_id);
-		$weight = $db->fetch_single_data("goods","weight",["id" => $goods_id]);
 		
 		if(!$is_markoantar){
 			$origin = $ro->location_id($seller_locations[0]["name"],$seller_locations[1]["name"],$seller_locations[2]["name"]);
 			$destination = $ro->location_id($buyer_locations[0]["name"],$buyer_locations[1]["name"],$buyer_locations[2]["name"]);
-			foreach($ro->cost($origin,$destination,($weight*$qty),$courier)["results"][0]["costs"] as $cost){
+			foreach($ro->cost($origin,$destination,$total_weight,$courier)["results"][0]["costs"] as $cost){
 				if(strtolower($cost["service"]) == strtolower($courier_service)){
 					$shippingcharges = $cost["cost"][0]["value"];
 					break;
@@ -118,10 +132,18 @@
 			$shippingcharges = $db->fetch_single_data("forwarder_routes","price",["user_id" => $courier,"vehicle_id" => $courier_service,"source_location_id" => $pickup_location_id,"destination_location_id" => $buyer_location_id]);
 		}
 		
-		$price = get_goods_price($goods_id,$qty)["display_price"];
-		$subtotal = $price * $qty;
-		$total = $subtotal + $shippingcharges;
+		$subtotal = 0;
+		$transaction_details = $db->fetch_all_data("transaction_details",[],"transaction_id IN (".$transaction_ids.")");
+		foreach($transaction_details as $transaction_detail){
+			$goods_id = $transaction_detail["goods_id"];
+			$qty = $transaction_detail["qty"];
+			$price = get_goods_price($goods_id,$qty)["display_price"];
+			$subtotal += ($price * $qty);
+		}
+		
+		
 		if($shippingcharges > 0){
+			$total = $subtotal + $shippingcharges;
 			echo " x Rp. ".format_amount($price)." = Rp. ".format_amount($subtotal)."|||Rp. ".format_amount($shippingcharges)."|||Rp. ".format_amount($total)."|||".$shippingcharges."|||".$total;
 		} else {
 			$no_shippingcharges_desc = v("no_shippingcharges_desc");
@@ -129,7 +151,8 @@
 				$no_shippingcharges_desc = str_replace(["{marko_cod}","{cod_max_gram}"],[format_amount($__marko_cod),$__cod_max_gram/1000],v("flat_rates_markoantar"));
 				$flat_rates_markoantar = "flat_rates_markoantar";
 			}
-			echo " x Rp. ".format_amount($price)." = Rp. ".format_amount($subtotal)."|||<p style='font-size:0.8em;'>".$no_shippingcharges_desc."</p>|||Rp. ".format_amount($total)."|||0|||".$total."|||".$flat_rates_markoantar;
+			$total = $subtotal + $__marko_cod;
+			echo " x Rp. ".format_amount($price)." = Rp. ".format_amount($subtotal)."|||<p style='font-size:0.8em;'>".$no_shippingcharges_desc."</p>|||Rp. ".format_amount($total)."|||".$__marko_cod."|||".$total."|||".$flat_rates_markoantar;
 		}
 	}
 	
@@ -153,6 +176,8 @@
 		$transaction_id = $_GET["transaction_id"];
 		$transaction = $db->fetch_all_data("transactions",[],"id='".$transaction_id."'")[0];
 		$seller_name = $db->fetch_single_data("sellers","name",["user_id" => $transaction["seller_user_id"]]);
+		$cart_group = $transaction["cart_group"];
+		$seller_id = $db->fetch_single_data("sellers","id",["user_id" => $transaction["seller_user_id"]]);
 		$return .= "<div class='panel panel-info'><div class='panel-heading'>".transactionList(1).":<br>&nbsp;&nbsp;&nbsp;".format_tanggal($transaction["transaction_at"],"dMY",true)."</div></div>";
 		if($transaction["po_at"] != "0000-00-00") 					$return .= "<div class='panel panel-info'><div class='panel-heading'>".transactionList(3).":<br>&nbsp;&nbsp;&nbsp;".format_tanggal($transaction["po_at"],"dMY",true)."</div></div>";
 		if($transaction["process_at"] != "0000-00-00 00:00:00") 	$return .= "<div class='panel panel-info'><div class='panel-heading'>".transactionList(4).":<br>&nbsp;&nbsp;&nbsp;".format_tanggal($transaction["process_at"],"dMY",true)."</div></div>";
@@ -160,6 +185,7 @@
 			$receipt_no = $db->fetch_single_data("transaction_forwarder","receipt_no",["transaction_id" => $transaction_id]);
 			$return .= "<div class='panel panel-info'><div class='panel-heading'>".transactionList(5).":<br>";
 			$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"transaction_id IN (SELECT id FROM transactions WHERE invoice_no='".$transaction["invoice_no"]."')");
+			if(count($transaction_forwarders) <= 0) $transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"cart_group = '".$cart_group."' AND seller_id = '".$seller_id."'");
 
 			$receipts = array();
 			$receipts_forwarder_user_id = array();
@@ -327,18 +353,27 @@
 	}
 	
 	if($mode == "distance_estimation"){
-		$goods_id = $_GET["goods_id"];
+		$seller_id = $_GET["seller_id"];
 		$buyer_address_id = $_GET["buyer_address_id"];
-		$seller_id = $db->fetch_single_data("goods","seller_id",["id" => $goods_id]);
+		$cart_group = $db->fetch_single_data("transactions","cart_group",["buyer_user_id"=>$__user_id,"status" => "0"]);
 		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $seller_id]);
-		$pickup_location_id = $db->fetch_single_data("goods","pickup_location_id",["id" => $goods_id]);
-		if($pickup_location_id <= 0) $pickup_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]);
+		$transaction_ids = "";
+		$transactions = $db->fetch_all_data("transactions",["id"],"cart_group = '".$cart_group."' AND seller_user_id='".$seller_user_id."'");
+		foreach($transactions as $transaction){ $transaction_ids .= $transaction["id"].","; }
+		$transaction_ids = substr($transaction_ids,0,-1);
+		$transaction_details = $db->fetch_all_data("transaction_details",[],"transaction_id IN (".$transaction_ids.")");
+		foreach($transaction_details as $transaction_detail){
+			$goods_id = $transaction_detail["goods_id"];
+			$pickup_location_id = $db->fetch_single_data("goods","pickup_location_id",["id" => $goods_id]);
+			if($pickup_location_id > 0) $pickup_location_ids[$pickup_location_id] = 1;
+		}
+		if(count($pickup_location_ids) != 1 || $pickup_location_id <= 0) $pickup_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]);
 		$seller_locations = get_location($pickup_location_id);
 		$buyer_locations = get_location($db->fetch_single_data("user_addresses","location_id",["id" => $buyer_address_id]));
 		$origins = $seller_locations[0]["name"].", ".$seller_locations[1]["name"].", ".$seller_locations[2]["name"].", ".$seller_locations[3]["name"];
 		$destinations = $buyer_locations[0]["name"].", ".$buyer_locations[1]["name"].", ".$buyer_locations[2]["name"].", ".$buyer_locations[3]["name"];
 		$distance = google_distancematrix($origins,$destinations)[0]["elements"][0]["distance"]["value"];
-		echo $goods_id."|||".round($distance/1000,2)." Km|||".$distance;
+		echo $seller_id."|||".round($distance/1000,2)." Km|||".$distance;
 	}
 	
 	if($mode == "cartcount"){

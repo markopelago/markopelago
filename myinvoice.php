@@ -9,6 +9,24 @@
 		javascript("window.location='index.php';");
 		exit();
 	}
+	if(!$cart_group) $cart_group = $db->fetch_single_data("transactions","cart_group",["id" => $transactions[0]["id"]]);
+	if($_GET["goods_received"] == "1"){
+		$seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $_GET["seller_id"]]);
+		$db->addtable("transactions");	
+		$db->where("invoice_no",$_GET["invoice_no"]);
+		$db->where("buyer_user_id",$__user_id);
+		$db->where("seller_user_id",$seller_user_id);
+		$db->addfield("status");		$db->addvalue("6");
+		$db->addfield("delivered_at");	$db->addvalue($__now);
+		$updating = $db->update();
+		if($updating["affected_rows"] > 0){
+			$_SESSION["message"] = v("goods_received");
+			javascript("window.location='?invoice_no=".$_GET["invoice_no"]."';");
+			exit();
+		} else {
+			$_SESSION["errormessage"] = v("failed_saving_data");
+		}
+	}
 	if($_GET["transaction_done"] == "1"){
 		$db->addtable("transactions");	
 		$db->where("invoice_no",$_GET["invoice_no"]);
@@ -36,6 +54,11 @@
 	
 ?>
 <script>
+	function goods_received(seller_id){
+		if(confirm("<?=v("are_you_sure_goods_received");?> ?")){
+			window.location = "?invoice_no=<?=$_GET["invoice_no"];?>&goods_received=1&seller_id="+seller_id;
+		}
+	}
 	function transactionDone(){
 		if(confirm("<?=v("are_you_sure_transaction_done");?> ?")){
 			window.location = "?invoice_no=<?=$_GET["invoice_no"];?>&transaction_done=1";
@@ -54,9 +77,15 @@
 			<button class="btn btn-info" onclick="showReview('<?=$has_review_ids;?>');"><img src="assets/review.png" height="18"> <?=v("review");?></button>
 			<br><br>
 		<?php } ?>
+		<?php
+			if($db->fetch_single_data("transactions","id",["cart_group" => $cart_group,"status" => "4:<"]) == 0 && $db->fetch_single_data("transactions","id",["cart_group" => $cart_group,"status" => "6:>"]) == 0){
+				echo "<a onclick=\"transactionDone();\" href='#' style='position:relative;float:right;' class='btn btn-primary'><span class='glyphicon glyphicon-ok'></span> ".v("transaction_done")."</a><br><br>";
+			}
+		?>
 		<?php 
 			foreach($_trxBySeller as $seller_user_id => $transactions){
 				$seller = $db->fetch_all_data("sellers",[],"user_id = '".$seller_user_id."'")[0];
+				$seller_id = $seller["id"];
 				$seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]));
 		?>
 			<table class="table table-bordered" width="100%">
@@ -79,10 +108,9 @@
 						$goods  = $db->fetch_all_data("goods",[],"id = '".$transaction_details["goods_id"]."'")[0];
 						$goods_photos  = $db->fetch_all_data("goods_photos",[],"goods_id = '".$goods["id"]."'","seqno")[0];
 						$units  = $db->fetch_all_data("units",[],"id = '".$transaction_details["unit_id"]."'")[0];
-						$transaction_forwarder = $db->fetch_all_data("transaction_forwarder",[],"transaction_id = '".$transaction["id"]."'")[0];
 						
-						$total = $transaction_details["total"] + $transaction_forwarder["total"];
-						$total_tagihan += $total;
+						$total = $transaction_details["total"];
+						$subtotal[$seller_id] += $total;
 						$goods_photos["filename"] = ($goods_photos["filename"] == "")?"no_goods.png":$goods_photos["filename"];
 						if(!file_exists("goods/".$goods_photos["filename"])) $goods_photos["filename"] = "no_goods.png";
 				?>
@@ -94,7 +122,7 @@
 						<div class="col-md-10">
 							<b><?=$goods["name"]?></b><br>
 							<span class="glyphicon glyphicon-scale"></span> <?=($goods["weight"]/1000);?> Kg<br>
-							<?=$transaction_details["qty"]?> <?=$units["name_".$__locale]?> x Rp <?=format_amount($transaction_details["price"])?><br>
+							<?=$transaction_details["qty"]?> x Rp <?=format_amount($transaction_details["price"])?><br>
 						</div>
 					</td>
 					<td colspan="2" align="right" nowrap>
@@ -102,6 +130,11 @@
 						Rp. <?=format_amount($transaction_details["total"])?>
 					</td>   
 				</tr>
+				<?php 
+					}
+					$transaction_forwarder = $db->fetch_all_data("transaction_forwarder",[],"cart_group = '".$cart_group."' AND seller_id='".$seller_id."'")[0];
+					$subtotal[$seller_id] += $transaction_forwarder["total"];
+				?>
 				<tr>
 					<td colspan="5">
 						<u><?=v("delivery_destination");?> :</u><br>
@@ -153,43 +186,31 @@
 									echo "<br><b>".v("delivered_at").": ".format_tanggal($transaction_forwarder["receipt_at"]);
 									echo "<br>".v("shipping_receipt_number").": ".$transaction_forwarder["receipt_no"]."</b>";
 								}
+								if($transaction["status"] == 5 && $transaction_forwarder["receipt_at"] != "0000-00-00 00:00:00") {
+									echo "<br>".$f->input("goods_received",v("goods_received"),"type='button' onclick=\"goods_received('".$seller_id."');\"","btn btn-success");
+								}
 							}
+							if($transaction["status"] > 5) echo "<div class='alert alert-success'><span class='glyphicon glyphicon-thumbs-up '></span> ".v("goods_received")."</div>";
 						?>
 					</td>
 					<td nowrap width="15%" align="right">
-						<?=v("weight");?><br> <?=($transaction_forwarder["weight"]*$transaction_forwarder["qty"]/1000);?> Kg
+						<?=v("weight");?><br> <?=($transaction_forwarder["weight"]/1000);?> Kg
 					</td> 
 					<td nowrap width="15%" align="right">
 						<?=v(($transaction_forwarder["name"] == "self_pickup")?"administration_fee":"shipping_charges");?><br> Rp <?=format_amount($transaction_forwarder["total"])?>
 					</td>
 				</tr>
-				<tr><td colspan="6" align="right"><b> Total : Rp <?=format_amount($total)?></b></td></tr>
-				<?php 
-					if($transaction["status"] == "7")	
-						echo "<tr><td colspan='6' style='width:100%;font-size:20px;text-align:center;' class='alert alert-success'><span class='glyphicon glyphicon-thumbs-up '></span> ".v("transaction_done")."</td></tr>";
-				?>
-				<tr><td colspan="6"></td></tr>
-				<?php } ?>
+				<tr><td colspan="6" align="right"><b> Total : Rp <?=format_amount($subtotal[$seller_id])?></b></td></tr>
 			</table>
-		<?php } ?>
-		<table width="100%">
-			<tr>
-				<td align="right"><h4><b><?=v("total_shopping");?> : &nbsp;&nbsp;Rp. <?=format_amount($total_tagihan)?></b></h4></td>
-			</tr>
-		</table>
 		<?php 
-			if($cart_group != ""){
-				if($db->fetch_single_data("transactions","id",["cart_group" => $cart_group,"status" => "2:<="]) > 0){
-					echo $f->input("pay",v("pay"),"style=\"position:relative;float:right;\" onclick='window.location=\"payment.php?cart_group=".$cart_group."\";'","btn btn-success");
-				} else {
-					$is_cod = $db->fetch_single_data("transaction_payments","id",["cart_group" => $cart_group,"payment_type_id" => "-1"]);
-					if(!$is_cod) echo "<div style='width:100%;font-size:20px;text-align:center;' class='alert alert-success'><span class='glyphicon glyphicon-ok '> ".v("paid")."</span></div>";
-				}
-			} else {
-				if($transaction["status"] < 7){
-					echo "<a onclick=\"transactionDone();\" href='#' style='position:relative;float:right;' class='btn btn-primary'><span class='glyphicon glyphicon-ok'></span> ".v("transaction_done")."</a>";					
-				}
 			}
+			$total_tagihan = 0; foreach($subtotal as $seller_id => $total){ $total_tagihan += $total; }
+			?> <table width="100%"><tr><td align="right"><h4><b><?=v("total_shopping");?> : &nbsp;&nbsp;Rp. <?=format_amount($total_tagihan)?></b></h4></td></tr></table> <?php 
+			if($db->fetch_single_data("transactions","id",["cart_group" => $cart_group,"status" => "2:<="]) > 0){
+				echo $f->input("pay",v("pay"),"style=\"position:relative;float:right;\" onclick='window.location=\"payment.php?cart_group=".$cart_group."\";'","btn btn-success");
+			}
+			if($transaction["status"] == "7")	
+				echo "<div class='alert alert-success'><span class='glyphicon glyphicon-thumbs-up '></span> ".v("transaction_done")."</div>"; 
 		?>
 		<a href="dashboard.php?tabActive=purchase_list" class="btn btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> <?=v("back");?></a>
     </div>

@@ -56,6 +56,12 @@
 		$__menu_ids[$menu[0]] = 1;
 	}
 	
+	function v($index){
+		global $v;
+		if($v->w($index)) return $v->w($index);
+		else return $index;
+	}
+	
 	function is_file_allowed($filename,$user_id,$group_id,$db){
 		$is_allowed = true;
 		$file_pattern = "";

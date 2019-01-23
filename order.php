@@ -24,116 +24,111 @@
 	// echo "<pre>";
 	// print_r($_POST);
 	// echo "</pre>";
-	// if(false){
 	if(isset($_POST["pay"]) || $_POST["action_mode"] == "cod"){
 		$failedUpdatingTransactions = false;
-		foreach($transactions as $transaction){
-			$invoice_no = generate_invoice_no();
-			$db->addtable("transactions");  
-			$db->where("cart_group",$cart_group);
-			$db->where("seller_user_id",$transaction["seller_user_id"]);
-			$db->where("status","0");
-			$db->addfield("invoice_no");	$db->addvalue($invoice_no);
-			$db->addfield("invoice_at");	$db->addvalue($__now);
-			$db->addfield("status");        $db->addvalue("1");
-			$updating = $db->update();
-			
-			$transaction_id 			= $transaction["id"];
-			$goods_id 					= $db->fetch_single_data("transaction_details","goods_id",["transaction_id" => $transaction_id]);
-			$goods_category_ids 		= $db->fetch_single_data("goods","category_ids",["id" => $goods_id]);
-			$is_pasar 					= is_pasar($goods_id);
-			$qty 						= $db->fetch_single_data("transaction_details","qty",["transaction_id" => $transaction_id]);
-			$weight 					= $db->fetch_single_data("goods","weight",["id" => $goods_id]);
-			$forwarder_id 				= $db->fetch_single_data("forwarders","id",["rajaongkir_code" => $_POST["delivery_courier_".$goods_id]]);
-			if($forwarder_id > 0){
-				$forwarder_user_id 			= $db->fetch_single_data("forwarders","user_id",["rajaongkir_code" => $_POST["delivery_courier_".$goods_id]]);
-				$name 						= $db->fetch_single_data("forwarders","name",["rajaongkir_code" => $_POST["delivery_courier_".$goods_id]]);
-			} else {
-				$forwarder_id 				= $db->fetch_single_data("forwarders","id",["user_id" => $_POST["delivery_courier_".$goods_id]]);
-				$forwarder_user_id 			= $_POST["delivery_courier_".$goods_id];
-				$name 						= $db->fetch_single_data("forwarders","name",["user_id" => $_POST["delivery_courier_".$goods_id]]);
-			}
-			
-			$user_address_id 			= $_POST["user_address"];
-			$_user_address				= $db->fetch_all_data("user_addresses",[],"id='".$user_address_id."' AND user_id='".$__user_id."'")[0];
-			$user_address_name 			= $_user_address["name"];
-			$user_address_pic 			= $_user_address["pic"];
-			$user_address_phone 		= $_user_address["phone"];
-			$user_address 				= $_user_address["address"];
-			$user_address_location_id 	= $_user_address["location_id"];
-			$user_address_coordinate 	= $_user_address["coordinate"];
-			$pickup_location_id = $db->fetch_single_data("goods","pickup_location_id",["id" => $goods_id]);
-			if($pickup_location_id <= 0) $pickup_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $transaction["seller_user_id"]]);
-			
-			if($_POST["self_pickup_".$goods_id] > 0){
-				$price 						= $__self_pickup_fee;
-				$name						= "self_pickup";
-				$_POST["courier_service_".$goods_id] = "self_pickup";
-			} else {
-				$seller_locations = get_location($pickup_location_id);
-				$buyer_locations = get_location($user_address_location_id);
-				$origin = $ro->location_id($seller_locations[0]["name"],$seller_locations[1]["name"],$seller_locations[2]["name"]);
-				$destination = $ro->location_id($buyer_locations[0]["name"],$buyer_locations[1]["name"],$buyer_locations[2]["name"]);
-				
-				$is_markoantar = false;
-				$forwarder_id = $db->fetch_single_data("forwarders","id",["rajaongkir_code" => $_POST["delivery_courier_".$goods_id]]);
-				if($forwarder_id <= 0){
-					$forwarder_id = $db->fetch_single_data("forwarders","id",["user_id" => $_POST["delivery_courier_".$goods_id]]);
-					if($forwarder_id > 0) $is_markoantar = true;
-				}
-				if(!$is_markoantar){
-					foreach($ro->cost($origin,$destination,($weight*$qty),$_POST["delivery_courier_".$goods_id])["results"][0]["costs"] as $cost){
-						if(strtolower($cost["service"]) == strtolower($_POST["courier_service_".$goods_id])){
-							$price 				= $cost["cost"][0]["value"];
-							break;
-						}
-					}
+		$invoice_no = generate_invoice_no();
+		$db->addtable("transactions");  
+		$db->where("cart_group",$cart_group);
+		$db->where("buyer_user_id",$__user_id);
+		$db->where("status","0");
+		$db->addfield("invoice_no");	$db->addvalue($invoice_no);
+		$db->addfield("invoice_at");	$db->addvalue($__now);
+		$db->addfield("status");        $db->addvalue("1");
+		$updating = $db->update();
+		if($updating["affected_rows"] <= 0) $failedUpdatingTransactions = true;
+		if(!$failedUpdatingTransactions){
+			foreach($_trxBySeller as $seller_user_id => $transactions){
+				$transaction_id = $transactions["id"];
+				$seller = $db->fetch_all_data("sellers",[],"user_id = '".$seller_user_id."'")[0];
+				$seller_id = $seller["id"];
+				$is_pasar = $db->fetch_single_data("seller_is_pasar","id",["seller_id" => $seller_id]);
+				$forwarder_id 				= $db->fetch_single_data("forwarders","id",["rajaongkir_code" => $_POST["delivery_courier_".$seller_id]]);
+				if($forwarder_id > 0){
+					$forwarder_user_id 			= $db->fetch_single_data("forwarders","user_id",["rajaongkir_code" => $_POST["delivery_courier_".$seller_id]]);
+					$name 						= $db->fetch_single_data("forwarders","name",["rajaongkir_code" => $_POST["delivery_courier_".$seller_id]]);
 				} else {
-					if($is_pasar) {
-						if(!$already_flat_markoantar){
-							$already_flat_markoantar = true;
-							$price = $__marko_cod;
-						} else {
-							$price = 0;
+					$forwarder_id 				= $db->fetch_single_data("forwarders","id",["user_id" => $_POST["delivery_courier_".$seller_id]]);
+					$forwarder_user_id 			= $_POST["delivery_courier_".$seller_id];
+					$name 						= $db->fetch_single_data("forwarders","name",["user_id" => $_POST["delivery_courier_".$seller_id]]);
+				}
+				$user_address_id 			= $_POST["user_address"];
+				$_user_address				= $db->fetch_all_data("user_addresses",[],"id='".$user_address_id."' AND user_id='".$__user_id."'")[0];
+				$user_address_name 			= $_user_address["name"];
+				$user_address_pic 			= $_user_address["pic"];
+				$user_address_phone 		= $_user_address["phone"];
+				$user_address 				= $_user_address["address"];
+				$user_address_location_id 	= $_user_address["location_id"];
+				$user_address_coordinate 	= $_user_address["coordinate"];
+				$transaction_details = $db->fetch_all_data("transaction_details",[],"transaction_id IN (SELECT id FROM transactions WHERE cart_group = '".$cart_group."' AND seller_user_id='".$seller_user_id."')");
+				$qty = 0;
+				$total_weight = 0;
+				foreach($transaction_details as $transaction_detail){
+					$goods_id = $transaction_detail["goods_id"];
+					$qty += $transaction_detail["qty"];
+					$total_weight += ($transaction_detail["qty"] * $transaction_detail["weight"]);
+					$pickup_location_id = $db->fetch_single_data("goods","pickup_location_id",["id" => $goods_id]);
+					if($pickup_location_id > 0) $pickup_location_ids[$pickup_location_id] = 1;
+				}
+				if(count($pickup_location_ids) != 1 || $pickup_location_id <= 0) $pickup_location_id = $db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]);
+				if($_POST["self_pickup_".$seller_id] > 0){
+					$price 						= $__self_pickup_fee;
+					$name						= "self_pickup";
+					$_POST["courier_service_".$seller_id] = "self_pickup";
+				} else {
+					$seller_locations = get_location($pickup_location_id);
+					$buyer_locations = get_location($user_address_location_id);
+					$origin = $ro->location_id($seller_locations[0]["name"],$seller_locations[1]["name"],$seller_locations[2]["name"]);
+					$destination = $ro->location_id($buyer_locations[0]["name"],$buyer_locations[1]["name"],$buyer_locations[2]["name"]);
+					
+					$is_markoantar = false;
+					$forwarder_id = $db->fetch_single_data("forwarders","id",["rajaongkir_code" => $_POST["delivery_courier_".$seller_id]]);
+					if($forwarder_id <= 0){
+						$forwarder_id = $db->fetch_single_data("forwarders","id",["user_id" => $_POST["delivery_courier_".$seller_id]]);
+						if($forwarder_id > 0) $is_markoantar = true;
+					}
+					if(!$is_markoantar){
+						foreach($ro->cost($origin,$destination,$total_weight,$_POST["delivery_courier_".$seller_id])["results"][0]["costs"] as $cost){
+							if(strtolower($cost["service"]) == strtolower($_POST["courier_service_".$seller_id])){ $price = $cost["cost"][0]["value"]; break; }
 						}
 					} else {
-						$price = $db->fetch_single_data("forwarder_routes","price",["user_id" => $_POST["delivery_courier_".$goods_id],"vehicle_id" => $_POST["courier_service_".$goods_id],"source_location_id" => $pickup_location_id,"destination_location_id" => $user_address_location_id]);
+						if($is_pasar) $price = $__marko_cod;
+						else $price = $db->fetch_single_data("forwarder_routes","price",["user_id" => $_POST["delivery_courier_".$seller_id],"vehicle_id" => $_POST["courier_service_".$seller_id],"source_location_id" => $pickup_location_id,"destination_location_id" => $user_address_location_id]);
 					}
 				}
+				$transaction_ids = "";
+				$Xtransactions = $db->fetch_all_data("transactions",["id"],"cart_group = '".$cart_group."' AND seller_user_id='".$seller_user_id."'");
+				foreach($Xtransactions as $Xtransaction){ $transaction_ids .= $Xtransaction["id"].","; }
+				$transaction_ids = substr($transaction_ids,0,-1);
+
+				$db->addtable("transaction_forwarder");
+				$db->addfield("cart_group");			$db->addvalue($cart_group);
+				$db->addfield("transaction_id");		$db->addvalue($transaction_id);
+				$db->addfield("transaction_ids");		$db->addvalue($transaction_ids);
+				$db->addfield("seller_id");				$db->addvalue($seller_id);
+				$db->addfield("forwarder_id");			$db->addvalue($forwarder_id);
+				$db->addfield("forwarder_user_id");		$db->addvalue($forwarder_user_id);
+				$db->addfield("name");					$db->addvalue($name);
+				$db->addfield("courier_service");		$db->addvalue($_POST["courier_service_".$seller_id]);
+				$db->addfield("pickup_location_id");	$db->addvalue($pickup_location_id);
+				$db->addfield("user_address_id");		$db->addvalue($user_address_id);
+				$db->addfield("user_address_name");		$db->addvalue($user_address_name);
+				$db->addfield("user_address_pic");		$db->addvalue($user_address_pic);
+				$db->addfield("user_address_phone");	$db->addvalue($user_address_phone);
+				$db->addfield("user_address");			$db->addvalue($user_address);
+				$db->addfield("user_address_location_id");$db->addvalue($user_address_location_id);
+				$db->addfield("user_address_coordinate");$db->addvalue($user_address_coordinate);
+				$db->addfield("weight");				$db->addvalue($total_weight);
+				$db->addfield("qty");					$db->addvalue($qty);
+				$db->addfield("price");					$db->addvalue($price);
+				$db->addfield("total");					$db->addvalue($price);
+				$inserting_transaction_forwarder = $db->insert();
 			}
-			$total 						= $price;
 			
-			$db->addtable("transaction_forwarder");
-			$db->addfield("transaction_id");		$db->addvalue($transaction_id);
-			$db->addfield("forwarder_id");			$db->addvalue($forwarder_id);
-			$db->addfield("forwarder_user_id");		$db->addvalue($forwarder_user_id);
-			$db->addfield("name");					$db->addvalue($name);
-			$db->addfield("courier_service");		$db->addvalue($_POST["courier_service_".$goods_id]);
-			$db->addfield("pickup_location_id");	$db->addvalue($pickup_location_id);
-			$db->addfield("user_address_id");		$db->addvalue($user_address_id);
-			$db->addfield("user_address_name");		$db->addvalue($user_address_name);
-			$db->addfield("user_address_pic");		$db->addvalue($user_address_pic);
-			$db->addfield("user_address_phone");	$db->addvalue($user_address_phone);
-			$db->addfield("user_address");			$db->addvalue($user_address);
-			$db->addfield("user_address_location_id");$db->addvalue($user_address_location_id);
-			$db->addfield("user_address_coordinate");$db->addvalue($user_address_coordinate);
-			$db->addfield("weight");				$db->addvalue($weight);
-			$db->addfield("qty");					$db->addvalue($qty);
-			$db->addfield("price");					$db->addvalue($price);
-			$db->addfield("total");					$db->addvalue($total);
-			$inserting_transaction_forwarder = $db->insert();
-			
-		}
-		if(!$failedUpdatingTransactions){
 			$uniqcode = generate_uniqcode();
 			$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$cart_group."'");
-            foreach($transactions as $transaction){
-                $transaction_details = $db->fetch_all_data("transaction_details",[],"id = '".$transaction["id"]."'")[0];
-                $transaction_forwarder = $db->fetch_all_data("transaction_forwarder",[],"transaction_id = '".$transaction["id"]."'")[0];
-
-                $total = $transaction_details["total"] + $transaction_forwarder["total"];
-                $total_tagihan += $total;
-            }
+			foreach($transactions as $transaction){ $total_tagihan += $db->fetch_single_data("transaction_details","total",["id" => $transaction["id"]]); }
+			$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"cart_group = '".$cart_group."'");
+			foreach($transaction_forwarders as $transaction_forwarder){ $total_tagihan += $transaction_forwarder["total"]; }
 			
 			$db->addtable("transaction_payments");
 			$db->addfield("cart_group");		$db->addvalue($cart_group);
@@ -157,10 +152,8 @@
 				$last_transfer_at = date("d F Y",mktime(0,0,0,$trx_at_mm,$trx_at_dd + 1,$trx_at_yy));
 				$emails[$transaction["invoice_no"]]["last_transfer_day"] = $last_transfer_day;
 				$emails[$transaction["invoice_no"]]["last_transfer_at"] = $last_transfer_at;
-				$transaction_details = $db->fetch_all_data("transaction_details",[],"id = '".$transaction["id"]."'");
+				$transaction_details = $db->fetch_all_data("transaction_details",[],"transaction_id = '".$transaction["id"]."'");
 				$seller_user_id = $transaction["seller_user_id"];
-				$seller_email = $db->fetch_single_data("a_users","email",["id" => $seller_user_id]);
-				$seller_name = $db->fetch_single_data("sellers","concat(pic,' - ',name)",["user_id" => $seller_user_id]);
 				foreach($transaction_details as $transaction_detail){
 					$goods_name = $db->fetch_single_data("goods","name",["id" => $transaction_detail["goods_id"]]);
 					$unit = $db->fetch_single_data("units","name_".$__locale,["id" => $transaction_detail["unit_id"]]);
@@ -182,21 +175,40 @@
 					$db->addfield("notes");				$db->addvalue($transaction_detail["notes"]);
 					$db->addfield("history_at");		$db->addvalue($__now);
 					$inserting = $db->insert();
-					
-					$arr1 = ["{seller_name}","{goods_name}","{qty}","{unit}"];
-					$arr2 = [$seller_name,$goods_name,$transaction_detail["qty"],$unit];
-					$body = read_file("html/email_reservasi_stok_id.html");
-					$body = str_replace($arr1,$arr2,$body);
-					sendingmail("Markopelago.com -- Reservasi Stok  ".$goods_name,$seller_email,$body,"system@markopelago.com|Markopelago System");
-					
-					$message = "Barang yang Anda jual, ".$goods_name." telah direservasi sebanyak ".$transaction_detail["qty"]." ".$unit.". Kami menunggu pembayaran customer untuk selanjutnya bisa anda kirim.";
-					$db->addtable("notifications");
-					$db->addfield("user_id");		$db->addvalue($seller_user_id);
-					$db->addfield("message");		$db->addvalue($message);
-					$inserting = $db->insert();
 				}
 			}
-			
+			foreach($_trxBySeller as $seller_user_id => $transactions){
+				$transaction_id = $transactions["id"];
+				$seller = $db->fetch_all_data("sellers",[],"user_id = '".$seller_user_id."'")[0];
+				$seller_id = $seller["id"];
+				$seller_email = $db->fetch_single_data("a_users","email",["id" => $seller_user_id]);
+				$seller_name = $db->fetch_single_data("sellers","concat(pic,' - ',name)",["user_id" => $seller_user_id]);
+				$detail_reservasi = "<table border='1'><tr><td><b>No</b></td><td><b>Produk</b></td><td><b>Qty</b></td><td><b>Unit</b></td></tr>";
+				$transaction_details = $db->fetch_all_data("transaction_details",[],"transaction_id IN (SELECT id FROM transactions WHERE cart_group = '".$cart_group."' AND seller_user_id='".$seller_user_id."')");
+				$goods_names = "";
+				foreach($transaction_details as $key => $transaction_detail){
+					$goods_id = $transaction_detail["goods_id"];
+					$goods_name = $db->fetch_single_data("goods","name",["id" => $transaction_detail["goods_id"]]);
+					$qty = $transaction_detail["qty"];
+					$unit = $db->fetch_single_data("units","name_".$__locale,["id" => $transaction_detail["unit_id"]]);
+					$goods_names .= $goods_name." x ".$qty.", ";
+					$detail_reservasi .= "<tr><td align='right'>".($key+1)."</td><td>".$goods_name."</td><td align='right'>".$qty."</td><td>".$unit."</td></tr>"; 
+				}
+				$detail_reservasi .= "</table>";
+				$goods_names = substr($goods_names,0,-1);
+					
+				$arr1 = ["{seller_name}","{detail_reservasi}"];
+				$arr2 = [$seller_name,$detail_reservasi];
+				$body = read_file("html/email_reservasi_stok_id.html");
+				$body = str_replace($arr1,$arr2,$body);
+				sendingmail("Markopelago.com -- Reservasi Stok",$seller_email,$body,"system@markopelago.com|Markopelago System");
+				
+				$message = "Reservasi barang, ".$goods_names.". Jika pembeli sudah melakukan pembayaran atau memilih pembayaran di tempat, silakan Anda proses transaksi ini..";
+				$db->addtable("notifications");
+				$db->addfield("user_id");		$db->addvalue($seller_user_id);
+				$db->addfield("message");		$db->addvalue($message);
+				$inserting = $db->insert();
+			}
 			
 			$order_detail = "";
 			$TOTAL = 0;
@@ -216,7 +228,7 @@
 										</tr>
 									</table>";
 									
-				$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"transaction_id IN (SELECT id FROM transactions WHERE invoice_no = '".$invoice_no."')");
+				$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"cart_group = '".$cart_group."'");
 				if(count($transaction_forwarders) > 0){
 					$order_detail .= "<p></p><p><b>Servis Kurir : </b></p><table cellpadding='3'>";
 					$forwarder_total = 0;
@@ -279,16 +291,16 @@
 				}
 				javascript("window.location='index.php';");
 			}
-            exit();
-        } else {
+			exit();
+		} else {
 			$db->addtable("transactions");  
 			$db->where("cart_group",$cart_group);
 			$db->addfield("invoice_no");	$db->addvalue("");
 			$db->addfield("invoice_at");	$db->addvalue("0000-00-00");
 			$db->addfield("status");        $db->addvalue("0");
 			$db->update();
-            $_SESSION["errormessage"] = v("finalization_of_purchases_failed");
-        }
+			$_SESSION["errormessage"] = v("finalization_of_purchases_failed");
+		}
 	}
 	
 	if(isset($_POST["addaddress"]) && isset($_POST["save_address"])){
@@ -315,11 +327,12 @@
 ?>
 <script>
 	var total_shipping_charges = 0;
-	var goods_ids = "";
-	var last_goods_id = "";
+	var seller_ids = "";
 	var numbers_is_valid = true;
 	var is_cod_coverage = true;
+	var cod_coverage = [];
 	var is_markoantar = false;
+	var using_markoantar = [];
 	var is_only_pasar = false;
 	var total_weight = 0;
 	var flat_rates_markoantar = 0;
@@ -331,11 +344,11 @@
 		$("#div_delivery_destination").html("<img src='images/fancybox_loading.gif'>");
 		$.get("ajax/transaction.php?mode=getAddress&user_address_id="+user_address_id, function(returnval){
 			$("#div_delivery_destination").html(returnval);
-			var arr_goods_id = goods_ids.split(",");
-			for(xx=0;xx<arr_goods_id.length;xx++){
-				goods__id = arr_goods_id[xx];
-				$("#hide_sub_total_"+goods__id).val("0");
-				load_courier_services(goods__id,user_address_id,$("#delivery_courier_"+goods__id).val(),$("#hide_qty_"+goods__id).val());
+			var arr_seller_id = seller_ids.split(",");
+			for(xx=0;xx<arr_seller_id.length;xx++){
+				seller__id = arr_seller_id[xx];
+				$("#hide_sub_total_"+seller__id).val("0");
+				load_courier_services(seller__id,user_address_id,$("#delivery_courier_"+seller__id).val());
 			}
 		});
 	}
@@ -352,46 +365,45 @@
 	}
 	
 	function load_calculation(){
-		var goods__id = 0;
+		var seller__id = 0;
 		var total_bill = 0;
 		var total_price = 0;
 		var total_shipping_charges = 0;
 		var shipping_charges = "";
-		var arr_goods_id = goods_ids.split(",");
+		var arr_seller_id = seller_ids.split(",");
 		var all_loaded = true;
 		numbers_is_valid = true;
-		for(xx=0;xx<arr_goods_id.length;xx++){
-			goods__id = arr_goods_id[xx];
-			if($("#hide_sub_total_"+goods__id).val() <= 0) {all_loaded = false;}
+		for(xx=0;xx<arr_seller_id.length;xx++){
+			seller__id = arr_seller_id[xx];
+			if($("#hide_sub_total_"+seller__id).val() <= 0) {all_loaded = false;}
 		}
 		if(all_loaded){
-			for(xx=0;xx<arr_goods_id.length;xx++){
-				goods__id = arr_goods_id[xx];
-				if(document.getElementById("self_pickup_"+goods__id).checked){
-					$("#hide_shipping_charges_"+goods__id).val("<?=$__self_pickup_fee;?>");
-					$("#hide_sub_total_"+goods__id).val(($("#hide_subtotal_"+goods__id).val() * 1) + <?=$__self_pickup_fee;?>);
-					$("#div_goods_pickup_distance_estimation_"+goods__id).html("<img src='images/fancybox_loading.gif'>");
-					$.get("ajax/transaction.php?mode=distance_estimation&goods_id="+goods__id+"&buyer_address_id="+$("#user_address").val(), function(returnval){
+			for(xx=0;xx<arr_seller_id.length;xx++){
+				seller__id = arr_seller_id[xx];
+				if(document.getElementById("self_pickup_"+seller__id).checked){
+					$("#hide_shipping_charges_"+seller__id).val("<?=$__self_pickup_fee;?>");
+					$("#hide_sub_total_"+seller__id).val(($("#hide_subtotal_"+seller__id).val() * 1) + <?=$__self_pickup_fee;?>);
+					$("#div_pickup_distance_estimation_"+seller__id).html("<img src='images/fancybox_loading.gif'>");
+					$.get("ajax/transaction.php?mode=distance_estimation&seller_id="+seller__id+"&buyer_address_id="+$("#user_address").val(), function(returnval){
 						returnval = returnval.split("|||");
-						$("#div_goods_pickup_distance_estimation_"+returnval[0]).html(returnval[1]);
+						$("#div_pickup_distance_estimation_"+returnval[0]).html(returnval[1]);
 					});
 				} else {
-					shipping_charges = $("#div_shipping_charges_"+goods__id).html().replace("Rp. ","").replace(".","") * 1;
+					shipping_charges = $("#hide_shipping_charges_"+seller__id).val() * 1;
 					if(isNaN(shipping_charges)) shipping_charges = 0;
-					$("#hide_shipping_charges_"+goods__id).val(shipping_charges); 
-					$("#hide_sub_total_"+goods__id).val(($("#hide_subtotal_"+goods__id).val() * 1) + shipping_charges);
+					$("#hide_sub_total_"+seller__id).val(($("#hide_subtotal_"+seller__id).val() * 1) + shipping_charges);
 				}
-				if(isNaN($("#hide_shipping_charges_"+goods__id).val() * 1)) $("#hide_shipping_charges_"+goods__id).val(0);
-				total_shipping_charges += ($("#hide_shipping_charges_"+goods__id).val() * 1);
-				total_price += $("#hide_subtotal_"+goods__id).val() * 1;
-				total_bill += ($("#hide_sub_total_"+goods__id).val() * 1);
-				$("#div_sub_total_"+goods__id).html("&nbsp;&nbsp;&nbsp;"+new Intl.NumberFormat('id-ID').format(($("#hide_subtotal_"+goods__id).val() * 1) + ($("#hide_shipping_charges_"+goods__id).val() * 1)));
+				if(isNaN($("#hide_shipping_charges_"+seller__id).val() * 1)) $("#hide_shipping_charges_"+seller__id).val(0);
+				total_shipping_charges += ($("#hide_shipping_charges_"+seller__id).val() * 1);
+				total_price += $("#hide_subtotal_"+seller__id).val() * 1;
+				total_bill += ($("#hide_sub_total_"+seller__id).val() * 1);
+				$("#div_sub_total_"+seller__id).html("&nbsp;&nbsp;&nbsp;"+new Intl.NumberFormat('id-ID').format(($("#hide_subtotal_"+seller__id).val() * 1) + ($("#hide_shipping_charges_"+seller__id).val() * 1)));
 			}
 			if(total_bill <= 0) numbers_is_valid = false;
 			if(total_price <= 0) numbers_is_valid = false;
 			if(total_shipping_charges <= 0){
 				if(is_only_pasar && is_markoantar){
-					total_shipping_charges = flat_rates_markoantar;
+					total_shipping_charges += flat_rates_markoantar;
 					total_bill = (total_price * 1) + (flat_rates_markoantar * 1);
 				} else {
 					numbers_is_valid = false;
@@ -402,55 +414,81 @@
 			$("#total_shipping_charges").html("&nbsp;&nbsp;&nbsp;"+new Intl.NumberFormat('id-ID').format(total_shipping_charges));
 			
 			is_cod_coverage = true;
-			for(xx=0;xx<arr_goods_id.length;xx++){
-				goods__id = arr_goods_id[xx];
-				$.get("ajax/transaction.php?mode=distance_estimation&goods_id="+goods__id+"&buyer_address_id="+$("#user_address").val(), function(returnval){
+			for(xx=0;xx<arr_seller_id.length;xx++){
+				seller__id = arr_seller_id[xx];
+				$.get("ajax/transaction.php?mode=distance_estimation&seller_id="+seller__id+"&buyer_address_id="+$("#user_address").val(), function(returnval){
 					returnval = returnval.split("|||");
 					if((returnval[2] * 1 / 1000) > <?=($__cod_max_km + $__cod_tolerance_km);?>){
 						is_cod_coverage = false;
-						xx = arr_goods_id.length + 1;
+						cod_coverage[returnval[0]] = false;
+					} else {
+						cod_coverage[returnval[0]] = true;
 					}
 				});
 			}
 		}
 	}
 	
-	function load_courier_services(goods_id,buyer_address_id,courier,qty){
-		if((goods_id * 1) > 0 && (qty * 1) > 0){
-			$("#div_courier_services_"+goods_id).html("<img src='images/fancybox_loading.gif'>");
-			$.get("ajax/transaction.php?mode=loadCourierServices&goods_id="+goods_id+"&buyer_address_id="+buyer_address_id+"&courier="+courier+"&qty="+qty, function(returnval){
-				$("#div_courier_services_"+goods_id).html(returnval);
-				load_shipping_charges(goods_id,buyer_address_id,courier,$("#courier_service_"+goods_id).val(),qty);
-			});
-		}
-	}
-	
-	function load_shipping_charges(goods_id,buyer_address_id,courier,courier_service,qty){
-		$("#div_shipping_charges_"+goods_id).html("<img src='images/fancybox_loading.gif'>");
-		$("#div_sub_total_"+goods_id).html("<img src='images/fancybox_loading.gif'>");
-		$.get("ajax/transaction.php?mode=loadShippingCharges&goods_id="+goods_id+"&buyer_address_id="+buyer_address_id+"&courier="+courier+"&courier_service="+courier_service+"&qty="+qty, function(returnval){
-			returnval = returnval.split("|||");
-			$("#div_shipping_charges_"+goods_id).html(returnval[1]);
-			$("#div_sub_total_"+goods_id).html(returnval[2]);
-			
-			$("#hide_shipping_charges_"+goods_id).val(returnval[3]);
-			$("#hide_sub_total_"+goods_id).val(returnval[4]);
-			load_calculation();
-			if(returnval[5] == "flat_rates_markoantar") is_markoantar=true;
+	function load_courier_services(seller_id,buyer_address_id,courier){
+		$("#div_courier_services_"+seller_id).html("<img src='images/fancybox_loading.gif'>");
+		$.get("ajax/transaction.php?mode=loadCourierServices&seller_id="+seller_id+"&buyer_address_id="+buyer_address_id+"&courier="+courier, function(returnval){
+			$("#div_courier_services_"+seller_id).html(returnval);
+			load_shipping_charges(seller_id,buyer_address_id,courier,$("#courier_service_"+seller_id).val());
 		});
 	}
 	
-	function self_pickup_change(elm,goods_id){
+	function load_shipping_charges(seller_id,buyer_address_id,courier,courier_service){
+		$("#div_shipping_charges_"+seller_id).html("<img src='images/fancybox_loading.gif'>");
+		$("#div_sub_total_"+seller_id).html("<img src='images/fancybox_loading.gif'>");
+		$.get("ajax/transaction.php?mode=loadShippingCharges&seller_id="+seller_id+"&buyer_address_id="+buyer_address_id+"&courier="+courier+"&courier_service="+courier_service, function(returnval){
+			returnval = returnval.split("|||");
+			$("#div_shipping_charges_"+seller_id).html(returnval[1]);
+			$("#div_sub_total_"+seller_id).html(returnval[2]);
+			
+			$("#hide_shipping_charges_"+seller_id).val(returnval[3]);
+			$("#hide_sub_total_"+seller_id).val(returnval[4]);
+			load_calculation();
+			if(returnval[5] == "flat_rates_markoantar"){
+				using_markoantar[seller_id]=true;
+				is_markoantar=true;
+			}
+		});
+	}
+	
+	function self_pickup_change(elm,seller_id){
 		if(elm.checked){
-			$("#div_courier_area_"+goods_id).hide();
-			$("#td_shipping_charges_"+goods_id).hide();
-			$("#div_administration_fee_"+goods_id).show();
+			$("#div_courier_area_"+seller_id).hide();
+			$("#td_shipping_charges_"+seller_id).hide();
+			$("#div_administration_fee_"+seller_id).show();
+			load_calculation();
 		} else {
-			$("#div_courier_area_"+goods_id).show();
-			$("#td_shipping_charges_"+goods_id).show();
-			$("#div_administration_fee_"+goods_id).hide();
+			$("#div_courier_area_"+seller_id).show();
+			$("#td_shipping_charges_"+seller_id).show();
+			$("#div_administration_fee_"+seller_id).hide();
+			load_shipping_charges(seller_id,$("#user_address").val(),$("#delivery_courier_"+seller_id).val(),$("#courier_service_"+seller_id).val());
 		}
-		load_calculation();
+	}
+	
+	function btn_pay_click(){
+		var arr_seller_id = seller_ids.split(",");
+		var all_loaded = true;
+		for(xx=0;xx<arr_seller_id.length;xx++){
+			seller__id = arr_seller_id[xx];
+			if($("#hide_sub_total_"+seller__id).val() <= 0) {all_loaded = false;}
+		}
+		if(all_loaded){
+			var go_saving_process = true;
+			var arr_seller_id = seller_ids.split(",");
+			for(xx=0;xx<arr_seller_id.length;xx++){
+				seller__id = arr_seller_id[xx];
+				if(using_markoantar[seller__id]){ if(cod_coverage[seller__id] == false){ go_saving_process = false; } }
+			}
+			if(go_saving_process == false){
+				toastr.warning("<?=str_replace("{cod_max_km}",$__cod_max_km,v("out_of_delivery_range"));?>","",toastroptions);
+			} else {
+				document.getElementById("pay").click();
+			}
+		}
 	}
 	
 	function btn_cod_click(){
@@ -484,15 +522,18 @@
 							<script> change_address("<?=$user_address_default;?>"); </script>
 						</div>
 						<br>
-						<div style="font-size:1.2em;font-weight:bolder;margin-bottom:10px;padding-top:10px;"><?=v("courier_detail");?></div>
 						<?php
 							$goods_ids = "";
+							$seller_ids = "";
 							$is_only_pasar = true;
 							$TOTAL_WEIGHT = 0;
 							$arr_pasar_category_ids = arr_pasar_category_ids();
 							foreach($_trxBySeller as $seller_user_id => $transactions){
+								$forwarder_ids = "";
 								$seller = $db->fetch_all_data("sellers",[],"user_id = '".$seller_user_id."'")[0];
-								if($db->fetch_single_data("seller_is_pasar","id",["seller_id" => $seller["id"]]) <= 0) $is_only_pasar = false;
+								$seller_id = $seller["id"];
+								$seller_ids .= $seller_id.",";
+								if($db->fetch_single_data("seller_is_pasar","id",["seller_id" => $seller_id]) <= 0) $is_only_pasar = false;
 								$seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]));
 								$_trxByGoods = [];
 								$_trx_ids = [];
@@ -501,8 +542,19 @@
 									$_trxByGoods[$transaction_details["goods_id"]] = $transaction_details; 
 									$_trx_ids[$transaction_details["goods_id"]] .= $transaction["id"].",";
 								}
-								
+								?>
+								<div class="border_orange">
+									<table <?=$__tblDesign100;?>>
+										<tr>
+											<td valign="top">
+												<div style="font-size:1.2em;font-weight:bolder;text-decoration:underline;text-decoration-color:#D6A266;"><?=v("seller");?> : <?=$seller["name"];?></div>
+											</td>
+										</tr>
+									</table>
+								<?php
+								$_subtotal = 0;
 								foreach($_trxByGoods as $goods_id => $transaction_details){
+									$forwarder_ids .= $db->fetch_single_data("goods","forwarder_ids",["id" => $goods_id]);
 									$goods_ids .= $goods_id.",";
 									$transaction_ids = substr($_trx_ids[$goods_id],0,-1);
 									$goods  = $db->fetch_all_data("goods",[],"id = '".$goods_id."'")[0];
@@ -512,105 +564,91 @@
 									$qty = $db->fetch_single_data("transaction_details","concat(sum(qty))",["transaction_id" => $transaction_ids.":IN","goods_id" => $goods_id]);
 									$price = $transaction_details["gross"] + ($transaction_details["gross"] * $transaction_details["commission"] / 100);
 									$subtotal = $price * $qty;
+									$_subtotal += $subtotal;
 									$total_price += $subtotal;
 									$TOTAL_WEIGHT += ($qty * $transaction_details["weight"]);
 									
-									$forwarder_ids = str_replace(["||","|"],[",",""],$db->fetch_single_data("goods","forwarder_ids",["id" => $goods_id]));
-									$forwarders = [];
-									$_forwarders = $db->fetch_all_data("forwarders",[],"id IN ($forwarder_ids)","user_id DESC,id");
-									$_marko_antar_exist = false;
-									foreach($_forwarders as $_forwarder){
-										if($_forwarder["user_id"]){
-											if(!$_marko_antar_exist){
-												$forwarders[$_forwarder["user_id"]] = "Marko Antar";
-												$_marko_antar_exist = true;
-											}
-										} else{
-											$forwarders[$_forwarder["rajaongkir_code"]] = $_forwarder["name"]." (".strtoupper($_forwarder["rajaongkir_code"]).")";
+						?>
+									<div class="border_orange" style="box-shadow:none;margin-bottom:5px;">
+										<table <?=$__tblDesign100;?>>
+											<tr>
+												<td width="90" valign="top"><img src="goods/<?=$goods_photos["filename"];?>" width="80" style="cursor:pointer;" onclick="window.location='product_detail.php?id=<?=$goods_id;?>';"></td>
+												<td valign="top">
+													<div style="font-size:1em;font-weight:bolder;text-decoration:underline;text-decoration-color:#D6A266;"><?=$goods["name"];?></div>
+													<?=v("weight");?>&nbsp;&nbsp;&nbsp;<?=$goods["weight"]*$qty/1000;?>Kg
+													&nbsp;&nbsp;&nbsp;
+													<?=v("goods_qty");?>&nbsp;&nbsp;&nbsp;<?=$qty;?>
+													<div style="font-size:1.4em;color:#800000;font-weight:bolder;margin-top:10px;" id="div_subtotal_<?=$goods_id;?>">Rp. <?=format_amount($subtotal);?></div>
+												</td>
+											</tr>
+										</table>
+									</div>
+							<?php 
+								}
+								$forwarders = [];
+								$forwarder_ids = str_replace(["||","|"],[",",""],$forwarder_ids);
+								$_forwarders = $db->fetch_all_data("forwarders",[],"id IN ($forwarder_ids)","user_id DESC,id");
+								$_marko_antar_exist = false;
+								foreach($_forwarders as $_forwarder){
+									if($_forwarder["user_id"]){
+										if(!$_marko_antar_exist){
+											$forwarders[$_forwarder["user_id"]] = "Marko Antar";
+											$_marko_antar_exist = true;
 										}
+									} else {
+										$forwarders[$_forwarder["rajaongkir_code"]] = $_forwarder["name"]." (".strtoupper($_forwarder["rajaongkir_code"]).")";
 									}
-									// $forwarders = $db->fetch_select_data("forwarders","concat(IF(rajaongkir_code <> '', rajaongkir_code, user_id)) as rajaongkir_id","concat(IF(rajaongkir_code <> '', concat(name,' (',upper(rajaongkir_code),')'), concat('Marko Antar (',name,')')))",["id" => $forwarder_ids.":IN"],["user_id DESC,id"]);
-									$delivery_courier_area = "
-											<div id=\"div_courier_area_".$goods_id."\">
-												<div>
-													<label>".v("delivery_courier")."</label>
-													".$f->select("delivery_courier_".$goods_id,$forwarders,"","","form-control")."
-												</div>
-												<div>
-													<label>".v("courier_service")."</label>
-													<div id=\"div_courier_services_".$goods_id."\"></div>
-												</div>
-												<br>
+								}
+								$delivery_courier_area = "
+										<div id=\"div_courier_area_".$seller_id."\">
+											<div>
+												<label>".v("delivery_courier")."</label>
+												".$f->select("delivery_courier_".$seller_id,$forwarders,"","","form-control")."
 											</div>
 											<div>
-												<label>".v("self_pickup")."</label>&nbsp;&nbsp;".$f->input("self_pickup_".$goods_id,1,"type='checkbox' onchange=\"self_pickup_change(this,".$goods_id.");\"")."
+												<label>".v("courier_service")."</label>
+												<div id=\"div_courier_services_".$seller_id."\"></div>
 											</div>
-											<script> 
-												setTimeout(function(){ 
-													load_courier_services(\"".$goods_id."\",$(\"#user_address\").val(),$(\"#delivery_courier_".$goods_id."\").val(),\"".$qty."\");
-												}, 100); 
-											</script>";
+											<br>
+										</div>
+										<div>
+											<label>".v("self_pickup")."</label>&nbsp;&nbsp;".$f->input("self_pickup_".$seller_id,1,"type='checkbox' onchange=\"self_pickup_change(this,".$seller_id.");\"")."
+										</div>
+										<script> 
+											setTimeout(function(){ 
+												load_courier_services(\"".$seller_id."\",$(\"#user_address\").val(),$(\"#delivery_courier_".$seller_id."\").val());
+											}, 100); 
+										</script>";
 						?>
-							<?=$f->input("hide_shipping_charges_".$goods_id,"0","type='hidden'");?>
-							<?=$f->input("hide_subtotal_".$goods_id,$subtotal,"type='hidden'");?>
-							<?=$f->input("hide_sub_total_".$goods_id,"0","type='hidden'");?>
-							<?=$f->input("hide_qty_".$goods_id,$qty,"type='hidden'");?>
-							<div class="border_orange" style="box-shadow:none;">
-								<table <?=$__tblDesign100;?>>
-									<tr>
-										<td valign="top">
-											<table <?=$__tblDesign100;?>>
-												<tr>
-													<td width="90" valign="top"><img src="goods/<?=$goods_photos["filename"];?>" width="80" style="cursor:pointer;" onclick="window.location='product_detail.php?id=<?=$goods_id;?>';"></td>
-													<td valign="top">
-														<div style="font-size:1em;font-weight:bolder;text-decoration:underline;text-decoration-color:#D6A266;"><?=v("seller");?> : <?=$seller["name"];?></div>
-														<div style="font-size:1em;"><?=$goods["name"];?></div>
-														<div style="font-size:1.4em;color:#800000;font-weight:bolder;margin-top:10px;" id="div_subtotal_<?=$goods_id;?>">Rp. <?=format_amount($subtotal);?></div>
-													</td>
-												</tr>
-												<tr>
-													<td colspan="2" style="padding-top:10px;" nowrap>
-														<?=v("weight");?>&nbsp;&nbsp;&nbsp;<?=$goods["weight"]*$qty/1000;?>Kg
-														&nbsp;&nbsp;&nbsp;
-														<?=v("goods_qty");?>&nbsp;&nbsp;&nbsp;<?=$qty;?>
-													</td>
-												</tr>
-												<?php if(isMobile()){ ?>
-													<tr><td colspan="2" style="padding-top:20px;"><?=$delivery_courier_area;?></td></tr>
-												<?php } ?>
-												<tr>
-													<td colspan="2" style="padding-top:20px;" nowrap id="td_shipping_charges_<?=$goods_id;?>">
-														<img src="assets/sent.png" width="40">&nbsp;&nbsp;&nbsp;<?=v("shipping_charges");?>	&nbsp;&nbsp;&nbsp;
-														<a style="font-size:1.4em;color:#800000;font-weight:bolder;" id="div_shipping_charges_<?=$goods_id;?>"></a>
-													</td>
-													<td colspan="2" style="padding-top:20px;display:none;" nowrap id="div_administration_fee_<?=$goods_id;?>">
-														<?=v("administration_fee");?>	&nbsp;&nbsp;&nbsp;
-														<a style="font-size:1.4em;color:#800000;font-weight:bolder;" id="div_shipping_charges_<?=$goods_id;?>">Rp. 2.000</a><br>
-														<?=v("goods_pickup_distance_estimation");?>	&nbsp;&nbsp;&nbsp;
-														<a style="font-size:1.4em;color:#800000;font-weight:bolder;" id="div_goods_pickup_distance_estimation_<?=$goods_id;?>"></a>
-													</td>
-												</tr>
-											</table>
-										</td>
-										<?php if(!isMobile()){ ?>
-										<td style="width:10px;"></td>
-										<td valign="top" style="width:40%;"> <?=$delivery_courier_area;?> </td>
-										<?php } ?>
-									</tr>
-								</table>
-							</div>
-							<div class="border_orange" style="position:relative;top:-1px;">
-								<b>Subtotal</b>
-								<div style="font-size:1.4em;color:#800000;font-weight:bolder;position:relative;float:right;" id="div_sub_total_<?=$goods_id;?>">Rp. 0</div>
-							</div><br>
-							<script> last_goods_id = "<?=$goods_id;?>";</script>
+									<div class="border_orange" style="box-shadow:none;">
+										<table <?=$__tblDesign100;?>>
+											<tr><td colspan="2"><?=$delivery_courier_area;?></td></tr>
+											<tr>
+												<td colspan="2" style="padding-top:20px;" nowrap id="td_shipping_charges_<?=$seller_id;?>">
+													<img src="assets/sent.png" width="40">&nbsp;&nbsp;&nbsp;<?=v("shipping_charges");?>	&nbsp;&nbsp;&nbsp;
+													<a style="font-size:1.4em;color:#800000;font-weight:bolder;" id="div_shipping_charges_<?=$seller_id;?>"></a>
+												</td>
+												<td colspan="2" style="padding-top:20px;display:none;" nowrap id="div_administration_fee_<?=$seller_id;?>">
+													<?=v("administration_fee");?>	&nbsp;&nbsp;&nbsp;
+													<a style="font-size:1.4em;color:#800000;font-weight:bolder;" id="div_shipping_charges_<?=$seller_id;?>">Rp. 2.000</a><br>
+													<?=v("goods_pickup_distance_estimation");?>	&nbsp;&nbsp;&nbsp;
+													<a style="font-size:1.4em;color:#800000;font-weight:bolder;" id="div_pickup_distance_estimation_<?=$seller_id;?>"></a>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div><br>
+								<?=$f->input("hide_shipping_charges_".$seller_id,"0","type='hidden'");?>
+								<?=$f->input("hide_subtotal_".$seller_id,$_subtotal,"type='hidden'");?>
+								<?=$f->input("hide_sub_total_".$seller_id,"0","type='hidden'");?>
 						<?php
-								}
 							}
 							$goods_ids = substr($goods_ids,0,-1);
+							$seller_ids = substr($seller_ids,0,-1);
 							$flat_rates_markoantar = $__marko_cod * ceil($TOTAL_WEIGHT/$__cod_max_gram);
 							?><script> is_only_pasar = "<?=$is_only_pasar;?>";</script><?php
 							?><script> goods_ids = "<?=$goods_ids;?>";</script><?php
+							?><script> seller_ids = "<?=$seller_ids;?>";</script><?php
 							?><script> total_weight = "<?=$TOTAL_WEIGHT;?>";</script><?php
 							?><script> flat_rates_markoantar = "<?=$flat_rates_markoantar;?>";</script><?php
 						?>
@@ -642,7 +680,8 @@
 								<table width=\"100%\"><tr>
 									<td align=\"center\">
 										<div style=\"height:10px;\"></div>
-										".$f->input("pay",v("bank_transfer"),"type='submit' style=\"width:165px;font-weight:bolder;\"","btn btn-primary").$btn_cod."
+										".$f->input("btn_pay",v("bank_transfer"),"type='button' onclick='btn_pay_click();' style=\"width:165px;font-weight:bolder;\"","btn btn-primary").$btn_cod."
+										".$f->input("pay",v("bank_transfer"),"type='submit' style=\"display:none;\"","btn btn-primary")."
 									</td>
 								</tr></table>
 							</div>";
@@ -663,11 +702,11 @@
 <script>
 	$(document).ready(function(){
 		<?php
-			$goods_ids = explode(",",$goods_ids);
-			foreach($goods_ids as $goods__id){
+			$seller_ids = explode(",",$seller_ids);
+			foreach($seller_ids as $seller__id){
 		?>
-				$("#delivery_courier_<?=$goods__id;?>").change(function(){
-					load_courier_services(<?=$goods__id;?>,$("#user_address").val(),$("#delivery_courier_<?=$goods__id;?>").val(),$("#hide_qty_<?=$goods__id;?>").val());
+				$("#delivery_courier_<?=$seller__id;?>").change(function(){
+					load_courier_services(<?=$seller__id;?>,$("#user_address").val(),$("#delivery_courier_<?=$seller__id;?>").val());
 				});
 		<?php } ?>
 	});

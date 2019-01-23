@@ -40,24 +40,37 @@
 					if($_GET["invoice_at2"] != "") 	$whereclause .= " AND invoice_at <= '".$_GET["invoice_at2"]."'";
 					if($_GET["status_purchase_list"] != "")	 	$whereclause .= " AND status = '".$_GET["status_purchase_list"]."'";
 				}
-				$transactions = $db->fetch_all_data("transactions",[],$whereclause." GROUP BY invoice_no","invoice_at DESC");
+				$transactions = $db->fetch_all_data("transactions",[],$whereclause." GROUP BY invoice_no,po_no","invoice_at DESC");
 				if(count($transactions) <= 0){
 					?> <tr class="danger"><td colspan="8" align="center"><b><?=v("data_not_found");?></b></td></tr> <?php
 				} else {
 					foreach($transactions as $transaction){
-						$seller = $db->fetch_all_data("sellers",[],"user_id = '".$transaction["seller_user_id"]."'")[0];
 						$goods_names = "";
+						$seller_ids = "";
 						$total = 0;
-						$transaction_details = $db->fetch_all_data("transaction_details",[],"transaction_id IN (SELECT id FROM transactions WHERE invoice_no = '".$transaction["invoice_no"]."')");
+						$cart_group = $transaction["cart_group"];
+						$transaction_details = $db->fetch_all_data("transaction_details",[],"transaction_id IN (SELECT id FROM transactions WHERE invoice_no = '".$transaction["invoice_no"]."' AND po_no = '".$transaction["po_no"]."')");
 						$need_review_ids = "";
 						foreach($transaction_details as $transaction_detail){
 							$goods_names .= $db->fetch_single_data("goods","name",["id" => $transaction_detail["goods_id"]])."<br>";
 							$total += $transaction_detail["total"];
 							if($transaction["status"] == 7 && $transaction_detail["is_reviewed"] == 0) $need_review_ids .= $transaction_detail["transaction_id"].",";
+							$seller_ids .= $db->fetch_single_data("goods","seller_id",["id" => $transaction_detail["goods_id"]]).",";
 						}
 						$need_review_ids = substr($need_review_ids,0,-1);
+						$seller_ids = substr($seller_ids,0,-1);
 						$goods_names = substr($goods_names,0,-4);
-						$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"transaction_id IN (SELECT id FROM transactions WHERE invoice_no = '".$transaction["invoice_no"]."')");
+						$seller_names = "";
+						$statuses = "";
+						$sellers = $db->fetch_all_data("sellers",[],"id IN (".$seller_ids.")");
+						foreach($sellers as $seller){ 
+							$seller_names .= $db->fetch_single_data("sellers","name",["id" => $seller["id"]])."<br>"; 
+							$transaction_status = $db->fetch_single_data("transactions","status",["cart_group" => $cart_group,"seller_user_id" => $seller["user_id"]]);
+							$statuses .= transactionList($transaction_status)."<br>"; 
+						}
+						$seller_names = substr($seller_names,0,-4);
+						$statuses = substr($statuses,0,-4);
+						$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"cart_group = '".$cart_group."' AND seller_id = '".$seller["id"]."'");
 						foreach($transaction_forwarders as $transaction_forwarder){
 							$total += $transaction_forwarder["total"];
 						}
@@ -81,10 +94,10 @@
 							</td>
 							<td class="nowrap"><?=format_tanggal($transaction["invoice_at"]);?></td>
 							<td class="nowrap"><?=$transaction["invoice_no"];?></td>
-							<td class="nowrap"><?=$seller["name"];?></td>
+							<td class="nowrap"><?=$seller_names;?></td>
 							<td class="nowrap"><?=$goods_names;?></td>
 							<td class="nowrap" align="right"><?=format_amount($total);?></td>
-							<td class="nowrap"><?=$status;?></td>
+							<td class="nowrap"><?=$statuses;?></td>
 						</tr>
 						<?php
 					}

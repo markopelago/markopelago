@@ -7,13 +7,14 @@
 		javascript("window.location='index.php';");
 		exit();
 	}
+	if(!$cart_group) $cart_group = $db->fetch_single_data("transactions","cart_group",["id" => $transactions[0]["id"]]);
 	if(isset($_POST["savingPoDelivered"]) && $_POST["savingPoDelivered"] == 1){
-		$is_self_pickup = $db->fetch_single_data("transaction_forwarder","id",["transaction_id" => $_POST["transaction_id"],"name" => "self_pickup"]);
+		$is_self_pickup = $db->fetch_single_data("transaction_forwarder","id",["cart_group" => $cart_group,"seller_id" => $__seller_id,"name" => "self_pickup"]);
 		$transaction = $db->fetch_all_data("transactions",[],"id = '".$_POST["transaction_id"]."' AND seller_user_id = '".$__user_id."'")[0];
 		if($is_self_pickup <= 0){
 			if($_POST["receipt_no"] != ""){
-				$transaction_forwarder_receipt_no = $db->fetch_single_data("transaction_forwarder","receipt_no",["transaction_id" => $transaction["id"]]);
-				$db->addtable("transaction_forwarder");	$db->where("transaction_id",$transaction["id"]);
+				$transaction_forwarder_receipt_no = $db->fetch_single_data("transaction_forwarder","receipt_no",["cart_group" => $cart_group,"seller_id" => $__seller_id]);
+				$db->addtable("transaction_forwarder");	$db->where("cart_group",$cart_group);	$db->where("seller_id",$__seller_id);
 				$db->addfield("receipt_no");	$db->addvalue($_POST["receipt_no"]);
 				if($transaction_forwarder_receipt_no == ""){
 					$db->addfield("receipt_at");	$db->addvalue($__now);
@@ -21,7 +22,7 @@
 				$updating = $db->update();
 				
 				$buyer_email = $db->fetch_single_data("a_users","email",["id" => $transaction["buyer_user_id"]]);
-				$forwarder_name = $db->fetch_single_data("transaction_forwarder","concat(name,'(',courier_service,')')",["transaction_id" => $transaction["id"]]);
+				$forwarder_name = $db->fetch_single_data("transaction_forwarder","concat(name,'(',courier_service,')')",["cart_group" => $cart_group,"seller_id" => $__seller_id]);
 				
 				$arr1 = ["{invoice_no}","{forwarder_name}","{forwarder_receipt_no}","{forwarder_receipt_at}"];
 				$arr2 = [$transaction["invoice_no"],$forwarder_name,$_POST["receipt_no"],format_tanggal(substr($__now,0,10),"dMY")];
@@ -29,7 +30,7 @@
 				$body = str_replace($arr1,$arr2,$body);
 				sendingmail("Markopelago.com -- Pengiriman Pesanan ".$invoice_no,$buyer_email,$body,"system@markopelago.com|Markopelago System");
 				
-				$db->addtable("transactions");	$db->where("id",$transaction["id"]); $db->where("seller_user_id",$__user_id);
+				$db->addtable("transactions");	$db->where("cart_group",$cart_group); $db->where("seller_user_id",$__user_id);
 				$db->addfield("sent_at");		$db->addvalue($__now);
 				$db->addfield("status");		$db->addvalue(5);
 				$updating = $db->update();
@@ -40,7 +41,7 @@
 		} else {
 			if($_POST["user_address"] != ""){
 				$receipt_no = generate_self_pickup_receipt_no();
-				$db->addtable("transaction_forwarder");	$db->where("transaction_id",$transaction["id"]);
+				$db->addtable("transaction_forwarder");	$db->where("cart_group",$cart_group);	$db->where("seller_id",$__seller_id);
 				$db->addfield("pickup_address_id");		$db->addvalue($_POST["user_address"]);
 				$db->addfield("receipt_no");			$db->addvalue($receipt_no);
 				$db->addfield("receipt_at");			$db->addvalue($__now);
@@ -49,7 +50,7 @@
 				$updating = $db->update();
 				
 				$buyer_email = $db->fetch_single_data("a_users","email",["id" => $transaction["buyer_user_id"]]);
-				$forwarder_name = $db->fetch_single_data("transaction_forwarder","concat(name,'(',courier_service,')')",["transaction_id" => $transaction["id"]]);
+				$forwarder_name = $db->fetch_single_data("transaction_forwarder","concat(name,'(',courier_service,')')",["cart_group" => $cart_group,"seller_id" => $__seller_id]);
 				$user_address = $db->fetch_all_data("user_addresses",[],"id = '".$_POST["user_address"]."' AND user_id = '".$transaction["seller_user_id"]."'")[0];
 				$locations = get_location($user_address["location_id"]);
 				$seller_pic = $user_address["pic"];
@@ -67,7 +68,7 @@
 				$db->addfield("message");		$db->addvalue($message);
 				$inserting = $db->insert();
 				
-				$db->addtable("transactions");	$db->where("id",$transaction["id"]); $db->where("seller_user_id",$__user_id);
+				$db->addtable("transactions");	$db->where("cart_group",$cart_group); $db->where("seller_user_id",$__user_id);
 				$db->addfield("sent_at");		$db->addvalue($__now);
 				$db->addfield("status");		$db->addvalue(5);
 				$updating = $db->update();
@@ -86,16 +87,16 @@
 		$transactions = $db->fetch_all_data("transactions",[],"po_no='".$po_no."' AND seller_user_id='".$__user_id."'");
 		foreach($transactions as $transaction){
 			$transaction_id = $transaction["id"];
-			$forwarder_user_id = $db->fetch_single_data("transaction_forwarder","forwarder_user_id",["transaction_id" => $transaction_id]);
+			$forwarder_user_id = $db->fetch_single_data("transaction_forwarder","forwarder_user_id",["cart_group" => $cart_group,"seller_id" => $__seller_id]);
 			if($forwarder_user_id > 0){//yang menggunakan marko antar saja
 				$db->addtable("transactions");	$db->where("id",$transaction_id); $db->where("seller_user_id",$__user_id);
-				$db->addfield("process_at");	$db->addvalue($__now);
+				$db->addfield("sent_at");		$db->addvalue($__now);
 				$db->addfield("status");		$db->addvalue("5");
 				$updating = $db->update();
 				if($updating["affected_rows"] > 0){
 					$forwarder_user_id = $db->fetch_single_data("forwarders","user_id",["id" => $forwarder_id]);
 					$forwarder_name = $db->fetch_single_data("forwarders","name",["id" => $forwarder_id]);
-					$db->addtable("transaction_forwarder");	$db->where("transaction_id",$transaction_id);
+					$db->addtable("transaction_forwarder");	$db->where("cart_group",$cart_group);	$db->where("seller_id",$__seller_id);
 					$db->addfield("forwarder_id");			$db->addvalue($forwarder_id);
 					$db->addfield("forwarder_user_id");		$db->addvalue($forwarder_user_id);
 					$db->addfield("name");					$db->addvalue($forwarder_name);
@@ -119,7 +120,9 @@
 	
 	if($_GET["changeStatus"] == 4 || $_GET["changeStatus"] == 6){
 		$db->addtable("transactions");	$db->where("po_no",$po_no); $db->where("seller_user_id",$__user_id);
-		$db->addfield("process_at");	$db->addvalue($__now);
+		if($_GET["changeStatus"] == 4)	$db->addfield("process_at");
+		if($_GET["changeStatus"] == 6)	$db->addfield("delivered_at");
+										$db->addvalue($__now);
 		$db->addfield("status");		$db->addvalue($_GET["changeStatus"]);
 		$updating = $db->update();
 		if($updating["affected_rows"] > 0){
@@ -127,7 +130,7 @@
 			if($_GET["changeStatus"] == 6){
 				$transaction = $db->fetch_all_data("transactions",[],"id = '".$_GET["transaction_id"]."' AND seller_user_id = '".$__user_id."'")[0];
 				
-				$db->addtable("transaction_forwarder");	$db->where("transaction_id",$_GET["transaction_id"]);
+				$db->addtable("transaction_forwarder");	$db->where("cart_group",$cart_group);	$db->where("seller_id",$__seller_id);
 				$db->addfield("markoantar_status");		$db->addvalue(4);
 				$db->addfield("markoantar_status4_at");	$db->addvalue($__now);
 				$updating = $db->update();
@@ -224,17 +227,16 @@
 		<?php } ?>
 		<br><br>
 		<table class="table table-bordered" width="100%">
-			<?php 
+			<?php
+				$total = 0;
 				foreach($transactions as $transaction){
 					$transaction_details = $db->fetch_all_data("transaction_details",[],"id = '".$transaction["id"]."'")[0];
 					$goods  = $db->fetch_all_data("goods",[],"id = '".$transaction_details["goods_id"]."'")[0];
 					$goods_photos  = $db->fetch_all_data("goods_photos",[],"goods_id = '".$goods["id"]."'","seqno")[0];
 					if(!file_exists("goods/".$goods_photos["filename"])) $goods_photos["filename"] = "no_goods.png";
 					$units  = $db->fetch_all_data("units",[],"id = '".$transaction_details["unit_id"]."'")[0];
-					$transaction_forwarder = $db->fetch_all_data("transaction_forwarder",[],"transaction_id = '".$transaction["id"]."'")[0];
 					
-					$total = $transaction_details["total"] + $transaction_forwarder["total"];
-					$total_tagihan += $total;
+					$total += $transaction_details["total"];
 					$status = $db->fetch_single_data("transactions","status",["id" => $transaction["id"]]);
 			?>
 			<tr>
@@ -246,29 +248,6 @@
 						<b><?=$goods["name"]?></b><br>
 						<?=$transaction_details["qty"]?> <?=$units["name_".$__locale]?> x Rp <?=format_amount($transaction_details["price"])?><br>
 						<?=v("weight_per_unit");?> : <?=($goods["weight"]/1000);?> Kg<br>
-						<?php 
-							if($status == "5" && $transaction_forwarder["forwarder_user_id"] <= 0 && $transaction_forwarder["name"] != "self_pickup"){
-								echo "<div style='width:220px;padding-top:5px;padding-bottom:5px;margin-bottom:10px;font-size:14px;text-align:center;' class='alert alert-success'><span class='glyphicon glyphicon-send '></span> ".v("goods_was_delivered")."</div>"; 
-								echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','".$transaction_forwarder["receipt_no"]."');\">".v("edit_receipt_no")."</button>"; 
-							}
-							if($status == "5" && $transaction_forwarder["name"] == "self_pickup"){
-								echo "<div class='alert alert-success'>".v("goods_ready_for_pickup")."</div>";
-								echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(6,'".$transaction["id"]."');\">".transactionList(6)."</button>"; 
-							}
-							if($status == "6" && $transaction_forwarder["name"] == "self_pickup"){
-								echo "<div class='alert alert-success'>".v("goods_received")."</div>";
-							}
-							if($status == "4" && $transaction_forwarder["forwarder_user_id"] <= 0) {
-								if($transaction_forwarder["name"] == "self_pickup"){
-									echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','','self_pickup');\">".markoantar_status(1)."</button>";
-								} else {
-									echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."');\">".v("update_goods_was_delivered")."</button>";
-								}
-							}
-						?>
-						<?php if($status == "4" && $transaction_forwarder["forwarder_user_id"] > 0 && $transaction_forwarder["total"] > 0) echo "<div id='div_pick_markoantar_".$transaction["id"]."'><button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','','markoantar');\">".v("goods_ready_for_pickup_by_markoantar")."</button></div>"; ?>
-						<?php if($status == "5" && $transaction_forwarder["forwarder_user_id"] > 0 && $transaction_forwarder["markoantar_status"] > 0) 
-								echo "<div class='alert alert-warning'>".$db->fetch_single_data("markoantar_statuses","name_".$__locale,["id" => $transaction_forwarder["markoantar_status"]])."</div>"; ?>
 					</div>
 				</td>
 				<td colspan="2" align="right" nowrap>
@@ -276,6 +255,11 @@
 					Rp. <?=format_amount($transaction_details["total"])?>
 				</td>   
 			</tr>
+			<?php } ?>
+			<?php
+				$transaction_forwarder = $db->fetch_all_data("transaction_forwarder",[],"cart_group = '".$cart_group."' AND seller_id='".$__seller_id."'")[0];
+				$total += $transaction_forwarder["total"];
+			?>
 			<tr>
 				<td colspan="5">
 					<u><?=v("delivery_destination");?> :</u><br><br>
@@ -321,10 +305,34 @@
 							echo "<br><b>".v("delivered_at").": ".format_tanggal($transaction_forwarder["receipt_at"]);
 							echo "<br>".v("shipping_receipt_number").": ".$transaction_forwarder["receipt_no"]."</b>";
 						}
+						
+						echo "<br>";
+						if($status == "5" && $transaction_forwarder["forwarder_user_id"] <= 0 && $transaction_forwarder["name"] != "self_pickup"){
+							echo "<div style='width:220px;padding-top:5px;padding-bottom:5px;margin-bottom:10px;font-size:14px;text-align:center;' class='alert alert-success'><span class='glyphicon glyphicon-send '></span> ".v("goods_was_delivered")."</div>"; 
+							echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','".$transaction_forwarder["receipt_no"]."');\">".v("edit_receipt_no")."</button>"; 
+						}
+						if($status == "5" && $transaction_forwarder["name"] == "self_pickup"){
+							echo "<div class='alert alert-success'>".v("goods_ready_for_pickup")."</div>";
+							echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(6,'".$transaction["id"]."');\">".transactionList(6)."</button>"; 
+						}
+						if($status == "6" && $transaction_forwarder["name"] == "self_pickup"){
+							echo "<div class='alert alert-success'>".v("goods_received")."</div>";
+						}
+						if($status == "4" && $transaction_forwarder["forwarder_user_id"] <= 0) {
+							if($transaction_forwarder["name"] == "self_pickup"){
+								echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','','self_pickup');\">".markoantar_status(1)."</button>";
+							} else {
+								echo "<button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."');\">".v("update_goods_was_delivered")."</button>";
+							}
+						}
 					?>
+					<?php if($status == "4" && $transaction_forwarder["forwarder_user_id"] > 0 && $transaction_forwarder["total"] > 0) echo "<div id='div_pick_markoantar_".$transaction["id"]."'><button class='btn btn-success' style=\"\" onclick=\"changeStatus(5,'".$transaction["id"]."','','markoantar');\">".v("goods_ready_for_pickup_by_markoantar")."</button></div>"; ?>
+					<?php if($status == "5" && $transaction_forwarder["forwarder_user_id"] > 0 && $transaction_forwarder["markoantar_status"] > 0) 
+							echo "<div class='alert alert-warning'>".$db->fetch_single_data("markoantar_statuses","name_".$__locale,["id" => $transaction_forwarder["markoantar_status"]])."</div>"; ?>
+					
 				</td>
 				<td nowrap width="15%" align="right">
-					<?=v("weight");?><br> <?=($transaction_forwarder["weight"]*$transaction_forwarder["qty"]/1000);?> Kg
+					<?=v("weight");?><br> <?=($transaction_forwarder["weight"]/1000);?> Kg
 				</td> 
 				<td nowrap width="15%" align="right">
 					<?=v(($transaction_forwarder["name"] == "self_pickup")?"administration_fee":"shipping_charges");?><br> Rp <?=format_amount($transaction_forwarder["total"])?>
@@ -332,13 +340,6 @@
 			</tr>
 			<tr>
 				<td colspan="6" align="right"><b> Total : Rp <?=format_amount($total)?></b></td>
-			</tr>
-			<tr><td colspan="6"></td></tr>
-			<?php } ?>
-		</table>
-		<table width="100%">
-			<tr>
-				<td align="right"><h4><b><?=v("total_bill");?> : &nbsp;&nbsp;Rp. <?=format_amount($total_tagihan)?></b></h4></td>
 			</tr>
 		</table>
 		<br>

@@ -78,21 +78,20 @@
 										<td align='right'><b>".format_amount($email["total"])."</b></td>
 									</tr>
 								</table>";
-								
-			$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"transaction_id IN (SELECT id FROM transactions WHERE invoice_no = '".$invoice_no."')");
-			if(count($transaction_forwarders) > 0){
-				$order_detail .= "<p></p><p><b>Servis Kurir : </b></p><table cellpadding='3'>";
-				$forwarder_total = 0;
-				foreach($transaction_forwarders as $transaction_forwarder){
-					$forwarder_total += $transaction_forwarder["total"];
-					$shoppingTotal += $transaction_forwarder["total"];
-					$order_detail .= "<tr><td>".$transaction_forwarder["name"]." -- ".$transaction_forwarder["courier_service"]."</td>";						
-					$order_detail .= "<td>Rp. </td>";						
-					$order_detail .= "<td align='right'>".format_amount($transaction_forwarder["total"])."</td></tr>";
-				}
-				$order_detail .= "<tr><td><b>Subtotal Servis Kurir</b></td><td><b>Rp.</b></td><td align='right'><b>".format_amount($forwarder_total)."</b></td></tr>";
-				$order_detail .= "</table><br>";
+		}
+		$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"cart_group = '".$cart_group."'");
+		if(count($transaction_forwarders) > 0){
+			$order_detail .= "<p></p><p><b>Servis Kurir : </b></p><table cellpadding='3'>";
+			$forwarder_total = 0;
+			foreach($transaction_forwarders as $transaction_forwarder){
+				$forwarder_total += $transaction_forwarder["total"];
+				$shoppingTotal += $transaction_forwarder["total"];
+				$order_detail .= "<tr><td>".$transaction_forwarder["name"]." -- ".$transaction_forwarder["courier_service"]."</td>";						
+				$order_detail .= "<td>Rp. </td>";						
+				$order_detail .= "<td align='right'>".format_amount($transaction_forwarder["total"])."</td></tr>";
 			}
+			$order_detail .= "<tr><td><b>Subtotal Servis Kurir</b></td><td><b>Rp.</b></td><td align='right'><b>".format_amount($forwarder_total)."</b></td></tr>";
+			$order_detail .= "</table><br>";
 		}
 		
 		$unique_code = $db->fetch_single_data("transaction_payments","uniqcode",["cart_group" => $cart_group]);
@@ -132,8 +131,8 @@
 										<td align='right'><b>".format_amount($po["total"])."</b></td>
 									</tr>
 								</table>";
-								
-			$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"transaction_id IN (SELECT id FROM transactions WHERE po_no = '".$po_no."')");
+			$seller_id = $db->fetch_single_data("sellers","id",["user_id" => $po["seller_user_id"]]);
+			$transaction_forwarders = $db->fetch_all_data("transaction_forwarder",[],"cart_group = '".$cart_group."' AND seller_id='".$seller_id."'");
 			if(count($transaction_forwarders) > 0){
 				$order_detail .= "<p></p><p><b>Servis Kurir : </b></p><table cellpadding='3'>";
 				$forwarder_total = 0;

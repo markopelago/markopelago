@@ -4,7 +4,7 @@
     $cart_group = $_GET["cart_group"];
 	if($_GET["changeStatus"]  == 3){
 		$failedUpdatingTransactions = false;
-		$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$cart_group."'");
+		$transactions = $db->fetch_all_data("transactions",[],"cart_group = '".$cart_group."' GROUP BY seller_user_id");
 		foreach($transactions as $transaction){
 			$po_no = generate_po_no();
 			updateStatus3($cart_group,$transaction["seller_user_id"],$po_no);
@@ -46,6 +46,7 @@
 		<?php 
 			foreach($_trxBySeller as $seller_user_id => $transactions){
 				$seller = $db->fetch_all_data("sellers",[],"user_id = '".$seller_user_id."'")[0];
+				$seller_id = $seller["id"];
 				$seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller_user_id,"default_seller" => 1]));
 		?>
 			<table border="1" width="100%">
@@ -61,10 +62,9 @@
 						$goods  = $db->fetch_all_data("goods",[],"id = '".$transaction_details["goods_id"]."'")[0];
 						$goods_photos  = $db->fetch_all_data("goods_photos",[],"goods_id = '".$goods["id"]."'","seqno")[0];
 						$units  = $db->fetch_all_data("units",[],"id = '".$transaction_details["unit_id"]."'")[0];
-						$transaction_forwarder = $db->fetch_all_data("transaction_forwarder",[],"transaction_id = '".$transaction["id"]."'")[0];
 						
-						$total = $transaction_details["total"] + $transaction_forwarder["total"];
-						$total_tagihan += $total;
+						$total = $transaction_details["total"];
+						$subtotal[$seller_id] += $total;
 				?>
 				<tr>
 					<td colspan="4">
@@ -82,9 +82,14 @@
 						Rp. <?=format_amount($transaction_details["total"])?>
 					</td>   
 				</tr>
+				<?php 
+					}
+					$transaction_forwarder = $db->fetch_all_data("transaction_forwarder",[],"cart_group = '".$cart_group."' AND seller_id='".$seller_id."'")[0];
+					$subtotal[$seller_id] += $transaction_forwarder["total"];
+				?>
 				<tr>
 					<td colspan="5">
-						<u>Delivery Destination :</u><br><br>
+						<u><?=v("delivery_destination");?> :</u><br>
 						<b><?=$transaction_forwarder["user_address_pic"];?></b> <br>
 						<?=$transaction_forwarder["user_address"];?> <br>
 						<?php
@@ -105,24 +110,57 @@
 								$vehicle_brand = $db->fetch_single_data("vehicle_brands","name",["id" => $forwarder_vehicle["vehicle_brand_id"]]);
 								$transaction_forwarder["courier_service"] = $vehicle_type." ".$vehicle_brand;
 							}
+							$courier_service = $transaction_forwarder["name"]." -- ".explode(" (",$transaction_forwarder["courier_service"])[0];
+							if($transaction_forwarder["name"] == "self_pickup"){
+								$courier_service = v("self_pickup");
+							}
 						?>
-						<u>Courier Service :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar ":"";?><?=$transaction_forwarder["name"];?> -- <?=explode(" (",$transaction_forwarder["courier_service"])[0];?>
+						<u><?=v("courier_service");?> :</u><br> <?=($transaction_forwarder["forwarder_user_id"] > 0)?"Marko Antar ":"";?><?=$courier_service;?>
+						<?php 
+							if($transaction_forwarder["name"] == "self_pickup"){
+								if($transaction_forwarder["pickup_address_id"] > 0){
+									$user_address = $db->fetch_all_data("user_addresses",[],"id = '".$transaction_forwarder["pickup_address_id"]."' AND user_id = '".$transaction["seller_user_id"]."'")[0];
+									$locations = get_location($user_address["location_id"]);
+									
+									echo "<br><br><u>".v("goods_pickup_address")."</u><br>";
+									echo "<b>".$user_address["pic"]."</b><br>";
+									echo $user_address["address"]."<br>";
+									echo $locations[3]["name"].", ".$locations[2]["name"]."<br>";
+									echo $locations[1]["name"].", ".$locations[0]["name"].", ".$locations[3]["zipcode"]."<br>";
+									echo $user_address["phone"];
+								}
+								
+								if($transaction["status"] >= 3 && $transaction_forwarder["markoantar_status"] == 0) echo "<div class='alert alert-warning'>".v("goods_not_ready_for_pickup")."</div>";
+								if($transaction_forwarder["markoantar_status"] == 1) echo "<div class='alert alert-success'>".markoantar_status(1)."</div>";
+								if($transaction_forwarder["receipt_no"] != "") echo "<div><b>".v("receipt_number").": ".$transaction_forwarder["receipt_no"]."</b></div>";
+							} else {
+								if($transaction["status"] >= 5 && $transaction_forwarder["receipt_at"] != "0000-00-00 00:00:00") {
+									echo "<br><b>".v("delivered_at").": ".format_tanggal($transaction_forwarder["receipt_at"]);
+									echo "<br>".v("shipping_receipt_number").": ".$transaction_forwarder["receipt_no"]."</b>";
+								}
+							}
+						?>
 					</td>
 					<td nowrap width="15%" align="right">
-						Weight<br> <?=($transaction_forwarder["weight"]*$transaction_forwarder["qty"]/1000);?> Kg
+						<?=v("weight");?><br> <?=($transaction_forwarder["weight"]/1000);?> Kg
 					</td> 
 					<td nowrap width="15%" align="right">
-						Shipping Charges<br> Rp <?=format_amount($transaction_forwarder["total"])?>
+						<?=v(($transaction_forwarder["name"] == "self_pickup")?"administration_fee":"shipping_charges");?><br> Rp <?=format_amount($transaction_forwarder["total"])?>
 					</td>
 				</tr>
-				<tr>
-					<td colspan="6" align="right"><b> Total : Rp <?=format_amount($total)?></b></td>
-				</tr>
-				<tr><td colspan="6"></td></tr>
-				<?php } ?>
+				<tr><td colspan="6" align="right"><b> Total : Rp <?=format_amount($subtotal[$seller_id])?></b></td></tr>
+				<?php if($transaction["status"] == "7")	
+						echo "<tr><td colspan='6' style='width:100%;font-size:20px;text-align:center;' class='alert alert-success'><span class='glyphicon glyphicon-thumbs-up '></span> ".v("transaction_done")."</td></tr>"; 
+				?>
 			</table>
 			<br>
 		<?php } ?>
+		<?php
+			$total_tagihan = 0;
+			foreach($subtotal as $seller_id => $total){
+				$total_tagihan += $total;
+			}
+		?>
 		<table width="100%">
 			<tr>
 				<td align="right"><b>Total Bill : &nbsp;&nbsp;Rp. <?=format_amount($total_tagihan)?></b></td>

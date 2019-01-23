@@ -47,10 +47,13 @@
 				} else {
 					foreach($transaction_forwarders as $transaction_forwarder){
 						$cart_group = $db->fetch_single_data("transactions","cart_group",["id" => $transaction_forwarder["transaction_id"]]);
+						if(!$cart_group) $cart_group = $transaction_forwarder["cart_group"];
 						if(!$cart_groups[$cart_group]){
 							$cart_groups[$cart_group] = 1;
-							$po_no = $db->fetch_single_data("transactions","po_no",["id" => $transaction_forwarder["transaction_id"]]);
 							$seller_user_id = $db->fetch_single_data("transactions","seller_user_id",["id" => $transaction_forwarder["transaction_id"]]);
+							if(!$seller_user_id) $seller_user_id = $db->fetch_single_data("sellers","user_id",["id" => $transaction_forwarder["seller_id"]]);
+							$po_no = $db->fetch_single_data("transactions","po_no",["id" => $transaction_forwarder["transaction_id"]]);
+							if(!$po_no) $po_no = $db->fetch_single_data("transactions","po_no",["cart_group" => $cart_group,"seller_user_id" => $seller_user_id]);
 							$seller = $db->fetch_single_data("sellers","name",["user_id" => $seller_user_id]);
 							$pickup_locations = get_location($transaction_forwarder["pickup_location_id"]);
 							$destination_locations = get_location($transaction_forwarder["user_address_location_id"]);
