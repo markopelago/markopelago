@@ -54,7 +54,7 @@ class Vocabulary{
 		$arr[$l]["email_confirmed"]								= "Thank You, Your email confirmation was success.";
 		$arr[$l]["phone_confirmation_token_expired"]			= "This confirmation link has expired, please contact cs@markopelago.com";
 		$arr[$l]["phone_confirmation_failed"]					= "Confirmation failed, please contact cs@markopelago.com";
-		$arr[$l]["phone_confirmed"]								= "Thank You, Your mobile number confirmation was success.";
+		$arr[$l]["phone_confirmed"]								= "Thank You, Your registration confirmation was success.";
 		$arr[$l]["your_email_not_exist"]						= "Your email address is not registered at markopelago.com";
 		$arr[$l]["please_relogin"]								= "Please re-login";
 		$arr[$l]["oldpassword"]									= "Old Password";
@@ -388,9 +388,12 @@ class Vocabulary{
 		$arr[$l]["wait_for_process_from_seller"]				= "Wait for process from seller";
 		$arr[$l]["please_select_markoantar"]					= "Please select Marko Antar";
 		$arr[$l]["you_will_receive_notifications"]				= "You will receive notifications via SMS and email";
-		$arr[$l]["sms_signup_confirmation"]						= "Markopelago.com -- Thank you for your registration at markopelago.com. Please click the following link to confirm your Mobile number: {link}";
+		$arr[$l]["sms_signup_confirmation"]						= "Markopelago.com -- Thank you for your registration at markopelago.com. Please click the following link to confirm your registration: {link}";
 		$arr[$l]["review"]										= "Review";
 		$arr[$l]["review_saved_successfully"]					= "Review saved successfully";
+		$arr[$l]["warning_user_not_confirmed"]					= "Sorry, Your registration has not been confirmed yet, please click <b><a href=\"?resend_confirmation_link=1\">this link</a></b> to resend sms and email confirmation. Thank You";
+		$arr[$l]["warning"]										= "Warning";
+		$arr[$l]["resend_confirmation_link_success"]			= "Sms and email confirmation has been resent. Please check your sms and/or your email";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -432,7 +435,7 @@ class Vocabulary{
 		$arr[$l]["email_confirmed"]								= "Terima Kasih, Konfirmasi email Anda telah berhasil.";
 		$arr[$l]["phone_confirmation_token_expired"]			= "Link konfirmasi ini telah kedaluwarsa, silakan hubungi cs@markopelago.com";
 		$arr[$l]["phone_confirmation_failed"]					= "Konfirmasi gagal, silakan hubungi cs@markopelago.com";
-		$arr[$l]["phone_confirmed"]								= "Terima Kasih, Konfirmasi nomor handphone Anda telah berhasil.";
+		$arr[$l]["phone_confirmed"]								= "Terima Kasih, Konfirmasi registrasi Anda telah berhasil.";
 		$arr[$l]["your_email_not_exist"]						= "Alamat email Anda belum terdaftar di markopelago.com";
 		$arr[$l]["please_relogin"]								= "Silakan login ulang";
 		$arr[$l]["oldpassword"]									= "Kata Sandi Lama";
@@ -767,9 +770,12 @@ class Vocabulary{
 		$arr[$l]["wait_for_process_from_seller"]				= "Menunggu proses dari penjual";
 		$arr[$l]["please_select_markoantar"]					= "Silakan pilih Marko Antar";
 		$arr[$l]["you_will_receive_notifications"]				= "Anda akan menerima notifikasi via sms dan email";
-		$arr[$l]["sms_signup_confirmation"]						= "Markopelago.com -- Terima Kasih atas registrasi Anda di markopelago.com. Silakan klik link berikut untuk konfirmasi nomor Handphone Anda: {link}";
+		$arr[$l]["sms_signup_confirmation"]						= "Markopelago.com -- Terima Kasih atas registrasi Anda di markopelago.com. Silakan klik link berikut untuk konfirmasi registrasi Anda: {link}";
 		$arr[$l]["review"]										= "Ulasan";
 		$arr[$l]["review_saved_successfully"]					= "Ulasan berhasil disimpan";
+		$arr[$l]["warning_user_not_confirmed"]					= "Maaf, registrasi Anda belum terkonfirmasi, silakan klik <b><a href=\'?resend_confirmation_link=1\'>link ini</a></b> untuk mengirim ulang sms dan email konfirmasi. Terima Kasih";
+		$arr[$l]["warning"]										= "Peringatan";
+		$arr[$l]["resend_confirmation_link_success"]			= "Sms dan email konfirmasi telah dikirim ulang. Silakan periksa sms dan/atau email Anda";
 		
 		
 		return $arr[$this->locale][$index];

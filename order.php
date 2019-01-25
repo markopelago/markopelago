@@ -1,4 +1,5 @@
 <?php include_once "header.php"; ?>
+<?php include_once "func.resend_confirmation.php"; ?>
 <?php include_once "backoffice/invoices_func.php"; ?>
 <?php
 	$user_address_default = $db->fetch_single_data("user_addresses","id",["user_id" => $__user_id, "default_buyer" => "1"]);
@@ -470,36 +471,54 @@
 	}
 	
 	function btn_pay_click(){
-		var arr_seller_id = seller_ids.split(",");
-		var all_loaded = true;
-		for(xx=0;xx<arr_seller_id.length;xx++){
-			seller__id = arr_seller_id[xx];
-			if($("#hide_sub_total_"+seller__id).val() <= 0) {all_loaded = false;}
-		}
-		if(all_loaded){
-			var go_saving_process = true;
-			var arr_seller_id = seller_ids.split(",");
-			for(xx=0;xx<arr_seller_id.length;xx++){
-				seller__id = arr_seller_id[xx];
-				if(using_markoantar[seller__id]){ if(cod_coverage[seller__id] == false){ go_saving_process = false; } }
-			}
-			if(go_saving_process == false){
-				toastr.warning("<?=str_replace("{cod_max_km}",$__cod_max_km,v("out_of_delivery_range"));?>","",toastroptions);
+		$.get("ajax/transaction.php?mode=is_user_confirmed", function(returnval){
+			if(returnval){
+				var arr_seller_id = seller_ids.split(",");
+				var all_loaded = true;
+				for(xx=0;xx<arr_seller_id.length;xx++){
+					seller__id = arr_seller_id[xx];
+					if($("#hide_sub_total_"+seller__id).val() <= 0) {all_loaded = false;}
+				}
+				if(all_loaded){
+					var go_saving_process = true;
+					var arr_seller_id = seller_ids.split(",");
+					for(xx=0;xx<arr_seller_id.length;xx++){
+						seller__id = arr_seller_id[xx];
+						if(using_markoantar[seller__id]){ if(cod_coverage[seller__id] == false){ go_saving_process = false; } }
+					}
+					if(go_saving_process == false){
+						toastr.warning("<?=str_replace("{cod_max_km}",$__cod_max_km,v("out_of_delivery_range"));?>","",toastroptions);
+					} else {
+						document.getElementById("pay").click();
+					}
+				}
 			} else {
-				document.getElementById("pay").click();
+				$('#modalTitle').html("<?=v("warning");?>");
+				$('#modalBody').html("<span style='font-size:1.2em;'><?=v("warning_user_not_confirmed");?></span>");
+				$('#modalFooter').html("<button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\"><?=v("close");?></button>");
+				$('#myModal').modal('show');
 			}
-		}
+		});
 	}
 	
 	function btn_cod_click(){
-		if(is_cod_coverage == false){
-			toastr.warning("<?=str_replace("{cod_max_km}",$__cod_max_km,v("out_of_delivery_range"));?>","",toastroptions);
-		} else {
-			if(confirm("<?=v("are_you_sure_pay_with_cod");?>")){
-				document.getElementById("action_mode").value="cod";
-				cart_form.submit();
+		$.get("ajax/transaction.php?mode=is_user_confirmed", function(returnval){
+			if(returnval){
+				if(is_cod_coverage == false){
+					toastr.warning("<?=str_replace("{cod_max_km}",$__cod_max_km,v("out_of_delivery_range"));?>","",toastroptions);
+				} else {
+					if(confirm("<?=v("are_you_sure_pay_with_cod");?>")){
+						document.getElementById("action_mode").value="cod";
+						cart_form.submit();
+					}
+				}
+			} else {
+				$('#modalTitle').html("<?=v("warning");?>");
+				$('#modalBody').html("<span style='font-size:1.2em;'><?=v("warning_user_not_confirmed");?></span>");
+				$('#modalFooter').html("<button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\"><?=v("close");?></button>");
+				$('#myModal').modal('show');
 			}
-		}
+		});
 	}
 </script>
 <form id="cart_form" role="form" method="POST" autocomplete="off" onsubmit="return numbers_is_valid;">	

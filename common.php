@@ -57,8 +57,15 @@
 	$__buyer_id		= $__buyer["id"];
 	$__forwarder_id = $__forwarder["id"];
 	$__isBackofficer = $__user["is_backofficer"];
+	$__email_confirmed = false;
+	$__phone_confirmed = false;
+	$__user_confirmed = false;
+	
 	if($__user_id == 1) $__isBackofficer = "1";
 	if($__user["custom_radius"] > 0) $__cod_max_km = $__user["custom_radius"];
+	if($__user["email_confirmed_at"] != "0000-00-00 00:00:00") $__email_confirmed = true;
+	if($__user["phone_confirmed_at"] != "0000-00-00 00:00:00") $__phone_confirmed = true;
+	if($__email_confirmed || $__phone_confirmed) $__user_confirmed = true;
 	$__showXSonly 	= "class='hidden-sm hidden-md hidden-lg'";
 	
 	$__tblDesign100 = "width='100%' cellpadding='0' cellspacing='0'";
