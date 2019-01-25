@@ -213,6 +213,12 @@
 				echo "<div class='alert alert-success'><span class='glyphicon glyphicon-thumbs-up '></span> ".v("transaction_done")."</div>"; 
 		?>
 		<a href="dashboard.php?tabActive=purchase_list" class="btn btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> <?=v("back");?></a>
+		
+		<?php
+			if($db->fetch_single_data("transactions","id",["cart_group" => $cart_group,"status" => "4:<"]) == 0 && $db->fetch_single_data("transactions","id",["cart_group" => $cart_group,"status" => "6:>"]) == 0){
+				echo "<a onclick=\"transactionDone();\" href='#' style='position:relative;float:right;' class='btn btn-primary'><span class='glyphicon glyphicon-ok'></span> ".v("transaction_done")."</a><br><br>";
+			}
+		?>
     </div>
 </div>
 <div style="height:40px;"></div>
