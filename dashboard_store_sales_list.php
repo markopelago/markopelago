@@ -70,8 +70,10 @@
 						if($is_cod && $transaction["status"] <= 3){
 							$btn_delete = "&nbsp;<a href=\"javascript:delete_po('".$transaction["po_no"]."');\" class=\"btn btn-warning\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
 						}
+						$tr_style = "";
+						if($transaction["status"] == 3 || $transaction["status"] == 4 || $has_review_ids != "") $tr_style = "style='background-color:#faebcc;'";
 						?>
-						<tr>
+						<tr <?=$tr_style;?>>
 							<td class="nowrap">
 								<a href="<?=$viewUrl;?>" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></a>
 								<?php if($has_review_ids != ""){ ?>

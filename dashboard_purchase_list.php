@@ -84,8 +84,14 @@
 							$deleteUrl = "javascript:delete_purchase_list('".$transaction["invoice_no"]."')";
 							$btn_delete = "&nbsp;<a href=\"".$deleteUrl."\" class=\"btn btn-warning\" title=\"".v("delete")."\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
 						}
+						$tr_style = "";
+						if($transaction["status"] == 1 || 
+							$transaction["status"] == 2 || 
+							$transaction["status"] == 5 || 
+							$transaction["status"] == 6 || 
+							$need_review_ids != "") $tr_style = "style='background-color:#faebcc;'";
 						?>
-						<tr>
+						<tr <?=$tr_style;?>>
 							<td class="nowrap">
 								<a href="<?=$viewUrl;?>" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></a><?=$btn_delete;?>
 								<?php if($need_review_ids != ""){ ?>

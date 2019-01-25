@@ -122,7 +122,7 @@
 	$mainMenu_lg .= "<li><a href=\"dashboard.php\"><span class='glyphicon glyphicon-th-large'></span> ".v("my_dashboard")."<span class='notification-counter' style='visibility:hidden;' id='notifMyDashboardCount'></span></a></li>";
 	$mainMenu_lg .= "<li><a href=\"dashboard.php?tabActive=message\"><span class='glyphicon glyphicon-envelope'></span> ".v("message")."</a><span class='notification-counter' style='visibility:hidden;' id='notifMessageTabCount1'></span></li>";
 	if($__isBackofficer)$mainMenu_lg .= "<li><a href=\"mysurvey.php\"><span class='glyphicon glyphicon-th-list'></span> ".v("survey")."</a></li>";
-	if($__forwarder)	$mainMenu_lg .= "<li><a href=\"dashboard.php?tabActive=list_of_delivering_goods\"><img src='assets/sent.png' height='20'> ".v("list_of_delivering_goods")."</a></li>";
+	if($__forwarder)	$mainMenu_lg .= "<li><a href=\"dashboard.php?tabActive=list_of_delivering_goods\"><img src='assets/sent.png' height='20'> ".v("list_of_delivering_goods")."<span class='notification-counter' style='visibility:hidden;' id='notifDeliveringGoodsTabCount2'></span></a></li>";
 	$mainMenu_lg .= "<li><a href=\"change_password.php\"><span class='glyphicon glyphicon-lock'></span> ".v("change_password")."</a></li>";
 	$mainMenu_lg .= "<li class=\"sr-only\"><a href=\"index.php?locale=".$__anti_locale."\"><img class=\"localeFlag\" height=\"20\" src=\"icons/".$__anti_locale.".png\"></a></li>";
 	$mainMenu_lg .= "<li><a href=\"?logout_action=1\"><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>";

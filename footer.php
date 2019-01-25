@@ -66,6 +66,7 @@
 								totalDashboardcount = totalDashboardcount + (result*1);
 								try{ loadNotifCount("notifDeliveringGoodsTabCount",result); } catch(e){}
 								try{ loadNotifCount("notifDeliveringGoodsTabCount1",result); } catch(e){}
+								try{ loadNotifCount("notifDeliveringGoodsTabCount2",result); } catch(e){}
 								
 								try{ loadNotifCount("notifNavCount",totalcount); } catch(e){}
 								try{ loadNotifCount("notifCount",totalcount); } catch(e){}

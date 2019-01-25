@@ -58,6 +58,7 @@
 	$__forwarder_id = $__forwarder["id"];
 	$__isBackofficer = $__user["is_backofficer"];
 	if($__user_id == 1) $__isBackofficer = "1";
+	if($__user["custom_radius"] > 0) $__cod_max_km = $__user["custom_radius"];
 	$__showXSonly 	= "class='hidden-sm hidden-md hidden-lg'";
 	
 	$__tblDesign100 = "width='100%' cellpadding='0' cellspacing='0'";
@@ -451,6 +452,7 @@
 			$arr[5] = "Pemesanan dalam pengiriman";
 			$arr[6] = "Barang Diterima";
 			$arr[7] = "Transaksi Selesai";
+			$arr[-3] = "Konfirmasi pembelian dengan pembayaran di tempat";
 		}
 		if($__locale == "en"){
 			$arr[0] = "Cart";
@@ -461,6 +463,7 @@
 			$arr[5] = "Order in delivery";
 			$arr[6] = "Received";
 			$arr[7] = "Transaction Done";
+			$arr[-3] = "Confirm purchase with cash on delivery";
 		}
 		return $arr[$id];
 	}

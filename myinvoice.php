@@ -136,7 +136,7 @@
 					$subtotal[$seller_id] += $transaction_forwarder["total"];
 				?>
 				<tr>
-					<td colspan="5">
+					<td colspan="6">
 						<u><?=v("delivery_destination");?> :</u><br>
 						<b><?=$transaction_forwarder["user_address_pic"];?></b> <br>
 						<?=$transaction_forwarder["user_address"];?> <br>
@@ -149,7 +149,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3" width="70%"> 
+					<td colspan="5" width="70%"> 
 						<?php
 							if($transaction_forwarder["forwarder_user_id"] > 0){
 								$vehicle_id = $db->fetch_single_data("forwarder_routes","vehicle_id",["user_id" => $transaction_forwarder["forwarder_user_id"],"id" => $transaction_forwarder["courier_service"]]);
@@ -182,9 +182,10 @@
 								if($transaction_forwarder["markoantar_status"] == 1) echo "<div class='alert alert-success'>".markoantar_status(1)."</div>";
 								if($transaction_forwarder["receipt_no"] != "") echo "<div><b>".v("receipt_number").": ".$transaction_forwarder["receipt_no"]."</b></div>";
 							} else {
+								$receipt_no = $transaction_forwarder["receipt_no"];
 								if($transaction["status"] >= 5 && $transaction_forwarder["receipt_at"] != "0000-00-00 00:00:00") {
-									echo "<br><b>".v("delivered_at").": ".format_tanggal($transaction_forwarder["receipt_at"]);
-									echo "<br>".v("shipping_receipt_number").": ".$transaction_forwarder["receipt_no"]."</b>";
+									echo "<br><b>".v("delivered_at")." : </b>".format_tanggal($transaction_forwarder["receipt_at"]);
+									echo "<br><b>".v("shipping_receipt_number")." : </b>".$receipt_no;
 								}
 								if($transaction["status"] == 5 && $transaction_forwarder["receipt_at"] != "0000-00-00 00:00:00") {
 									echo "<br>".$f->input("goods_received",v("goods_received"),"type='button' onclick=\"goods_received('".$seller_id."');\"","btn btn-success");
@@ -193,10 +194,8 @@
 							if($transaction["status"] > 5) echo "<div class='alert alert-success'><span class='glyphicon glyphicon-thumbs-up '></span> ".v("goods_received")."</div>";
 						?>
 					</td>
-					<td nowrap width="15%" align="right">
-						<?=v("weight");?><br> <?=($transaction_forwarder["weight"]/1000);?> Kg
-					</td> 
-					<td nowrap width="15%" align="right">
+					<td nowrap width="30%" align="right">
+						<?=v("weight");?><br> <?=($transaction_forwarder["weight"]/1000);?> Kg<br><br>
 						<?=v(($transaction_forwarder["name"] == "self_pickup")?"administration_fee":"shipping_charges");?><br> Rp <?=format_amount($transaction_forwarder["total"])?>
 					</td>
 				</tr>

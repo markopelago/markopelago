@@ -12,10 +12,10 @@
 		echo $return;
 	}
 	if($mode == "checkDeliveringGoods"){
-		$transaction_ids = "";
-		$transactions_forwarders = $db->fetch_all_data("transaction_forwarder",["transaction_id"],"forwarder_user_id = '".$__user_id."' AND markoantar_status BETWEEN 1 AND 3");
-		foreach($transactions_forwarders as $transactions_forwarder){ $transaction_ids .= $transactions_forwarder["transaction_id"].","; }
-		$transaction_ids = substr($transaction_ids,0,-1);
-		echo count($db->fetch_all_data("transactions",["id"],"id IN (".$transaction_ids.") GROUP BY cart_group"));
+		$cart_groups = "";
+		$transactions_forwarders = $db->fetch_all_data("transaction_forwarder",["cart_group"],"forwarder_user_id = '".$__user_id."' AND markoantar_status BETWEEN 1 AND 3");
+		foreach($transactions_forwarders as $transactions_forwarder){ $cart_groups .= "'".$transactions_forwarder["cart_group"]."',"; }
+		$cart_groups = substr($cart_groups,0,-1);
+		echo count($db->fetch_all_data("transactions",["id"],"cart_group IN (".$cart_groups.") GROUP BY cart_group"));
 	}
 ?>

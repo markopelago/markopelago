@@ -58,8 +58,10 @@
 							$pickup_locations = get_location($transaction_forwarder["pickup_location_id"]);
 							$destination_locations = get_location($transaction_forwarder["user_address_location_id"]);
 							$viewUrl = "my_delivering_goods.php?deliver_id=".$transaction_forwarder["id"];
+							$tr_style = "";
+							if($transaction_forwarder["markoantar_status"] == 1 || $transaction_forwarder["markoantar_status"] == 2 || $transaction_forwarder["markoantar_status"] == 3) $tr_style = "style='background-color:#faebcc;'";
 							?>
-							<tr>
+							<tr <?=$tr_style;?>>
 								<td class="nowrap"><a href="<?=$viewUrl;?>" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></a></td>
 								<td class="nowrap"><?=format_tanggal($transaction_forwarder["markoantar_status1_at"]);?></td>
 								<td class="nowrap"><?=$po_no;?></td>
