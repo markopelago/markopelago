@@ -199,6 +199,10 @@ function loadInfo(mode){
 }
 
 function loadShopping_progress(transaction_id){
+	$('#modalTitle').html("");
+	$('#modalBody').html("<img src='images/fancybox_loading.gif'>");
+	$('#modalFooter').html("");
+	$('#myModal').modal('show');
 	$.get( "ajax/transaction.php?mode=loadShoppingProgress&transaction_id="+transaction_id, function(modalBody) {
 		modalBody = modalBody.split("|||");
 		modalTitle = modalBody[0];

@@ -85,7 +85,7 @@
 							$btn_delete = "&nbsp;<a href=\"".$deleteUrl."\" class=\"btn btn-warning\" title=\"".v("delete")."\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
 						}
 						?>
-						<tr onclick="loadShopping_progress('<?=$transaction["id"];?>');">
+						<tr>
 							<td class="nowrap">
 								<a href="<?=$viewUrl;?>" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></a><?=$btn_delete;?>
 								<?php if($need_review_ids != ""){ ?>

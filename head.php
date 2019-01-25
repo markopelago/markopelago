@@ -33,7 +33,7 @@
 	<script src="scripts/toastr.min.js"></script>
 	<script src="scripts/bootstrap-slider.js"></script>
 	<script src="scripts/newWaterfall.js"></script>
-	<script src="scripts/customs.js?v=2"></script>
+	<script src="scripts/customs.js?v=3"></script>
 	<script src="scripts/multiselect.js"></script>
 	
 	<script>
