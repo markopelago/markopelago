@@ -1,5 +1,3 @@
-ALTER TABLE `a_users` ADD `custom_radius` INT NOT NULL DEFAULT '0' AFTER `npwp_address`;
-
 rfo
 	id
 	user_id
