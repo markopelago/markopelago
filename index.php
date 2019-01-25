@@ -44,34 +44,16 @@
 	</div>
 </div>
 <div style="height:20px;"></div>
+<img onclick="window.location='category_detail.php?category_id=49'" class="img-responsive" src="assets/banner_pasar_wide.png" style="object-fit:cover;width:100%;cursor:pointer;">
 <div class="container">
 	<div class="row">
-		<div class="col-md-5">
-			<table width="100%">
-				<tr>
-					<td align="center">
-						<table>
-							<tr>
-								<td>
-									<a style="position:relative;top:<?=(!isMobile())?"130":"70";?>px;" href="javascript:loadmarketplace();"><img class="img-responsive" src="assets/shortcut_marketplace.png" width="<?=(!isMobile())?"220":"150";?>"></a>
-								</td>
-								<td>&nbsp;&nbsp;&nbsp;</td>
-								<td>
-									<a style="position:relative;top:<?=(!isMobile())?"10":"0";?>px;" href="category_detail.php?category_id=49"><img class="img-responsive" src="assets/shortcut_pasar.png" width="<?=(!isMobile())?"220":"150";?>"></a>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<div class="col-md-7 home_recommended_goods" <?=(isMobile())?"style='margin-top:100px;'":"";?>>
-			<div class="sub-title-text" style=""><?=v("recommended_goods");?></div>
-			<?php if(isMobile() || true) echo "<div class='view-all-text' style='font-weight:bolder;font-size:1em;margin-right:10px;'><a href='products.php?s=+'>".v("view_all")."</a></div>";?>
+		<div class="col-md-12 home_recommended_goods" style="margin-top:30px;">
+			<div class="sub-title-text"><?=v("recommended_goods");?></div>
+			<div class="view-all-text" style="font-weight:bolder;font-size:1em;margin-right:10px;"><a href="products.php?s=+"><?=v("view_all");?></a></div>
 			<table width="100%">
 				<tr>
 				<?php 
-					$limit = 8;
+					$limit = 10;
 					if(isMobile()) $limit = 20;
 					$no_pasar_cat = "AND (category_ids NOT LIKE '%|49|%' ";
 					$pasar_ids = $db->fetch_all_data("categories",["id"],"parent_id = 49");
@@ -87,10 +69,10 @@
 						if(isMobile()){
 							if($key%2 == 0) echo "</tr><tr>";
 						} else {
-							if($key%4 == 0) echo "</tr><tr>";
+							if($key%5 == 0) echo "</tr><tr>";
 						}
 				?>
-						<td width="<?=(!isMobile())?"25":"50";?>%" align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';">
+						<td width="<?=(!isMobile())?"20":"50";?>%" align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';">
 							<div class="home_recommended_goods_thumbnail">
 								<img class="img-responsive" src="goods/<?=$img;?>">
 								<div class="caption"><p><?=$product["name"];?></p></div>
