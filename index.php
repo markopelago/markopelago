@@ -25,7 +25,7 @@
 					$categories_td_width = "width='12%'";
 					if(isMobile()) $categories_td_width = "style='width:70px !important;'";
 					unset($categories);
-					$categories = $db->fetch_all_data("categories",[],"id IN (1,2,3,4,5,6,8,9,49)","id=49 desc, id");
+					$categories = $db->fetch_all_data("categories",[],"id IN (1,3,4,5,6,8,9,49)","id=49 desc, id");
 					foreach($categories as $key => $category){
 						$img = "category_".$category["id"].".png";
 				?>

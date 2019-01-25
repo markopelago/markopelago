@@ -200,7 +200,7 @@
 							<?=$f->input("s",$_GET["s"]," placeholder='".v("search")."..'");?>
 							<?php
 								$categories[""] = "-- ".v("allcategories")." --";
-								$_categories = $db->fetch_all_data("categories",[],"id IN (1,2,3,4,5,6,8,9,49)","id=49 desc, id");
+								$_categories = $db->fetch_all_data("categories",[],"id IN (1,3,4,5,6,8,9,49)","id=49 desc, id");
 								foreach($_categories as $_category){
 									$categories[$_category["id"]] = $_category["name_".$__locale];
 								}

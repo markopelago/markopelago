@@ -15,7 +15,7 @@
 		<div class="frame_body">
 			<div class="frame_subtitle"><?=v("categories");?></div>
 			<?php
-				$categories = $db->fetch_all_data("categories",[],"id IN (1,2,3,4,5,6,8,9,49)","id");
+				$categories = $db->fetch_all_data("categories",[],"id IN (1,3,4,5,6,8,9,49)","id");
 				foreach($categories as $key => $category){
 					$img = "category_".$category["id"].".png";
 					$isactive = ($category["id"] == $_GET["category_id"])?"style=\"color:#800000\"":"";
