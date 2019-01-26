@@ -1,4 +1,5 @@
 <?php include_once "homepage_header.php"; ?>
+<?php include_once "footer_tray.php"; ?>
 <script>
 	function change_sort(sort_id){
 		document.getElementById("sort_id").value = sort_id;
@@ -23,5 +24,4 @@
 	</table>
 </div>
 <div style="height:40px;"></div>
-<?php include_once "footer_tray.php"; ?>
 <?php include_once "footer.php"; ?>
