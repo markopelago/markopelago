@@ -1,58 +1,3 @@
-<script>
-	function add_to_cart(goods_id,qty){
-		var btnCartArea = document.getElementById("add_to_cart_"+goods_id);
-		btnCartArea.innerHTML = "<div><img src='images/fancybox_loading.gif' style=\"width:15px;height:15px;\"></div>";
-		$.get("ajax/transaction.php?mode=add_to_cart&goods_id="+goods_id+"&goods_qty="+qty+"&notes_for_seller=", function(returnval){
-			toastr.success("<?=v("success_add_to_cart");?>","",toastroptions);
-			$.get("ajax/transaction.php?mode=cartcount", function(returnval){
-				try{document.getElementById("val_cartcount1").innerHTML = returnval; } catch(e){}
-				try{document.getElementById("val_cartcount2").innerHTML = returnval; } catch(e){}
-				btnCartArea.innerHTML = "";
-			});
-		});
-	}
-
-	function calculate(goods_id,qty){
-		$.get("ajax/transaction.php?mode=calculate&goods_id="+goods_id+"&qty="+qty, function(returnval){
-			var values = returnval.split("|||");
-			document.getElementById("price["+goods_id+"]").innerHTML = values[0];
-			
-		});
-	}
-
-	function cart_calculate(goods_id,qty){
-		$.get("ajax/transaction.php?mode=cart_calculate&goods_id="+goods_id+"&qty="+qty, function(returnval){
-			var values = returnval.split("|||");
-            var val = values[4].replace("Rp. ", "");
-			try{document.getElementById("total_buy").innerHTML = val;} catch(e){}
-            
-            try{
-				var budget = document.getElementById("budget").value;
-				var total_buy = document.getElementById("total_buy").textContent;
-				var tot_buy = total_buy.replace("Rp. ", "");
-				var tot_buy = tot_buy.replace(".", "");
-
-				var total = budget - tot_buy;
-				var total = total.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
-				document.getElementById("total").innerHTML = total;
-			} catch(e){}
-		});
-	}
-
-	function price_calculation(){
-        var budget = document.getElementById("budget").value;
-        var total_buy = document.getElementById("total_buy").textContent;
-        var tot_buy = total_buy.replace("Rp. ", "");
-        var tot_buy = tot_buy.replace(".", "");
-        
-        
-        var total = budget - tot_buy;
-        var total = total.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")
-        document.getElementById("total").innerHTML = total;
-	}
-	
-	cart_calculate(0,0);
-</script>
 <div class="frame_common">
 	<div class="frame_body">
 		<?php $img = "category_".$_GET["category_id"].".png";?>
@@ -109,81 +54,22 @@
 				$goods_id = $product["id"];
 				$minqty = 1;
 		?>
-            <script> calculate(<?=$goods_id;?>,1); </script>
-			<td width="<?=(!isMobile())?"20":"50";?>%" align="center" <?=(!$is_pasar)?"onclick=\"window.location='product_detail.php?id=".$product["id"]."';\"":"";?>>
+			<td width="<?=(!isMobile())?"20":"50";?>%" align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';">
 				<div class="goods_list_thumbnail">
 					<img onclick="window.location='product_detail.php?id=<?=$goods_id;?>';" class="img-responsive" src="goods/<?=$img;?>" style="cursor:pointer;">
 					<div class="caption"><p><?=$product["name"];?></p></div>
 					<div class="price">
                         <table>
                             <tr>
-                                <td id="price[<?=$goods_id;?>]"><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> <?php if(!$is_pasar){?>/ <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?><?php } ?></p></td>
+                                <td><p>Rp. <?=format_amount(get_goods_price($product["id"])["display_price"]);?> <?php if(!$is_pasar){?>/ <?=$db->fetch_single_data("units","name_".$__locale,["id" => $product["unit_id"]]);?><?php } ?></p></td>
                             </tr>
                         </table>
                     </div>
-					<div class="seller"><?=$db->fetch_single_data("sellers","name",["id"=>$product["seller_id"]]);?></div>
-					<?php if($is_pasar){ ?>
-						<div class="direct_cart">
-							<table <?=$__tblDesign100;?>>
-								<tr>
-									<td style="position:relative;float:left;">
-											<div class="oval_border2">
-												<div class="left_caption" onclick="document.getElementById('qty[<?=$goods_id;?>]').stepDown(1);calculate('<?=$goods_id;?>',document.getElementById('qty[<?=$goods_id;?>]').value);">-</div>
-												<div class="center_text"><?=$f->input("qty[".$goods_id."]",$minqty,"type='number' min='1' step='1' onchange=\"calculate('".$goods_id."',this.value);\"");?></div>
-												<div class="right_caption" onclick="document.getElementById('qty[<?=$goods_id;?>]').stepUp(1);calculate('<?=$goods_id;?>',document.getElementById('qty[<?=$goods_id;?>]').value);">+</div>
-											</div>
-									</td>
-									<td style="position:relative;float:left;margin-left:10px;">
-										<span class="glyphicon glyphicon-shopping-cart" style="color:#800000;font-size:<?=(!isMobile())?"1.5":"1.2";?>em;cursor:pointer;" onclick="add_to_cart('<?=$goods_id;?>',document.getElementById('qty[<?=$goods_id;?>]').value);cart_calculate('<?=$goods_id;?>',document.getElementById('qty[<?=$goods_id;?>]').value);price_calculation();" id="add_to_cart_<?=$goods_id;?>"></span>
-									</td>
-									<td style="position:relative;float:left;margin-left:10px;">
-										<span class="glyphicon glyphicon-zoom-in" style="color:#29A9E1;font-size:<?=(!isMobile())?"1.5":"1.2";?>em;cursor:pointer;" onclick="window.location='product_detail.php?id=<?=$goods_id;?>';"></span>
-									</td>
-								</tr>
-							</table>
-						</div>
-					<?php } ?>
+					<div class="seller" style="padding-left:3px;padding-right:3px;"><?=$db->fetch_single_data("sellers","name",["id"=>$product["seller_id"]]);?></div>
 				</div>
 			</td>
 		<?php } ?>
 		</tr>
 	</table>
 </div>
-
-<?php
-if($is_pasar){
-    $calculator=(!isMobile())?"calculator":"calculator_mobile";
-    
-?>
-    <div class="<?=$calculator;?>" style="display:none;">
-        <br>
-        <table width="100%">
-            <tr>
-                <td width="40%"><b>&nbsp;&nbsp;Budget Belanja</b></td>
-                <td width="10%"><b>&nbsp;&nbsp;Rp. </b></td>
-                <td width="50%">
-
-                    <?php 
-                    $txt_price = $f->input("budget","0","onchange=\"price_calculation();\" type='number'  style='width:150px;' step='any'","form-control");
-                    echo $txt_price;
-                    ?>
-                </td>
-            </tr>
-            <tr>
-                <td width="40%" style="border-bottom:1px dashed #fff;"><b>&nbsp;&nbsp;Total Belanja</b></td>
-                <td width="10%" style="border-bottom:1px dashed #fff;"><b>&nbsp;&nbsp;Rp. </b></td>
-                <td width="50%" id="total_buy" style="border-bottom:1px dashed #fff;">0</td>
-            </tr>
-            <tr>
-                <td width="40%"><b>&nbsp;&nbsp;Saldo Belanja</b></td>
-                <td width="10%"><b>&nbsp;&nbsp;Rp. </b></td>
-                <td width="50%" id="total"></td>
-            </tr>
-        </table>
-        <br>
-    </div>
-<?php
-    
-}
-?>
 <div style="height:40px;"></div>

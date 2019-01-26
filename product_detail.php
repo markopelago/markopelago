@@ -13,10 +13,11 @@
 	else $onclickSendMessage = "onclick=\"try{ $('#ul_signin').addClass('show'); }catch(e){}\"";
 	
 	$onclickBuy = $onclickSendMessage;
+	$onclickBuyDirect = "";
 	if($__isloggedin){
 		$onclickSendMessage = "onclick=\"newMessage('".$seller["user_id"]."','".$goods["id"]."','buyer','seller');\"";
-		// $onclickBuy = "onclick=\"window.location='transaction.php?id=".$_GET["id"]."&goods_qty='+goods_qty.value+'&notes_for_seller='+notes_for_seller.value;\"";
 		$onclickBuy = "onclick=\"add_to_cart();\"";
+		$onclickBuyDirect = "onclick=\"add_to_cart('direct');\"";
 	}
 	$stock = $db->fetch_single_data("goods_histories","concat(sum(qty))",["goods_id" => $_GET["id"],"in_out" => "in"]);
 	$stock -= $db->fetch_single_data("goods_histories","concat(sum(qty))",["goods_id" => $_GET["id"],"in_out" => "out"]);
@@ -50,12 +51,20 @@
 			});
 		});
 	}
-	function add_to_cart(){
+	function add_to_cart(mode){
+		mode = mode || "";
 		var btnArea = document.getElementById("buy_button").parentElement;
 		var btnElement = btnArea.innerHTML;
 		btnArea.innerHTML = "<img src='images/fancybox_loading.gif'>";
 		$.get("ajax/transaction.php?mode=add_to_cart&goods_id=<?=$_GET["id"];?>&goods_qty="+goods_qty.value+"&notes_for_seller="+notes_for_seller.value, function(returnval){
-			window.location = "?id=<?=$_GET["id"];?>";
+			if(mode == ""){ window.location = "?id=<?=$_GET["id"];?>"; }
+			if(mode == "direct"){ window.location = "order.php"; }
+		});
+	}
+
+	function calculate(goods_id,qty){
+		$.get("ajax/transaction.php?mode=calculate&goods_id="+goods_id+"&qty="+qty, function(returnval){
+			document.getElementById("product_price").innerHTML = returnval;
 		});
 	}
 </script>
@@ -107,16 +116,19 @@
 					<div class="panel-body">
 						<?php if(isMobile()){ echo "<div style='position:absolute;top:70px;right:30px;'>".$goods_like."</div>";} ?>
 						<h3 style="margin-top:0px;"><b><?=$db->fetch_single_data("goods","name",["id"=>$_GET["id"]]);?></b></h3>
-						<h3 style="color:#800000;"><b>Rp. <?=format_amount(get_goods_price($_GET["id"])["display_price"]);?></b></h3>
+						<h3 style="color:#800000;"><b id="product_price">Rp. <?=format_amount(get_goods_price($_GET["id"])["display_price"]);?></b></h3>
 						<div style="height:10px;"></div>
 						<?php
+							$buy_button_width = "200px";
+							if(isMobile()) $buy_button_width = "100%";
 							if($__seller_id != $goods["seller_id"]){
 								if($stock <= 0){
-									$buy_button = "<button class=\"btn\" style=\"width:200px;\"><span class=\"glyphicon glyphicon-shopping-cart\"></span>&nbsp;".v("buy")." (".v("empty_stock").")</button>";
+									$buy_button = "<button class=\"btn\" style=\"width:".$buy_button_width.";\"><span class=\"glyphicon glyphicon-shopping-cart\"></span>&nbsp;".v("add_to_cart")." (".v("empty_stock").")</button>";
 								}else if(get_goods_price($_GET["id"])["display_price"] <= 0){
-									$buy_button = "<button class=\"btn\" style=\"width:200px;\"><span class=\"glyphicon glyphicon-shopping-cart\"></span>&nbsp;".v("buy")."</button>";
+									$buy_button = "<button class=\"btn\" style=\"width:".$buy_button_width.";\"><span class=\"glyphicon glyphicon-shopping-cart\"></span>&nbsp;".v("add_to_cart")."</button>";
 								} else {
-									$buy_button = "<button id=\"buy_button\" ".$onclickBuy." class=\"btn btn-primary btn-blue\" style=\"width:200px;\"><span class=\"glyphicon glyphicon-shopping-cart\"></span>&nbsp;".v("buy")."</button>";
+									$buy_button = "<button id=\"buy_button\" ".$onclickBuy." class=\"btn btn-primary btn-blue\" style=\"width:".$buy_button_width.";\"><span class=\"glyphicon glyphicon-shopping-cart\"></span>&nbsp;".v("add_to_cart")."</button>";
+									$buy_direct_button = "<div style='height:10px;'></div><button id=\"buy_button\" ".$onclickBuyDirect." class=\"btn btn-primary\" style=\"width:".$buy_button_width.";\"><span class=\"glyphicon glyphicon-credit-card\"></span>&nbsp;".v("buy_now")."</button>";
 								}
 							}
 						?>
@@ -136,16 +148,16 @@
 												}
 											?>
 										</td></tr>
-										<?php if(!isMobile()){ ?> <tr><td valign="bottom"><?=$buy_button;?></td></tr> <?php } ?>
+										<?php if(!isMobile()){ ?> <tr><td valign="bottom"><?=$buy_button;?><?=$buy_direct_button;?></td></tr> <?php } ?>
 									</table>
 								</td>
 							<?php if(isMobile()){echo "</tr><tr>";}?>
 								<td valign="top">
 									<?php echo "<b>".v("goods_qty")."</b><br>";?>
 									<div class="oval_border">
-										<div class="left_caption" onclick="goods_qty.stepDown(1);">-</div>
+										<div class="left_caption" onclick="goods_qty.stepDown(1);calculate('<?=$_GET["id"];?>',goods_qty.value);">-</div>
 										<div class="center_text"><?=$f->input("goods_qty","1","type='number' min='1' step='1'");?></div>
-										<div class="right_caption" onclick="goods_qty.stepUp(1);">+</div>
+										<div class="right_caption" onclick="goods_qty.stepUp(1);calculate('<?=$_GET["id"];?>',goods_qty.value);">+</div>
 									</div>
 									<?php if(isMobile()){
 										echo "<br><div style='font-size:1em;font-weight:bolder;'>".v("notes_for_seller")."</div>";
@@ -155,7 +167,7 @@
 								</td>
 							</tr>
 							<?php if(isMobile()){ ?>
-								<tr><td><br><?=$buy_button;?></td> </tr>
+								<tr><td><br><?=$buy_button;?><?=$buy_direct_button;?></td> </tr>
 							<?php } ?>
 						</table>
 						<div style="height:10px;"></div>

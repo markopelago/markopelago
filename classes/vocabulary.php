@@ -394,6 +394,8 @@ class Vocabulary{
 		$arr[$l]["warning_user_not_confirmed"]					= "Sorry, Your registration has not been confirmed yet, please click <b><a href=\"?resend_confirmation_link=1\">this link</a></b> to resend sms and email confirmation. Thank You";
 		$arr[$l]["warning"]										= "Warning";
 		$arr[$l]["resend_confirmation_link_success"]			= "Sms and email confirmation has been resent. Please check your sms and/or your email";
+		$arr[$l]["add_to_cart"]									= "Add to cart";
+		$arr[$l]["buy_now"]										= "Buy Now";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -776,6 +778,8 @@ class Vocabulary{
 		$arr[$l]["warning_user_not_confirmed"]					= "Maaf, registrasi Anda belum terkonfirmasi, silakan klik <b><a href=\'?resend_confirmation_link=1\'>link ini</a></b> untuk mengirim ulang sms dan email konfirmasi. Terima Kasih";
 		$arr[$l]["warning"]										= "Peringatan";
 		$arr[$l]["resend_confirmation_link_success"]			= "Sms dan email konfirmasi telah dikirim ulang. Silakan periksa sms dan/atau email Anda";
+		$arr[$l]["add_to_cart"]									= "Tambah ke Keranjang";
+		$arr[$l]["buy_now"]										= "Beli Sekarang";
 		
 		
 		return $arr[$this->locale][$index];

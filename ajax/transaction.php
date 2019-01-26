@@ -344,16 +344,14 @@
     if($mode == "calculate"){
 		$goods_id = $_GET["goods_id"];
 		$qty = $_GET["qty"];
-		if($qty < 0) $qty = 1;
-		
+		if($qty <= 0) $qty = 1;
         $goods_price = get_goods_price($goods_id,$qty);
 		$gross = $goods_price["price"];
 		$commission = $goods_price["commission"];
 		$price = $goods_price["display_price"];
 		$weight = $db->fetch_single_data("goods","weight",["id" => $goods_id]);
 		$total = $price * $qty;
-		
-		echo "Rp. ".format_amount($total)."|||";
+		echo "Rp. ".format_amount($total);
 	}
 	
 	if($mode == "distance_estimation"){
