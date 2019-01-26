@@ -13,7 +13,7 @@
 	else $onclickSendMessage = "onclick=\"try{ $('#ul_signin').addClass('show'); }catch(e){}\"";
 	
 	$onclickBuy = $onclickSendMessage;
-	$onclickBuyDirect = "";
+	$onclickBuyDirect = $onclickSendMessage;
 	if($__isloggedin){
 		$onclickSendMessage = "onclick=\"newMessage('".$seller["user_id"]."','".$goods["id"]."','buyer','seller');\"";
 		$onclickBuy = "onclick=\"add_to_cart();\"";
