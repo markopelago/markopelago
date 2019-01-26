@@ -396,6 +396,7 @@ class Vocabulary{
 		$arr[$l]["resend_confirmation_link_success"]			= "Sms and email confirmation has been resent. Please check your sms and/or your email";
 		$arr[$l]["add_to_cart"]									= "Add to cart";
 		$arr[$l]["buy_now"]										= "Buy Now";
+		$arr[$l]["liked_list"]									= "Liked List";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -780,6 +781,7 @@ class Vocabulary{
 		$arr[$l]["resend_confirmation_link_success"]			= "Sms dan email konfirmasi telah dikirim ulang. Silakan periksa sms dan/atau email Anda";
 		$arr[$l]["add_to_cart"]									= "Tambah ke Keranjang";
 		$arr[$l]["buy_now"]										= "Beli Sekarang";
+		$arr[$l]["liked_list"]									= "Daftar yang disukai";
 		
 		
 		return $arr[$this->locale][$index];

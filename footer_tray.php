@@ -38,10 +38,10 @@
 				<table width="100%">
 					<tr>
 						<td width="50%" align="center" onclick="tray_sort_click();">
-							<img src="assets/tray_sort.png" width="20"><br><?=v("sort");?>
+							<img src="assets/tray_sort.png" width="30"><br><b><?=v("sort");?></b>
 						</td>
 						<td align="center" onclick="tray_filter_click();">
-							<img src="assets/tray_filter.png" width="20"><br><?=v("filter");?>
+							<img src="assets/tray_filter.png" width="30"><br><b><?=v("filter");?></b>
 						</td>
 					</tr>
 				</table>
@@ -64,7 +64,7 @@
 	</div>
 	<div id="tray_filter_body" class="navbar-default sidenav">
 		<div class="menuTitle">
-			<?=strtoupper(v("sort"));?>
+			<?=strtoupper(v("filter"));?>
 			<div class="closebtn"><a href="javascript:void(0)" onclick="closeBottomNav()">&times;</a></div>
 		</div>
 		<div class="container" id="sidenavContent">
@@ -77,14 +77,14 @@
 					<div class="frame_subtitle"><?=v("keyword");?></div>
 					<?=$f->input("keyword",$_GET["keyword"],"placeholder='".v("keyword")."...'","form-control");?>
 					<br>
-					<?php 
-						$subcategories = $db->fetch_select_data("categories","id","name_".$__locale,["parent_id"=>$_GET["category_id"]],["id"]);
-						if(count($subcategories) > 0){
+					<?php
+						if(!$no_categories_filter){
+							$subcategories = $db->fetch_select_data("categories","id","name_".$__locale,["parent_id"=>$_GET["category_id"]],["id"]);
+							if(count($subcategories) > 0){
+								?> <div class="frame_subtitle"><?=v("categories");?></div> <?=$f->select("subcategories",$subcategories,"","multiple=\"multiple\"","form-control");?> <br> <?php 
+							}
+						} 
 					?>
-						<div class="frame_subtitle"><?=v("categories");?></div>
-						<?=$f->select("subcategories",$subcategories,"","multiple=\"multiple\"","form-control");?>
-						<br>
-					<?php } ?>
 					
 					<div class="frame_subtitle"><?=v("seller_location");?></div>
 					<?php $provinces = $db->fetch_select_data("locations","id","name_".$__locale,["parent_id" => 0],["name_".$__locale],"",true); ?>
