@@ -4,3 +4,26 @@ users_images/*.*
 users_temp/*.*
 surveys/*.*
 db_config_markopelago.txt
+.viminfo
+.bash_history
+.cache/
+.htaccess
+.mysql_history
+.selected_editor
+common.php.save
+icons/categories/icon colour 1.png
+icons/categories/icon colour 2.png
+icons/categories/icon colour 3.png
+icons/categories/icon colour 4.png
+icons/categories/icon colour 5.png
+icons/categories/icon colour 6.png
+icons/categories/icon colour 7.png
+icons/categories/icon colour 8.png
+icons/categories/old/
+images/banner-atas1.jpg
+images/banner-atas2.jpg
+images/banner-atas3.jpg
+images/footer.jpg
+images/kategori-bg.png
+images/kategori.png
+images/rekomendasi_penjual.png
