@@ -508,4 +508,33 @@
 		if($__user["email_confirmed_at"] != "0000-00-00 00:00:00" || $__user["phone_confirmed_at"] != "0000-00-00 00:00:00") echo true;
 		else echo false;
 	}
+	
+	if($mode == "shopping_calculator"){
+		$cart_group = $db->fetch_single_data("transactions","cart_group",["buyer_user_id"=>$__user_id,"status" => "0"]);
+		$total_items = $db->fetch_single_data("transaction_details","concat(count(0)) as total_items",["transaction_id" => "SELECT id FROM transactions WHERE buyer_user_id='".$__user_id."' AND cart_group='".$cart_group."':IN"]);
+		$total_qty = $db->fetch_single_data("transaction_details","concat(sum(qty)) as total_items",["transaction_id" => "SELECT id FROM transactions WHERE buyer_user_id='".$__user_id."' AND cart_group='".$cart_group."':IN"]);
+		$total_weight = $db->fetch_single_data("transaction_details","concat(sum(qty*weight)) as total_items",["transaction_id" => "SELECT id FROM transactions WHERE buyer_user_id='".$__user_id."' AND cart_group='".$cart_group."':IN"]);
+		$total_shopping = $db->fetch_single_data("transaction_details","concat(sum(total)) as total_items",["transaction_id" => "SELECT id FROM transactions WHERE buyer_user_id='".$__user_id."' AND cart_group='".$cart_group."':IN"]);
+		
+		$return = v("shopping_calculator")."|||";
+		$return .= "<table width='100%'>";
+		$return .= "	<tr>";
+		$return .= "		<td class='trx-value-text'><b>".v("total_items")."</b></td>";
+		$return .= "		<td align='right'><b>".$total_items."</b></td>";
+		$return .= "	</tr>";
+		$return .= "	<tr>";
+		$return .= "		<td class='trx-value-text'><b>".v("total_qty")."</b></td>";
+		$return .= "		<td align='right'><b>".$total_qty."</b></td>";
+		$return .= "	</tr>";
+		$return .= "	<tr>";
+		$return .= "		<td class='trx-value-text'><b>".v("total_weight")."</b></td>";
+		$return .= "		<td align='right'><b>".($total_weight/1000)." Kg</b></td>";
+		$return .= "	</tr>";
+		$return .= "		<td class='trx-value-text'><b>".v("total_shopping")."</b></td>";
+		$return .= "		<td align='right'><b>Rp. ".format_amount($total_shopping)."</b></td>";
+		$return .= "	</tr>";
+		$return .= "</table>";
+		$return .= "|||<button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\">".v("close")."</button>";
+		echo $return;
+	}
 ?>

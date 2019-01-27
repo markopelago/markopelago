@@ -292,6 +292,9 @@ class Vocabulary{
 		$arr[$l]["purchase_list"]								= "Purchase List";
 		$arr[$l]["store_sales_list"]							= "Store Sales List";
 		$arr[$l]["total_bill"]									= "Total Bill";
+		$arr[$l]["total_items"]									= "Total Items";
+		$arr[$l]["total_qty"]									= "Total Qty";
+		$arr[$l]["total_weight"]								= "Total Weight";
 		$arr[$l]["total_shopping"]								= "Total Shopping";
 		$arr[$l]["payment_confirmation_success"]				= "Payment Confirmation sent";
 		$arr[$l]["payment"]										= "Payment";
@@ -397,6 +400,7 @@ class Vocabulary{
 		$arr[$l]["add_to_cart"]									= "Add to cart";
 		$arr[$l]["buy_now"]										= "Buy Now";
 		$arr[$l]["liked_list"]									= "Liked List";
+		$arr[$l]["shopping_calculator"]							= "Shopping Calculator";
 		
 		/*==================================================================================================================================*/
 		/*==================================================================================================================================*/
@@ -676,6 +680,9 @@ class Vocabulary{
 		$arr[$l]["purchase_list"]								= "Daftar Pembelian";
 		$arr[$l]["store_sales_list"]							= "Daftar Penjualan Toko";
 		$arr[$l]["total_bill"]									= "Total Tagihan";
+		$arr[$l]["total_items"]									= "Total Item";
+		$arr[$l]["total_qty"]									= "Total Barang";
+		$arr[$l]["total_weight"]								= "Total Berat";
 		$arr[$l]["total_shopping"]								= "Total Belanja";
 		$arr[$l]["payment_confirmation_success"]				= "Konfirmasi pembayaran telah terkirim";
 		$arr[$l]["payment"]										= "Pembayaran";
@@ -782,6 +789,7 @@ class Vocabulary{
 		$arr[$l]["add_to_cart"]									= "Tambah ke Keranjang";
 		$arr[$l]["buy_now"]										= "Beli Sekarang";
 		$arr[$l]["liked_list"]									= "Daftar yang disukai";
+		$arr[$l]["shopping_calculator"]							= "Kalkulator Belanja";
 		
 		
 		return $arr[$this->locale][$index];

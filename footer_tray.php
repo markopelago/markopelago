@@ -37,11 +37,14 @@
 			<div class="row">
 				<table width="100%">
 					<tr>
-						<td width="50%" align="center" onclick="tray_sort_click();">
+						<td width="33%" align="center" onclick="tray_filter_click();">
+							<img src="assets/tray_filter.png" width="30"><br><b><?=v("filter");?></b>
+						</td>
+						<td width="33%" align="center" onclick="tray_sort_click();">
 							<img src="assets/tray_sort.png" width="30"><br><b><?=v("sort");?></b>
 						</td>
-						<td align="center" onclick="tray_filter_click();">
-							<img src="assets/tray_filter.png" width="30"><br><b><?=v("filter");?></b>
+						<td width="33%" align="center" onclick="show_shopping_calculator();">
+							<img src="assets/tray_calc.png" width="30"><br><b><?=v("shopping_calculator");?></b>
 						</td>
 					</tr>
 				</table>

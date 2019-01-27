@@ -218,3 +218,21 @@ function loadShopping_progress(transaction_id){
 function encodeHTML(s) {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 }
+
+
+function show_shopping_calculator(){
+	$('#modalTitle').html("");
+	$('#modalBody').html("<img src='images/fancybox_loading.gif'>");
+	$('#modalFooter').html("");
+	$('#myModal').modal('show');
+	$.get( "ajax/transaction.php?mode=shopping_calculator", function(modalBody) {
+		modalBody = modalBody.split("|||");
+		modalTitle = modalBody[0];
+		modalFooter = modalBody[2];
+		modalBody = modalBody[1];
+		$('#modalTitle').html(modalTitle);
+		$('#modalBody').html(modalBody);
+		$('#modalFooter').html(modalFooter);
+		$('#myModal').modal('show');
+	});
+}

@@ -62,4 +62,9 @@
 			
 		</div>
 	</form>
+	<div class="frame_body">
+		<div class="form-group">
+			<button onclick="show_shopping_calculator();" class="btn btn-info" style="width:100%;"><img src="assets/tray_calc.png" width="30"><b><?=v("shopping_calculator");?></b></button>
+		</div>
+	</div>
 </div>
