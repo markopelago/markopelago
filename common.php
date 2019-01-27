@@ -9,6 +9,7 @@
 	} */
 	
 	session_start();
+	$__project_description		= "Markopelago";
 	$__title_project			= "Markopelago [Beta]";
 	$__canonical				= "http://www.markopelago.com";
 	$__isloggedin				= @$_SESSION["isloggedin"];
@@ -192,6 +193,7 @@
 	
 	function format_amount($amount,$decimalnum = 0){
 		global $_isexport;
+		$isnegative = false;
 		if($_isexport) return $amount;
 		if($amount < 0){ $amount  *= -1; $isnegative = true; }
 		$return = number_format($amount,$decimalnum,",",".");
@@ -383,12 +385,12 @@
 		//level => province,city,district,subdistrict
 		$caption = "";
 		$level = 0;
-		$location = $db->fetch_all_data("locations",[],"id = '".$location_id."'")[0];
+		$location = @$db->fetch_all_data("locations",[],"id = '".$location_id."'")[0];
 		$arr[$level]["id"] = $location["id"];
 		$arr[$level]["name"] = $location["name_".$__locale];
 		$arr[$level]["zipcode"] = $location["zipcode"];
 		$caption = $location["name_".$__locale];
-		if(!$zipcode) $zipcode = $location["zipcode"];
+		if(!isset($zipcode)) $zipcode = $location["zipcode"];
 		if($location["parent_id"] > 0){
 			$level++;
 			$location = $db->fetch_all_data("locations",[],"id = '".$location["parent_id"]."'")[0];

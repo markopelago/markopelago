@@ -140,6 +140,7 @@
 	</div>
 	<div class="scrolling-wrapper">
 		<?php 
+			$i = 0;
 			$sellers = $db->fetch_all_data("sellers",[],"1=1 ORDER BY RAND() LIMIT 10");
 			foreach($sellers as $seller){
 				if(!file_exists("users_images/".$seller["logo"])) $seller["logo"] = "nologo.jpg";

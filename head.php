@@ -38,7 +38,7 @@
 	
 	<script>
 		$(document).ready( function() {
-			<?php if(isMobile() && !$headerWithoutSearch){ ?>
+			<?php if(isMobile() && !@$headerWithoutSearch){ ?>
 				window.addEventListener("scroll", function (event) {
 					if(this.scrollY > 50){
 						$("#headerSearch").fadeOut( "fast", function() {});
@@ -119,7 +119,7 @@
 	if(!file_exists("users_images/".$userImage)) $userImage = "nophoto.png";
 	if($userImage == "") $userImage = "nophoto.png";
 				
-	$mainMenu_lg .= "<li><a href=\"dashboard.php\"><span class='glyphicon glyphicon-th-large'></span> ".v("my_dashboard")."<span class='notification-counter' style='visibility:hidden;' id='notifMyDashboardCount'></span></a></li>";
+	$mainMenu_lg = "<li><a href=\"dashboard.php\"><span class='glyphicon glyphicon-th-large'></span> ".v("my_dashboard")."<span class='notification-counter' style='visibility:hidden;' id='notifMyDashboardCount'></span></a></li>";
 	$mainMenu_lg .= "<li><a href=\"dashboard.php?tabActive=message\"><span class='glyphicon glyphicon-envelope'></span> ".v("message")."</a><span class='notification-counter' style='visibility:hidden;' id='notifMessageTabCount1'></span></li>";
 	if($__isBackofficer)$mainMenu_lg .= "<li><a href=\"mysurvey.php\"><span class='glyphicon glyphicon-th-list'></span> ".v("survey")."</a></li>";
 	if($__forwarder)	$mainMenu_lg .= "<li><a href=\"dashboard.php?tabActive=list_of_delivering_goods\"><img src='assets/sent.png' height='20'> ".v("list_of_delivering_goods")."<span class='notification-counter' style='visibility:hidden;' id='notifDeliveringGoodsTabCount2'></span></a></li>";
@@ -127,7 +127,7 @@
 	$mainMenu_lg .= "<li class=\"sr-only\"><a href=\"index.php?locale=".$__anti_locale."\"><img class=\"localeFlag\" height=\"20\" src=\"icons/".$__anti_locale.".png\"></a></li>";
 	$mainMenu_lg .= "<li><a href=\"?logout_action=1\"><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>";
 				
-	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=profile\"><span class='glyphicon glyphicon-user'></span> Profile</a></li>";
+	$mainMenu_xs = "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=profile\"><span class='glyphicon glyphicon-user'></span> Profile</a></li>";
 	$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard_avatar.php\"><span class='glyphicon glyphicon-picture'></span> ".v("change_avatar")."</a></li>";
 	if($__seller_id > 0){
 		$mainMenu_xs .= "<li ".$__showXSonly."><a href=\"dashboard.php?tabActive=seller\"><span class='glyphicon glyphicon-home'></span> ".v("profile_my_store")."</a></li>";
@@ -200,16 +200,16 @@
 				<div class="search-container" id="headerSearch">
 					<form action="products.php" class="navbar-form navbar-left">
 						<div class="input-group">
-							<?=$f->input("s",$_GET["s"]," placeholder='".v("search")."..'");?>
+							<?=$f->input("s",@$_GET["s"]," placeholder='".v("search")."..'");?>
 							<?php
 								$categories[""] = "-- ".v("allcategories")." --";
 								$_categories = $db->fetch_all_data("categories",[],"id IN (1,3,4,5,6,8,9,49)","id=49 desc, id");
 								foreach($_categories as $_category){
 									$categories[$_category["id"]] = $_category["name_".$__locale];
 								}
-								if($_GET["category_id"]) $_GET["c"] = $_GET["category_id"];
+								if(@$_GET["category_id"]) $_GET["c"] = @$_GET["category_id"];
 							?>
-							<?=$f->select("c",$categories,$_GET["c"]);?>
+							<?=$f->select("c",$categories,@$_GET["c"]);?>
 							<button class="btn btn-default" type="submit"><i style="color:white;" class="fa fa-search"></i></button>
 						</div>
 					</form>
