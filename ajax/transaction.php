@@ -511,10 +511,10 @@
 	
 	if($mode == "shopping_calculator"){
 		$cart_group = $db->fetch_single_data("transactions","cart_group",["buyer_user_id"=>$__user_id,"status" => "0"]);
-		$total_items = $db->fetch_single_data("transaction_details","concat(count(0)) as total_items",["transaction_id" => "SELECT id FROM transactions WHERE buyer_user_id='".$__user_id."' AND cart_group='".$cart_group."':IN"]);
-		$total_qty = $db->fetch_single_data("transaction_details","concat(sum(qty)) as total_items",["transaction_id" => "SELECT id FROM transactions WHERE buyer_user_id='".$__user_id."' AND cart_group='".$cart_group."':IN"]);
-		$total_weight = $db->fetch_single_data("transaction_details","concat(sum(qty*weight)) as total_items",["transaction_id" => "SELECT id FROM transactions WHERE buyer_user_id='".$__user_id."' AND cart_group='".$cart_group."':IN"]);
-		$total_shopping = $db->fetch_single_data("transaction_details","concat(sum(total)) as total_items",["transaction_id" => "SELECT id FROM transactions WHERE buyer_user_id='".$__user_id."' AND cart_group='".$cart_group."':IN"]);
+		$total_items = $db->fetch_single_data("transaction_details","concat(count(0)) as total_items",["transaction_id" => "SELECT id FROM transactions WHERE buyer_user_id='".$__user_id."' AND cart_group='".$cart_group."':IN"]) * 1;
+		$total_qty = $db->fetch_single_data("transaction_details","concat(sum(qty)) as total_items",["transaction_id" => "SELECT id FROM transactions WHERE buyer_user_id='".$__user_id."' AND cart_group='".$cart_group."':IN"]) * 1;
+		$total_weight = $db->fetch_single_data("transaction_details","concat(sum(qty*weight)) as total_items",["transaction_id" => "SELECT id FROM transactions WHERE buyer_user_id='".$__user_id."' AND cart_group='".$cart_group."':IN"]) * 1;
+		$total_shopping = $db->fetch_single_data("transaction_details","concat(sum(total)) as total_items",["transaction_id" => "SELECT id FROM transactions WHERE buyer_user_id='".$__user_id."' AND cart_group='".$cart_group."':IN"]) * 1;
 		
 		$return = v("shopping_calculator")."|||";
 		$return .= "<table width='100%'>";
