@@ -1,5 +1,5 @@
 <?php
-	$token = $_GET["token"];
+	$token = @$_GET["token"];
 	if($token != ""){		
 		$username = $db->fetch_single_data("a_users","email",["app_token" => $token]);
 		$user_id = $db->fetch_single_data("a_users","id",["app_token" => $token]);

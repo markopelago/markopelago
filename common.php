@@ -49,10 +49,10 @@
 	if($_SERVER["REMOTE_ADDR"] == "::1") $_SERVER["REMOTE_ADDR"] = "127.0.0.1";
 	$__remote_addr = $_SERVER["REMOTE_ADDR"];
 	
-	$__user 		= $db->fetch_all_data("a_users",[],"id = '".$__user_id."'")[0];
-	$__seller 		= $db->fetch_all_data("sellers",[],"user_id = '".$__user_id."'")[0];
-	$__buyer 		= $db->fetch_all_data("buyers",[],"user_id = '".$__user_id."'")[0];
-	$__forwarder 	= $db->fetch_all_data("forwarders",[],"user_id = '".$__user_id."'")[0];
+	$__user 		= @$db->fetch_all_data("a_users",[],"id = '".$__user_id."'")[0];
+	$__seller 		= @$db->fetch_all_data("sellers",[],"user_id = '".$__user_id."'")[0];
+	$__buyer 		= @$db->fetch_all_data("buyers",[],"user_id = '".$__user_id."'")[0];
+	$__forwarder 	= @$db->fetch_all_data("forwarders",[],"user_id = '".$__user_id."'")[0];
 	$__marko_id 	= $__user["marko_id"];
 	$__seller_id 	= $__seller["id"];
 	$__buyer_id		= $__buyer["id"];
@@ -393,7 +393,7 @@
 		if(!isset($zipcode)) $zipcode = $location["zipcode"];
 		if($location["parent_id"] > 0){
 			$level++;
-			$location = $db->fetch_all_data("locations",[],"id = '".$location["parent_id"]."'")[0];
+			$location = @$db->fetch_all_data("locations",[],"id = '".$location["parent_id"]."'")[0];
 			$arr[$level]["id"] = $location["id"];
 			$arr[$level]["name"] = $location["name_".$__locale];
 			$arr[$level]["zipcode"] = $location["zipcode"];
@@ -401,7 +401,7 @@
 			if(!$zipcode) $zipcode = $location["zipcode"];
 			if($location["parent_id"] > 0){
 				$level++;
-				$location = $db->fetch_all_data("locations",[],"id = '".$location["parent_id"]."'")[0];
+				$location = @$db->fetch_all_data("locations",[],"id = '".$location["parent_id"]."'")[0];
 				$arr[$level]["id"] = $location["id"];
 				$arr[$level]["name"] = $location["name_".$__locale];
 				$arr[$level]["zipcode"] = $location["zipcode"];
@@ -409,7 +409,7 @@
 				if(!$zipcode) $zipcode = $location["zipcode"];
 				if($location["parent_id"] > 0){
 					$level++;
-					$location = $db->fetch_all_data("locations",[],"id = '".$location["parent_id"]."'")[0];
+					$location = @$db->fetch_all_data("locations",[],"id = '".$location["parent_id"]."'")[0];
 					$arr[$level]["id"] = $location["id"];
 					$arr[$level]["name"] = $location["name_".$__locale];
 					$arr[$level]["zipcode"] = $location["zipcode"];
