@@ -43,9 +43,11 @@
 						<td width="33%" align="center" onclick="tray_sort_click();">
 							<img src="assets/tray_sort.png" width="30"><br><b><?=v("sort");?></b>
 						</td>
+						<?php if($__buyer_id > 0){ ?>
 						<td width="33%" align="center" onclick="show_shopping_calculator();">
 							<img src="assets/tray_calc.png" width="30"><br><b><?=v("shopping_calculator");?></b>
 						</td>
+						<?php } ?>
 					</tr>
 				</table>
 			</div>
