@@ -1,3 +1,13 @@
+<?php
+	if(!isset($_GET["category_id"])) $_GET["category_id"] = "";
+	if(!isset($_GET["s"])) 			$_GET["s"] = "";
+	if(!isset($_GET["c"])) 			$_GET["c"] = "";
+	if(!isset($_GET["sort_id"])) 	$_GET["sort_id"] = "";
+	if(!isset($_GET["keyword"])) 	$_GET["keyword"] = "";
+	if(!isset($_GET["province_id"])) $_GET["province_id"] = "";
+	if(!isset($_GET["price_min"])) 	$_GET["price_min"] = "";
+	if(!isset($_GET["price_max"])) 	$_GET["price_max"] = "";
+?>
 <script>
 	function change_category(category_id){
 		document.getElementById("category_id").value = category_id;

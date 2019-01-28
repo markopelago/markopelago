@@ -11,11 +11,11 @@
 					<div class="form-group">
 						<label><?=v("po_at");?></label> 
 						<div class="col-md-5">
-							<?=$f->input("po_at1",$_GET["po_at1"],"type='date'","form-control");?>
+							<?=$f->input("po_at1",@$_GET["po_at1"],"type='date'","form-control");?>
 						</div>
 						<div class="col-md-1"><center><?=v("to");?></center></div>
 						<div class="col-md-5">
-							<?=$f->input("po_at2",$_GET["po_at2"],"type='date'","form-control");?>
+							<?=$f->input("po_at2",@$_GET["po_at2"],"type='date'","form-control");?>
 						</div>
 					</div>
 					<?php if(!isMobile()) echo "<br><br>";?>

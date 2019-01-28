@@ -215,6 +215,12 @@
 	}
 	
 	function format_tanggal ($tanggal,$mode="dmY",$withtime=false,$gmt7 = false) {
+		$h = 0;
+		$i = 0;
+		$s = 0;
+		$m = 0;
+		$d = 0;
+		$Y = 0;
 		if(substr($tanggal,0,10) != "0000-00-00" && $tanggal != ""){
 			$arr = explode(" ",$tanggal);
 			$time = null;
