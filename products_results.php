@@ -13,8 +13,8 @@
 		}
 		
 	?>
-	<?php if($location != ""){ ?> <div class="location"><?=v("location");?></div> <div class="location_value">: <?=$location;?></div> <?php } ?>
-	<?php if($pricerange != ""){ ?> <div class="location"><?=v("price");?></div> <div class="location_value">: <?=$pricerange;?></div> <?php } ?>
+	<?php if(@$location != ""){ ?> <div class="location"><?=v("location");?></div> <div class="location_value">: <?=@$location;?></div> <?php } ?>
+	<?php if(@$pricerange != ""){ ?> <div class="location"><?=v("price");?></div> <div class="location_value">: <?=@$pricerange;?></div> <?php } ?>
 	<table width="100%">
 		<tr>
 		<?php 
@@ -43,7 +43,7 @@
 			}
 			if($_GET["price_min"] > 0) $whereclause .= " AND (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) >= '".$_GET["price_min"]."'";
 			if($_GET["price_max"] > 0) $whereclause .= " AND (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) <= '".$_GET["price_max"]."'";
-			if(count($_GET["subcategory_ids"]) > 0){
+			if(count(@$_GET["subcategory_ids"]) > 0){
 				$whereclause .= " AND (";
 				foreach($_GET["subcategory_ids"] as $subcategory_id){
 					$whereclause .= "category_ids like '%|".$subcategory_id."|%' OR ";
