@@ -25,6 +25,7 @@
 		$('#div_'+mode+'_results').show();
 	}
 </script>
+<?php $no_categories_filter = true; ?>
 <div style="height:20px;"></div>
 <div class="container">
 	<table <?=$__tblDesign100;?>>

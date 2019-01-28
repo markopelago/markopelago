@@ -222,7 +222,7 @@
 			if(count($wheres) > 0 && (is_array($wheres) || is_object($wheres))) {
 				foreach($wheres as $condition => $value) {
 					$values = explode(":",$value);
-					$this->where($condition,$values[0],"",$values[1]);
+					$this->where($condition,$values[0],"",@$values[1]);
 				}
 			}
 			
