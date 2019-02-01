@@ -44,23 +44,27 @@
 	</div>
 </div>
 <div style="height:20px;"></div>
-<img onclick="window.location='category_detail.php?category_id=49'" class="img-responsive" src="assets/banner_pasar_wide.png" style="object-fit:cover;width:100%;cursor:pointer;">
 <div class="container">
 	<div class="row">
-		<div class="col-md-12 home_recommended_goods" style="margin-top:30px;">
-			<div class="sub-title-text"><?=v("recommended_goods");?></div>
+		<div class="col-md-5">
+			<a href="category_detail.php?category_id=49"><img class="img-responsive" src="assets/banner_pasar03.png"></a>
+		</div>
+		<div class="col-md-7 home_recommended_goods" style="<?=(isMobile())?"margin-top:30px;":"";?>">
+			<div class="sub-title-text" style="margin-bottom:0px;"><?=v("recommended_goods");?></div>
 			<div class="view-all-text" style="font-weight:bolder;font-size:1em;margin-right:10px;"><a href="products.php?s=+"><?=v("view_all");?></a></div>
 			<table width="100%">
 				<tr>
 				<?php 
-					$limit = 10;
+					$limit = 8;
 					if(isMobile()) $limit = 20;
 					$no_pasar_cat = "AND (category_ids NOT LIKE '%|49|%' ";
 					$pasar_ids = $db->fetch_all_data("categories",["id"],"parent_id = 49");
 					foreach($pasar_ids as $pasar_id){ $no_pasar_cat .= "AND category_ids NOT LIKE '%|".$pasar_id["id"]."|%'"; }
 					$no_pasar_cat .=")";
 					
-					$products = $db->fetch_all_data("goods",[],"is_displayed = '1' ".$no_pasar_cat." ORDER BY RAND() LIMIT $limit");
+					$products1 = $db->fetch_all_data("goods",[],"is_displayed = '1' AND id IN (248,303,291,244,179,221,283,412) LIMIT $limit");
+					$products2 = $db->fetch_all_data("goods",[],"is_displayed = '1' ".$no_pasar_cat." ORDER BY RAND() LIMIT $limit");
+					$products = $products1 + $products2;
 					foreach($products as$key => $product){
 						$is_pasar = is_pasar($product["id"]);
 						$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
@@ -69,10 +73,10 @@
 						if(isMobile()){
 							if($key%2 == 0) echo "</tr><tr>";
 						} else {
-							if($key%5 == 0) echo "</tr><tr>";
+							if($key%4 == 0) echo "</tr><tr>";
 						}
 				?>
-						<td width="<?=(!isMobile())?"20":"50";?>%" align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';">
+						<td width="<?=(!isMobile())?"25":"50";?>%" align="center" onclick="window.location='product_detail.php?id=<?=$product["id"];?>';">
 							<div class="home_recommended_goods_thumbnail">
 								<img class="img-responsive" src="goods/<?=$img;?>">
 								<div class="caption"><p><?=$product["name"];?></p></div>
