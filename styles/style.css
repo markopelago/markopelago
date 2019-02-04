@@ -1906,7 +1906,7 @@ input:checked + .switch_slider:before {
 		margin:0;
 		background: #F69320;
 	}
-	.header-start{ height:165px; }
+	.header-start{ height:150px; }
 	
 	.r-form-1-top {
 		margin-top:10%;
