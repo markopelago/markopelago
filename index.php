@@ -8,11 +8,9 @@
 </script>
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
 	<div class="carousel-inner">
-		<div class="item active">	<img class="img-responsive" src="assets/banner_header_1.png" style="object-fit:cover;width:100%;"></div>
-		<div class="item">			<img class="img-responsive" src="assets/banner_header_2.png" style="object-fit:cover;width:100%;"></div>
-		<div class="item">			<img class="img-responsive" src="assets/banner_header_3.png" style="object-fit:cover;width:100%;"></div>
-		<div class="item">			<img class="img-responsive" src="assets/banner_header_4.png" style="object-fit:cover;width:100%;"></div>
-		<div class="item">			<img class="img-responsive" src="assets/banner_header_5.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item active">	<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>6.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item">			<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>7.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item">			<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>8.png" style="object-fit:cover;width:100%;"></div>
 	</div>
 </div>
 <div class="category_title"><?=v("categories");?></div>
