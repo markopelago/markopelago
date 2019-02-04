@@ -1904,7 +1904,7 @@ input:checked + .switch_slider:before {
 		width:100%;
 		float:left;
 		margin:0;
-		background: #F69320;
+		background: #800000;
 	}
 	.header-start{ height:150px; }
 	
