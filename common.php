@@ -61,6 +61,7 @@
 	$__email_confirmed = false;
 	$__phone_confirmed = false;
 	$__user_confirmed = false;
+	$__pasar_category_id = 49;
 	
 	if($__user_id == 1) $__isBackofficer = "1";
 	if($__user["custom_radius"] > 0) $__cod_max_km = $__user["custom_radius"];
@@ -437,7 +438,6 @@
 	
 	function resizeImage($filename){
 		list($width, $height) = getimagesize($filename);
-		// $percent = 1024/$width;
 		$percent = 800/$width;
 		$newwidth = $width * $percent;
 		$newheight = $height * $percent;

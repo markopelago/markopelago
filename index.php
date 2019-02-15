@@ -8,37 +8,27 @@
 </script>
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
 	<div class="carousel-inner">
-		<div class="item active">	<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>6.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item active">	<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>9.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item">			<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>6.png" style="object-fit:cover;width:100%;"></div>
 		<div class="item">			<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>7.png" style="object-fit:cover;width:100%;"></div>
 		<div class="item">			<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>8.png" style="object-fit:cover;width:100%;"></div>
 	</div>
 </div>
 <div class="category_title"><?=v("categories");?></div>
-<div class="categories_head">
-	<div class="container">
-		<div class="row <?=(isMobile())?"scrolling-wrapper":"";?>">
-			<table class="table_categories_head">
-				<tr>
-				<?php 
-					$categories_td_width = "width='12%'";
-					if(isMobile()) $categories_td_width = "style='width:70px !important;'";
-					unset($categories);
-					$categories = $db->fetch_all_data("categories",[],"id IN (1,3,4,5,6,8,9,49)","id=49 desc, id");
-					foreach($categories as $key => $category){
-						$img = "category_".$category["id"].".png";
-				?>
-					<td <?=$categories_td_width;?> onclick="window.location='category_detail.php?category_id=<?=$category["id"];?>';">
-						<div>
-							<p><?=$category["name_".$__locale];?></p>
-							<img class="img-responsive" src="assets/<?=$img;?>">
-						</div>
-					</td>
-				<?php
-					}
-				?>
-				</tr>
-			</table>
-		</div>
+<div class="container">
+	<div class="row">
+<?php 
+	$categories_td_width = "";
+	if(!isMobile()) $categories_td_width = "style='width:70px !important;'";
+	unset($categories);
+	$categories = $db->fetch_all_data("categories",[],"id IN (1,3,4,5,6,8,9,49)","id=49 desc,id=1 desc, id");
+	foreach($categories as $key => $category){
+		$img = "wide_category_".$category["id"].".png";
+?>
+	<a href="category_detail.php?category_id=<?=$category["id"];?>"><img class="img-responsive" src="assets/<?=$img;?>"></a>
+<?php
+	}
+?>
 	</div>
 </div>
 <div style="height:20px;"></div>
@@ -63,7 +53,7 @@
 					$products1 = $db->fetch_all_data("goods",[],"is_displayed = '1' AND id IN (248,303,291,244,179,221,283,412) LIMIT $limit");
 					$products2 = $db->fetch_all_data("goods",[],"is_displayed = '1' ".$no_pasar_cat." ORDER BY RAND() LIMIT $limit");
 					$products = $products1 + $products2;
-					foreach($products as$key => $product){
+					foreach($products as $key => $product){
 						$is_pasar = is_pasar($product["id"]);
 						$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
 						if(!file_exists("goods/".$img)) $img = "no_goods.png";
