@@ -11,7 +11,7 @@
 		<table width="100%">
 			<tr>
 			<?php
-				$category_ids = [51,52,53,54,55,56,57,58,59,60,61,62,63,64,66,67,68,69,72];
+				$category_ids = [51,52,53,54,55,56,57,58,59,60,61,62,63,64,66,67,68,69,72,73];
 				foreach($category_ids as $key => $category_id){
 					echo "<td style=\"width:20%;padding:5px;\"><a href='?category_id=49&s=".$_GET["s"]."&c=".$_GET["c"]."&sort_id=".$_GET["sort_id"]."&keyword=".$_GET["keyword"]."&subcategories=".$category_id."&subcategory_ids%5B%5D=".$category_id."&province_id=".$_GET["province_id"]."&city_id=".$_GET["city_id"]."&price_min=".$_GET["price_min"]."&price_max=".$_GET["price_max"]."&search=CARI'><img style=\"width:100%;height:auto;\" src=\"assets/category_".$category_id.".png\"></a></td>";
 					if(($key+1)%4 == 0) echo "</tr><tr>";
@@ -38,10 +38,15 @@
 				}
 				if($_GET["price_min"] > 0) $whereclause .= " AND (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) >= '".$_GET["price_min"]."'";
 				if($_GET["price_max"] > 0) $whereclause .= " AND (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) <= '".$_GET["price_max"]."'";
-				if(count($_GET["subcategory_ids"]) > 0){
+				if(count($_GET["subcategory_ids"]) > 0 || $_GET["subcategories"] == "73"){
 					$whereclause .= " AND (";
 					foreach($_GET["subcategory_ids"] as $subcategory_id){
 						$whereclause .= "category_ids like '%|".$subcategory_id."|%' OR ";
+					}
+					if($_GET["subcategories"] == "73"){ //Lainnya
+						$whereclause .= "category_ids like '%|50|%' OR ";
+						$whereclause .= "category_ids like '%|57|%' OR ";
+						$whereclause .= "category_ids like '%|58|%' OR ";
 					}
 					$whereclause = substr($whereclause,0,-3).")";
 				}
