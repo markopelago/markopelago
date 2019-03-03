@@ -29,7 +29,7 @@
 			<?php if(!$no_categories_filter){ ?>
 				<div class="frame_subtitle"><?=v("categories");?></div>
 				<?php
-					$categories = $db->fetch_all_data("categories",[],"id IN (1,3,4,5,6,8,9,49)","id");
+					$categories = $db->fetch_all_data("categories",[],"id IN (1,5,9,49,74)","id=49 desc,id=74 desc,id=1 desc, id");
 					foreach($categories as $key => $category){
 						$img = "category_".$category["id"].".png";
 						$isactive = ($category["id"] == $_GET["category_id"])?"style=\"color:#800000\"":"";

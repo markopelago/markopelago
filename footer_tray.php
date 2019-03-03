@@ -84,7 +84,11 @@
 					<br>
 					<?php
 						if(!$no_categories_filter){
-							$subcategories = $db->fetch_select_data("categories","id","name_".$__locale,["parent_id"=>$_GET["category_id"]],["id"]);
+							if($_GET["category_id"] > 0){
+								$subcategories = $db->fetch_select_data("categories","id","name_".$__locale,["parent_id"=>$_GET["category_id"]],["id"]);
+							} else {
+								$subcategories = $db->fetch_select_data("categories","id","name_".$__locale,["id"=>"1,5,9,49,74:IN"],["id=49 desc,id=74 desc,id=1 desc, id"]);
+							}
 							if(count($subcategories) > 0){
 								?> <div class="frame_subtitle"><?=v("categories");?></div> <?=$f->select("subcategories",$subcategories,"","multiple=\"multiple\"","form-control");?> <br> <?php 
 							}
