@@ -7,7 +7,7 @@
 		echo $return;
 	}
 	if($mode == "checkStoreSalesList"){
-		$return = count($db->fetch_all_data("transactions",["id"],"seller_user_id = '".$__user_id."' AND status BETWEEN 3 AND 4 GROUP BY po_no"));
+		$return = count($db->fetch_all_data("transactions",["id"],"seller_user_id = '".$__user_id."' AND status BETWEEN 2 AND 4 GROUP BY po_no"));
 		$return += count($db->fetch_all_data("transactions",["id"],"seller_user_id = '".$__user_id."' AND id IN (SELECT transaction_id FROM transaction_details WHERE transaction_id = transactions.id AND is_reviewed=1 AND review_id_read=0) GROUP BY po_no"));
 		echo $return;
 	}
