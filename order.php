@@ -419,7 +419,7 @@
 				seller__id = arr_seller_id[xx];
 				$.get("ajax/transaction.php?mode=distance_estimation&seller_id="+seller__id+"&buyer_address_id="+$("#user_address").val(), function(returnval){
 					returnval = returnval.split("|||");
-					if((returnval[2] * 1 / 1000) > <?=($__cod_max_km + $__cod_tolerance_km);?>){
+					if((returnval[2] * 1 / 1000) > <?=($__cod_max_km + $__cod_tolerance_km);?> && using_markoantar[returnval[0]] == true){
 						is_cod_coverage = false;
 						cod_coverage[returnval[0]] = false;
 					} else {
@@ -461,6 +461,7 @@
 			$("#div_courier_area_"+seller_id).hide();
 			$("#td_shipping_charges_"+seller_id).hide();
 			$("#div_administration_fee_"+seller_id).show();
+			using_markoantar[seller_id]=false;
 			load_calculation();
 		} else {
 			$("#div_courier_area_"+seller_id).show();
