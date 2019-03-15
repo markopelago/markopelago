@@ -26,6 +26,30 @@
 	$__cod_max_km				= 10;
 	$__cod_tolerance_km			= 7;
 	$__cod_max_gram				= 99999999999999999;
+	
+	$__invalid_request = false;
+	foreach($_GET as $key => $value){
+		if(strpos(" ".$value,'"') > 0) $__invalid_request = true;
+		if(strpos(" ".$value,"'") > 0) $__invalid_request = true;
+		if(strpos(" ".$value,"<") > 0) $__invalid_request = true;
+		if(strpos(" ".$value,">") > 0) $__invalid_request = true;
+		if(strpos(" ".$value,"(") > 0) $__invalid_request = true;
+		if(strpos(" ".$value,")") > 0) $__invalid_request = true;
+	}
+	foreach($_POST as $key => $value){
+		if(strpos(" ".$value,'"') > 0) $__invalid_request = true;
+		if(strpos(" ".$value,"'") > 0) $__invalid_request = true;
+		if(strpos(" ".$value,"<") > 0) $__invalid_request = true;
+		if(strpos(" ".$value,">") > 0) $__invalid_request = true;
+		if(strpos(" ".$value,"(") > 0) $__invalid_request = true;
+		if(strpos(" ".$value,")") > 0) $__invalid_request = true;
+	}
+	if($__invalid_request){
+		$_SESSION["errormessage"] = "Mohon untuk tidak menggunakan karakter spesial, terima kasih!";
+		?> <script> window.location="index.php";</script> <?php
+		exit();
+	}
+	
 	if(isset($_GET["locale"])) { setcookie("locale",$_GET["locale"]);$_COOKIE["locale"]=$_GET["locale"]; }
 	if(!isset($_COOKIE["locale"])) { setcookie("locale","id");$_COOKIE["locale"]="id"; }
 	$__locale = $_COOKIE["locale"];
