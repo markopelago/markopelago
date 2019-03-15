@@ -2,7 +2,9 @@
 <?php include_once "func.review.php"; ?>
 <?php
     $po_no = $_GET["po_no"];
-	$transactions = $db->fetch_all_data("transactions",[],"po_no = '".$po_no."' AND seller_user_id = '".$__user_id."'");
+    $invoice_no = $_GET["invoice_no"];
+	if($po_no!="") $transactions = $db->fetch_all_data("transactions",[],"po_no = '".$po_no."' AND seller_user_id = '".$__user_id."'");
+	else $transactions = $db->fetch_all_data("transactions",[],"invoice_no = '".$invoice_no."' AND seller_user_id = '".$__user_id."'");
 	if(count($transactions) <= 0){
 		javascript("window.location='index.php';");
 		exit();
