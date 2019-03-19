@@ -33,16 +33,12 @@
 		if(strpos(" ".$value,"'") > 0) $__invalid_request = true;
 		if(strpos(" ".$value,"<") > 0) $__invalid_request = true;
 		if(strpos(" ".$value,">") > 0) $__invalid_request = true;
-		if(strpos(" ".$value,"(") > 0) $__invalid_request = true;
-		if(strpos(" ".$value,")") > 0) $__invalid_request = true;
 	}
 	foreach($_POST as $key => $value){
 		if(strpos(" ".$value,'"') > 0) $__invalid_request = true;
 		if(strpos(" ".$value,"'") > 0) $__invalid_request = true;
 		if(strpos(" ".$value,"<") > 0) $__invalid_request = true;
 		if(strpos(" ".$value,">") > 0) $__invalid_request = true;
-		if(strpos(" ".$value,"(") > 0) $__invalid_request = true;
-		if(strpos(" ".$value,")") > 0) $__invalid_request = true;
 	}
 	if($__invalid_request){
 		$_SESSION["errormessage"] = "Mohon untuk tidak menggunakan karakter spesial, terima kasih!";
