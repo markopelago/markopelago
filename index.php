@@ -50,7 +50,7 @@
 					foreach($pasar_ids as $pasar_id){ $no_pasar_cat .= "AND category_ids NOT LIKE '%|".$pasar_id["id"]."|%'"; }
 					$no_pasar_cat .=")";
 					
-					$products1 = $db->fetch_all_data("goods",[],"is_displayed = '1' AND id IN (248,303,291,244,179,221,283,412) LIMIT $limit");
+					$products1 = $db->fetch_all_data("goods",[],"is_displayed = '1' AND id IN (1222,1224,1225,1226,222,235,227,481) LIMIT $limit");
 					$products2 = $db->fetch_all_data("goods",[],"is_displayed = '1' ".$no_pasar_cat." ORDER BY RAND() LIMIT $limit");
 					$products = $products1 + $products2;
 					foreach($products as $key => $product){
