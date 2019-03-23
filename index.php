@@ -155,6 +155,46 @@
 		<?php } ?>
 	</div>
 </div>
+
+<?php
+if(isMobile()){
+?>
+<style>
+.fab {
+   width: 60px;
+   height: 60px;
+   padding: 2%;
+   background-color: #25D366;
+   border-radius: 50%;
+   box-shadow: 0 6px 10px 0 #666;
+   transition: all 0.1s ease-in-out;
+
+   font-size: 45px;
+   color: white !important;
+   text-align: center;
+   line-height:50px;
+
+   position: fixed;
+   right: 10%;
+   bottom: 2%;
+   z-index:99999999999999999999999;
+}
+
+.fab:hover {
+   box-shadow: 0 6px 14px 0 #666;
+   transform: scale(1.05);
+}
+ .form-actions{
+     background:white !important;
+ }
+</style>
+
+<a href="https://api.whatsapp.com/send?phone=6282161867793&text=" class="fab green">
+	<i class="fa fa-whatsapp""></i>
+</a>
+<?php
+}
+?>
 <div style="height:20px;"></div>
 <?php //include_once "categories_footer.php"; ?>
 <?php include_once "footer.php"; ?>
