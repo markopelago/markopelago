@@ -35,7 +35,7 @@
 		</tr>
 	</table>
 </div>
-<?php if(isMobile() && $_GET["category_id"] == "49" && !$_COOKIE["android_apps"]){ ?>
+<?php if(isMobile() && $_GET["category_id"] == "49"){ ?>
 	<a href="https://api.whatsapp.com/send?phone=6282161867793&text=" style="position:fixed;right:0px;bottom:20px;z-index:999;display:none;" id="whatsapp_balloon"><img src="icons/whatsapp.png" width="60"></a>
 <?php } ?>
 <div style="height:40px;"></div>
