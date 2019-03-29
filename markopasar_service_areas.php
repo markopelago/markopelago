@@ -14,20 +14,12 @@
 				<div class="goods_list">
 					<table width="100%">
 						<tr>
-						<?php
-							$category_ids = [51,52,53,54];
-							foreach($category_ids as $key => $category_id){
-								// jakarta,tangsel
-								// bekasi,depok
-								if($key == 1)
-									$hreflink = "?markopasar_seller_id=103";
-								else
-									$hreflink = "?markopasar_seller_id=26";
-
-								echo "<td style=\"width:20%;padding:5px;\"><a href='".$hreflink."'><img style=\"width:100%;height:auto;\" src=\"assets/category_".$category_id.".png\"></a></td>";
-								if(($key+1)%2 == 0) echo "</tr><tr>";
-							}
-						?>
+							<td style="width:20%;padding:5px;"><a href="?markopasar_seller_id=26"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_1.png"></a></td>
+							<td style="width:20%;padding:5px;"><a href="?markopasar_seller_id=103"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_2.png"></a></td>
+						</tr>
+						<tr>
+							<td style="width:20%;padding:5px;"><a href="?markopasar_seller_id=26"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_3.png"></a></td>
+							<td style="width:20%;padding:5px;"><a href="?markopasar_seller_id=26"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_4.png"></a></td>
 						</tr>
 					</table>
 				</div>
@@ -35,9 +27,6 @@
 		</tr>
 	</table>
 </div>
-<?php if(isMobile() && $_GET["category_id"] == "49"){ ?>
-	<a href="https://api.whatsapp.com/send?phone=6282161867793&text=" style="position:fixed;right:0px;bottom:20px;z-index:999;display:none;" id="whatsapp_balloon"><img src="icons/whatsapp.png" width="60"></a>
-<?php } ?>
 <div style="height:40px;"></div>
 <?php include_once "categories_footer.php"; ?>
 <?php include_once "footer.php"; ?>
