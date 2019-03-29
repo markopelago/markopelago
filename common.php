@@ -19,6 +19,7 @@
 	$__group_id					= @$_SESSION["group_id"];
 	$__first_name				= @$_SESSION["first_name"];
 	$__errormessage				= @$_SESSION["errormessage"];
+	$__markopasar_seller_id		= @$_SESSION["markopasar_seller_id"];
 	$__phpself 					= basename($_SERVER["PHP_SELF"]);
 	$__now						= date("Y-m-d H:i:s");
 	$__self_pickup_fee			= 2000;
@@ -26,7 +27,7 @@
 	$__cod_max_km				= 23;
 	$__cod_tolerance_km			= 2;
 	$__cod_max_gram				= 99999999999999999;
-	
+
 	$__invalid_request = false;
 	foreach($_GET as $key => $value){
 		if(strpos(" ".$value,'"') > 0) $__invalid_request = true;

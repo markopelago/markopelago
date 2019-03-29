@@ -50,7 +50,8 @@
 					}
 					$whereclause = substr($whereclause,0,-3).")";
 				}
-				
+				if($__markopasar_seller_id > 0) $whereclause .= " AND seller_id = '".$__markopasar_seller_id."'";
+
 				$order_by = "";
 				if($_GET["sort_id"] == "newest") $order_by = " ORDER BY id DESC";
 				if($_GET["sort_id"] == "highest_price") $order_by = " ORDER BY (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) DESC";

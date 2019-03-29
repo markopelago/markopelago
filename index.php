@@ -24,9 +24,9 @@
 	$categories = $db->fetch_all_data("categories",[],"id IN (1,5,9,49,74)","id=49 desc,id=74 desc,id=1 desc, id");
 	foreach($categories as $key => $category){
 		$img = "wide_category_".$category["id"].".png";
-?>
-	<a href="category_detail.php?category_id=<?=$category["id"];?>"><img class="img-responsive" src="assets/<?=$img;?>"></a>
-<?php
+		$hreflink = "category_detail.php?category_id=".$category["id"];
+		if($category["id"] == "49") $hreflink = "markopasar_service_areas.php";
+		echo "<a href='".$hreflink."'><img class='img-responsive' src='assets/".$img."'></a>";
 	}
 ?>
 	</div>
