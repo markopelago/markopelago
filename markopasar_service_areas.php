@@ -6,7 +6,7 @@
 		exit();
 	}
 ?>
-<div style="height:20px;"><h1>Pilih Area Layanan</h1></div>
+<div style="height:20px;padding-bottom:85px;text-align: center;"><h1>Pilih Area Layanan</h1></div>
 <div class="container">
 	<table <?=$__tblDesign100;?>>
 		<tr>
