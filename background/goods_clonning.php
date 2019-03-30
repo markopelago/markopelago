@@ -12,6 +12,7 @@
 	$num_goods = 0;
 	$num_goods_prices = 0;
 	$num_goods_photos = 0;
+	$num_goods_histories = 0;
 
 	$_goods = $db->fetch_all_data("goods",[],"seller_id = '".$seller_id_old."' AND id IN (".$goods_ids.")");
 	foreach($_goods as $key => $goods){
@@ -24,6 +25,7 @@
 			$filename = $db->fetch_single_data("goods_photos","filename",["goods_id"=> $goods_id_new]);
 			unlink("goods/".$filename);
 			$db->addtable("goods_photos"); $db->where("goods_id",$goods_id_new); $db->delete_();
+			$db->addtable("goods_histories"); $db->where("goods_id",$goods_id_new); $db->delete_();
 		}
 
 		$db->addtable("goods");
@@ -76,10 +78,22 @@
 					if($inserting["affected_rows"] > 0) $num_goods_photos++;
 				}
 			}
+
+			$db->addtable("goods_histories");
+			$db->addfield("seller_user_id");$db->addvalue($user_id_new);
+			$db->addfield("transaction_id");$db->addvalue(0);
+			$db->addfield("goods_id");		$db->addvalue($goods_id_new);
+			$db->addfield("in_out");		$db->addvalue("in");
+			$db->addfield("qty");			$db->addvalue(1000);
+			$db->addfield("notes");			$db->addvalue("Stok Awal");
+			$db->addfield("history_at");	$db->addvalue(date("Y-m-d H:i:s"));
+			$inserting = $db->insert();
+			if($inserting["affected_rows"] > 0) $num_goods_histories++;
 		}
 	}
 	echo "Deleted : ".$num_goods_deleted.$__enter;
 	echo "Goods : ".$num_goods.$__enter;
 	echo "Goods Prices : ".$num_goods_prices.$__enter;
 	echo "Goods Photos : ".$num_goods_photos.$__enter;
+	echo "Goods Histories : ".$num_goods_histories.$__enter;
 ?>
