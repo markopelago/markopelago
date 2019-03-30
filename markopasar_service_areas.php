@@ -27,6 +27,6 @@
 		</tr>
 	</table>
 </div>
-<div style="height:40px;"></div>
+<div style="height:40px;padding-bottom:60px;text-align: center;"><h1>Nantikan layanan di kota kota lainnya</h1></div>
 <?php include_once "categories_footer.php"; ?>
 <?php include_once "footer.php"; ?>
