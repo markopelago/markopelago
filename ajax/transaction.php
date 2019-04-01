@@ -375,7 +375,7 @@
 		$origins = $seller_locations[0]["name"].", ".$seller_locations[1]["name"].", ".$seller_locations[2]["name"].", ".$seller_locations[3]["name"];
 		$destinations = $buyer_locations[0]["name"].", ".$buyer_locations[1]["name"].", ".$buyer_locations[2]["name"].", ".$buyer_locations[3]["name"];
 		$distance = google_distancematrix($origins,$destinations)[0]["elements"][0]["distance"]["value"];
-		if($distance > 0){
+		if($distance > 0 || ($distance == 0 && $origins == $destinations)){
 			echo $seller_id."|||".round($distance/1000,2)." Km|||".$distance;
 		} else {
 			echo $seller_id."|||".round(($__cod_max_km + $__cod_tolerance_km + 1),2)." Km|||".(($__cod_max_km + $__cod_tolerance_km + 1) * 1000);
