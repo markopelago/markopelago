@@ -7,12 +7,6 @@
 	</div>
 </div>
 <div class="goods_list">
-	<?php
-		if($_GET["category_id"] != 49){//bukan pasar
-			$_SESSION["markopasar_seller_id"] = 0;
-			$__markopasar_seller_id = 0;
-		}
-	?>
 	<?php if($_GET["category_id"] == 49 && $_GET["subcategories"] <= 0 && isMobile()){ ?>
 		<table width="100%">
 			<tr>
@@ -56,7 +50,7 @@
 					}
 					$whereclause = substr($whereclause,0,-3).")";
 				}
-				if($__markopasar_seller_id > 0) $whereclause .= " AND seller_id = '".$__markopasar_seller_id."'";
+				if($__markopasar_seller_id > 0 && $_GET["category_id"] == 49) $whereclause .= " AND seller_id = '".$__markopasar_seller_id."'";
 
 				$order_by = "";
 				if($_GET["sort_id"] == "newest") $order_by = " ORDER BY id DESC";
