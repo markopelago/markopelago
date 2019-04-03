@@ -22,13 +22,13 @@
 			$whereclauseCommon = "is_displayed = '1' ";
 
 			$category_pasar_ids = "";
-			if($_GET["c"] == 49){
+			if($_GET["c"] == 49 || $_GET["c"] == ""){
 				$category_pasar_ids = "(";
 				$categories = $db->fetch_all_data("categories",["id"],"parent_id = '49'");
 				foreach($categories as $category){
 					$category_pasar_ids .= "category_ids like '%|".$category["id"]."|%' OR ";
 				}
-				$category_pasar_ids = " AND ".substr($category_pasar_ids,0,-3).") AND IF(seller_id = '26' OR seller_id = '103', `seller_id`, '".$__markopasar_seller_id."') = '".$__markopasar_seller_id."'";
+				$category_pasar_ids = " AND ".substr($category_pasar_ids,0,-3).")";
 			}
 
 			if($_GET["c"]){
@@ -69,10 +69,13 @@
 			$products1 = [];
 			$products2 = [];
 
-			$products1 = $db->fetch_all_data("goods",[],$whereclauseCommon.$category_ids.$whereclauseNonPasar.$order_by);
+			$whereAdditional = " AND IF(seller_id = '26' OR seller_id = '103', `seller_id`, '".$__markopasar_seller_id."') = '".$__markopasar_seller_id."'";
+
+			$products1 = $db->fetch_all_data("goods",[],$whereclauseCommon.$category_ids.$whereclauseNonPasar.$whereAdditional.$order_by);
 			if($_GET["c"] == 49 || $_GET["c"] == "") 
-				$products2 = $db->fetch_all_data("goods",[],$whereclauseCommon.$category_pasar_ids.$order_by);
+				$products2 = $db->fetch_all_data("goods",[],$whereclauseCommon.$category_pasar_ids.$whereAdditional.$order_by);
 			$products = array_merge($products2,$products1);
+
 			// if(count($products) <= 0 && $_GET["c"] == "" && $_GET["category_id"] == ""){ javascript("window.location='?s=".$_GET["s"]."&c=49';"); }//try category pasar
 			
 			foreach($products as $key => $product){
