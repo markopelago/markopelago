@@ -18,7 +18,15 @@
 	<table width="100%">
 		<tr>
 		<?php
-			$whereclause = "is_displayed = '1' AND IF(seller_id = '26' OR seller_id = '103', `seller_id`, '".$__markopasar_seller_id."') = '".$__markopasar_seller_id."' ";
+			$whereclauseCommon = "is_displayed = '1' ";
+
+			$category_pasar_ids = "(";
+			$categories = $db->fetch_all_data("categories",["id"],"parent_id = '49'");
+			foreach($categories as $category){
+				$category_pasar_ids .= "category_ids like '%|".$category["id"]."|%' OR ";
+			}
+			$category_pasar_ids = " AND ".substr($category_pasar_ids,0,-3).")  AND IF(seller_id = '26' OR seller_id = '103', `seller_id`, '".$__markopasar_seller_id."') = '".$__markopasar_seller_id."'";
+
 			if($_GET["c"] || $_GET["category_id"]){
 				if($_GET["category_id"] == "") $_GET["category_id"] = $_GET["c"];
 				if($_GET["c"] == "") $_GET["c"] = $_GET["category_id"];
@@ -29,26 +37,26 @@
 				}
 				$category_ids = substr($category_ids,0,-3).") AND ";
 			} else {
-				$whereclause .= " AND (category_ids NOT LIKE '%|49|%'";
+				$whereclauseNonPasar .= " AND (category_ids NOT LIKE '%|49|%'";
 				$pasar_ids = $db->fetch_all_data("categories",["id"],"parent_id = 49");
-				foreach($pasar_ids as $pasar_id){ $whereclause .= " AND category_ids NOT LIKE '%|".$pasar_id["id"]."|%'"; }
-				$whereclause .=")";
+				foreach($pasar_ids as $pasar_id){ $whereclauseNonPasar .= " AND category_ids NOT LIKE '%|".$pasar_id["id"]."|%'"; }
+				$whereclauseNonPasar .=")";
 			}
-			if($_GET["s"] != "") $whereclause .= " AND (name LIKE '%".str_replace(" ","%",$_GET["s"])."%' OR description LIKE '%".$_GET["s"]."%')";
-			if($_GET["keyword"] != "") $whereclause .= " AND (name LIKE '%".str_replace(" ","%",$_GET["keyword"])."%' OR description LIKE '%".$_GET["keyword"]."%')";
+			if($_GET["s"] != "") $whereclauseCommon .= " AND (name LIKE '%".str_replace(" ","%",$_GET["s"])."%' OR description LIKE '%".$_GET["s"]."%')";
+			if($_GET["keyword"] != "") $whereclauseCommon .= " AND (name LIKE '%".str_replace(" ","%",$_GET["keyword"])."%' OR description LIKE '%".$_GET["keyword"]."%')";
 			if($_GET["province_id"] > 0){
 				if($_GET["city_id"] > 0) $location_ids = get_location_childest_ids($_GET["city_id"]);
 				else $location_ids = get_location_childest_ids($_GET["province_id"]);
-				$whereclause .= " AND seller_id IN (SELECT id FROM sellers WHERE user_id IN (SELECT user_id FROM user_addresses WHERE location_id IN ($location_ids)))";
+				$whereclauseCommon .= " AND seller_id IN (SELECT id FROM sellers WHERE user_id IN (SELECT user_id FROM user_addresses WHERE location_id IN ($location_ids)))";
 			}
-			if($_GET["price_min"] > 0) $whereclause .= " AND (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) >= '".$_GET["price_min"]."'";
-			if($_GET["price_max"] > 0) $whereclause .= " AND (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) <= '".$_GET["price_max"]."'";
+			if($_GET["price_min"] > 0) $whereclauseCommon .= " AND (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) >= '".$_GET["price_min"]."'";
+			if($_GET["price_max"] > 0) $whereclauseCommon .= " AND (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) <= '".$_GET["price_max"]."'";
 			if(count(@$_GET["subcategory_ids"]) > 0){
-				$whereclause .= " AND (";
+				$whereclauseCommon .= " AND (";
 				foreach($_GET["subcategory_ids"] as $subcategory_id){
-					$whereclause .= "category_ids like '%|".$subcategory_id."|%' OR ";
+					$whereclauseCommon .= "category_ids like '%|".$subcategory_id."|%' OR ";
 				}
-				$whereclause = substr($whereclause,0,-3).")";
+				$whereclauseCommon = substr($whereclauseCommon,0,-3).")";
 			}
 			
 			$order_by = "";
@@ -56,8 +64,10 @@
 			if($_GET["sort_id"] == "highest_price") $order_by = " ORDER BY (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1) DESC";
 			if($_GET["sort_id"] == "lowest_price") $order_by = " ORDER BY (SELECT (price+(price*commission/100)) FROM goods_prices WHERE goods_id=goods.id ORDER BY id LIMIT 1)";
 			
-			$products = $db->fetch_all_data("goods",[],$category_ids.$whereclause.$order_by);
-			if(count($products) <= 0 && $_GET["c"] == "" && $_GET["category_id"] == ""){ javascript("window.location='?s=".$_GET["s"]."&c=49';"); }//try category pasar
+			$products1 = $db->fetch_all_data("goods",[],$whereclauseCommon.$category_ids.$whereclauseNonPasar.$order_by);
+			$products2 = $db->fetch_all_data("goods",[],$whereclauseCommon.$category_pasar_ids.$order_by);
+			$products = array_merge($products2,$products1);
+			// if(count($products) <= 0 && $_GET["c"] == "" && $_GET["category_id"] == ""){ javascript("window.location='?s=".$_GET["s"]."&c=49';"); }//try category pasar
 			
 			foreach($products as $key => $product){
 				$is_pasar = is_pasar($product["id"]);
