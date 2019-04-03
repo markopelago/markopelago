@@ -18,10 +18,11 @@
 	<table width="100%">
 		<tr>
 		<?php
+			if(!$_GET["c"] && $_GET["category_id"]) $_GET["c"] = $_GET["category_id"];
 			$whereclauseCommon = "is_displayed = '1' ";
 
 			$category_pasar_ids = "";
-			if($_GET["c"] == 49 || $_GET["category_id"] == 49){
+			if($_GET["c"] == 49){
 				$category_pasar_ids = "(";
 				$categories = $db->fetch_all_data("categories",["id"],"parent_id = '49'");
 				foreach($categories as $category){
@@ -30,9 +31,7 @@
 				$category_pasar_ids = " AND ".substr($category_pasar_ids,0,-3).") AND IF(seller_id = '26' OR seller_id = '103', `seller_id`, '".$__markopasar_seller_id."') = '".$__markopasar_seller_id."'";
 			}
 
-			if($_GET["c"] || $_GET["category_id"]){
-				if($_GET["category_id"] == "") $_GET["category_id"] = $_GET["c"];
-				if($_GET["c"] == "") $_GET["c"] = $_GET["category_id"];
+			if($_GET["c"]){
 				$category_ids = "(";
 				$categories = $db->fetch_all_data("categories",["id"],"parent_id = '".$_GET["category_id"]."'");
 				foreach($categories as $category){
@@ -71,7 +70,7 @@
 			$products2 = [];
 
 			$products1 = $db->fetch_all_data("goods",[],$whereclauseCommon.$category_ids.$whereclauseNonPasar.$order_by);
-			if($_GET["c"] == 49 || $_GET["category_id"] == 49) 
+			if($_GET["c"] == 49 || $_GET["c"] == "") 
 				$products2 = $db->fetch_all_data("goods",[],$whereclauseCommon.$category_pasar_ids.$order_by);
 			$products = array_merge($products2,$products1);
 			// if(count($products) <= 0 && $_GET["c"] == "" && $_GET["category_id"] == ""){ javascript("window.location='?s=".$_GET["s"]."&c=49';"); }//try category pasar
