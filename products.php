@@ -1,6 +1,11 @@
 <?php include_once "homepage_header.php"; ?>
 <?php include_once "footer_tray.php"; ?>
 <?php
+	if(!$__markopasar_seller_id){
+		$_SESSION["referrer"] = "products.php?".$_SERVER["QUERY_STRING"];
+		?><script> window.location="markopasar_service_areas.php"; </script><?php
+		exit();
+	}
 	if($_GET["s"] == ""){
 		$_SESSION["errormessage"] = v("please_type_your_serach");
 		javascript("window.location='index.php';");

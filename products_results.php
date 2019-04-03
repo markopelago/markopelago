@@ -17,8 +17,8 @@
 	<?php if(@$pricerange != ""){ ?> <div class="location"><?=v("price");?></div> <div class="location_value">: <?=@$pricerange;?></div> <?php } ?>
 	<table width="100%">
 		<tr>
-		<?php 
-			$whereclause = "is_displayed = '1' ";
+		<?php
+			$whereclause = "is_displayed = '1' AND IF(seller_id = '26' OR seller_id = '103', `seller_id`, '".$__markopasar_seller_id."') = '".$__markopasar_seller_id."' ";
 			if($_GET["c"] || $_GET["category_id"]){
 				if($_GET["category_id"] == "") $_GET["category_id"] = $_GET["c"];
 				if($_GET["c"] == "") $_GET["c"] = $_GET["category_id"];

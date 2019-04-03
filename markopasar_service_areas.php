@@ -2,7 +2,10 @@
 <?php
 	if(isset($_GET["markopasar_seller_id"])){
 		$_SESSION["markopasar_seller_id"] = $_GET["markopasar_seller_id"];
-		?><script> window.location = "category_detail.php?category_id=49"; </script><?php
+		if($_SESSION["referrer"]!="") $redirect = $_SESSION["referrer"];
+		else $redirect = "category_detail.php?category_id=49";
+		$_SESSION["referrer"] = "";
+		?><script> window.location = "<?=$redirect;?>"; </script><?php
 		exit();
 	}
 ?>
