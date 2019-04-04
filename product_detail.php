@@ -202,44 +202,85 @@
             </div>
         </div>
         <div style="height:20px;"></div>
-        <div class="col-md-3">
-            <div class="panel panel-default">
+        <?php if(!isMobile()){?>
+			<div class="col-md-3">
+	            <div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title"><center><b><a href="seller_detail.php?id=<?=$seller["id"];?>"><?=v("seller_profile");?></a></b></center></h3>
+					</div>
+					<div class="panel-body">
+						<center>
+							<?php $seller["logo"] = ($seller["logo"] == "")?"nologo.jpg":$seller["logo"]; ?>
+							<div class="img-thumbnail seller-thumbnail" style="height:160px;">
+								<img class="img-circle" src="users_images/<?=$seller["logo"];?>" alt="#">
+								<img class="seller_body_profile" src="assets/seller_body_profile_<?=rand(1,4);?>.png">
+								
+								<?php $seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller["user_id"],"default_seller" => 1])); ?>
+								<div style="position:relative;top:-50px;">
+									<b><a href="seller_detail.php?id=<?=$seller["id"];?>"><?=$seller["name"];?></a></b><br>
+									<span class="glyphicon glyphicon-map-marker"></span> <?=$seller_locations[3]["name"];?>, <?=$seller_locations[2]["name"];?>
+								</div>
+							</div>
+							<br><br>
+							<?php if($__seller_id != $goods["seller_id"]){ ?>
+							<button class="btn btn-primary btn-blue" <?=$onclickSendMessage;?>><span class="glyphicon glyphicon-envelope"></span>&nbsp;<?=v("send_message_to_seller");?></button>
+							<?php } ?>
+						</center>
+					</div>
+	            </div>
+	        </div>
+	    	</div><br><br>
+		
+			<div class="row">
+			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title"><center><b><a href="seller_detail.php?id=<?=$seller["id"];?>"><?=v("seller_profile");?></a></b></center></h3>
+					<h3 class="panel-title"><b><?=v("product_description");?></b></h3>
 				</div>
 				<div class="panel-body">
-					<center>
-						<?php $seller["logo"] = ($seller["logo"] == "")?"nologo.jpg":$seller["logo"]; ?>
-						<div class="img-thumbnail seller-thumbnail" style="height:160px;">
-							<img class="img-circle" src="users_images/<?=$seller["logo"];?>" alt="#">
-							<img class="seller_body_profile" src="assets/seller_body_profile_<?=rand(1,4);?>.png">
-							
-							<?php $seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller["user_id"],"default_seller" => 1])); ?>
-							<div style="position:relative;top:-50px;">
-								<b><a href="seller_detail.php?id=<?=$seller["id"];?>"><?=$seller["name"];?></a></b><br>
-								<span class="glyphicon glyphicon-map-marker"></span> <?=$seller_locations[3]["name"];?>, <?=$seller_locations[2]["name"];?>
-							</div>
-						</div>
-						<br><br>
-						<?php if($__seller_id != $goods["seller_id"]){ ?>
-						<button class="btn btn-primary btn-blue" <?=$onclickSendMessage;?>><span class="glyphicon glyphicon-envelope"></span>&nbsp;<?=v("send_message_to_seller");?></button>
-						<?php } ?>
-					</center>
+					<p><?=str_replace(chr(13).chr(10),"<br>",$db->fetch_single_data("goods","description",["id"=>$_GET["id"]]));?></p>
 				</div>
-            </div>
-        </div>
-    </div><br><br>
-	
-	<div class="row">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title"><b><?=v("product_description");?></b></h3>
 			</div>
-			<div class="panel-body">
-				<p><?=str_replace(chr(13).chr(10),"<br>",$db->fetch_single_data("goods","description",["id"=>$_GET["id"]]));?></p>
 			</div>
-		</div>
-	</div>
+        <?php }else{?>
+        	<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title"><b><?=v("product_description");?></b></h3>
+					</div>
+					<div class="panel-body">
+						<p><?=str_replace(chr(13).chr(10),"<br>",$db->fetch_single_data("goods","description",["id"=>$_GET["id"]]));?></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-12">
+	            <div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title"><center><b><a href="seller_detail.php?id=<?=$seller["id"];?>"><?=v("seller_profile");?></a></b></center></h3>
+					</div>
+					<div class="panel-body">
+						<center>
+							<?php $seller["logo"] = ($seller["logo"] == "")?"nologo.jpg":$seller["logo"]; ?>
+							<div class="img-thumbnail seller-thumbnail" style="height:160px;">
+								<img class="img-circle" src="users_images/<?=$seller["logo"];?>" alt="#">
+								<img class="seller_body_profile" src="assets/seller_body_profile_<?=rand(1,4);?>.png">
+								
+								<?php $seller_locations = get_location($db->fetch_single_data("user_addresses","location_id",["user_id" => $seller["user_id"],"default_seller" => 1])); ?>
+								<div style="position:relative;top:-50px;">
+									<b><a href="seller_detail.php?id=<?=$seller["id"];?>"><?=$seller["name"];?></a></b><br>
+									<span class="glyphicon glyphicon-map-marker"></span> <?=$seller_locations[3]["name"];?>, <?=$seller_locations[2]["name"];?>
+								</div>
+							</div>
+							<br><br>
+							<?php if($__seller_id != $goods["seller_id"]){ ?>
+							<button class="btn btn-primary btn-blue" <?=$onclickSendMessage;?>><span class="glyphicon glyphicon-envelope"></span>&nbsp;<?=v("send_message_to_seller");?></button>
+							<?php } ?>
+						</center>
+					</div>
+	            </div>
+	        </div>
+        <?php } ?>
+        
 	<?php
 		$products = $db->fetch_all_data("goods",[],"seller_id = '".$seller["id"]."' AND id <> '".$_GET["id"]."'");
 		if(count($products) > 0){
