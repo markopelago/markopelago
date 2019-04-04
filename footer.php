@@ -116,5 +116,6 @@
 			<?php $_SESSION["errormessage"] = ""; ?>
 		<?php } ?>
 	</script>
+	<?php $_SESSION["last_page"] = $_SERVER["PHP_SELF"];?>
 </body>
 </html>

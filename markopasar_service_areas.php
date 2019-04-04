@@ -1,6 +1,6 @@
 <?php include_once "homepage_header.php"; ?>
 <?php
-	if(isset($_GET["markopasar_seller_id"])){
+	if(isset($_GET["markopasar_seller_id"]) && basename($_SESSION["last_page"]) == basename($_SERVER["PHP_SELF"])){
 		$_SESSION["markopasar_seller_id"] = $_GET["markopasar_seller_id"];
 		if($_SESSION["referrer"]!="") $redirect = $_SESSION["referrer"];
 		else $redirect = "category_detail.php?category_id=49";
