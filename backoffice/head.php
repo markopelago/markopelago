@@ -7,7 +7,7 @@
 <?php if(!$_isexport){ ?>
 <html>
 	<head>
-		<meta property="og:image" content="../images/logo.png">
+		<meta property="og:image" content="../images/logo_marko.png">
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<meta http-equiv="X-UA-Compatible" content="IE=8;" />
 		<link rel="Shortcut Icon" href="../favicon.ico">

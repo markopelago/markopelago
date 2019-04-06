@@ -182,7 +182,7 @@
 			<div class="navbar-header">
 				<!-- Branding Image -->
 				<a class="navbar-brand" href="index.php">
-					<img src="images/logo.png" style="position:relative;top:-10px;height:40px;max-width: 200%;cursor:pointer;border:0px;" alt="<?=$__title_project;?>" title="<?=$__title_project;?>" onclick="window.location='index.php';">
+					<img src="images/logo_marko.png" style="position:relative;top:-10px;height:40px;max-width: 200%;cursor:pointer;border:0px;" alt="<?=$__title_project;?>" title="<?=$__title_project;?>" onclick="window.location='index.php';">
 				</a>
 				<!-- Collapsed Hamburger -->
 				<div style="position:relative;float:right;">

@@ -108,7 +108,7 @@
 			<table cellpadding="0" cellspacing="0">
 				<tr>
 					<td>&nbsp;</td>
-					<td><br><br><img src="images/logo.png" height="75"></td>
+					<td><br><br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/logo_marko.png" height="75"></td>
 				</tr>
 				<tr>
 					<td>

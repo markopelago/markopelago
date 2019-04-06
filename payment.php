@@ -115,7 +115,7 @@
 								$bank_accounts = $db->fetch_select_data("bank_accounts","id","concat((SELECT name FROM banks WHERE id=bank_id),':',account_no)");
 								$user_banks = $db->fetch_select_data("user_banks","id","concat(name,' -- ',(SELECT name FROM banks WHERE id=bank_id),':',account_no)",["user_id" => $__user_id],[],"",true);
 						?>
-							<tr><td <?=(!isMobile())?"colspan='3'":"";?> align="center"><img src="images/logo.png" height="30"></td></tr>
+							<tr><td <?=(!isMobile())?"colspan='3'":"";?> align="center"><img src="images/logo_marko.png" height="30"></td></tr>
 							<tr><td <?=(!isMobile())?"colspan='3'":"";?> align="center" style="padding-top:10px;padding-bottom:10px;"><?=v("payment_to_account");?> : </td></tr>
 							<tr><td <?=(!isMobile())?"colspan='3'":"";?> align="center"><?=$f->select("bank_account_id",$bank_accounts,$transaction_payments["bank_account_id"],"onchange=\"load_bank_info(this.value);\"","form-control");?></td></tr>
 							<tr><td <?=(!isMobile())?"colspan='3'":"";?>><br></td></tr>
