@@ -509,8 +509,9 @@
 	}
 	
 	if($mode == "is_user_confirmed"){
-		if($__user["email_confirmed_at"] != "0000-00-00 00:00:00" || $__user["phone_confirmed_at"] != "0000-00-00 00:00:00") echo true;
-		else echo false;
+		// if($__user["email_confirmed_at"] != "0000-00-00 00:00:00" || $__user["phone_confirmed_at"] != "0000-00-00 00:00:00") echo true;
+		// else echo false;
+		echo true;
 	}
 	
 	if($mode == "shopping_calculator"){
