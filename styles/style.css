@@ -923,7 +923,7 @@ input[type=checkbox]{
   float: right;
   padding: 5px 10px;
   margin-right: 16px;
-  background: #800000;
+  background: rgba(255, 222, 81, 1);
   color:#000;
   font-size: 17px;
   border: none;
@@ -1904,7 +1904,7 @@ input:checked + .switch_slider:before {
 		width:100%;
 		float:left;
 		margin:0;
-		background: #800000;
+		background: linear-gradient(rgba(255, 222, 81, 1), rgba(255, 222, 81, 1));;
 	}
 	.header-start{ height:150px; }
 	
