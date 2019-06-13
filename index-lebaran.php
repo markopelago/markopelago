@@ -10,7 +10,7 @@
 			<div class="row">
 				<div class="col-md-12 col-lg-12 col-xs-12">
 					<img class="img-responsive" src="assets/markopelago_logo_new.jpeg" style="height:300px;width: 300px;margin: 0 auto;">
-					<h1>Mohon maaf untuk peningkatan layanan maka kami sementara offline dari tanggal 4 - 17 Jun 2019
+					<h1>Mohon maaf untuk peningkatan layanan maka kami sementara offline dari tanggal 4 - 17 Juni 2019
 					</h1>
 					<a href="https://play.google.com/store/apps/details?id=com.markopelago" target="#">
 						<img class="img-responsive" src="assets/google-play-badge.png" style="margin: 0 auto;">
