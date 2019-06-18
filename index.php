@@ -1,7 +1,7 @@
 <script>
-	window.location="index-lebaran.php";
+	//window.location="index-lebaran.php";
 </script>
-<?php exit(); ?>
+<?php //exit(); ?>
 <?php include_once "homepage_header.php"; ?>
 <script>
 	function loadmarketplace(){
