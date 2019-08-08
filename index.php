@@ -109,7 +109,7 @@
 			$notpasar = "AND category_ids NOT LIKE '%|49|%' ";
 			$categories = $db->fetch_all_data("categories",["id"],"parent_id='49'");
 			foreach($categories as $category){ $notpasar .= "AND category_ids NOT LIKE '%|".$category["id"]."|%' "; }
-			$products = $db->fetch_all_data("goods",[],"is_displayed = '1' $notpasar ORDER BY created_at DESC LIMIT $limit");
+			$products = $db->fetch_all_data("goods",[],"is_displayed = '1' ORDER BY created_at DESC LIMIT $limit");
 			foreach($products as $key => $product){
 				$is_pasar = is_pasar($product["id"]);
 				$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
@@ -137,7 +137,7 @@
 	<div class="scrolling-wrapper">
 		<?php 
 			$i = 0;
-			$sellers = $db->fetch_all_data("sellers",[],"1=1 ORDER BY RAND() LIMIT 10");
+			$sellers = $db->fetch_all_data("sellers",[],"id in (26,103) ORDER BY RAND() LIMIT 10");
 			foreach($sellers as $seller){
 				if(!file_exists("users_images/".$seller["logo"])) $seller["logo"] = "nologo.jpg";
 				if($seller["logo"] == "") $seller["logo"] = "nologo.jpg";
