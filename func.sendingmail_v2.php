@@ -10,7 +10,7 @@ function gethttp_value($url){
     return $output;
 }
 
-function sendingmail($subject,$address,$body,$replyto = "cs@markopelago.com|Customer Service markopelago.com") {
+function sendingmail($subject,$address,$body,$replyto = "csmarkopelago@gmail.com|Customer Service markopelago.com") {
 	require_once("phpmailer/class.phpmailer.php");
 	include_once("phpmailer/class.smtp.php");
 	$domain = explode("@",$address);
@@ -36,7 +36,7 @@ function sendingmail($subject,$address,$body,$replyto = "cs@markopelago.com|Cust
 	$mail->Mailer = "smtp"; 
 	$mail->CharSet = 'utf-8';  
 	$arr_replyto = explode("|",$replyto);
-	$mail->SetFrom('cs@markopelago.com', 'Customer Service markopelago.com');
+	$mail->SetFrom('csmarkopelago@gmail.com', 'Customer Service markopelago.com');
 	$mail->AddReplyTo($arr_replyto[0],$arr_replyto[1]);
 	$mail->Subject    = $subject;
 

@@ -1,6 +1,6 @@
 <?php
 
-function sendingmail($subject,$address,$body,$replyto = "cs@markopelago.com|Customer Service markopelago.com") {
+function sendingmail($subject,$address,$body,$replyto = "csmarkopelago@gmail.com|Customer Service markopelago.com") {
 	global $db,$__username,$_SERVER;
 	$db->addtable("mail_queue");
 	$db->addfield("subject");$db->addvalue(str_replace("'","''",$subject));
