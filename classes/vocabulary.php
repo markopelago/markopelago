@@ -349,7 +349,7 @@ class Vocabulary{
 		$arr[$l]["unique_code_reason"]							= "Unique Code to speed up the Verification process";
 		$arr[$l]["pay_precise_last_3_digits"]					= "Pay right until the last three digits";
 		$arr[$l]["payment_to_account"]							= "PAyment to Account";
-		$arr[$l]["fill_the_confirmation_form"]					= "If you have made a payment, fill in the following form to confirm";
+		$arr[$l]["fill_the_confirmation_form"]					= "If you have made a payment, click to confirm";
 		$arr[$l]["sending_bank_account_no"]						= "Sending Bank Account No.";
 		$arr[$l]["sending_bank_name"]							= "Name of Sending Bank";
 		$arr[$l]["transfer_at"]									= "Transfer Date";
@@ -737,7 +737,7 @@ class Vocabulary{
 		$arr[$l]["unique_code_reason"]							= "Kode Unik untuk mempercepat proses Verifikasi";
 		$arr[$l]["pay_precise_last_3_digits"]					= "Bayarlah tepat sampai tiga digit terakhir";
 		$arr[$l]["payment_to_account"]							= "Pembayaran ke rekening";
-		$arr[$l]["fill_the_confirmation_form"]					= "Jika Anda sudah melakukan pembayaran, isi form berikut untuk melakukan konfirmasi";
+		$arr[$l]["fill_the_confirmation_form"]					= "Jika Anda sudah melakukan pembayaran, klik untuk melakukan konfirmasi";
 		$arr[$l]["sending_bank_account_no"]						= "No Rekening Bank Pengirim";
 		$arr[$l]["sending_bank_name"]							= "Nama Bank Pengirim";
 		$arr[$l]["transfer_at"]									= "Tanggal Transfer";
