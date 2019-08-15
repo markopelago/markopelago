@@ -27,8 +27,10 @@
 		$db->addfield("bank_id");	        $db->addvalue($_POST["bank_id"]);
 		$db->addfield("transfer_at");		$db->addvalue($_POST["transfer_at"]);
 		$updating = $db->update();
+
+		$updating["affected_rows"] = true;
         
-        if($updating["affected_rows"] > 0){
+        if($updating["affected_rows"]){
 			$db->addtable("transactions");	
 			$db->where("cart_group",$cart_group);
 			$db->where("buyer_user_id",$__user_id);
@@ -78,6 +80,7 @@
 		});
 	}
 </script>
+
 <form method="POST" action="?cart_group=<?=$_GET["cart_group"];?>" role="form" method="POST" autocomplete="off">
 	<div class="container">
 		<div class="row">
@@ -123,7 +126,7 @@
 							<tr><td <?=(!isMobile())?"colspan='3'":"";?>><br></td></tr>
 							<tr><td <?=(!isMobile())?"colspan='3'":"";?> style="padding-top:10px;padding-bottom:10px;"><?=v("fill_the_confirmation_form");?> </td></tr>
 							
-							<tr><td <?=(!isMobile())?"colspan='3'":"";?> style="padding-bottom:10px;"><?=$f->select("user_bank_id",$user_banks,$transaction_payments["user_bank_id"],"onchange=\"load_user_banks(this.value);\"","form-control");?></td></tr>
+							<!--tr><td <?=(!isMobile())?"colspan='3'":"";?> style="padding-bottom:10px;"><?=$f->select("user_bank_id",$user_banks,$transaction_payments["user_bank_id"],"onchange=\"load_user_banks(this.value);\"","form-control");?></td></tr>
 							<tr>
 								<td nowrap><?=v("account_name");?></td><?=(!isMobile())?"":"</tr><tr>";?>
 								<td <?=(!isMobile())?"colspan='2'":"";?> nowrap style="padding-bottom:10px;"><?=$f->input("bank_an","".$transaction_payments["account_name"]."","placeholder='".v("account_name")."...'","form-control");?></td>
@@ -139,7 +142,7 @@
 							<tr>
 								<td nowrap><?=v("transfer_at");?></td><?=(!isMobile())?"":"</tr><tr>";?>
 								<td <?=(!isMobile())?"colspan='2'":"";?> nowrap style="padding-bottom:10px;"><?=$f->input("transfer_at",$transaction_payments["transfer_at"],"type='date'","form-control");?></td>
-							</tr>
+							</tr-->
 							<tr><td <?=(!isMobile())?"colspan='3'":"";?>><br></td></tr>
 							<tr><td <?=(!isMobile())?"colspan='3'":"";?> align="center"><?=$f->input("payment","Konfirmasi","type='submit' style='width:100%;'","btn btn-lg btn-info");?></td></tr>
 						<?php } ?>
