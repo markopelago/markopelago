@@ -187,7 +187,7 @@
 				<!-- Collapsed Hamburger -->
 				<div style="position:relative;float:right;">
 				<?php if(isMobile() && $__buyer > 0){ ?> 
-					<div class="header-cart header-cart-mobile" id="cartcount2"><a href="mycart.php"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <span id="val_cartcount2"><?=$cartcount;?></span></a></div> 
+					<div class="header-cart header-cart-mobile" id="cartcount2"><a href="mycart.php"><span class="glyphicon glyphicon-shopping-cart" style="color:#0678DA;"></span> <span id="val_cartcount2"><?=$cartcount;?></span></a></div> 
 					<div class="header-cart header-cart-mobile" style="padding-top:3px;"><a href="liked_list.php"><img src="assets/liked.png" height="30"></a></div>
 				<?php } ?>
 				<button type="button" class="navbar-toggle" onclick="openNav()">
@@ -257,7 +257,7 @@
 						<li class="dropdown">
 							<div>
 								<div class="header-cart" id="cartcount1">
-									<a href="mycart.php"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> <span id="val_cartcount1"><?=$cartcount;?></span></a>
+									<a href="mycart.php"><span class="glyphicon glyphicon-shopping-cart" style="color:#0678DA;"></span> <span id="val_cartcount1"><?=$cartcount;?></span></a>
 									<a href="liked_list.php"><img src="assets/liked.png" height="20"></a>
 								</div>
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
