@@ -68,7 +68,7 @@
 
 <div class="container">
     <div class="row">
-		<div class="common_title"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> &nbsp;Invoice</div>
+		<div class="common_title"><span class="glyphicon glyphicon-shopping-cart" style="color:#1100BB;"></span> &nbsp;Invoice</div>
 	</div>
 </div>
 <div class="container">

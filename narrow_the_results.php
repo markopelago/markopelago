@@ -32,7 +32,7 @@
 					$categories = $db->fetch_all_data("categories",[],"id IN (1,5,9,49,74)","id=49 desc,id=74 desc,id=1 desc, id");
 					foreach($categories as $key => $category){
 						$img = "category_".$category["id"].".png";
-						$isactive = ($category["id"] == $_GET["category_id"])?"style=\"color:#800000\"":"";
+						$isactive = ($category["id"] == $_GET["category_id"])?"style=\"color:#1100BB\"":"";
 						?> <div><img src="assets/<?=$img;?>"><a <?=$isactive;?> href="javascript:change_category('<?=$category["id"];?>');"><?=$category["name_".$__locale];?></a></div> <?php
 					}
 				?>

@@ -84,7 +84,7 @@
 <form method="POST" action="?cart_group=<?=$_GET["cart_group"];?>" role="form" method="POST" autocomplete="off">
 	<div class="container">
 		<div class="row">
-			<div class="common_title"><span class="glyphicon glyphicon-barcode" style="color:#800000;"></span> &nbsp;<?=v("payment");?></div>
+			<div class="common_title"><span class="glyphicon glyphicon-barcode" style="color:#1100BB;"></span> &nbsp;<?=v("payment");?></div>
 			<div class="border_orange">
 				<center>
 					<?=(!isMobile())?"<h4><b>".v("make_a_payment_before")."</b></h4>":"<h5><b>".v("make_a_payment_before")."</b></h5>";?>

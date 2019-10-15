@@ -270,15 +270,15 @@ footer {
 }
 .footer-top {
 	background-image: url("../assets/footer.png");
-	background-color: #F9CE20;
+	background-color: #0678DA;
 	text-align: left;
-	color: #000;
+	color: #fff;
 }
 .footer-links a {
-	color: #000;
+	color: #fff;
 }
 .footer-contact a{
-	color: #000;
+	color: #fff;
 }
 
 .v_spacer {
@@ -553,7 +553,7 @@ footer {
 }
 
 .notification-counter {
-	background: #800000;
+	background: #1100BB;
 	position: absolute;
 	display: block;
 	padding: 2px 5px 1px;
@@ -844,7 +844,7 @@ input[type=checkbox]{
 	color:#000 !important;
 }
 .navbar-default .navbar-nav>.open>a:hover{
-	background-color:#800000 !important;
+	background-color:#1100BB !important;
 	font-weight:bolder;
 }
 
@@ -877,15 +877,15 @@ input[type=checkbox]{
 	width:300px !important;
 }
 .carousel-control{
-	color:#800000 !important;
+	color:#1100BB !important;
 	width:5% !important;
 	z-index:10 !important;
 }
 .carousel-indicators li{
-	border:1px solid #800000 !important;
+	border:1px solid #1100BB !important;
 }
 .carousel-indicators .active{
-	background-color:#800000 !important;
+	background-color:#1100BB !important;
 }
 .carousel-caption {
 	position:absolute !important;
@@ -904,7 +904,7 @@ input[type=checkbox]{
 }
 
 .dropdown-menu>li>a:hover{
-	background-color:#800000 !important;
+	background-color:#1100BB !important;
 	color:#000 !important;
 }
 
@@ -923,7 +923,8 @@ input[type=checkbox]{
   float: right;
   padding: 5px 10px;
   margin-right: 16px;
-  background: rgba(255, 222, 81, 1);
+  /* background: rgba(255, 222, 81, 1); */
+  background: #0678DA;
   color:#000;
   font-size: 17px;
   border: none;
@@ -949,7 +950,7 @@ input[type=checkbox]{
 	position:relative;
 	float:left;
 	padding:0px 0px 0px 20px;
-	color:#800000;
+	color:#1100BB;
 	font-weight:bolder;
 	width:100%;
 }
@@ -960,7 +961,7 @@ input[type=checkbox]{
 	font-weight:bolder;
 	margin-left:15px;
 	margin-bottom:15px;
-	color:#F79321;
+	color:#070444;
 }
 
 .view-all-text{
@@ -970,7 +971,7 @@ input[type=checkbox]{
 	margin-right:30px;
 }
 .view-all-text a {
-	color:#800000;
+	color:#1100BB;
 	text-decoration:none;
 }
 .view-all-text a:hover{
@@ -995,7 +996,7 @@ input[type=checkbox]{
 	height: 40px;
 }
 .goods-thumbnail .price {
-	color: #800000 ;
+	color: #1100BB ;
 }
 .goods-thumbnail .seller-info{
 	margin-top:10px;
@@ -1076,7 +1077,7 @@ input[type=checkbox]{
 	height: 40px;
 }
 .categories-thumbnail .price {
-	color: #800000 ;
+	color: #1100BB ;
 }
 .categories-thumbnail .seller-info{
 	margin-top:10px;
@@ -1104,7 +1105,7 @@ input[type=checkbox]{
 }
 
 a:focus, a:hover {
-    color: #800000 !important;
+    color: #1100BB !important;
     text-decoration: none !important;
 }
 
@@ -1133,11 +1134,11 @@ a:focus, a:hover {
 .sidenav .closebtn {
 	float:right;
 	position:relative;
-	color:#800000;
+	color:#1100BB;
 }
 .sidenav .closebtn a{
 	text-decoration: none;
-	color:#800000;
+	color:#1100BB;
     font-size: 46px;
 	font-weight:bolder;
 	line-height: 0px;
@@ -1219,7 +1220,7 @@ a:focus, a:hover {
     display: inline-block;
     overflow: hidden;
     padding: 0.625rem 1.25rem;
-    color: #800000;
+    color: #1100BB;
 }
 .take-photo + label img {
     width: 1em;
@@ -1239,7 +1240,7 @@ a:focus, a:hover {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: #800000;
+    background-color: #1100BB;
     display: block;
     padding: 5px;
     margin: 0 auto 10px;
@@ -1251,7 +1252,7 @@ a:focus, a:hover {
 #waterfall .close{
 	font-size:30px !important;
 	line-height:0 !important;
-	color:#800000 !important;
+	color:#1100BB !important;
 	opacity:1 !important;
 	margin:5px 0px 10px 0px;
 }
@@ -1288,7 +1289,7 @@ a:focus, a:hover {
 	float:left;
 	margin-right:20px;
 	margin-top:15px;
-	color:#800000;
+	color:#1100BB;
 }
 .header-cart img{
 	height:20px;
@@ -1390,8 +1391,8 @@ textarea{
 }
 
 .btn-red{
-	background-color: #800000 !important;
-    border-color: #800000 !important;
+	background-color: #1100BB !important;
+    border-color: #1100BB !important;
 }
 
 .btn-blue{
@@ -1444,7 +1445,7 @@ textarea{
 	border-bottom:1px dashed grey;
 }
 .goods_list .price{
-	color:#800000;
+	color:#1100BB;
 	font-weight:bolder;
 	height:20px;
 }
@@ -1518,7 +1519,7 @@ textarea{
 .register_form_background button {
 	margin-top:10px;
 	padding: 5px 10px;
-	background: #800000;
+	background: #1100BB;
 	color:#fff;
 	font-size: 17px;
 	border: none;
@@ -1805,7 +1806,7 @@ input:checked + .switch_slider:before {
 	padding-bottom:0px;
 	font-size:1.4em;
 	font-weight:bolder;
-	color:#800000;
+	color:#1100BB;
 	border-bottom:5px solid #EE9634;
 }
 
@@ -1816,7 +1817,7 @@ input:checked + .switch_slider:before {
     border-bottom-left-radius: 18px;
     border-top-right-radius: 18px;
     border-bottom-right-radius: 18px;
-    border: 1px solid #800000;
+    border: 1px solid #1100BB;
 	padding:0px 5px 0px 5px;
 }
 .notes_for_seller:focus{
@@ -1846,14 +1847,14 @@ input:checked + .switch_slider:before {
 	cursor:pointer;
 }
 .searchpage_tab_area .active{
-	color:#800000;
+	color:#1100BB;
 }
 .searchpage_tab_area .inactive{
 	color:#000;
 }
 
 .searchpage_tab_area .inactive:hover{
-	color:#800000;
+	color:#1100BB;
 }
 
 .searchpage_underline_tab{
@@ -1904,7 +1905,8 @@ input:checked + .switch_slider:before {
 		width:100%;
 		float:left;
 		margin:0;
-		background: linear-gradient(rgba(255, 222, 81, 1), rgba(255, 222, 81, 1));;
+		/* background: linear-gradient(rgba(255, 222, 81, 1), rgba(255, 222, 81, 1)); */
+		background: #0678DA;
 	}
 	.header-start{ height:150px; }
 	
@@ -1946,7 +1948,7 @@ input:checked + .switch_slider:before {
 	
 	.footer-top {
 		background-image: url("");
-		background-color: #F9CE20;
+		background-color: #0678DA;
 	}
 	
 	.table_categories_head p{

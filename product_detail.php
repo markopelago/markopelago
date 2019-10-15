@@ -116,7 +116,7 @@
 					<div class="panel-body">
 						<?php if(isMobile()){ echo "<div style='position:absolute;top:70px;right:30px;'>".$goods_like."</div>";} ?>
 						<h3 style="margin-top:0px;"><b><?=$db->fetch_single_data("goods","name",["id"=>$_GET["id"]]);?></b></h3>
-						<h3 style="color:#800000;"><b id="product_price">Rp. <?=format_amount(get_goods_price($_GET["id"])["display_price"]);?></b></h3>
+						<h3 style="color:#1100BB;"><b id="product_price">Rp. <?=format_amount(get_goods_price($_GET["id"])["display_price"]);?></b></h3>
 						<div style="height:10px;"></div>
 						<?php
 							$buy_button_width = "200px";

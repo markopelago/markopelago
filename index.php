@@ -18,29 +18,37 @@
 		<div class="item">			<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>12.png" style="object-fit:cover;width:100%;"></div>
 	</div>
 </div>
-<div class="category_title"><?=v("categories");?></div>
+<marquee><font style="color:#0678DA;font-weight:bolder;font-size:1.4em;">Belanja Dapur Tanpa Repot</font></marquee>
+<div style="height:20px;padding-bottom:45px;text-align: center;"><h2>Pilih Area Layanan</h2></div>
 <div class="container">
-	<div class="row">
-<?php 
-	$categories_td_width = "";
-	if(!isMobile()) $categories_td_width = "style='width:70px !important;'";
-	unset($categories);
-	$categories = $db->fetch_all_data("categories",[],"id IN (1,5,9,49,74)","id=49 desc,id=74 desc,id=1 desc, id");
-	foreach($categories as $key => $category){
-		$img = "wide_category_".$category["id"].".png";
-		$hreflink = "category_detail.php?category_id=".$category["id"];
-		if($category["id"] == "49") $hreflink = "markopasar_service_areas.php";
-		echo "<a href='".$hreflink."'><img class='img-responsive' src='assets/".$img."'></a>";
-	}
-?>
-	</div>
+	<table <?=$__tblDesign100;?>>
+		<tr>
+			<td valign="top">
+				<div class="goods_list">
+					<table width="100%">
+						<tr>
+							<td style="width:20%;padding:5px;"><a href="markopasar_service_areas.php?markopasar_seller_id=26"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_1.png"></a></td>
+							<td style="width:20%;padding:5px;"><a href="markopasar_service_areas.php?markopasar_seller_id=103"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_2.png"></a></td>
+						</tr>
+						<tr>
+							<td style="width:20%;padding:5px;"><a href="markopasar_service_areas.php?markopasar_seller_id=26"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_3.png"></a></td>
+							<td style="width:20%;padding:5px;"><a href="markopasar_service_areas.php?markopasar_seller_id=26"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_4.png"></a></td>
+						</tr>
+					</table>
+				</div>
+			</td>
+		</tr>
+	</table>
 </div>
-<div style="height:20px;"></div>
+<div style="text-align: center;">
+	<h3 style="font-size:1.4em">Nikmati Layanan Di Kota Anda</h3>
+</div>
+<?php if(!isMobile()){ ?> <div style="height:40px;"></div> <?php } ?>
 <div class="container">
 	<div class="row">
-		<div class="col-md-5">
+		<!--div class="col-md-5">
 			<a href="category_detail.php?category_id=49"><img class="img-responsive" src="assets/banner_pasar03.png"></a>
-		</div>
+		</div-->
 		<div class="col-md-7 home_recommended_goods" style="<?=(isMobile())?"margin-top:30px;":"";?>">
 			<div class="sub-title-text" style="margin-bottom:0px;"><?=v("recommended_goods");?></div>
 			<div class="view-all-text" style="font-weight:bolder;font-size:1em;margin-right:10px;"><a href="products.php?s=+"><?=v("view_all");?></a></div>

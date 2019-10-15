@@ -526,12 +526,12 @@
 	<input type="hidden" id="action_mode" name="action_mode">
 	<div class="container">
 		<div class="row">
-			<div class="common_title"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> &nbsp;<?=v("order");?></div>
+			<div class="common_title"><span class="glyphicon glyphicon-shopping-cart" style="color:#1100BB;"></span> &nbsp;<?=v("order");?></div>
 			<table <?=$__tblDesign100;?>>
 				<tr>
 					<td valign="top" width="<?=(isMobile())?"100%":"70%";?>">
 						<div style="font-size:1.2em;font-weight:bolder;margin-bottom:18px;padding-top:10px; position:relative; float:left;"><?=v("delivery_destination");?></div>
-						<div style="font-size:1.2em;font-weight:bolder;margin-bottom:18px;padding-top:10px; position:relative; float:right;color:#800000;cursor:pointer;" onclick="addaddress();">
+						<div style="font-size:1.2em;font-weight:bolder;margin-bottom:18px;padding-top:10px; position:relative; float:right;color:#1100BB;cursor:pointer;" onclick="addaddress();">
 							+ <?=v("add_address");?>
 						</div>
 						<div style="height:45px;"></div>
@@ -598,7 +598,7 @@
 													<?=v("weight");?>&nbsp;&nbsp;&nbsp;<?=$goods["weight"]*$qty/1000;?>Kg
 													&nbsp;&nbsp;&nbsp;
 													<?=v("goods_qty");?>&nbsp;&nbsp;&nbsp;<?=$qty;?>
-													<div style="font-size:1.4em;color:#800000;font-weight:bolder;margin-top:10px;" id="div_subtotal_<?=$goods_id;?>">Rp. <?=format_amount($subtotal);?></div>
+													<div style="font-size:1.4em;color:#1100BB;font-weight:bolder;margin-top:10px;" id="div_subtotal_<?=$goods_id;?>">Rp. <?=format_amount($subtotal);?></div>
 												</td>
 											</tr>
 										</table>
@@ -646,13 +646,13 @@
 											<tr>
 												<td colspan="2" style="padding-top:20px;" nowrap id="td_shipping_charges_<?=$seller_id;?>">
 													<img src="assets/sent.png" width="40">&nbsp;&nbsp;&nbsp;<?=v("shipping_charges");?>	&nbsp;&nbsp;&nbsp;
-													<a style="font-size:1.4em;color:#800000;font-weight:bolder;" id="div_shipping_charges_<?=$seller_id;?>"></a>
+													<a style="font-size:1.4em;color:#1100BB;font-weight:bolder;" id="div_shipping_charges_<?=$seller_id;?>"></a>
 												</td>
 												<td colspan="2" style="padding-top:20px;display:none;" nowrap id="div_administration_fee_<?=$seller_id;?>">
 													<?=v("administration_fee");?>	&nbsp;&nbsp;&nbsp;
-													<a style="font-size:1.4em;color:#800000;font-weight:bolder;" id="div_shipping_charges_<?=$seller_id;?>">Rp. 2.000</a><br>
+													<a style="font-size:1.4em;color:#1100BB;font-weight:bolder;" id="div_shipping_charges_<?=$seller_id;?>">Rp. 2.000</a><br>
 													<?=v("goods_pickup_distance_estimation");?>	&nbsp;&nbsp;&nbsp;
-													<a style="font-size:1.4em;color:#800000;font-weight:bolder;" id="div_pickup_distance_estimation_<?=$seller_id;?>"></a>
+													<a style="font-size:1.4em;color:#1100BB;font-weight:bolder;" id="div_pickup_distance_estimation_<?=$seller_id;?>"></a>
 												</td>
 											</tr>
 										</table>
@@ -682,18 +682,18 @@
 								<table width=\"95%\">
 									<tr>
 										<td style=\"font-size:1.2em;font-weight:bolder;\">".v("total_shopping")."</td>
-										<td style=\"font-size:1.2em;color:#800000;width:1px;\" nowrap>Rp. </td>
-										<td id=\"total_price\" style=\"font-size:1.2em;color:#800000;width:50px;\" nowrap align=\"right\"><img src='images/fancybox_loading.gif'></td>
+										<td style=\"font-size:1.2em;color:#1100BB;width:1px;\" nowrap>Rp. </td>
+										<td id=\"total_price\" style=\"font-size:1.2em;color:#1100BB;width:50px;\" nowrap align=\"right\"><img src='images/fancybox_loading.gif'></td>
 									</tr>
 									<tr>
 										<td style=\"font-size:1.2em;font-weight:bolder;\">".v("total_shipping_charges")."</td>
-										<td style=\"font-size:1.2em;color:#800000;width:1px;\" nowrap>Rp. </td>
-										<td id=\"total_shipping_charges\" style=\"font-size:1.2em;color:#800000;width:50px;\" nowrap align=\"right\"><img src='images/fancybox_loading.gif'></td>
+										<td style=\"font-size:1.2em;color:#1100BB;width:1px;\" nowrap>Rp. </td>
+										<td id=\"total_shipping_charges\" style=\"font-size:1.2em;color:#1100BB;width:50px;\" nowrap align=\"right\"><img src='images/fancybox_loading.gif'></td>
 									</tr>
 									<tr>
 										<td style=\"font-size:1.2em;font-weight:bolder;\">".v("total_bill")."</td>
-										<td style=\"font-size:1.2em;font-weight:bolder;color:#800000;width:1px;\" nowrap>Rp. </td>
-										<td id=\"total_bill\" style=\"font-size:1.2em;font-weight:bolder;color:#800000;width:50px;\" nowrap align=\"right\"><img src='images/fancybox_loading.gif'></td>
+										<td style=\"font-size:1.2em;font-weight:bolder;color:#1100BB;width:1px;\" nowrap>Rp. </td>
+										<td id=\"total_bill\" style=\"font-size:1.2em;font-weight:bolder;color:#1100BB;width:50px;\" nowrap align=\"right\"><img src='images/fancybox_loading.gif'></td>
 									</tr>
 								</table>
 								<br>

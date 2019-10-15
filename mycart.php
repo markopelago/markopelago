@@ -102,7 +102,7 @@
 	<input type="hidden" id="action_mode" name="action_mode">
 	<div class="container">
 		<div class="row">
-			<div class="common_title"><span class="glyphicon glyphicon-shopping-cart" style="color:#800000;"></span> &nbsp;<?=v("shopping_cart");?></div>
+			<div class="common_title"><span class="glyphicon glyphicon-shopping-cart" style="color:#1100BB;"></span> &nbsp;<?=v("shopping_cart");?></div>
 			<table <?=$__tblDesign100;?>>
 				<tr>
 					<td valign="top">
@@ -159,7 +159,7 @@
 																		<table <?=$__tblDesign100;?>>
 																			<tr>
 																				<td style="font-size:0.8em;font-weight:bolder;"><?=v("seller");?> : <?=$seller["name"];?></td>
-																				<td id="subtotal[<?=$goods_id;?>]" style="font-size:1em;font-weight:bolder;color:#800000" rowspan="2" valign="middle" align="right" nowrap></td>
+																				<td id="subtotal[<?=$goods_id;?>]" style="font-size:1em;font-weight:bolder;color:#1100BB" rowspan="2" valign="middle" align="right" nowrap></td>
 																			</tr>
 																			<tr><td style="font-size:0.8em;font-weight:bolder;">
 																				<a href="product_detail.php?id=<?=$goods_id;?>"><?=$goods["name"];?></a>
@@ -219,7 +219,7 @@
 							<div class=\"border_orange\">
 								<table width=\"100%\"><tr>
 									<td style=\"font-size:1em;font-weight:bolder;\">".v("total_price")."</td>
-									<td id=\"total_price\" style=\"font-size:1em;font-weight:bolder;color:#800000;\" align=\"right\"></td>
+									<td id=\"total_price\" style=\"font-size:1em;font-weight:bolder;color:#1100BB;\" align=\"right\"></td>
 								</tr></table>
 								<br>
 								<table width=\"100%\"><tr>

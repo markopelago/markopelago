@@ -217,7 +217,7 @@
 
 <div class="container">
     <div class="row">
-		<div class="common_title"><span class="glyphicon glyphicon-list-alt" style="color:#800000;"></span> &nbsp;Purchase Order</div>
+		<div class="common_title"><span class="glyphicon glyphicon-list-alt" style="color:#1100BB;"></span> &nbsp;Purchase Order</div>
 	</div>
 </div>
 <div class="container">
