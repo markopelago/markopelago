@@ -532,7 +532,7 @@
 	
 	function google_distancematrix($origins,$destinations){
 		if($origins == "" || $destinations == "") return "ERROR";
-		$key = "AIzaSyDpYxVL8UY41nLeN2S4xNHfLAF_4_mxGHw";
+		$key = "AIzaSyC27FE3B_k01GJPKk1TfneH_Yt_YHtvh70";
 		$url = "https://maps.googleapis.com/maps/api/distancematrix/json?";
 		$getValues = [
 			"origins" => $origins,
