@@ -531,8 +531,9 @@
 	}
 	
 	function google_distancematrix($origins,$destinations){
-		if($origins == "" || $destinations == "") return "ERROR";
-		$key = "AIzaSyC27FE3B_k01GJPKk1TfneH_Yt_YHtvh70";
+		global $_SERVER;
+		if($origins == "" || $destinations == "") return "ERROR";		
+		$key = explode("|",file($_SERVER["DOCUMENT_ROOT"]."/db_config_markopelago.txt")[0])[4];		
 		$url = "https://maps.googleapis.com/maps/api/distancematrix/json?";
 		$getValues = [
 			"origins" => $origins,
