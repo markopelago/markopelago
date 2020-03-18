@@ -23,7 +23,7 @@
 	$__phpself 					= basename($_SERVER["PHP_SELF"]);
 	$__now						= date("Y-m-d H:i:s");
 	$__self_pickup_fee			= 2000;
-	$__marko_cod				= 0;
+	$__marko_cod				= 5000;
 	$__cod_max_km				= 23;
 	$__cod_tolerance_km			= 2;
 	$__cod_max_gram				= 99999999999999999;

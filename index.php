@@ -12,10 +12,10 @@
 </script>
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
 	<div class="carousel-inner">
-		<div class="item active">	<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>9.png" style="object-fit:cover;width:100%;"></div>
-		<div class="item">			<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>10.png" style="object-fit:cover;width:100%;"></div>
-		<div class="item">			<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>11.png" style="object-fit:cover;width:100%;"></div>
-		<div class="item">			<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>12.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item active">	<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>13.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item">			<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>14.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item">			<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>15.png" style="object-fit:cover;width:100%;"></div>
+		<div class="item">			<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>16.png" style="object-fit:cover;width:100%;"></div>
 	</div>
 </div>
 <marquee><font style="color:#0678DA;font-weight:bolder;font-size:1.4em;">Belanja Dapur Tanpa Repot</font></marquee>
@@ -27,12 +27,12 @@
 				<div class="goods_list">
 					<table width="100%">
 						<tr>
-							<td style="width:20%;padding:5px;"><a href="markopasar_service_areas.php?markopasar_seller_id=26"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_1<?=(isMobile())?"_sm":"";?>.png"></a></td>
+							<td style="width:20%;padding:5px;"><!--a href="markopasar_service_areas.php?markopasar_seller_id=26"--><img style="width:100%;height:auto;" src="assets/markopasar_service_area_1_maintenance<?=(isMobile())?"_sm":"";?>.jpg"></a></td>
 							<td style="width:20%;padding:5px;"><a href="markopasar_service_areas.php?markopasar_seller_id=103"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_2<?=(isMobile())?"_sm":"";?>.png"></a></td>
 						</tr>
 						<tr>
-							<td style="width:20%;padding:5px;"><a href="markopasar_service_areas.php?markopasar_seller_id=26"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_3<?=(isMobile())?"_sm":"";?>.png"></a></td>
-							<td style="width:20%;padding:5px;"><a href="markopasar_service_areas.php?markopasar_seller_id=26"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_4<?=(isMobile())?"_sm":"";?>.png"></a></td>
+							<td style="width:20%;padding:5px;"><!--a href="markopasar_service_areas.php?markopasar_seller_id=26"--><img style="width:100%;height:auto;" src="assets/markopasar_service_area_3_maintenance<?=(isMobile())?"_sm":"";?>.jpg"></a></td>
+							<td style="width:20%;padding:5px;"><!--a href="markopasar_service_areas.php?markopasar_seller_id=26"--><img style="width:100%;height:auto;" src="assets/markopasar_service_area_4_maintenance<?=(isMobile())?"_sm":"";?>.jpg"></a></td>
 						</tr>
 					</table>
 				</div>
