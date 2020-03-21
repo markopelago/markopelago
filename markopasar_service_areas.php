@@ -17,12 +17,12 @@
 				<div class="goods_list">
 					<table width="100%">
 						<tr>
-							<td style="width:20%;padding:5px;"><!--a href="?markopasar_seller_id=26"--><img style="width:100%;height:auto;" src="assets/markopasar_service_area_1_maintenance.jpg"></a></td>
+							<td style="width:20%;padding:5px;"><a href="?markopasar_seller_id=26"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_1.png"></a></td>
 							<td style="width:20%;padding:5px;"><a href="?markopasar_seller_id=103"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_2.png"></a></td>
 						</tr>
 						<tr>
-							<td style="width:20%;padding:5px;"><!--a href="?markopasar_seller_id=26"--><img style="width:100%;height:auto;" src="assets/markopasar_service_area_3_maintenance.jpg"></a></td>
-							<td style="width:20%;padding:5px;"><!--a href="?markopasar_seller_id=26"--><img style="width:100%;height:auto;" src="assets/markopasar_service_area_4_maintenance.jpg"></a></td>
+							<td style="width:20%;padding:5px;"><a href="?markopasar_seller_id=26"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_3.png"></a></td>
+							<td style="width:20%;padding:5px;"><a href="?markopasar_seller_id=26"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_4.png"></a></td>
 						</tr>
 					</table>
 				</div>
