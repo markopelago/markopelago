@@ -508,7 +508,7 @@
 				if(is_cod_coverage == false){
 					toastr.warning("<?=str_replace("{cod_max_km}",$__cod_max_km,v("out_of_delivery_range"));?>","",toastroptions);
 				} else {
-					if(confirm("<?=v("are_you_sure_pay_with_cod");?>")){
+					if(confirm("<?=str_replace("{cod_max_km}",$__cod_max_km,v("are_you_sure_pay_with_cod"));?>")){
 						document.getElementById("action_mode").value="cod";
 						cart_form.submit();
 					}
@@ -696,6 +696,8 @@
 										<td id=\"total_bill\" style=\"font-size:1.2em;font-weight:bolder;color:#1100BB;width:50px;\" nowrap align=\"right\"><img src='images/fancybox_loading.gif'></td>
 									</tr>
 								</table>
+								<br>
+								<font style='padding-top:10px;padding-bottom:10px; color:red;font-weight:bolder;'>Pembelian akan di batalkan jika jarak antar melebihi ".$__cod_max_km." Km.</font>
 								<br>
 								<table width=\"100%\"><tr>
 									<td align=\"center\">

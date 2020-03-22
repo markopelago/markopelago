@@ -125,6 +125,7 @@
 							<tr><td <?=(!isMobile())?"colspan='3'":"";?> id="bank_info"></td></tr>
 							<tr><td <?=(!isMobile())?"colspan='3'":"";?>><br></td></tr>
 							<tr><td <?=(!isMobile())?"colspan='3'":"";?> style="padding-top:10px;padding-bottom:10px;"><?=v("fill_the_confirmation_form");?> </td></tr>
+							<tr><td <?=(!isMobile())?"colspan='3'":"";?> style="padding-top:10px;padding-bottom:10px; color:red;font-weight:bolder;">Pembelian akan di batalkan jika jarak antar melebihi <?=$__cod_max_km;?> Km. </td></tr>
 							
 							<!--tr><td <?=(!isMobile())?"colspan='3'":"";?> style="padding-bottom:10px;"><?=$f->select("user_bank_id",$user_banks,$transaction_payments["user_bank_id"],"onchange=\"load_user_banks(this.value);\"","form-control");?></td></tr>
 							<tr>
