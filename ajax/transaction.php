@@ -378,7 +378,8 @@
 		if($distance > 0 || ($distance == 0 && $origins == $destinations)){
 			echo $seller_id."|||".round($distance/1000,2)." Km|||".$distance;
 		} else {
-			echo $seller_id."|||".round(($__cod_max_km + $__cod_tolerance_km + 1),2)." Km|||".(($__cod_max_km + $__cod_tolerance_km + 1) * 1000);
+			// echo $seller_id."|||".round(($__cod_max_km + $__cod_tolerance_km + 1),2)." Km|||".(($__cod_max_km + $__cod_tolerance_km + 1) * 1000);
+			echo $seller_id."|||".round(($__cod_max_km + $__cod_tolerance_km - 1),2)." Km|||".(($__cod_max_km + $__cod_tolerance_km - 1) * 1000);
 		}
 	}
 	
