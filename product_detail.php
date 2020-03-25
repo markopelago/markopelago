@@ -292,7 +292,7 @@
 		<div class="container">
 			<div class="row">		
 				<?php
-					$products = $db->fetch_all_data("goods",[],"seller_id = '".$seller["id"]."' AND id <> '".$_GET["id"]."'");
+					$products = $db->fetch_all_data("goods",[],"is_displayed = '1' AND seller_id = '".$seller["id"]."' AND id <> '".$_GET["id"]."'");
 					foreach($products as $product){
 						$is_pasar = is_pasar($product["id"]);
 						$img = $db->fetch_single_data("goods_photos","filename",["goods_id"=>$product["id"]],["seqno"]);
