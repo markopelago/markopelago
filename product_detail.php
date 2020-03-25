@@ -282,7 +282,7 @@
         <?php } ?>
         
 	<?php
-		$products = $db->fetch_all_data("goods",[],"seller_id = '".$seller["id"]."' AND id <> '".$_GET["id"]."'");
+		$products = $db->fetch_all_data("goods",[],"is_displayed = '1' AND seller_id = '".$seller["id"]."' AND id <> '".$_GET["id"]."'");
 		if(count($products) > 0){
 	?>
 		<div style="height:20px;"></div>
