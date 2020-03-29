@@ -679,6 +679,9 @@
 						$shopping_summary = "
 							<div style=\"font-size:1.2em;font-weight:bolder;margin-bottom:18px;padding-top:10px; text-align:center;\">".v("shopping_summary")."</div>
 							<div class=\"border_orange\">
+								<font style='padding-top:10px;padding-bottom:10px; color:red;font-weight:bolder;'>Area Jakarta dsk: Min Order <u>Rp. 150.000,-</u><br>Area Tangerang Selatan: Min Order <u>Rp. 125.000,-</u></font>
+								<br>	
+								<br>
 								<table width=\"95%\">
 									<tr>
 										<td style=\"font-size:1.2em;font-weight:bolder;\">".v("total_shopping")."</td>
