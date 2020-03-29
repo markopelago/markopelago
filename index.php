@@ -15,7 +15,6 @@
 		<div class="item active">	<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>13.png" style="object-fit:cover;width:100%;"></div>
 		<div class="item">			<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>14.png" style="object-fit:cover;width:100%;"></div>
 		<div class="item">			<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>15.png" style="object-fit:cover;width:100%;"></div>
-		<div class="item">			<img class="img-responsive" src="assets/banner_header_<?=(isMobile())?"m_":"";?>16.png" style="object-fit:cover;width:100%;"></div>
 	</div>
 </div>
 <marquee><font style="color:#0678DA;font-weight:bolder;font-size:1.4em;">Belanja Dapur Tanpa Repot</font></marquee>
