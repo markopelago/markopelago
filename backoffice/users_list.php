@@ -17,10 +17,12 @@
 				$group = $f->select("group",$db->fetch_select_data("a_groups","id","name",array(),array(),"",true),@$_GET["group"],"style='height:25px'");
 				$txt_email = $f->input("txt_email",@$_GET["txt_email"]);
 				$txt_name = $f->input("txt_name",@$_GET["txt_name"]);
+				$txt_phone = $f->input("txt_phone",@$_GET["txt_phone"]);
 			?>
 			<?=$t->row(array("Group",$group));?>
 			<?=$t->row(array("Email",$txt_email));?>
 			<?=$t->row(array("Name",$txt_name));?>
+			<?=$t->row(array("Phone",$txt_phone));?>
 			<?=$t->end();?>
 			<?=$f->input("page","1","type='hidden'");?>
 			<?=$f->input("sort",@$_GET["sort"],"type='hidden'");?>
@@ -34,7 +36,8 @@
 	$whereclause = "";
 	if(@$_GET["group"]!="") $whereclause .= "group_id = '".$_GET["group"]."' AND ";
 	if(@$_GET["txt_email"]!="") $whereclause .= "email LIKE '"."%".str_replace(" ","%",$_GET["txt_email"])."%"."' AND ";
-	if(@$_GET["txt_name"]!="") $whereclause .= "ename LIKE '"."%".str_replace(" ","%",$_GET["txt_name"])."%"."' AND ";
+	if(@$_GET["txt_name"]!="") $whereclause .= "name LIKE '"."%".str_replace(" ","%",$_GET["txt_name"])."%"."' AND ";
+	if(@$_GET["txt_phone"]!="") $whereclause .= "phone LIKE '"."%".str_replace(" ","%",$_GET["txt_phone"])."%"."' AND ";
 	
 	$maxrow = $db->get_maxrow("a_users",substr($whereclause,0,-4));
 	$start = getStartRow(@$_GET["page"],$_rowperpage);
@@ -52,6 +55,7 @@
 						"<div onclick=\"sorting('email');\">Email</div>",
 						"<div onclick=\"sorting('group_id');\">Group Names</div>",
 						"<div onclick=\"sorting('name');\">Name</div>",
+						"<div onclick=\"sorting('phone');\">Phone</div>",
 						"<div onclick=\"sorting('created_at');\">Created At</div>",
 						
 						""));?>
@@ -71,6 +75,7 @@
 					array($no+$start+1,"<a href=\"users_edit.php?id=".$user["id"]."\">".$user["email"]."</a>",
 					$group,
 					$user["name"],
+					$user["phone"],
 					$user["created_at"],
 					$actions),
 					array("align='right' valign='top'","")
