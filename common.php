@@ -47,10 +47,14 @@
 		exit();
 	}
 	
-	if(isset($_GET["locale"])) { setcookie("locale",$_GET["locale"]);$_COOKIE["locale"]=$_GET["locale"]; }
-	if(!isset($_COOKIE["locale"])) { setcookie("locale","id");$_COOKIE["locale"]="id"; }
-	$__locale = $_COOKIE["locale"];
-	if($__locale == "id") $__anti_locale = "en";
+	// if(isset($_GET["locale"])) { setcookie("locale",$_GET["locale"]);$_COOKIE["locale"]=$_GET["locale"]; }
+	// if(!isset($_COOKIE["locale"])) { setcookie("locale","id");$_COOKIE["locale"]="id"; }
+	// $__locale = $_COOKIE["locale"];
+	// if($__locale == "id") $__anti_locale = "en";
+	// if($__locale == "en") $__anti_locale = "id";
+	
+	$__locale = "id";
+	if($__locale == "id") $__anti_locale = "id";
 	if($__locale == "en") $__anti_locale = "id";
 	
 	include_once "classes/database.php";
