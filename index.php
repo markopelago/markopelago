@@ -29,10 +29,6 @@
 							<td style="width:20%;padding:5px;"><a href="markopasar_service_areas.php?markopasar_seller_id=26"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_1<?=(isMobile())?"_sm":"";?>.png"></a></td>
 							<td style="width:20%;padding:5px;"><a href="markopasar_service_areas.php?markopasar_seller_id=103"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_2<?=(isMobile())?"_sm":"";?>.png"></a></td>
 						</tr>
-						<tr>
-							<td style="width:20%;padding:5px;"><a href="markopasar_service_areas.php?markopasar_seller_id=26"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_3<?=(isMobile())?"_sm":"";?>.png"></a></td>
-							<td style="width:20%;padding:5px;"><a href="markopasar_service_areas.php?markopasar_seller_id=26"><img style="width:100%;height:auto;" src="assets/markopasar_service_area_4<?=(isMobile())?"_sm":"";?>.png"></a></td>
-						</tr>
 					</table>
 				</div>
 			</td>
