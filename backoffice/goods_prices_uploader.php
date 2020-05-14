@@ -4,7 +4,7 @@
 ?>
 <?php include_once "head.php";?>
 <?php include_once "../classes/simplexlsx.class.php";?>
-<center><h3><b>Upload Harga Barang</b></h3></center><br>
+<center><h3><b>Upload Daftar Barang</b></h3></center><br>
 <?php	
 	if(isset($_POST["process"])) {
 		$file_name = $_POST["file_name"];
@@ -14,42 +14,55 @@
 			if($key > 0){
 				if($rowdata[0] == "") break;
 				
-				$db->addtable("goods_prices");
-				$db->where("goods_id",$rowdata[0]);
-				$db->addfield("price");	$db->addvalue($rowdata[1]);
-				$updating = $db->update();
-				if($updating["affected_rows"] > 0){
-					$successresult[$rowdata[0]] = $rowdata[1];
-				} else {
-					$failedresult[$rowdata[0]] = $rowdata[1];
+				$db->addtable("goods");
+				$db->addfield("seller_id");			$db->addvalue("103");
+				$db->addfield("category_ids");		$db->addvalue("|".$rowdata[1]."|");
+				$db->addfield("unit_id");			$db->addvalue($rowdata[2]);
+				$db->addfield("name");				$db->addvalue($rowdata[3]);
+				$db->addfield("description");		$db->addvalue($rowdata[4]);
+				$db->addfield("weight");			$db->addvalue($rowdata[5]);
+				$db->addfield("dimension");			$db->addvalue($rowdata[6]);
+				$db->addfield("is_new");			$db->addvalue("1");
+				$db->addfield("price");				$db->addvalue("0");
+				$db->addfield("disc");				$db->addvalue("0");
+				$db->addfield("availability_days");	$db->addvalue("1");
+				$db->addfield("forwarder_ids");		$db->addvalue("|42||43|");
+				$db->addfield("self_pickup");		$db->addvalue("1");
+				$db->addfield("pickup_location_id");$db->addvalue("759");
+				$db->addfield("is_displayed");		$db->addvalue("1");
+				$inserting = $db->insert();
+				if($inserting["affected_rows"] > 0){
+					$goods_id = $inserting["insert_id"];
+					$db->addtable("goods_prices");
+					$db->addfield("goods_id");	$db->addvalue($goods_id);
+					$db->addfield("qty");		$db->addvalue("1");
+					$db->addfield("price");		$db->addvalue($rowdata[7]);
+					$db->addfield("commission");$db->addvalue("5");
+					$db->insert();
+					$filename = rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).date("YmdHis")."377.jpg";
+					$db->addtable("goods_photos");
+					$db->addfield("goods_id");	$db->addvalue($goods_id);
+					$db->addfield("seqno");		$db->addvalue("1");
+					$db->addfield("filename");	$db->addvalue($filename);
+					$db->addfield("caption");	$db->addvalue("");
+					$db->insert();
+					$successresult[$goods_id] = $filename;
 				}
 			}
 		}
-		echo "<b>Harga barang yang berhasil di update:</b><br>";
-		echo "<table border='1'><tr><td><b>Goods Id</b></td><td><b>Goods Name</b></td><td><b>Price</b></td></tr>";
-		foreach($successresult as $goods_id => $price){
+		echo "<b>Barang yang berhasil di upload:</b><br>";
+		echo "<table border='1'><tr><td><b>Goods Id</b></td><td><b>Goods Name</b></td><td><b>Price</b></td><td><b>Photo Filename</b></td></tr>";
+		foreach($successresult as $goods_id => $filename){
 			$goods_name = $db->fetch_single_data("goods","name",["id" => $goods_id]);
 			$goods_price = $db->fetch_single_data("goods_prices","price",["goods_id" => $goods_id]);
 			echo "<tr>
 					<td>$goods_id</td>
 					<td>$goods_name</td>
 					<td align='right'>".format_amount($goods_price)."</td>
+					<td>$filename</td>
 			</tr>";
 		}
 		echo "<table><br><br>";
-		
-		echo "<b>Harga barang yang gagal di update:</b><br>";
-		echo "<table border='1'><tr><td><b>Goods Id</b></td><td><b>Goods Name</b></td><td><b>Price</b></td></tr>";
-		foreach($failedresult as $goods_id => $price){
-			$goods_name = $db->fetch_single_data("goods","name",["id" => $goods_id]);
-			$goods_price = $db->fetch_single_data("goods_prices","price",["goods_id" => $goods_id]);
-			echo "<tr>
-					<td>$goods_id</td>
-					<td>$goods_name</td>
-					<td align='right'>".format_amount($goods_price)."</td>
-			</tr>";
-		}
-		echo "<table><br>";
 		unlink("../goods_temp/".$file_name);
 	}
 	if(isset($_POST["upload"])) {
@@ -80,9 +93,7 @@
 			<br><br>
 			<?=$f->input("upload","Upload","type='submit'","btn_sign");?>
 		<?=$f->end();?>
-		</td></tr></table>	
-		<br>
-		<a style="font-size:14px;font-weight:bolder;" href="goods_prices_example.xlsx">Download contoh template excel</a>
+		</td></tr></table>
 	</td></tr></table>	
 <?php } ?>
 <?php include_once "footer.php";?>
