@@ -1,4 +1,43 @@
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+	<meta property="og:image" content="images/icon.png">
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="X-UA-Compatible" content="IE=8;" />
+	<meta name="keywords" content="Markopelago"/>
+	<meta name="description" content="Markopelago">
+	<meta name="title" content="markopelago.com"/>
+	<meta name="language" content="en"/>
+	<meta name="country" content="indonesia"/>
+	<meta name="source" content="https://www.markopelago.com/"/>
+	<meta name="subject" content="online store"/>
+	<meta name="revisit-after" content="7 days"/>
+	<meta name="robots" content="index, follow"/>
+	<title id="titleid">Markopelago [Beta]</title>
+		
+	<link rel="canonical" href="http://www.markopelago.com">
+	<link rel="shortcut icon" type="image/x-icon" href="images/icon.png">
+	<link rel="stylesheet" href="styles/style.css?v=v48">
+	<link rel="stylesheet" href="styles/bootstrap.min.css">
+	<link rel="stylesheet" href="styles/bootstrap-slider.css">
+	<link rel="stylesheet" href="styles/animate.css">
+	<link rel="stylesheet" href="styles/toastr.min.css">
+	<link rel="stylesheet" href="styles/font-awesome.min.css">
+	<link rel="stylesheet" href="styles/multiselect.css">
+	
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/bootstrap.min.js"></script>
+	<script src="scripts/toastr.min.js"></script>
+	<script src="scripts/bootstrap-slider.js"></script>
+</head>
+<body>
+	<center>
+	<img src="images/temp_closed.jpg" class="img-responsive">
+	</center>
+</body>
+</html>
 <?php
+	exit();
 	ini_set("session.cookie_lifetime", 60 * 60 * 24 * 100);
 	ini_set("session.gc_maxlifetime", 60 * 60 * 24 * 100);
 	set_time_limit(0);
